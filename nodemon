@@ -78,7 +78,7 @@ require('path').exists(ignoreFilePath, function () {
       }
     });
     ignoreFileTime = stat.mtime;
-    reIgnoreFiles = ignoreFiles.join('|')
+    reIgnoreFiles = new RegExp(ignoreFiles.join('|'))
   }
 });
 
