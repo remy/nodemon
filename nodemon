@@ -16,8 +16,8 @@ var fs = require('fs'),
     // create once, reuse as needed
     reComments = /#.*$/,
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
-    reEscapeChars = /[.|\-[\]()]/g,
-    reAsterisk = /\*/g';    
+    reEscapeChars = /[.|\-[\]()\\]/g,
+    reAsterisk = /\*/g;    
 
 function startNode() {
   sys.log('[nodemon] starting node');
@@ -73,21 +73,24 @@ function startMonitor() {
   });
 }
 
-require('path').exists(ignoreFilePath, function () {
-  var stat = fs.statSync(ignoreFilePath);
-  if (!ignoreFileTime || (ignoreFileTime != stat.mtime)) {
-    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
-      // remove comments and trim lines
-      if (line = line.replace(reComments, '').replace(reTrim, '')) {
-        ignoreFiles.push(line);
-      }
-    });
-    ignoreFileTime = stat.mtime;
-    reIgnoreFiles = new RegExp(ignoreFiles.map(function(file) {
-      return file.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*');
-    }).join('|'));
-  }
-});
+function readIgnoreFile() {
+  fs.unwatchFile(ignoreFilePath);
+  sys.log('[nodemon] reading ignore list');
+  ignoreFiles = [flag];
+  fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
+    // remove comments and trim lines
+    if (line = line.replace(reComments, '').replace(reTrim, '')) {
+       ignoreFiles.push(line);
+    }
+  });
+  reIgnoreFiles = new RegExp(ignoreFiles.map(function(file) {
+    return file.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*');
+  }).join('|'));
+
+  fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+}
+
+require('path').exists(ignoreFilePath, readIgnoreFile);
 
 // touch
 fs.writeFileSync(flag, '');
