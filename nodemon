@@ -9,7 +9,9 @@ var fs = require('fs'),
     node = null, // removes 'node' and this script
     monitor = null,
     ignoreFilePath = __dirname + '/ignore',
+    ignoreFileTime = null,
     ignoreFiles = [flag], // ignore the monitor flag by default
+    reIgnoreFiles = null,
     timeout = 1000; // check every 1 second
 
 function startNode() {
@@ -39,15 +41,12 @@ function startMonitor() {
   var cmd = 'find . -newer ' + flag + ' -print;';
 
   exec(cmd, function (error, stdout, stderr) {
-    var files = stdout.split(/\n/)
-      ,re = new RegExp(ignoreFiles.join('|'))
-      ,finalFiles
-    ;
+    var files = stdout.split(/\n/), finalFiles;
 
     files.pop(); // remove blank line ending and split
     if (files.length) {
       finalFiles = files.filter(function(file) {
-        return !re.test(file);
+        return !reIgnoreFiles.test(file);
       });
 
       fs.writeFileSync(flag, '');
@@ -67,14 +66,19 @@ function startMonitor() {
 }
 
 require('path').exists(ignoreFilePath, function () {
-  var lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
-  lines.forEach(function (line) {
-    // remove comments and trim lines
-    line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
-    if (line) {
-      ignoreFiles.push(line);
-    }
-  });
+  var lines, stat = fs.statSync(ignoreFilePath);
+  if (!ignoreFileTime || (ignoreFileTime != stat.mtime)) {
+    lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
+    lines.forEach(function (line) {
+      // remove comments and trim lines
+      line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
+      if (line) {
+        ignoreFiles.push(line);
+      }
+    });
+    ignoreFileTime = stat.mtime;
+    reIgnoreFiles = ignoreFiles.join('|')
+  }
 });
 
 // touch
