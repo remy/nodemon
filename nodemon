@@ -66,13 +66,11 @@ function startMonitor() {
 }
 
 require('path').exists(ignoreFilePath, function () {
-  var lines, stat = fs.statSync(ignoreFilePath);
+  var stat = fs.statSync(ignoreFilePath);
   if (!ignoreFileTime || (ignoreFileTime != stat.mtime)) {
-    lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
-    lines.forEach(function (line) {
+    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
       // remove comments and trim lines
-      line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
-      if (line) {
+      if (line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '')) {
         ignoreFiles.push(line);
       }
     });
