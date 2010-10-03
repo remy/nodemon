@@ -1,0 +1,106 @@
+#!/usr/local/bin/node
+
+var fs = require('fs'),
+    sys = require('sys'),
+    spawn = require('child_process').spawn,
+    exec = require('child_process').exec,
+    flag = __dirname + '/.monitor',
+    nodeArgs = process.ARGV.splice(2),
+    node = null, // removes 'node' and this script
+    monitor = null,
+    ignoreFilePath = __dirname + '/ignore',
+    ignoreFiles = [flag], // ignore the monitor flag by default
+    timeout = 1000; // check every 1 second
+
+Array.prototype.remove = function(e) {
+  for (var i = 0; i < this.length; i++) {
+    if (e == this[i]) {
+      this.splice(i, 1);
+    }    
+  }
+};
+
+function startNode() {
+  sys.log('[nodemon] starting node');
+  node = spawn('node', nodeArgs);
+  
+  node.stdout.on('data', function (data) {
+    sys.print(data);
+  });
+
+  node.stderr.on('data', function (data) {
+    sys.error(data);
+  });
+
+  node.on('exit', function (code, signal) {
+    // exit the monitor, but do it gracefully
+    if (signal == 'SIGUSR1') {
+      // restart
+      startNode();
+    } else {
+      process.exit();
+    }
+  });
+}
+
+function startMonitor() {
+  var cmd = 'find . -newer ' + flag + ' -print;';
+
+  exec(cmd, function (error, stdout, stderr) {
+    var files = stdout.split(/\n/);
+    files.pop(); // remove blank line ending and split
+    if (files.length) {
+      var finalFiles = [].slice.call(files, 0); // creates a clone
+      files.forEach(function (file) {
+        ignoreFiles.forEach(function (ignore) {
+          var re = new RegExp(ignore);
+          if (re.test(file)) {
+            finalFiles.remove(file);
+          } 
+        });
+      });
+
+      fs.writeFileSync(flag, '');
+
+      if (finalFiles.length) {
+        sys.log('[nodemon] restarting due to changes...');
+        finalFiles.forEach(function (file) {
+          sys.log('[nodemon] ' + file);
+        });
+        sys.print('\n\n');
+        node.kill('SIGUSR1');        
+      }
+    }
+    
+    setTimeout(startMonitor, timeout);
+  });
+}
+
+require('path').exists(ignoreFilePath, function () {
+  var lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
+  lines.forEach(function (line) {
+    // remove comments and trim lines
+    line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
+    if (line) {
+      ignoreFiles.push(line);
+    }
+  });
+});
+
+// touch
+fs.writeFileSync(flag, '');
+
+// remove the flag file on exit
+process.on('exit', function (code) {
+  sys.log('[nodemon] exiting');
+  fs.unlink(flag);
+});
+
+process.on('uncaughtException', function (err) {
+  sys.log('[nodemon] exception in nodemon killing node: ' + err);
+  node.kill();
+});
+
+sys.log('[nodemon] starting');
+startNode();
+setTimeout(startMonitor, timeout);

@@ -1,0 +1,10 @@
+# This is an example of a comment
+#
+# You can list individual files in the ignore list, or they can be
+# file patterns. For example:
+#
+# /vendor/*
+# /public/css/styles.css
+# ./server.js
+#
+# If you change the ignore file, you do need to restart nodemon
