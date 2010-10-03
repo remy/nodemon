@@ -79,7 +79,7 @@ require('path').exists(ignoreFilePath, function () {
     });
     ignoreFileTime = stat.mtime;
     reIgnoreFiles = new RegExp(ignoreFiles.map(function(file) {
-      return file.replace(/\./g, '\\.').replace(/\*/g, '.*');
+      return file.replace(/[.|]/g, '\\$&').replace(/\*/g, '.*');
     }).join('|'));
   }
 });
