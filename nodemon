@@ -61,7 +61,7 @@ function startMonitor() {
 
       if (files.length) {
         sys.log('[nodemon] restarting due to changes...');
-        finalFiles.forEach(function (file) {
+        files.forEach(function (file) {
           sys.log('[nodemon] ' + file);
         });
         sys.print('\n\n');
