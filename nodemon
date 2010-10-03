@@ -12,14 +12,6 @@ var fs = require('fs'),
     ignoreFiles = [flag], // ignore the monitor flag by default
     timeout = 1000; // check every 1 second
 
-Array.prototype.remove = function(e) {
-  for (var i = 0; i < this.length; i++) {
-    if (e == this[i]) {
-      this.splice(i, 1);
-    }    
-  }
-};
-
 function startNode() {
   sys.log('[nodemon] starting node');
   node = spawn('node', nodeArgs);
@@ -47,17 +39,15 @@ function startMonitor() {
   var cmd = 'find . -newer ' + flag + ' -print;';
 
   exec(cmd, function (error, stdout, stderr) {
-    var files = stdout.split(/\n/);
+    var files = stdout.split(/\n/)
+      ,re = new RegExp(ignoreFiles.join('|'))
+      ,finalFiles
+    ;
+
     files.pop(); // remove blank line ending and split
     if (files.length) {
-      var finalFiles = [].slice.call(files, 0); // creates a clone
-      files.forEach(function (file) {
-        ignoreFiles.forEach(function (ignore) {
-          var re = new RegExp(ignore);
-          if (re.test(file)) {
-            finalFiles.remove(file);
-          } 
-        });
+      finalFiles = files.filter(function(file) {
+        return !re.test(file);
       });
 
       fs.writeFileSync(flag, '');
