@@ -10,9 +10,14 @@ var fs = require('fs'),
     monitor = null,
     ignoreFilePath = __dirname + '/ignore',
     ignoreFileTime = null,
-    ignoreFiles = [flag], // ignore the monitor flag by default
     reIgnoreFiles = null,
-    timeout = 1000; // check every 1 second
+    ignoreFiles = [flag], // ignore the monitor flag by default
+    timeout = 1000, // check every 1 second
+    // create once, reuse as needed
+    reComments = /#.*$/,
+    reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
+    reEscapeChars = /[.|\-[\]()]/g,
+    reAsterisk = /\*/g';    
 
 function startNode() {
   sys.log('[nodemon] starting node');
@@ -73,13 +78,13 @@ require('path').exists(ignoreFilePath, function () {
   if (!ignoreFileTime || (ignoreFileTime != stat.mtime)) {
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
       // remove comments and trim lines
-      if (line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '')) {
+      if (line = line.replace(reComments, '').replace(reTrim, '')) {
         ignoreFiles.push(line);
       }
     });
     ignoreFileTime = stat.mtime;
     reIgnoreFiles = new RegExp(ignoreFiles.map(function(file) {
-      return file.replace(/[.|]/g, '\\$&').replace(/\*/g, '.*');
+      return file.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*');
     }).join('|'));
   }
 });
