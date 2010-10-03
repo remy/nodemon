@@ -10,8 +10,8 @@ var fs = require('fs'),
     monitor = null,
     ignoreFilePath = __dirname + '/ignore',
     ignoreFileTime = null,
-    reIgnoreFiles = null,
     ignoreFiles = [flag], // ignore the monitor flag by default
+    reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
     // create once, reuse as needed
     reComments = /#.*$/,
@@ -80,12 +80,10 @@ function readIgnoreFile() {
   fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
     // remove comments and trim lines
     if (line = line.replace(reComments, '').replace(reTrim, '')) {
-       ignoreFiles.push(line);
+       ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
     }
   });
-  reIgnoreFiles = new RegExp(ignoreFiles.map(function(file) {
-    return file.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*');
-  }).join('|'));
+  reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
 
   fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
 }
