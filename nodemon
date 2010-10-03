@@ -76,15 +76,23 @@ function startMonitor() {
   });
 }
 
-require('path').exists(ignoreFilePath, function () {
+function readIgnoreFile() {
+  sys.log('[nodemon] reading ignore list');
   var lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
+  ignoreFiles = [flag];
   lines.forEach(function (line) {
     // remove comments and trim lines
     line = line.replace(/#.*$/, '').replace(/^(\s|\u00A0)+|(\s|\u00A0)+$/g, '');
     if (line) {
       ignoreFiles.push(line);
     }
-  });
+  }); 
+}
+
+require('path').exists(ignoreFilePath, function () {
+  readIgnoreFile();
+  // monitor the ignore file for any changes and reload the script if it does change
+  fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
 });
 
 // touch
