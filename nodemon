@@ -77,6 +77,7 @@ function startMonitor() {
 }
 
 function readIgnoreFile() {
+  fs.unwatchFile(ignoreFilePath);
   sys.log('[nodemon] reading ignore list');
   var lines = fs.readFileSync(ignoreFilePath).toString().split(/\n/);
   ignoreFiles = [flag];
@@ -87,13 +88,10 @@ function readIgnoreFile() {
       ignoreFiles.push(line);
     }
   }); 
+  fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
 }
 
-require('path').exists(ignoreFilePath, function () {
-  readIgnoreFile();
-  // monitor the ignore file for any changes and reload the script if it does change
-  fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
-});
+require('path').exists(ignoreFilePath, readIgnoreFile);
 
 // touch
 fs.writeFileSync(flag, '');
