@@ -41,17 +41,20 @@ function startMonitor() {
   var cmd = 'find . -newer ' + flag + ' -print;';
 
   exec(cmd, function (error, stdout, stderr) {
-    var files = stdout.split(/\n/), finalFiles;
+    var files = stdout.split(/\n/);
 
     files.pop(); // remove blank line ending and split
     if (files.length) {
-      finalFiles = files.filter(function(file) {
-        return !reIgnoreFiles.test(file);
-      });
+      // filter ignored files
+      if (ignoreFiles.length) {
+        files = files.filter(function(file) {
+          return !reIgnoreFiles.test(file);
+        });
+      }
 
       fs.writeFileSync(flag, '');
 
-      if (finalFiles.length) {
+      if (files.length) {
         sys.log('[nodemon] restarting due to changes...');
         finalFiles.forEach(function (file) {
           sys.log('[nodemon] ' + file);
