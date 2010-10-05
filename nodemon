@@ -3,7 +3,7 @@
 var fs = require('fs'),
     sys = require('sys'),
     spawn = require('child_process').spawn,
-    meta = JSON.parse(fs.readFileSync('package.json')),
+    meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = require('child_process').exec,
     flag = __dirname + '/.monitor',
     nodeArgs = process.ARGV.splice(2),
