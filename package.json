@@ -1,0 +1,14 @@
+{
+    "name": "nodemon",
+    "homepage": "http://github.com/remy/nodemon",
+    "author": {
+      "name": "Remy Sharp",
+      "url": "http://github.com/remy"
+    },
+    "bin": { "nodemon" : "./nodemon" },
+    "repository": { "type" : "git", "url" : "http://github.com/remy/nodemon.git" },    
+    "description": "Simple monitor script for use during development of a node.js app.",
+    "keywords": ["monitor", "development", "restart", "autoload", "reload", "terminal"],
+    "version": "0.1.2",
+    "main": "./nodemon"
+}
