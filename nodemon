@@ -17,7 +17,7 @@ var fs = require('fs'),
     reComments = /#.*$/,
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
     reEscapeChars = /[.|\-[\]()\\]/g,
-    reAsterisk = /\*/g;    
+    reAsterisk = /\*/g;
 
 function startNode() {
   sys.log('[nodemon] starting node');
@@ -43,7 +43,7 @@ function startNode() {
 }
 
 function startMonitor() {
-  var cmd = 'find . -newer ' + flag + ' -print;';
+  var cmd = 'find . -type f -newer ' + flag + ' -print';
 
   exec(cmd, function (error, stdout, stderr) {
     var files = stdout.split(/\n/);
