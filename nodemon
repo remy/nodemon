@@ -3,6 +3,7 @@
 var fs = require('fs'),
     sys = require('sys'),
     spawn = require('child_process').spawn,
+    meta = JSON.parse(fs.readFileSync('package.json')),
     exec = require('child_process').exec,
     flag = __dirname + '/.monitor',
     nodeArgs = process.ARGV.splice(2),
@@ -92,12 +93,17 @@ function usage() {
   sys.print('usage: nodemon [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
 }
 
-if (!nodeArgs.length || nodeArgs[0] != 'help') {
+if (!nodeArgs.length || nodeArgs[0] == 'help') {
   usage();
   process.exit(0);
 }
 
-sys.log('[nodemon] starting');
+if (nodeArgs[0] == 'version') {
+  sys.print('v' + meta.version + '\n');
+  process.exit(0);
+}
+
+sys.log('[nodemon] v' + meta.version);
 startNode();
 setTimeout(startMonitor, timeout);
 
