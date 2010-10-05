@@ -6,6 +6,14 @@ For use during development of a node.js based application.
 
 `nodemon` does **not** require *any* changes to your code or method of development. `nodemon` simply wraps your node application and keeps an eye on any files that have changed.
 
+# Installation
+
+Either through forking or:
+
+    npm install nodemon
+    
+And `nodemon` will be installed in to your bin path.
+
 # Usage
 
 `nodemon` wraps your application, so you can pass all the arguments you would normally pass to your app:
