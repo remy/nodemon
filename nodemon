@@ -88,6 +88,19 @@ function readIgnoreFile() {
   fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
 }
 
+function usage() {
+  sys.print('usage: nodemon [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
+}
+
+if (!nodeArgs.length || nodeArgs[0] != 'help') {
+  usage();
+  process.exit(0);
+}
+
+sys.log('[nodemon] starting');
+startNode();
+setTimeout(startMonitor, timeout);
+
 require('path').exists(ignoreFilePath, readIgnoreFile);
 
 // touch
@@ -104,6 +117,3 @@ process.on('uncaughtException', function (err) {
   node.kill();
 });
 
-sys.log('[nodemon] starting');
-startNode();
-setTimeout(startMonitor, timeout);
