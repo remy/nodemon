@@ -30,7 +30,9 @@ Any output from this script is prefixed with `[nodemon]`, otherwise all output f
 
 In some cases you will want to ignore some specific files, directories or file patterns, to prevent nodemon from prematurely restarting your application.  
 
-An example `ignore` file:
+The `nodemon-ignore` file is automatically created in the directory that you run your application from, so that you can have application specific ignore lists. 
+
+You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemon-ignore.example) as a basis for your `nodemon`, but it's very simple to create your own:
 
     # this is my ignore file with a nice comment at the top
     
@@ -49,8 +51,3 @@ The ignore file accepts:
 # Prerequisites
 
 `nodemon` currently depends on the [unix find](http://unixhelp.ed.ac.uk/CGI/man-cgi?find) command (which also is installed on Macs)
-
-# Todo
-
-* Offer a better way to change the monitoring frequency (currently hard coded to 1 second)
-* Support windows based users (maybe...)
