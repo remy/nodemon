@@ -5,11 +5,12 @@ var fs = require('fs'),
     spawn = require('child_process').spawn,
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = require('child_process').exec,
-    flag = __dirname + '/.monitor',
+    appDir = null,
+    flag = './.monitor',
     nodeArgs = process.ARGV.splice(2),
     node = null, // removes 'node' and this script
     monitor = null,
-    ignoreFilePath = __dirname + '/ignore',
+    ignoreFilePath = './ignore',
     ignoreFileTime = null,
     ignoreFiles = [flag], // ignore the monitor flag by default
     reIgnoreFiles = null,
@@ -104,6 +105,16 @@ if (nodeArgs[0] == 'version') {
 }
 
 sys.log('[nodemon] v' + meta.version);
+
+// Change to application dir
+appDir = nodeArgs[0].replace(/[^\/]*$/, '');
+if(appDir == '') {
+  appDir = '.';
+}
+process.chdir(appDir);
+nodeArgs[0] = nodeArgs[0].replace(/^.*\/(?=[^\/]*)/, '');
+sys.log('[nodemon] running '+nodeArgs[0]+' in '+process.cwd());
+
 startNode();
 setTimeout(startMonitor, timeout);
 
