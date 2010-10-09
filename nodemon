@@ -8,10 +8,11 @@ var fs = require('fs'),
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = childProcess.exec,
     flag = './.monitor',
-    nodeArgs = process.ARGV.splice(2),
-    node = null, // removes 'node' and this script
+    nodeArgs = process.ARGV.splice(2), // removes 'node' and this script
+    app = nodeArgs[0],
+    node = null, 
     monitor = null,
-    ignoreFilePath = './ignore',
+    ignoreFilePath = './nodemon-ignore',
     ignoreFiles = [flag, ignoreFilePath], // ignore the monitor flag by default
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
@@ -80,7 +81,11 @@ function readIgnoreFile() {
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   path.exists(ignoreFilePath, function(exists) {
-    if(!exists) {
+    if (!exists) {
+      // we'll touch the ignore file to make sure it gets created and
+      // if Vim is writing the file, it'll just overwrite it - but also
+      // prevent from constant file io if the file doesn't exist
+      fs.writeFileSync(ignoreFilePath, "\n");
       setTimeout(readIgnoreFile, 500);
       return;
     }
@@ -118,9 +123,9 @@ if (nodeArgs[0] == 'version') {
 sys.log('[nodemon] v' + meta.version);
 
 // Change to application dir
-process.chdir(path.dirname(nodeArgs[0]));
-nodeArgs[0] = path.basename(nodeArgs[0]);
-sys.log('[nodemon] running '+nodeArgs[0]+' in '+process.cwd());
+process.chdir(path.dirname(app));
+app = path.basename(app);
+sys.log('[nodemon] running ' + app + ' in ' + process.cwd());
 
 startNode();
 setTimeout(startMonitor, timeout);
@@ -136,8 +141,13 @@ process.on('exit', function (code) {
   fs.unlink(flag);
 });
 
+process.on('SIGINT', function () {
+  process.exit(0);
+});
+
 process.on('uncaughtException', function (err) {
-  sys.log('[nodemon] exception in nodemon killing node: ' + err);
+  sys.log('[nodemon] exception in nodemon killing node');
+  sys.error(err.stack);
   node.kill();
 });
 
