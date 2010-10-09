@@ -6,11 +6,4 @@
 # /vendor/*
 # /public/css/styles.css
 # ./server.js
-#
-# If you change the ignore file, you do need to restart nodemon
-/public/*
-/views/*
-/vendor/*
-./.git/*
-.DS_Store
-README.markdown
+# ./.git/*
