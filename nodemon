@@ -23,7 +23,7 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 function startNode() {
-  sys.log('[nodemon] starting node');
+  sys.log('\x1B[32m[nodemon] starting node\x1B[0m');
   node = spawn('node', nodeArgs);
   
   node.stdout.on('data', function (data) {
@@ -40,7 +40,8 @@ function startNode() {
       // restart
       startNode();
     } else {
-      process.exit();
+      sys.log('\x1B[1;31m[nodemon] app crashed - waiting for file change before starting...\x1B[0m');
+      node = null;
     }
   });
 }
@@ -68,7 +69,12 @@ function startMonitor() {
           sys.log('[nodemon] ' + file);
         });
         sys.print('\n\n');
-        node.kill('SIGUSR1');        
+        
+        if (node !== null) {
+          node.kill('SIGUSR1');
+        } else {
+          startNode();
+        }
       }
     }
     
@@ -150,4 +156,3 @@ process.on('uncaughtException', function (err) {
   sys.error(err.stack);
   node.kill();
 });
-
