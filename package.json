@@ -5,10 +5,10 @@
       "name": "Remy Sharp",
       "url": "http://github.com/remy"
     },
-    "bin": { "nodemon" : "./nodemon" },
+    "bin": { "nodemon" : "./nodemon.js" },
     "repository": { "type" : "git", "url" : "http://github.com/remy/nodemon.git" },    
     "description": "Simple monitor script for use during development of a node.js app.",
     "keywords": ["monitor", "development", "restart", "autoload", "reload", "terminal"],
-    "version": "0.1.8",
+    "version": "0.2.0",
     "main": "./nodemon"
 }

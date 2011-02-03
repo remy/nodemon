@@ -34,7 +34,7 @@ function startNode() {
 
   node.on('exit', function (code, signal) {
     // exit the monitor, but do it gracefully
-    if (signal == 'SIGUSR1') {
+    if (signal == 'SIGUSR2') {
       // restart
       startNode();
     } else {
@@ -69,7 +69,7 @@ function startMonitor() {
         sys.print('\n\n');
         
         if (node !== null) {
-          node.kill('SIGUSR1');
+          node.kill('SIGUSR2');
         } else {
           startNode();
         }
