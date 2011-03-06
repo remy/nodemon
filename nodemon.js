@@ -23,7 +23,13 @@ var fs = require('fs'),
 
 function startNode() {
   sys.log('\x1B[32m[nodemon] starting node\x1B[0m');
-  node = spawn('node', nodeArgs);
+  // spawn based on file name extension
+  var extname = path.extname(app);
+  if (extname === '.js') {
+      node = spawn('node', nodeArgs);
+  } else if (extname === '.coffee') {
+      node = spawn('coffee', nodeArgs);
+  }
   
   node.stdout.on('data', function (data) {
     sys.print(data);
