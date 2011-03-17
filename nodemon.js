@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/local/bin/env node
 var fs = require('fs'),
     sys = require('sys'),
     childProcess = require('child_process'),
