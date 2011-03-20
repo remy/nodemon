@@ -9,6 +9,6 @@
     "repository": { "type" : "git", "url" : "http://github.com/remy/nodemon.git" },    
     "description": "Simple monitor script for use during development of a node.js app.",
     "keywords": ["monitor", "development", "restart", "autoload", "reload", "terminal"],
-    "version": "0.2.1",
+    "version": "0.2.2",
     "main": "./nodemon"
 }
