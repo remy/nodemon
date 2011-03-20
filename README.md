@@ -51,3 +51,14 @@ The ignore file accepts:
 # Prerequisites
 
 `nodemon` currently depends on the [unix find](http://unixhelp.ed.ac.uk/CGI/man-cgi?find) command (which also is installed on Macs)
+
+# CoffeeScript
+
+This fork of `nodemon` can run CoffeeScript instead of Node.js.
+
+    nodemon app.coffee
+    
+However, you'll have to run javascript version of CoffeeScript file if you want use `--debug` option because CoffeeScript doesn't support it.
+
+    coffee -c *.coffee lib # compile all coffee files to js in current dir & lib dir
+    nodemon --debug app.js
