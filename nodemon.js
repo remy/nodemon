@@ -1,4 +1,4 @@
-#!/usr/local/bin/node
+#!/usr/bin/env node
 var fs = require('fs'),
     sys = require('sys'),
     childProcess = require('child_process'),
@@ -117,7 +117,7 @@ function readIgnoreFile() {
 }
 
 function usage() {
-  sys.print('usage: nodemon [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
+  sys.print('usage: nodemon [--debug] [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
 }
 
 if (!nodeArgs.length || nodeArgs[0] == 'help') {
@@ -128,6 +128,11 @@ if (!nodeArgs.length || nodeArgs[0] == 'help') {
 if (nodeArgs[0] == 'version') {
   sys.print('v' + meta.version + '\n');
   process.exit(0);
+}
+
+
+if (nodeArgs[0] == '--debug') {
+  app = nodeArgs[1];
 }
 
 
