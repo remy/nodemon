@@ -58,7 +58,15 @@ This fork of `nodemon` can run CoffeeScript instead of Node.js.
 
     nodemon app.coffee
     
-However, you'll have to run javascript version of CoffeeScript file if you want use `--debug` option because CoffeeScript doesn't support it.
+However, you'll have to run javascript version of CoffeeScript file if you want use `--debug` option.
 
     coffee -c *.coffee lib # compile all coffee files to js in current dir & lib dir
     nodemon --debug app.js
+
+I am planning to patch nodemon later to support CoffeeScript's `--nodejs` option so following command:
+
+    nodemon --debug app.coffee
+    
+will translate to:
+
+    nodemon --nodejs "--debug" app.coffee
