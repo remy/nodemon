@@ -46,6 +46,7 @@ You can use the [example ignore file](http://github.com/remy/nodemon/blob/master
     /public/*     # static files
     ./README.md   # a specific file
     *.css         # ignore any CSS files too
+    \#*\#          # ignore emacs temporary filenames (note escaped # symbol)
 
 The ignore file accepts:
 
