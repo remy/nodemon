@@ -23,7 +23,13 @@ var fs = require('fs'),
 
 function startNode() {
   sys.log('\x1B[32m[nodemon] starting node\x1B[0m');
-  node = spawn('node', nodeArgs);
+
+  var ext = path.extname(app);
+  if (ext === '.coffee') {
+    node = spawn('coffee', nodeArgs);
+  } else {
+    node = spawn('node', nodeArgs);
+  }
   
   node.stdout.on('data', function (data) {
     sys.print(data);
@@ -114,7 +120,20 @@ function usage() {
   sys.print('usage: nodemon [--debug] [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
 }
 
-if (!nodeArgs.length || nodeArgs[0] == 'help') {
+if (!nodeArgs.length) {
+  // try to get the app from the package.json
+  // doing a try/catch because we can't use the path.exist callback pattern
+  // or we could, but the code would get messy, so this will do exactly 
+  // what we're after - if the file doesn't exist, it'll throw.
+  try {
+    app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
+    nodeArgs.push(app);
+  } catch (e) {
+    nodeArgs.push('help'); // default to help
+  }
+}
+
+if (nodeArgs[0] == 'help') {
   usage();
   process.exit(0);
 }
@@ -128,7 +147,6 @@ if (nodeArgs[0] == 'version') {
 if (nodeArgs[0] == '--debug') {
   app = nodeArgs[1];
 }
-
 
 sys.log('[nodemon] v' + meta.version);
 

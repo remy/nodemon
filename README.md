@@ -19,12 +19,18 @@ And `nodemon` will be installed in to your bin path.
 `nodemon` wraps your application, so you can pass all the arguments you would normally pass to your app:
 
     nodemon [your node app]
-    
+
 For example, if my application accepted a host and port as the arguments, I would start it as so:
 
     nodemon ./server.js localhost 8080
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
+
+`nodemon` also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) apps:
+
+    nodemon server.coffee
+
+If no script is given, `nodemon` will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
 
 # Ignoring files
 
