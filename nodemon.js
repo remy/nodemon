@@ -120,6 +120,13 @@ function usage() {
   sys.print('usage: nodemon [--debug] [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
 }
 
+function controlArg(arg, label, fn) {
+  if (arg == label || arg == '--' + label || arg == '-' + label.substr(0, 1)) {
+    fn();
+    process.exit();
+  }
+}
+
 if (!nodeArgs.length) {
   // try to get the app from the package.json
   // doing a try/catch because we can't use the path.exist callback pattern
@@ -133,16 +140,11 @@ if (!nodeArgs.length) {
   }
 }
 
-if (nodeArgs[0] == 'help') {
-  usage();
-  process.exit(0);
-}
-
-if (nodeArgs[0] == 'version') {
+// control arguments test for "help" or "--help" or "-h", run the callback and exit
+controlArg(nodeArgs[0], 'help', usage);
+controlArg(nodeArgs[0], 'version', function () {
   sys.print('v' + meta.version + '\n');
-  process.exit(0);
-}
-
+});
 
 if (nodeArgs[0] == '--debug') {
   app = nodeArgs[1];
