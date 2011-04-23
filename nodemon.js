@@ -16,6 +16,8 @@ var fs = require('fs'),
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
     // create once, reuse as needed
+    reEscComments = /\\#/g,
+    reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
     reComments = /#.*$/,
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
     reEscapeChars = /[.|\-[\]()\\]/g,
@@ -106,7 +108,7 @@ function readIgnoreFile() {
     ignoreFiles = [flag, ignoreFilePath];
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
       // remove comments and trim lines
-      if (line = line.replace(reComments, '').replace(reTrim, '')) {
+      if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
          ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
       }
     });
