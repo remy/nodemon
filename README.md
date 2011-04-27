@@ -10,9 +10,9 @@ For use during development of a node.js based application.
 
 Either through forking or:
 
-    npm install nodemon
+    npm install nodemon -g
     
-And `nodemon` will be installed in to your bin path.
+And `nodemon` will be installed in to your bin path.  Note that the `-g` is to install npm *globally* as it's a command line utility (as npm v1 installs locally by default).
 
 # Usage
 
