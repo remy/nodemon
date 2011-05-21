@@ -13,7 +13,7 @@ var fs = require('fs'),
     monitor = null,
     ignoreFilePath = './.nodemonignore',
     oldIgnoreFilePath = './nodemon-ignore',
-    ignoreFiles = [flag, ignoreFilePath], // ignore the monitor flag by default
+    ignoreFiles = [],
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
@@ -30,6 +30,7 @@ function startNode() {
   sys.log('\x1B[32m[nodemon] starting node\x1B[0m');
 
   var ext = path.extname(app);
+  
   if (ext === '.coffee') {
     node = spawn('coffee', nodeArgs);
   } else {
@@ -96,39 +97,62 @@ function startMonitor() {
   });
 }
 
+function addIgnoreRule(line, noEscape) {
+  // remove comments and trim lines
+  
+  // this mess of replace methods is escaping "\#" to allow for emacs temp files
+  if (!noEscape) {
+    if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
+       ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
+    }    
+  } else {
+    ignoreFiles.push(line);
+  }
+  reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
+}
+
 function readIgnoreFile() {
   fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   path.exists(ignoreFilePath, function(exists) {
-    if (!exists) {
+    // if (!exists) {
       // we'll touch the ignore file to make sure it gets created and
       // if Vim is writing the file, it'll just overwrite it - but also
       // prevent from constant file io if the file doesn't exist
-      fs.writeFileSync(ignoreFilePath, "\n");
-      setTimeout(readIgnoreFile, 500);
-      return;
-    }
+      // fs.writeFileSync(ignoreFilePath, "\n");
+      // setTimeout(readIgnoreFile, 500);
+      // return;
+    // }
     
     sys.log('[nodemon] reading ignore list');
     
-    ignoreFiles = [flag, ignoreFilePath];
-    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (line) {
-      // remove comments and trim lines
-      
-      // this mess of replace methods is escaping "\#" to allow for emacs temp files
-      if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
-         ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
-      }
-    });
-    reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
+    // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
+    addIgnoreRule(flag);
+    addIgnoreRule(ignoreFilePath);
+    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(addIgnoreRule);
 
     fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
 
 function usage() {
-  sys.print('usage: nodemon [--debug] [your node app]\ne.g.: nodemon ./server.js localhost 8080\nFor details see http://github.com/remy/nodemon/\n\n');
+  sys.print([
+    'usage: nodemon [options] [script.js] [args]',
+    'e.g.: nodemon script.js localhost 8080',
+    '',
+    'Options:',
+    '  --js               monitor only JavaScript file changes',
+    '                     (default if ignore file not found)',
+    '  -d n, --delay n    throttle restart for "n" seconds',
+    '  --debug            enable node\'s native debug port',
+    '  -v, --version      current nodemon version',
+    '  -h, --help         this usage',
+    '',
+    'Note: if the script is omitted, nodemon will try "main" from package.json',
+    '',
+    'For more details see http://github.com/remy/nodemon/\n'
+  ].join('\n'));
 }
 
 function controlArg(nodeArgs, label, fn) {
@@ -136,7 +160,7 @@ function controlArg(nodeArgs, label, fn) {
   
   if ((i = nodeArgs.indexOf(label)) !== -1) {
     fn(nodeArgs[i], i);
-  } else if ((i = nodeArgs.indexOf('-' + label.substr(1))) !== -1) {
+  } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
     fn(nodeArgs[i], i);
   } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
     fn(nodeArgs[i], i);
@@ -171,6 +195,13 @@ controlArg(nodeArgs, 'delay', function (arg, i) {
   }
 });
 
+controlArg(nodeArgs, 'js', function (arg, i) {
+  nodeArgs.splice(i, 1); // remove this flag from the arguments
+  // sys.log('[nodemon] monitoring all filetype changes');
+  addIgnoreRule('^((?!\.js$).)*$', true); // ignores everything except JS
+  app = nodeArgs[0];
+});
+
 controlArg(nodeArgs, '--debug', function (arg, i) {
   nodeArgs.splice(i, 1);
   app = nodeArgs[0];
@@ -199,8 +230,8 @@ if (!nodeArgs.length || !path.existsSync(app)) {
 
 sys.log('[nodemon] v' + meta.version);
 
-// Change to application dir
-process.chdir(path.dirname(app));
+// this was causing problems for a lot of people, so now not moving to the subdirectory
+// process.chdir(path.dirname(app));
 app = path.basename(app);
 sys.log('[nodemon] running ' + app + ' in ' + process.cwd());
 
@@ -215,8 +246,11 @@ path.exists(ignoreFilePath, function (exists) {
       if (exists) {
         sys.log('[nodemon] detected old style .nodemonignore');
         ignoreFilePath = oldIgnoreFilePath;
+      } else {
+        // don't create the ignorefile, just ignore the flag & JS
+        addIgnoreRule(flag);
+        addIgnoreRule('^((?!\.js$).)*$', true);
       }
-      readIgnoreFile();
     });
   } else {
     readIgnoreFile();
