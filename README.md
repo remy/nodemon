@@ -50,11 +50,9 @@ The delay figure is number of seconds to delay before restarting. So `nodemon` w
 
 # Ignoring files
 
-In some cases you will want to ignore some specific files, directories or file patterns, to prevent `nodemon` from prematurely restarting your application.  
+By default, if `nodemon` will only restart when a `.js` JavaScript file changes.  In some cases you will want to ignore some specific files, directories or file patterns, to prevent `nodemon` from prematurely restarting your application.
 
-The `.nodemonignore` file is automatically created in the directory that you run your application from, so that you can have application specific ignore lists. 
-
-You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) as a basis for your `nodemon`, but it's very simple to create your own:
+You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) (note that this example file is not hidden - you must rename it to `.nodemonignore`) as a basis for your `nodemon`, but it's very simple to create your own:
 
     # this is my ignore file with a nice comment at the top
     
