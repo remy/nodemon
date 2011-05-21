@@ -58,7 +58,7 @@ function startNode() {
 }
 
 function startMonitor() {
-  var cmd = 'find . -type f -newer ' + flag + ' -print';
+  var cmd = 'find -L . -type f -newer ' + flag + ' -print';
 
   exec(cmd, function (error, stdout, stderr) {
     var files = stdout.split(/\n/);
