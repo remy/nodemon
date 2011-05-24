@@ -189,6 +189,7 @@ controlArg(nodeArgs, 'version', function () {
 controlArg(nodeArgs, 'delay', function (arg, i) {
   var delay = nodeArgs[i+1];
   nodeArgs.splice(i, 2); // remove the delay from the arguments
+  app = nodeArgs[0];
   if (delay) {
     sys.log('[nodemon] Adding delay of ' + delay + ' seconds');
     restartDelay = delay * 1000; // in seconds
@@ -233,7 +234,8 @@ sys.log('[nodemon] v' + meta.version);
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
 app = path.basename(app);
-sys.log('[nodemon] running ' + app + ' in ' + process.cwd());
+sys.log('\x1B[32m[nodemon] watching: ' + process.cwd() + '\x1B[0m');
+sys.log('[nodemon] running ' + app);
 
 startNode();
 
