@@ -99,13 +99,12 @@ function startMonitor() {
 
 function addIgnoreRule(line, noEscape) {
   // remove comments and trim lines
-  
   // this mess of replace methods is escaping "\#" to allow for emacs temp files
   if (!noEscape) {
     if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
        ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
     }    
-  } else {
+  } else if (line = line.replace(reTrim, '')) {
     ignoreFiles.push(line);
   }
   reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
@@ -131,7 +130,6 @@ function readIgnoreFile() {
     addIgnoreRule(flag);
     addIgnoreRule(ignoreFilePath);
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(addIgnoreRule);
-
     fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
