@@ -32,6 +32,11 @@ function startNode() {
   var ext = path.extname(app);
   
   if (ext === '.coffee') {
+    //coffeescript requires --nodejs --debug
+    var debugIndex = nodeArgs.indexOf('--debug');
+    if (debugIndex >= 0) {
+      nodeArgs.splice(debugIndex, 0, '--nodejs');
+    }
     node = spawn('coffee', nodeArgs);
   } else {
     node = spawn('node', nodeArgs);
