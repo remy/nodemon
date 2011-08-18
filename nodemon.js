@@ -55,7 +55,7 @@ function startNode() {
     if (signal == 'SIGUSR2') {
       // restart
       startNode();
-	else if (signal != null) {
+	} else if (node.killSignalSent != undefined) {
 	  // kill nodemon, too
 	  process.exit(0);
     } else {
@@ -177,8 +177,11 @@ function controlArg(nodeArgs, label, fn) {
 // the monitor file as nodemon exists
 function cleanup(signal) {
   signal = signal || 'SIGTERM';
-  node && node.kill(signal);
-  fs.unlinkSync(flag);
+  if(node) {
+    node.kill(signal);
+    node.killSignalSent = signal;
+  }
+  fs.unlink(flag);
 }
 
 // control arguments test for "help" or "--help" or "-h", run the callback and exit
@@ -284,14 +287,20 @@ process.on('exit', function (code) {
 // usual suspect: ctrl+c exit
 process.on('SIGINT', function () {
   cleanup('SIGINT');
-  // Give the child process 10 seconds to exit cleanly
-  setTimeout(function() {process.exit(0);}, 10000);
+  if(node != null)
+	// Give the child process 10 seconds to exit cleanly
+	setTimeout(function() {process.exit(0);}, 10000);
+  else
+	process.exit(0);
 });
 
 process.on('SIGTERM', function () {
   cleanup();
-  // Give the child process 10 seconds to exit cleanly
-  setTimeout(function() {process.exit(0);}, 10000);
+  if(node != null)
+    // Give the child process 10 seconds to exit cleanly
+    setTimeout(function() {process.exit(0);}, 10000);
+  else
+	process.exit(0);
 });
 
 // on exception *inside* nodemon, shutdown wrapped node app
