@@ -55,6 +55,9 @@ function startNode() {
     if (signal == 'SIGUSR2') {
       // restart
       startNode();
+	else if (signal != null) {
+	  // kill nodemon, too
+	  process.exit(0);
     } else {
       sys.log('\x1B[1;31m[nodemon] app crashed - waiting for file change before starting...\x1B[0m');
       node = null;
@@ -172,9 +175,10 @@ function controlArg(nodeArgs, label, fn) {
 
 // attempt to shutdown the wrapped node instance and remove
 // the monitor file as nodemon exists
-function cleanup() {
-  node && node.kill();
-  fs.unlink(flag);  
+function cleanup(signal) {
+  signal = signal || 'SIGTERM';
+  node && node.kill(signal);
+  fs.unlinkSync(flag);
 }
 
 // control arguments test for "help" or "--help" or "-h", run the callback and exit
@@ -279,13 +283,15 @@ process.on('exit', function (code) {
 
 // usual suspect: ctrl+c exit
 process.on('SIGINT', function () {
-  cleanup();
-  process.exit(0);
+  cleanup('SIGINT');
+  // Give the child process 10 seconds to exit cleanly
+  setTimeout(function() {process.exit(0);}, 10000);
 });
 
 process.on('SIGTERM', function () {
   cleanup();
-  process.exit(0);
+  // Give the child process 10 seconds to exit cleanly
+  setTimeout(function() {process.exit(0);}, 10000);
 });
 
 // on exception *inside* nodemon, shutdown wrapped node app
