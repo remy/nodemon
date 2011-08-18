@@ -278,6 +278,11 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
+process.on('SIGTERM', function () {
+  cleanup();
+  process.exit(0);
+});
+
 // on exception *inside* nodemon, shutdown wrapped node app
 process.on('uncaughtException', function (err) {
   sys.log('[nodemon] exception in nodemon killing node');
