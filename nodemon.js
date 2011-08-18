@@ -134,7 +134,9 @@ function readIgnoreFile() {
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
     addIgnoreRule(flag);
     addIgnoreRule(ignoreFilePath);
-    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(addIgnoreRule);
+    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
+      addIgnoreRule(rule);
+    });
     fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
