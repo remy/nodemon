@@ -115,7 +115,10 @@ function addIgnoreRule(line, noEscape) {
   reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
 }
 
-function readIgnoreFile() {
+function readIgnoreFile(curr, prev) {
+  // unless the ignore file was actually modified, do no re-read it
+  if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
+
   fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
