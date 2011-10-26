@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var fs = require('fs'),
-    sys = require('sys'),
+    sys = require('util'),
     childProcess = require('child_process'),
     path = require('path'),
     spawn = childProcess.spawn,
