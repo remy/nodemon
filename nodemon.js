@@ -2,6 +2,7 @@
 var fs = require('fs'),
     sys = require('sys'),
     childProcess = require('child_process'),
+    dirs = [],
     path = require('path'),
     spawn = childProcess.spawn,
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
@@ -63,9 +64,13 @@ function startNode() {
 }
 
 function startMonitor() {
-  var cmd = 'find -L . -type f -newer ' + flag + ' -print';
 
-  exec(cmd, function (error, stdout, stderr) {
+  var cmds = [];
+  dirs.forEach(function(dir) {
+    cmds.push('find -L ' + dir + ' -type f -newer ' + dir + '/' + flag + ' -print');
+  });
+
+  exec(cmds.join(';'), function (error, stdout, stderr) {
     var files = stdout.split(/\n/);
 
     files.pop(); // remove blank line ending and split
@@ -77,7 +82,9 @@ function startMonitor() {
         });
       }
 
-      fs.writeFileSync(flag, '');
+      dirs.forEach(function(dir) {
+        fs.writeFileSync(dir + '/' + flag, '');
+      });
 
       if (files.length) {
         if (restartTimer !== null) clearTimeout(restartTimer);
@@ -148,6 +155,7 @@ function usage() {
     '  --js               monitor only JavaScript file changes',
     '                     (default if ignore file not found)',
     '  -d n, --delay n    throttle restart for "n" seconds',
+    '  -w d, --watch d    watch directory "d". use once for each directory to watch',
     '  --debug            enable node\'s native debug port',
     '  -v, --version      current nodemon version',
     '  -h, --help         this usage',
@@ -158,16 +166,31 @@ function usage() {
   ].join('\n'));
 }
 
-function controlArg(nodeArgs, label, fn) {
-  var i;
-  
-  if ((i = nodeArgs.indexOf(label)) !== -1) {
-    fn(nodeArgs[i], i);
-  } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
-    fn(nodeArgs[i], i);
-  } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
-    fn(nodeArgs[i], i);
+//if conf is a string it specifies the option name.
+//if conf is an object it may have the following properties:
+//  label - the option name
+//  multi - if set, look for multiple instances of the option
+function controlArg(nodeArgs, conf, fn) {
+  var label,
+      multi = false,
+      i;
+
+  if (typeof conf === 'string') {
+    label = conf;
+  } else {
+    label = conf.label;
+    multi = conf.multi;
   }
+  
+  do {
+    if ((i = nodeArgs.indexOf(label)) !== -1) {
+      fn(nodeArgs[i], i);
+    } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
+      fn(nodeArgs[i], i);
+    } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
+      fn(nodeArgs[i], i);
+    }
+  } while (multi && i !== -1);
 }
 
 // attempt to shutdown the wrapped node instance and remove
@@ -196,6 +219,16 @@ controlArg(nodeArgs, 'delay', function (arg, i) {
   if (delay) {
     sys.log('[nodemon] Adding delay of ' + delay + ' seconds');
     restartDelay = delay * 1000; // in seconds
+  }
+});
+
+// look for watch flag
+controlArg(nodeArgs, { label: 'watch', multi: true }, function (arg, i) {
+  var dir = nodeArgs[i+1];
+  nodeArgs.splice(i, 2); // remove flag from the arguments
+  app = nodeArgs[0];
+  if (dir) {
+    dirs.push(dir);
   }
 });
 
@@ -234,10 +267,16 @@ if (!nodeArgs.length || !path.existsSync(app)) {
 
 sys.log('[nodemon] v' + meta.version);
 
+if (dirs.length === 0) {
+  dirs.unshift(process.cwd());
+}
+
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
 app = path.basename(app);
-sys.log('\x1B[32m[nodemon] watching: ' + process.cwd() + '\x1B[0m');
+dirs.forEach(function(dir) {
+  sys.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+});
 sys.log('[nodemon] running ' + app);
 
 startNode();
