@@ -2,7 +2,6 @@
 var fs = require('fs'),
     sys = require('util'),
     childProcess = require('child_process'),
-    dirs = [],
     path = require('path'),
     spawn = childProcess.spawn,
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
@@ -64,13 +63,9 @@ function startNode() {
 }
 
 function startMonitor() {
+  var cmd = 'find -L . -type f -newer ' + flag + ' -print';
 
-  var cmds = [];
-  dirs.forEach(function(dir) {
-    cmds.push('find -L ' + dir + ' -type f -newer ' + dir + '/' + flag + ' -print');
-  });
-
-  exec(cmds.join(';'), function (error, stdout, stderr) {
+  exec(cmd, function (error, stdout, stderr) {
     var files = stdout.split(/\n/);
 
     files.pop(); // remove blank line ending and split
@@ -82,9 +77,7 @@ function startMonitor() {
         });
       }
 
-      dirs.forEach(function(dir) {
-        fs.writeFileSync(dir + '/' + flag, '');
-      });
+      fs.writeFileSync(flag, '');
 
       if (files.length) {
         if (restartTimer !== null) clearTimeout(restartTimer);
@@ -160,8 +153,8 @@ function usage() {
     '  --js               monitor only JavaScript file changes',
     '                     (default if ignore file not found)',
     '  -d n, --delay n    throttle restart for "n" seconds',
-    '  -w d, --watch d    watch directory "d". use once for each directory to watch',
     '  --debug            enable node\'s native debug port',
+    '  --debug-brk        enable node\'s native debug break',
     '  -v, --version      current nodemon version',
     '  -h, --help         this usage',
     '',
@@ -171,31 +164,16 @@ function usage() {
   ].join('\n'));
 }
 
-//if conf is a string it specifies the option name.
-//if conf is an object it may have the following properties:
-//  label - the option name
-//  multi - if set, look for multiple instances of the option
-function controlArg(nodeArgs, conf, fn) {
-  var label,
-      multi = false,
-      i;
-
-  if (typeof conf === 'string') {
-    label = conf;
-  } else {
-    label = conf.label;
-    multi = conf.multi;
-  }
+function controlArg(nodeArgs, label, fn) {
+  var i;
   
-  do {
-    if ((i = nodeArgs.indexOf(label)) !== -1) {
-      fn(nodeArgs[i], i);
-    } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
-      fn(nodeArgs[i], i);
-    } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
-      fn(nodeArgs[i], i);
-    }
-  } while (multi && i !== -1);
+  if ((i = nodeArgs.indexOf(label)) !== -1) {
+    fn(nodeArgs[i], i);
+  } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
+    fn(nodeArgs[i], i);
+  } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
+    fn(nodeArgs[i], i);
+  }
 }
 
 // attempt to shutdown the wrapped node instance and remove
@@ -227,16 +205,6 @@ controlArg(nodeArgs, 'delay', function (arg, i) {
   }
 });
 
-// look for watch flag
-controlArg(nodeArgs, { label: 'watch', multi: true }, function (arg, i) {
-  var dir = nodeArgs[i+1];
-  nodeArgs.splice(i, 2); // remove flag from the arguments
-  app = nodeArgs[0];
-  if (dir) {
-    dirs.push(dir);
-  }
-});
-
 controlArg(nodeArgs, 'js', function (arg, i) {
   nodeArgs.splice(i, 1); // remove this flag from the arguments
   // sys.log('[nodemon] monitoring all filetype changes');
@@ -248,6 +216,12 @@ controlArg(nodeArgs, '--debug', function (arg, i) {
   nodeArgs.splice(i, 1);
   app = nodeArgs[0];
   nodeArgs.unshift('--debug'); // put it at the front
+});
+
+controlArg(nodeArgs, '--debug-brk', function (arg, i) {
+  nodeArgs.splice(i, 1);
+  app = nodeArgs[0];
+  nodeArgs.unshift('--debug-brk'); // put it at the front
 });
 
 if (!nodeArgs.length || !path.existsSync(app)) {
@@ -272,16 +246,10 @@ if (!nodeArgs.length || !path.existsSync(app)) {
 
 sys.log('[nodemon] v' + meta.version);
 
-if (dirs.length === 0) {
-  dirs.unshift(process.cwd());
-}
-
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
 app = path.basename(app);
-dirs.forEach(function(dir) {
-  sys.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
-});
+sys.log('\x1B[32m[nodemon] watching: ' + process.cwd() + '\x1B[0m');
 sys.log('[nodemon] running ' + app);
 
 startNode();
@@ -298,7 +266,7 @@ path.exists(ignoreFilePath, function (exists) {
       } else {
         // don't create the ignorefile, just ignore the flag & JS
         addIgnoreRule(flag);
-        addIgnoreRule('^((?!\.js$).)*$', true);
+        addIgnoreRule('^((?!\.js|\.coffee$).)*$', true);
       }
     });
   } else {
