@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 var fs = require('fs'),
-    sys = require('util'),
+    util = require('util'),
     childProcess = require('child_process'),
     dirs = [],
     path = require('path'),
@@ -8,9 +8,8 @@ var fs = require('fs'),
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = childProcess.exec,
     flag = './.monitor',
-    nodeArgs = process.argv.splice(2), // removes 'node' and this script
-    app = nodeArgs[0],
-    node = null, 
+    program = getNodemonArgs(),
+    child = null, 
     monitor = null,
     ignoreFilePath = './.nodemonignore',
     oldIgnoreFilePath = './nodemon-ignore',
@@ -19,6 +18,7 @@ var fs = require('fs'),
     timeout = 1000, // check every 1 second
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
     restartTimer = null,
+    lastStarted = +new Date,
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -28,85 +28,104 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 function startNode() {
-  sys.log('\x1B[32m[nodemon] starting node\x1B[0m');
+  util.log('\x1B[32m[nodemon] starting node\x1B[0m');
 
-  var ext = path.extname(app);
+  // console.log('running: ' + program.options.exec + ' ' + program.args.join(' '))
+  child = spawn(program.options.exec, program.args);
+
+  lastStarted = +new Date;
   
-  if (ext === '.coffee') {
-    //coffeescript requires --nodejs --debug
-    var debugIndex = nodeArgs.indexOf('--debug');
-    if (debugIndex >= 0) {
-      nodeArgs.splice(debugIndex, 0, '--nodejs');
-    }
-    node = spawn('coffee', nodeArgs);
-  } else {
-    node = spawn('node', nodeArgs);
-  }
-  
-  node.stdout.on('data', function (data) {
-    sys.print(data);
+  child.stdout.on('data', function (data) {
+    util.print(data);
   });
 
-  node.stderr.on('data', function (data) {
-    sys.error(data);
+  child.stderr.on('data', function (data) {
+    util.error(data);
   });
 
-  node.on('exit', function (code, signal) {
+  child.on('exit', function (code, signal) {
     // exit the monitor, but do it gracefully
     if (signal == 'SIGUSR2') {
       // restart
       startNode();
+    } else if (code === 0) { // clean exit - wait until file change to restart
+      util.log('\x1B[32m[nodemon] app had a clean exit - waiting for file change before start\x1B[0m');
+      child = null;
     } else {
-      sys.log('\x1B[1;31m[nodemon] app crashed - waiting for file change before starting...\x1B[0m');
-      node = null;
+      util.log('\x1B[1;31m[nodemon] app crashed - waiting for file change before starting...\x1B[0m');
+      child = null;
     }
   });
+  
+  // pinched from https://github.com/DTrejo/run.js - pipes stdin to the child process - cheers DTrejo ;-)
+  process.stdin.resume();
+  process.stdin.setEncoding('utf8');
+  process.stdin.pipe(child.stdin);
+
+  setTimeout(startMonitor, timeout);
+}
+
+function changedSince(time, dir) {
+  var changed = [],
+      i = 0,
+      j = 0,
+      dir = dir ? [dir] : dirs,
+      dlen = dir.length,
+      flen = 0;
+
+  for (; i < dlen; i++) {
+    var files = fs.readdirSync(dir[i]);
+    if (files && files.length) {
+      flen = files.length;
+      for (j = 0; j < flen; j++) {
+        if (program.includeHidden == true || !program.includeHidden && files[j].indexOf('.') !== 0) {
+          var stat = fs.statSync(dir[i] + '/' + files[j]);
+          if (stat) {
+            if (stat.isDirectory()) {
+              changed = changed.concat(changedSince(time, dir[i] + '/' + files[j]));
+            } else if (stat.mtime > time) {
+              changed.push(files[j]);
+            }
+          } 
+        }
+      }
+    }
+  }
+
+  return changed;
 }
 
 function startMonitor() {
+  var files = changedSince(lastStarted);
 
-  var cmds = [];
-  dirs.forEach(function(dir) {
-    cmds.push('find -L ' + dir + ' -type f -newer ' + dir + '/' + flag + ' -print');
-  });
-
-  exec(cmds.join(';'), function (error, stdout, stderr) {
-    var files = stdout.split(/\n/);
-
-    files.pop(); // remove blank line ending and split
-    if (files.length) {
-      // filter ignored files
-      if (ignoreFiles.length) {
-        files = files.filter(function(file) {
-          return !reIgnoreFiles.test(file);
-        });
-      }
-
-      dirs.forEach(function(dir) {
-        fs.writeFileSync(dir + '/' + flag, '');
+  if (files.length) {
+    // filter ignored files
+    if (ignoreFiles.length) {
+      files = files.filter(function(file) {
+        return !reIgnoreFiles.test(file);
       });
-
-      if (files.length) {
-        if (restartTimer !== null) clearTimeout(restartTimer);
-        
-        restartTimer = setTimeout(function () {
-          sys.log('[nodemon] restarting due to changes...');
-          files.forEach(function (file) {
-            sys.log('[nodemon] ' + file);
-          });
-          sys.print('\n\n');
-
-          if (node !== null) {
-            node.kill('SIGUSR2');
-          } else {
-            startNode();
-          }          
-        }, restartDelay);
-      }
     }
-    
-    setTimeout(startMonitor, timeout);
-  });
+
+    if (files.length) {
+      if (restartTimer !== null) clearTimeout(restartTimer);
+      restartTimer = setTimeout(function () {
+        util.log('[nodemon] restarting due to changes...');
+        files.forEach(function (file) {
+          util.log('[nodemon] ' + file);
+        });
+        util.print('\n\n');
+
+        if (child !== null) {
+          child.kill('SIGUSR2');
+        } else {
+          startNode();
+        }
+      }, restartDelay);
+      return;
+    }
+  }
+   
+  setTimeout(startMonitor, timeout);
 }
 
 function addIgnoreRule(line, noEscape) {
@@ -122,181 +141,217 @@ function addIgnoreRule(line, noEscape) {
   reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
 }
 
-function readIgnoreFile() {
+function readIgnoreFile(curr, prev) {
+  // unless the ignore file was actually modified, do no re-read it
+  if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
+
   fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   path.exists(ignoreFilePath, function(exists) {
-    // if (!exists) {
-      // we'll touch the ignore file to make sure it gets created and
-      // if Vim is writing the file, it'll just overwrite it - but also
-      // prevent from constant file io if the file doesn't exist
-      // fs.writeFileSync(ignoreFilePath, "\n");
-      // setTimeout(readIgnoreFile, 500);
-      // return;
-    // }
-    
-    sys.log('[nodemon] reading ignore list');
+    util.log('[nodemon] reading ignore list');
     
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
-    addIgnoreRule(flag);
+    // addIgnoreRule(flag);
     addIgnoreRule(ignoreFilePath);
-    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(addIgnoreRule);
+    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
+      addIgnoreRule(rule);
+    });
     fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
-}
-
-function usage() {
-  sys.print([
-    'usage: nodemon [options] [script.js] [args]',
-    'e.g.: nodemon script.js localhost 8080',
-    '',
-    'Options:',
-    '  --js               monitor only JavaScript file changes',
-    '                     (default if ignore file not found)',
-    '  -d n, --delay n    throttle restart for "n" seconds',
-    '  -w d, --watch d    watch directory "d". use once for each directory to watch',
-    '  --debug            enable node\'s native debug port',
-    '  -v, --version      current nodemon version',
-    '  -h, --help         this usage',
-    '',
-    'Note: if the script is omitted, nodemon will try "main" from package.json',
-    '',
-    'For more details see http://github.com/remy/nodemon/\n'
-  ].join('\n'));
-}
-
-//if conf is a string it specifies the option name.
-//if conf is an object it may have the following properties:
-//  label - the option name
-//  multi - if set, look for multiple instances of the option
-function controlArg(nodeArgs, conf, fn) {
-  var label,
-      multi = false,
-      i;
-
-  if (typeof conf === 'string') {
-    label = conf;
-  } else {
-    label = conf.label;
-    multi = conf.multi;
-  }
-  
-  do {
-    if ((i = nodeArgs.indexOf(label)) !== -1) {
-      fn(nodeArgs[i], i);
-    } else if ((i = nodeArgs.indexOf('-' + label.substr(0, 1))) !== -1) {
-      fn(nodeArgs[i], i);
-    } else if ((i = nodeArgs.indexOf('--' + label)) !== -1) {
-      fn(nodeArgs[i], i);
-    }
-  } while (multi && i !== -1);
 }
 
 // attempt to shutdown the wrapped node instance and remove
 // the monitor file as nodemon exists
 function cleanup() {
-  node && node.kill();
-  fs.unlink(flag);  
+  child && child.kill();
+  // fs.unlink(flag);  
 }
 
-// control arguments test for "help" or "--help" or "-h", run the callback and exit
-controlArg(nodeArgs, 'help', function () {
-  usage();
-  process.exit();
-});
+function getNodemonArgs() {
+  var args = process.argv,
+      len = args.length,
+      i = 2,
+      dir = process.cwd(),
+      indexOfApp = -1;
 
-controlArg(nodeArgs, 'version', function () {
-  sys.print('v' + meta.version + '\n');
-  process.exit();
-});
-
-// look for delay flag
-controlArg(nodeArgs, 'delay', function (arg, i) {
-  var delay = nodeArgs[i+1];
-  nodeArgs.splice(i, 2); // remove the delay from the arguments
-  app = nodeArgs[0];
-  if (delay) {
-    sys.log('[nodemon] Adding delay of ' + delay + ' seconds');
-    restartDelay = delay * 1000; // in seconds
-  }
-});
-
-// look for watch flag
-controlArg(nodeArgs, { label: 'watch', multi: true }, function (arg, i) {
-  var dir = nodeArgs[i+1];
-  nodeArgs.splice(i, 2); // remove flag from the arguments
-  app = nodeArgs[0];
-  if (dir) {
-    dirs.push(dir);
-  }
-});
-
-controlArg(nodeArgs, 'js', function (arg, i) {
-  nodeArgs.splice(i, 1); // remove this flag from the arguments
-  // sys.log('[nodemon] monitoring all filetype changes');
-  addIgnoreRule('^((?!\.js$).)*$', true); // ignores everything except JS
-  app = nodeArgs[0];
-});
-
-controlArg(nodeArgs, '--debug', function (arg, i) {
-  nodeArgs.splice(i, 1);
-  app = nodeArgs[0];
-  nodeArgs.unshift('--debug'); // put it at the front
-});
-
-if (!nodeArgs.length || !path.existsSync(app)) {
-  // try to get the app from the package.json
-  // doing a try/catch because we can't use the path.exist callback pattern
-  // or we could, but the code would get messy, so this will do exactly 
-  // what we're after - if the file doesn't exist, it'll throw.
-  try {
-    app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
-    
-    if (nodeArgs[0] == '--debug') {
-      nodeArgs.splice(1, 0, app);
-    } else {
-      nodeArgs.unshift(app);
+  for (; i < len; i++) {
+    if (path.existsSync(dir + '/' + args[i])) {
+      // double check we didn't use the --watch or -w opt before this arg
+      if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
+        // ignore 
+      } else {
+        indexOfApp = i;
+        break;
+      }
     }
-  } catch (e) {
-    // no app found to run - so give them a tip and get the feck out
-    usage();
-    process.exit();
   }
-} else {
-  // everything *after* the app in the arguments should be passed to the user's script
+
+  if (indexOfApp == -1) { 
+    // not found, so assume we're reading the package.json and thus swallow up all the args
+    indexOfApp = len; 
+  }
+
+  var appargs = process.argv.slice(indexOfApp),
+      app = appargs[0],
+      nodemonargs = process.argv.slice(2, indexOfApp),
+      arg,
+      options = {
+        delay: 1,
+        watch: [],
+        exec: 'node',
+        js: false, // becomes the default anyway...
+        includeHidden: false
+        // args: []
+      };
+  
+  // process nodemon args
+  while (arg = nodemonargs.shift()) {
+    if (arg === '--help' || arg === '-h' || arg === '-?') {
+      return help(); // exits program
+    } else if (arg === '--version' || arg == '-v') {
+      return version(); // also exits
+    } else if (arg == '--js') {
+      options.js = true;
+    } else if (arg == '--hidden') {
+      options.includeHidden = true;
+    } else if (arg === '--watch' || arg === '-w') {
+      options.watch.push(nodemonargs.shift());
+    } else if (arg === '--delay' || arg === '-d') {
+      options.delay = parseInt(nodemonargs.shift());
+    } else if (arg === '--exec' || arg === '-x') {
+      options.exec = nodemonargs.shift();
+    } else { //if (arg === "--") {
+      // Remaining args are node arguments
+      appargs.unshift(arg);
+    }
+  }
+
+  var program = { nodemon: nodemonargs, options: options, args: appargs, app: app };
+
+  getAppScript(program);
+
+  return program;
 }
 
+function getAppScript(program) {
+  if (!program.args.length) {
+    // try to get the app from the package.json
+    // doing a try/catch because we can't use the path.exist callback pattern
+    // or we could, but the code would get messy, so this will do exactly 
+    // what we're after - if the file doesn't exist, it'll throw.
+    try {
+      // note: this isn't nodemon's package, it's the user's cwd package
+      program.app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
+    } catch (e) {
+      // no app found to run - so give them a tip and get the feck out
+      help();
+    }  
+  } else {
+    program.app = program.args.slice(0, 1);
+  }
+  
+  program.app = path.basename(program.app);
+  program.ext = path.extname(program.app);
 
-sys.log('[nodemon] v' + meta.version);
+  if (program.ext === '.coffee') {
+    //coffeescript requires --nodejs --debug
+    var debugIndex = program.args.indexOf('--debug');
+    if (debugIndex >= 0 && program.args.indexOf('--nodejs') === -1) {
+      program.args.splice(debugIndex, 0, '--nodejs');
+    }
+    // monitor both types - TODO possibly make this an option?
+    program.ext = '.coffee|.js';
+    program.exec = 'coffee';
+  }
+}
 
-if (dirs.length === 0) {
+function version() {
+  console.log(meta.version);
+  process.exit(0);
+}
+
+function help() {
+  util.print([
+    '',
+    ' Usage: nodemon [options] [script.js] [args]',
+    '',
+    ' Options:',
+    '  -d, --delay n    throttle restart for "n" seconds',
+    '  -w, --watch dir  watch directory "dir". use once for each',
+    '                   directory to watch',
+    '  -x, --exec app   execute script with "app", ie. -x python',
+    '  -v, --version    current nodemon version',
+    '  -h, --help       you\'re looking at it',
+    '',
+    ' Note: if the script is omitted, nodemon will try to ',
+    ' read "main" from package.json and without a .nodemonignore,',
+    ' nodemon will monitor .js and .coffee by default.',
+    '',
+    ' Examples:',
+    '',
+    '  $ nodemon server.js',
+    '  $ nodemon -w ../foo server.js apparg1 apparg2',
+    '  $ PORT=8000 nodemon --debug-brk server.js',
+    '  $ nodemon --exec python app.py',
+    '',
+    ' For more details see http://github.com/remy/nodemon/',
+    ''
+  ].join('\n') + '\n');
+  process.exit(0);
+}
+
+if (program.options.delay) {
+  restartDelay = program.options.delay * 1000;
+}
+
+// this is the default - why am I making it a cmd line opt?
+if (program.options.js) {
+  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+}
+
+if (program.options.watch && program.options.watch.length > 0) {
+  program.options.watch.forEach(function (dir) {
+    dirs.push(path.resolve(dir));
+  });
+} else {
   dirs.unshift(process.cwd());
 }
 
+// anything left over in program.args should be prepended to our application args
+// like --debug-brk, etc
+if (program.nodemon.length) {
+  program.args = program.nodemon.concat(program.args);
+}
+
+if (!program.app) {
+  help();
+}
+
+util.log('[nodemon] v' + meta.version);
+
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
-app = path.basename(app);
 dirs.forEach(function(dir) {
-  sys.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+  util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
 });
-sys.log('[nodemon] running ' + app);
+
+util.log('[nodemon] running ' + program.app);
 
 startNode();
-
-setTimeout(startMonitor, timeout);
 
 path.exists(ignoreFilePath, function (exists) {
   if (!exists) {
     // try the old format
     path.exists(oldIgnoreFilePath, function (exists) {
       if (exists) {
-        sys.log('[nodemon] detected old style .nodemonignore');
+        util.log('[nodemon] detected old style .nodemonignore');
         ignoreFilePath = oldIgnoreFilePath;
       } else {
         // don't create the ignorefile, just ignore the flag & JS
-        addIgnoreRule(flag);
-        addIgnoreRule('^((?!\.js$).)*$', true);
+        // addIgnoreRule(flag);
+        var ext = program.ext.replace(/\./g, '\\.');
+        addIgnoreRule('^((?!' + ext + '$).)*$', true);
       }
     });
   } else {
@@ -309,14 +364,14 @@ path.exists(ignoreFilePath, function (exists) {
 // this way, the .monitor file is removed entirely, and recreated with 
 // permissions that anyone can remove it later (i.e. if you run as root
 // by accident and then try again later).
-if (path.existsSync(flag)) fs.unlinkSync(flag);
-fs.writeFileSync(flag, '');
-fs.chmodSync(flag, '666');
+// if (path.existsSync(flag)) fs.unlinkSync(flag);
+// fs.writeFileSync(flag, '.'); // requires some content https://github.com/remy/nodemon/issues/36
+// fs.chmodSync(flag, '666');
 
 // remove the flag file on exit
 process.on('exit', function (code) {
+  util.log('[nodemon] exiting');
   cleanup();
-  sys.log('[nodemon] exiting');
 });
 
 // usual suspect: ctrl+c exit
@@ -325,9 +380,16 @@ process.on('SIGINT', function () {
   process.exit(0);
 });
 
+process.on('SIGTERM', function () {
+  cleanup();
+  process.exit(0);
+});
+
+// TODO on a clean exit, we could continue to monitor the directory and reboot the service
+
 // on exception *inside* nodemon, shutdown wrapped node app
 process.on('uncaughtException', function (err) {
-  sys.log('[nodemon] exception in nodemon killing node');
-  sys.error(err.stack);
+  util.log('[nodemon] exception in nodemon killing node');
+  util.error(err.stack);
   cleanup();
 });
