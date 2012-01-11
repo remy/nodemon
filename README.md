@@ -87,7 +87,3 @@ The ignore file accepts:
 * Blank lines
 * Specific files
 * File patterns (this is converted to a regex, so you have full control of the pattern)
-
-# Prerequisites
-
-`nodemon` currently depends on the [unix find](http://unixhelp.ed.ac.uk/CGI/man-cgi?find) command (which also is installed on Macs)
