@@ -19,6 +19,7 @@ var fs = require('fs'),
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
     restartTimer = null,
     lastStarted = +new Date,
+    isWindows = process.platform === 'win32',
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -44,6 +45,8 @@ function startNode() {
   });
 
   child.on('exit', function (code, signal) {
+    // this is nasty, but it gives it windows support
+    if (isWindows && signal == 'SIGTERM') signal = 'SIGUSR2';
     // exit the monitor, but do it gracefully
     if (signal == 'SIGUSR2') {
       // restart
@@ -129,7 +132,7 @@ function startMonitor() {
           if (program.options.verbose) util.print('\n\n');
 
           if (child !== null) {
-            child.kill('SIGUSR2');
+            child.kill(isWindows ? '' : 'SIGUSR2');
           } else {
             startNode();
           }
@@ -392,16 +395,18 @@ process.on('exit', function (code) {
   cleanup();
 });
 
-// usual suspect: ctrl+c exit
-process.on('SIGINT', function () {
-  cleanup();
-  process.exit(0);
-});
+if (!isWindows) { // because windows borks when listening for the SIG* events
+  // usual suspect: ctrl+c exit
+  process.on('SIGINT', function () {
+    cleanup();
+    process.exit(0);
+  });
 
-process.on('SIGTERM', function () {
-  cleanup();
-  process.exit(0);
-});
+  process.on('SIGTERM', function () {
+    cleanup();
+    process.exit(0);
+  });  
+}
 
 // TODO on a clean exit, we could continue to monitor the directory and reboot the service
 
