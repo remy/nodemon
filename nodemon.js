@@ -28,7 +28,7 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 function startNode() {
-  util.log('\x1B[32m[nodemon] starting node\x1B[0m');
+  util.log('\x1B[32m[nodemon] starting ' + program.options.exec + '\x1B[0m');
 
   // console.log('running: ' + program.options.exec + ' ' + program.args.join(' '))
   child = spawn(program.options.exec, program.args);
@@ -49,10 +49,10 @@ function startNode() {
       // restart
       startNode();
     } else if (code === 0) { // clean exit - wait until file change to restart
-      util.log('\x1B[32m[nodemon] app had a clean exit - waiting for file change before start\x1B[0m');
+      util.log('\x1B[32m[nodemon] clean exit - waiting for changes before restart\x1B[0m');
       child = null;
     } else {
-      util.log('\x1B[1;31m[nodemon] app crashed - waiting for file change before starting...\x1B[0m');
+      util.log('\x1B[1;31m[nodemon] app crashed - waiting for file changes before starting...\x1B[0m');
       child = null;
     }
   });
@@ -65,67 +65,81 @@ function startNode() {
   setTimeout(startMonitor, timeout);
 }
 
-function changedSince(time, dir) {
+function changedSince(time, dir, callback) {
+  callback || (callback = dir);
   var changed = [],
       i = 0,
       j = 0,
-      dir = dir ? [dir] : dirs,
+      dir = dir && typeof dir !== 'function' ? [dir] : dirs,
       dlen = dir.length,
-      flen = 0;
+      todo = 0, // how fucking lame is this? promises anyone?
+      flen = 0,
+      done = function () {
+        todo--;
+        if (todo === 0) callback(changed);
+      };
+    
+  dir.forEach(function (dir) {
+    todo++;
+    fs.readdir(dir, function (err, files) {
+      if (err) return;
 
-  for (; i < dlen; i++) {
-    var files = fs.readdirSync(dir[i]);
-    if (files && files.length) {
-      flen = files.length;
-      for (j = 0; j < flen; j++) {
-        if (program.includeHidden == true || !program.includeHidden && files[j].indexOf('.') !== 0) {
-          var stat = fs.statSync(dir[i] + '/' + files[j]);
-          if (stat) {
-            if (stat.isDirectory()) {
-              changed = changed.concat(changedSince(time, dir[i] + '/' + files[j]));
-            } else if (stat.mtime > time) {
-              changed.push(files[j]);
+      files.forEach(function (file) {
+        if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
+          todo++;
+          file = path.resolve(dir + '/' + file);
+          var stat = fs.stat(file, function (err, stat) {
+            if (stat) {
+              if (stat.isDirectory()) {
+                todo++;
+                changedSince(time, file, function (subChanged) {
+                  if (subChanged.length) changed = changed.concat(subChanged);
+                  done();
+                });
+              } else if (stat.mtime > time) {
+                changed.push(file);
+              }
             }
-          } 
+            done();
+          });
         }
-      }
-    }
-  }
-
-  return changed;
+      });
+      done();
+    });    
+  });
 }
 
 function startMonitor() {
-  var files = changedSince(lastStarted);
-
-  if (files.length) {
-    // filter ignored files
-    if (ignoreFiles.length) {
-      files = files.filter(function(file) {
-        return !reIgnoreFiles.test(file);
-      });
-    }
-
+  changedSince(lastStarted, function (files) {
     if (files.length) {
-      if (restartTimer !== null) clearTimeout(restartTimer);
-      restartTimer = setTimeout(function () {
-        util.log('[nodemon] restarting due to changes...');
-        files.forEach(function (file) {
-          util.log('[nodemon] ' + file);
+      // filter ignored files
+      if (ignoreFiles.length) {
+        files = files.filter(function(file) {
+          return !reIgnoreFiles.test(file);
         });
-        util.print('\n\n');
+      }
 
-        if (child !== null) {
-          child.kill('SIGUSR2');
-        } else {
-          startNode();
-        }
-      }, restartDelay);
-      return;
+      if (files.length) {
+        if (restartTimer !== null) clearTimeout(restartTimer);
+        restartTimer = setTimeout(function () {
+          if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+          files.forEach(function (file) {
+            if (program.options.verbose) util.log('[nodemon] ' + file);
+          });
+          if (program.options.verbose) util.print('\n\n');
+
+          if (child !== null) {
+            child.kill('SIGUSR2');
+          } else {
+            startNode();
+          }
+        }, restartDelay);
+        return;
+      }
     }
-  }
-   
-  setTimeout(startMonitor, timeout);
+     
+    setTimeout(startMonitor, timeout);
+  });
 }
 
 function addIgnoreRule(line, noEscape) {
@@ -149,7 +163,7 @@ function readIgnoreFile(curr, prev) {
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   path.exists(ignoreFilePath, function(exists) {
-    util.log('[nodemon] reading ignore list');
+    if (program.options.verbose) util.log('[nodemon] reading ignore list');
     
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
     // addIgnoreRule(flag);
@@ -200,6 +214,7 @@ function getNodemonArgs() {
         delay: 1,
         watch: [],
         exec: 'node',
+        verbose: true,
         js: false, // becomes the default anyway...
         includeHidden: false
         // args: []
@@ -213,6 +228,8 @@ function getNodemonArgs() {
       return version(); // also exits
     } else if (arg == '--js') {
       options.js = true;
+    } else if (arg == '--quiet' || arg == '-q') {
+      options.verbose = false;
     } else if (arg == '--hidden') {
       options.includeHidden = true;
     } else if (arg === '--watch' || arg === '-w') {
@@ -281,6 +298,7 @@ function help() {
     '  -w, --watch dir  watch directory "dir". use once for each',
     '                   directory to watch',
     '  -x, --exec app   execute script with "app", ie. -x python',
+    '  -q, --quiet      minimise nodemon messages to start/stop only',
     '  -v, --version    current nodemon version',
     '  -h, --help       you\'re looking at it',
     '',
@@ -328,15 +346,15 @@ if (!program.app) {
   help();
 }
 
-util.log('[nodemon] v' + meta.version);
+if (program.options.verbose) util.log('[nodemon] v' + meta.version);
 
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
 dirs.forEach(function(dir) {
-  util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+  if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
 });
 
-util.log('[nodemon] running ' + program.app);
+if (program.options.verbose) util.log('[nodemon] running ' + program.app);
 
 startNode();
 
@@ -345,7 +363,7 @@ path.exists(ignoreFilePath, function (exists) {
     // try the old format
     path.exists(oldIgnoreFilePath, function (exists) {
       if (exists) {
-        util.log('[nodemon] detected old style .nodemonignore');
+        if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
         ignoreFilePath = oldIgnoreFilePath;
       } else {
         // don't create the ignorefile, just ignore the flag & JS
@@ -370,7 +388,7 @@ path.exists(ignoreFilePath, function (exists) {
 
 // remove the flag file on exit
 process.on('exit', function (code) {
-  util.log('[nodemon] exiting');
+  if (program.options.verbose) util.log('[nodemon] exiting');
   cleanup();
 });
 
