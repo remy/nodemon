@@ -29,12 +29,9 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 function startNode() {
-  util.log('\x1B[32m[nodemon] starting ' + program.options.exec + '\x1B[0m');
+  util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
 
-  // console.log('running: ' + program.options.exec + ' ' + program.args.join(' '))
   child = spawn(program.options.exec, program.args);
-
-  console.log(program.options.exec, program.args);
 
   lastStarted = +new Date;
   
@@ -56,6 +53,9 @@ function startNode() {
     } else if (code === 0) { // clean exit - wait until file change to restart
       util.log('\x1B[32m[nodemon] clean exit - waiting for changes before restart\x1B[0m');
       child = null;
+    } else if (program.options.exitcrash) {
+      util.log('\x1B[1;31m[nodemon] app crashed\x1B[0m');
+      process.exit(0);
     } else {
       util.log('\x1B[1;31m[nodemon] app crashed - waiting for file changes before starting...\x1B[0m');
       child = null;
@@ -221,7 +221,8 @@ function getNodemonArgs() {
         exec: 'node',
         verbose: true,
         js: false, // becomes the default anyway...
-        includeHidden: false
+        includeHidden: false,
+        exitcrash: false
         // args: []
       };
   
@@ -239,6 +240,8 @@ function getNodemonArgs() {
       options.includeHidden = true;
     } else if (arg === '--watch' || arg === '-w') {
       options.watch.push(nodemonargs.shift());
+    } else if (arg === '--exitcrash') {
+      options.exitcrash = true;
     } else if (arg === '--delay' || arg === '-d') {
       options.delay = parseInt(nodemonargs.shift());
     } else if (arg === '--exec' || arg === '-x') {
@@ -300,11 +303,14 @@ function help() {
     ' Usage: nodemon [options] [script.js] [args]',
     '',
     ' Options:',
+    '',
     '  -d, --delay n    throttle restart for "n" seconds',
     '  -w, --watch dir  watch directory "dir". use once for each',
     '                   directory to watch',
     '  -x, --exec app   execute script with "app", ie. -x python',
     '  -q, --quiet      minimise nodemon messages to start/stop only',
+    '  --exitcrash      exit on crash, allows use of nodemon with',
+    '                   daemon tools like forever.js',
     '  -v, --version    current nodemon version',
     '  -h, --help       you\'re looking at it',
     '',
@@ -375,7 +381,7 @@ path.exists(ignoreFilePath, function (exists) {
         // don't create the ignorefile, just ignore the flag & JS
         // addIgnoreRule(flag);
         var ext = program.ext.replace(/\./g, '\\.');
-        addIgnoreRule('^((?!' + ext + '$).)*$', true);
+        if (ext) addIgnoreRule('^((?!' + ext + '$).)*$', true);
       }
     });
   } else {
@@ -401,6 +407,7 @@ process.on('exit', function (code) {
 if (!isWindows) { // because windows borks when listening for the SIG* events
   // usual suspect: ctrl+c exit
   process.on('SIGINT', function () {
+    child && child.kill('SIGINT');
     cleanup();
     process.exit(0);
   });
