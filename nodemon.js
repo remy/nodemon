@@ -34,6 +34,8 @@ function startNode() {
   // console.log('running: ' + program.options.exec + ' ' + program.args.join(' '))
   child = spawn(program.options.exec, program.args);
 
+  console.log(program.options.exec, program.args);
+
   lastStarted = +new Date;
   
   child.stdout.on('data', function (data) {
@@ -263,6 +265,7 @@ function getAppScript(program) {
     try {
       // note: this isn't nodemon's package, it's the user's cwd package
       program.app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
+      program.args.unshift(program.app);
     } catch (e) {
       // no app found to run - so give them a tip and get the feck out
       help();
