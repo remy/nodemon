@@ -36,7 +36,27 @@ You can also pass the debug flag to node through the command line as you would n
 
     nodemon --debug ./server.js 80
 
-Finally, if you have a `package.json` file for your app, you can omit the main script entirely and `nodemon` will read the `package.json` for the `main` property and use that value as the app.
+If you have a `package.json` file for your app, you can omit the main script entirely and `nodemon` will read the `package.json` for the `main` property and use that value as the app.
+
+# Automatic re-running
+
+`nodemon` was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, `nodemon` will continue to monitor the directory (or directories) and restart the script if there are any changes.
+
+# Running non-node scripts
+
+`nodemon` can also be used to execute and monitor other programs. `nodemon` will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
+
+    nodemon -exec python ./app.py
+
+Now nodemon will run `app.py` with python, and look for new or modified files with the `.py` extension.
+
+# Monitoring multiple directories
+
+By default `nodemon` monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
+
+    nodemon --watch app --watch libs app/server.js
+
+Now `nodemon` will only restart if there are changes in the `./app` or `./libs` directory. By default `nodemon` will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
 # Delaying restarting
 
