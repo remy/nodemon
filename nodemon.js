@@ -288,7 +288,7 @@ function getAppScript(program) {
     }
     // monitor both types - TODO possibly make this an option?
     program.ext = '.coffee|.js';
-    program.exec = 'coffee';
+    program.options.exec = 'coffee';
   }
 }
 
