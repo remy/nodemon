@@ -87,3 +87,17 @@ The ignore file accepts:
 * Blank lines
 * Specific files
 * File patterns (this is converted to a regex, so you have full control of the pattern)
+
+# Controlling shutdown of your script
+
+`nodemon` sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
+
+The following example will listen once for the `SIGUSR2` signal (used by `nodemon` to restart), run the clean up process and then kill itself for `nodemon` to continue control:
+
+    process.once('SIGUSR2', function () {
+      gracefulShutdown(function () {
+        process.kill(process.pid, 'SIGUSR2'); 
+      })
+    });
+
+Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
