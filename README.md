@@ -2,9 +2,9 @@
 
 For use during development of a node.js based application. 
 
-`nodemon` will watch the files in the directory that `nodemon` was started, and if they change, it will automatically restart your node application.
+nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
 
-`nodemon` does **not** require *any* changes to your code or method of development. `nodemon` simply wraps your node application and keeps an eye on any files that have changed. Remember that `nodemon` is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
+nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
 # Installation
 
@@ -12,11 +12,11 @@ Either through forking or by using [npm](http://npmjs.org) (the recommended way)
 
     npm install nodemon -g
     
-And `nodemon` will be installed in to your bin path. Note that as of npm v1, you must explicitly tell npm to install globally as `nodemon` is a command line utility.
+And nodemon will be installed in to your bin path. Note that as of npm v1, you must explicitly tell npm to install globally as nodemon is a command line utility.
 
 # Usage
 
-`nodemon` wraps your application, so you can pass all the arguments you would normally pass to your app:
+nodemon wraps your application, so you can pass all the arguments you would normally pass to your app:
 
     nodemon [your node app]
 
@@ -26,25 +26,25 @@ For example, if my application accepted a host and port as the arguments, I woul
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
 
-`nodemon` also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) apps:
+nodemon also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) apps:
 
     nodemon server.coffee
 
-If no script is given, `nodemon` will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
+If no script is given, nodemon will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
 
 You can also pass the debug flag to node through the command line as you would normally:
 
     nodemon --debug ./server.js 80
 
-If you have a `package.json` file for your app, you can omit the main script entirely and `nodemon` will read the `package.json` for the `main` property and use that value as the app.
+If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app.
 
 # Automatic re-running
 
-`nodemon` was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, `nodemon` will continue to monitor the directory (or directories) and restart the script if there are any changes.
+nodemon was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
 
 # Running non-node scripts
 
-`nodemon` can also be used to execute and monitor other programs. `nodemon` will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
+nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
 
     nodemon -exec python ./app.py
 
@@ -52,11 +52,11 @@ Now nodemon will run `app.py` with python, and look for new or modified files wi
 
 # Monitoring multiple directories
 
-By default `nodemon` monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
+By default nodemon monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
 
     nodemon --watch app --watch libs app/server.js
 
-Now `nodemon` will only restart if there are changes in the `./app` or `./libs` directory. By default `nodemon` will traverse sub-directories, so there's no need in explicitly including sub-directories.
+Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
 # Delaying restarting
 
@@ -66,13 +66,13 @@ To add an extra throttle, or delay restarting, use the `--delay` command:
 
     nodemon --delay 10 server.js
 
-The delay figure is number of seconds to delay before restarting. So `nodemon` will only restart your app the given number of seconds after the *last* file change.
+The delay figure is number of seconds to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
 # Ignoring files
 
-By default, if `nodemon` will only restart when a `.js` JavaScript file changes.  In some cases you will want to ignore some specific files, directories or file patterns, to prevent `nodemon` from prematurely restarting your application.
+By default, if nodemon will only restart when a `.js` JavaScript file changes.  In some cases you will want to ignore some specific files, directories or file patterns, to prevent nodemon from prematurely restarting your application.
 
-You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) (note that this example file is not hidden - you must rename it to `.nodemonignore`) as a basis for your `nodemon`, but it's very simple to create your own:
+You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) (note that this example file is not hidden - you must rename it to `.nodemonignore`) as a basis for your nodemon, but it's very simple to create your own:
 
     # this is my ignore file with a nice comment at the top
     
@@ -90,9 +90,9 @@ The ignore file accepts:
 
 # Controlling shutdown of your script
 
-`nodemon` sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
+nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
 
-The following example will listen once for the `SIGUSR2` signal (used by `nodemon` to restart), run the clean up process and then kill itself for `nodemon` to continue control:
+The following example will listen once for the `SIGUSR2` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
 
     process.once('SIGUSR2', function () {
       gracefulShutdown(function () {
@@ -101,3 +101,16 @@ The following example will listen once for the `SIGUSR2` signal (used by `nodemo
     });
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
+
+
+# Using nodemon with forever
+
+If you're using nodemon with forever (perhaps in a production environment) and you use [forever](https://github.com/nodejitsu/forever) you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script.
+
+To acheive this you need to include the `--exitcrash` flag to ensure nodemon exits if the script crashes (or exits unexpectedly):
+
+    forever nodemon --exitcrash server.js
+
+To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
+
+Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
