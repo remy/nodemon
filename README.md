@@ -105,7 +105,7 @@ Note that the `process.kill` is *only* called once your shutdown jobs are comple
 
 # Using nodemon with forever
 
-If you're using nodemon with forever (perhaps in a production environment) and you use [forever](https://github.com/nodejitsu/forever) you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script. For more detail, see [issue 30](https://github.com/remy/nodemon/issues/30).
+If you're using nodemon with [forever](https://github.com/nodejitsu/forever) (perhaps in a production environment) you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script. For more detail, see [issue 30](https://github.com/remy/nodemon/issues/30).
 
 To acheive this you need to include the `--exitcrash` flag to ensure nodemon exits if the script crashes (or exits unexpectedly):
 
