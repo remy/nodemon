@@ -252,6 +252,10 @@ function getNodemonArgs() {
     }
   }
 
+  // Make sure appargs is in the right order
+  var target = appargs.splice(appargs.length - 1); // remove the target
+  appargs.reverse().push(target[0]); // reverse the args and reattach the target
+
   var program = { nodemon: nodemonargs, options: options, args: appargs, app: app };
 
   getAppScript(program);
