@@ -192,7 +192,8 @@ function getNodemonArgs() {
       len = args.length,
       i = 2,
       dir = process.cwd(),
-      indexOfApp = -1;
+      indexOfApp = -1,
+      app = null;
 
   for (; i < len; i++) {
     if (path.existsSync(dir + '/' + args[i])) {
@@ -206,14 +207,18 @@ function getNodemonArgs() {
     }
   }
 
-  if (indexOfApp == -1) { 
+  if (indexOfApp !== -1) { 
     // not found, so assume we're reading the package.json and thus swallow up all the args
-    indexOfApp = len; 
+    // indexOfApp = len; 
+    app = process.argv[i];
+    indexOfApp++;
+  } else {
+    indexOfApp = len;
   }
 
-  var appargs = process.argv.slice(indexOfApp),
-      app = appargs[0],
-      nodemonargs = process.argv.slice(2, indexOfApp),
+  var appargs = [], //process.argv.slice(indexOfApp),
+      // app = appargs[0],
+      nodemonargs = process.argv.slice(2, indexOfApp - (app ? 1 : 0)),
       arg,
       options = {
         delay: 1,
@@ -225,9 +230,10 @@ function getNodemonArgs() {
         exitcrash: false
         // args: []
       };
-  
+
   // process nodemon args
-  while (arg = nodemonargs.shift()) {
+  args.splice(0, 2);
+  while (arg = args.shift()) {
     if (arg === '--help' || arg === '-h' || arg === '-?') {
       return help(); // exits program
     } else if (arg === '--version' || arg == '-v') {
@@ -239,20 +245,20 @@ function getNodemonArgs() {
     } else if (arg == '--hidden') {
       options.includeHidden = true;
     } else if (arg === '--watch' || arg === '-w') {
-      options.watch.push(nodemonargs.shift());
+      options.watch.push(args.shift());
     } else if (arg === '--exitcrash') {
       options.exitcrash = true;
     } else if (arg === '--delay' || arg === '-d') {
-      options.delay = parseInt(nodemonargs.shift());
+      options.delay = parseInt(args.shift());
     } else if (arg === '--exec' || arg === '-x') {
-      options.exec = nodemonargs.shift();
+      options.exec = args.shift();
     } else { //if (arg === "--") {
       // Remaining args are node arguments
-      appargs.unshift(arg);
+      appargs.push(arg);
     }
   }
 
-  var program = { nodemon: nodemonargs, options: options, args: appargs, app: app };
+  var program = { options: options, args: appargs, app: app };
 
   getAppScript(program);
 
@@ -260,7 +266,7 @@ function getNodemonArgs() {
 }
 
 function getAppScript(program) {
-  if (!program.args.length) {
+  if (!program.args.length || program.app === null) {
     // try to get the app from the package.json
     // doing a try/catch because we can't use the path.exist callback pattern
     // or we could, but the code would get messy, so this will do exactly 
@@ -268,27 +274,37 @@ function getAppScript(program) {
     try {
       // note: this isn't nodemon's package, it's the user's cwd package
       program.app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
+      if (program.app === undefined) {
+        help();
+      }
       program.args.unshift(program.app);
     } catch (e) {
       // no app found to run - so give them a tip and get the feck out
       help();
     }  
-  } else {
-    program.app = program.args.slice(0, 1);
+  } else if (!program.app) {
+    program.app = program.args[0];
   }
   
   program.app = path.basename(program.app);
   program.ext = path.extname(program.app);
 
-  if (program.ext === '.coffee') {
+  if (program.options.exec.indexOf(' ') !== -1) {
+    var execOptions = program.options.exec.split(' ');
+    program.options.exec = execOptions.splice(0, 1)[0];
+    program.args = execOptions.concat(program.args);
+  }
+
+  if (program.options.exec === 'coffee') {
     //coffeescript requires --nodejs --debug
     var debugIndex = program.args.indexOf('--debug');
-    if (debugIndex >= 0 && program.args.indexOf('--nodejs') === -1) {
+    if (debugIndex === -1) debugIndex = program.args.indexOf('--debug-brk');
+    if (debugIndex !== -1 && program.args.indexOf('--nodejs') === -1) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
     // monitor both types - TODO possibly make this an option?
     program.ext = '.coffee|.js';
-    program.options.exec = 'coffee';
+    if (!program.options.exec || program.options.exec == 'node') program.options.exec = 'coffee';
   }
 }
 
@@ -307,7 +323,7 @@ function help() {
     '  -d, --delay n    throttle restart for "n" seconds',
     '  -w, --watch dir  watch directory "dir". use once for each',
     '                   directory to watch',
-    '  -x, --exec app   execute script with "app", ie. -x python',
+    '  -x, --exec app   execute script with "app", ie. -x "python -v"',
     '  -q, --quiet      minimise nodemon messages to start/stop only',
     '  --exitcrash      exit on crash, allows use of nodemon with',
     '                   daemon tools like forever.js',
@@ -348,12 +364,6 @@ if (program.options.watch && program.options.watch.length > 0) {
   dirs.unshift(process.cwd());
 }
 
-// anything left over in program.args should be prepended to our application args
-// like --debug-brk, etc
-if (program.nodemon.length) {
-  program.args = program.nodemon.concat(program.args);
-}
-
 if (!program.app) {
   help();
 }
@@ -365,8 +375,6 @@ if (program.options.verbose) util.log('[nodemon] v' + meta.version);
 dirs.forEach(function(dir) {
   if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
 });
-
-if (program.options.verbose) util.log('[nodemon] running ' + program.app);
 
 startNode();
 

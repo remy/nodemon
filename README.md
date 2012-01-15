@@ -46,9 +46,9 @@ nodemon was original written to restart hanging processes such as web servers, b
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
 
-    nodemon --exec python ./app.py
+    nodemon --exec "python -v" ./app.py
 
-Now nodemon will run `app.py` with python, and look for new or modified files with the `.py` extension.
+Now nodemon will run `app.py` with python in verbose mode (note that if you're not passing args to the exec program, you don't need the quotes), and look for new or modified files with the `.py` extension.
 
 # Monitoring multiple directories
 
