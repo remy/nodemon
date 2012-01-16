@@ -11,5 +11,9 @@
     "keywords": ["monitor", "development", "restart", "autoload", "reload", "terminal"],
     "version": "0.6.6",
     "preferGlobal" : "true",
+    "licenses": [{
+      "type": "MIT",
+      "url": "http://rem.mit-license.org"
+    }],
     "main": "./nodemon"
 }
