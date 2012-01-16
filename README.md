@@ -114,3 +114,7 @@ To acheive this you need to include the `--exitcrash` flag to ensure nodemon exi
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
 
 Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
+
+# License
+
+MIT [http://rem.mit-license.org](http://rem.mit-license.org)
