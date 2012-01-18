@@ -295,6 +295,10 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
+  if (program.options.exec === 'node' && program.ext == '.coffee') {
+    program.options.exec = 'coffee';
+  }
+
   if (program.options.exec === 'coffee') {
     //coffeescript requires --nodejs --debug
     var debugIndex = program.args.indexOf('--debug');
