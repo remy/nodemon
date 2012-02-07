@@ -87,7 +87,10 @@ function changedSince(time, dir, callback) {
   dir.forEach(function (dir) {
     todo++;
     fs.readdir(dir, function (err, files) {
-      if (err) return;
+      if (err) {
+        done();
+        return;
+      }
 
       files.forEach(function (file) {
         if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
