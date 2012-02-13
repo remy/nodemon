@@ -19,6 +19,7 @@ var fs = require('fs'),
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
     restartTimer = null,
     lastStarted = +new Date,
+    statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
     isWindows = process.platform === 'win32',
     // create once, reuse as needed
     reEscComments = /\\#/g,
@@ -104,7 +105,7 @@ function changedSince(time, dir, callback) {
                   if (subChanged.length) changed = changed.concat(subChanged);
                   done();
                 });
-              } else if (stat.mtime > time) {
+              } else if (stat.mtime.getTime() > time + statOffset) {
                 changed.push(file);
               }
             }
@@ -315,6 +316,23 @@ function getAppScript(program) {
   }
 }
 
+function findStatOffset() {
+  var filename = './.stat-test';
+  fs.writeFile(filename, function (err) {
+    if (err) return;
+    fs.stat(filename, function (err, stat) {
+      if (err) return;
+      console.log(stat.mtime, new Date());
+      statOffset = stat.mtime.getTime() - new Date().getTime();
+      // if (statOffset < 1000) {
+      //   statOffset = 0;
+      // }
+      console.log('setting stat offset to ' + statOffset);
+      fs.unlink(filename);
+    });
+  });
+}
+
 function version() {
   console.log(meta.version);
   process.exit(0);
@@ -354,56 +372,6 @@ function help() {
   process.exit(0);
 }
 
-if (program.options.delay) {
-  restartDelay = program.options.delay * 1000;
-}
-
-// this is the default - why am I making it a cmd line opt?
-if (program.options.js) {
-  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
-}
-
-if (program.options.watch && program.options.watch.length > 0) {
-  program.options.watch.forEach(function (dir) {
-    dirs.push(path.resolve(dir));
-  });
-} else {
-  dirs.unshift(process.cwd());
-}
-
-if (!program.app) {
-  help();
-}
-
-if (program.options.verbose) util.log('[nodemon] v' + meta.version);
-
-// this was causing problems for a lot of people, so now not moving to the subdirectory
-// process.chdir(path.dirname(app));
-dirs.forEach(function(dir) {
-  if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
-});
-
-startNode();
-
-path.exists(ignoreFilePath, function (exists) {
-  if (!exists) {
-    // try the old format
-    path.exists(oldIgnoreFilePath, function (exists) {
-      if (exists) {
-        if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
-        ignoreFilePath = oldIgnoreFilePath;
-      } else {
-        // don't create the ignorefile, just ignore the flag & JS
-        // addIgnoreRule(flag);
-        var ext = program.ext.replace(/\./g, '\\.');
-        if (ext) addIgnoreRule('^((?!' + ext + '$).)*$', true);
-      }
-    });
-  } else {
-    readIgnoreFile();
-  }
-});
-
 // this little bit of hoop jumping is because sometimes the file can't be
 // touched properly, and it send nodemon in to a loop of restarting.
 // this way, the .monitor file is removed entirely, and recreated with 
@@ -440,4 +408,57 @@ process.on('uncaughtException', function (err) {
   util.log('[nodemon] exception in nodemon killing node');
   util.error(err.stack);
   cleanup();
+});
+
+
+if (program.options.delay) {
+  restartDelay = program.options.delay * 1000;
+}
+
+// this is the default - why am I making it a cmd line opt?
+if (program.options.js) {
+  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+}
+
+if (program.options.watch && program.options.watch.length > 0) {
+  program.options.watch.forEach(function (dir) {
+    dirs.push(path.resolve(dir));
+  });
+} else {
+  dirs.unshift(process.cwd());
+}
+
+if (!program.app) {
+  help();
+}
+
+if (program.options.verbose) util.log('[nodemon] v' + meta.version);
+
+// this was causing problems for a lot of people, so now not moving to the subdirectory
+// process.chdir(path.dirname(app));
+dirs.forEach(function(dir) {
+  if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+});
+
+findStatOffset();
+
+startNode();
+
+path.exists(ignoreFilePath, function (exists) {
+  if (!exists) {
+    // try the old format
+    path.exists(oldIgnoreFilePath, function (exists) {
+      if (exists) {
+        if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
+        ignoreFilePath = oldIgnoreFilePath;
+      } else {
+        // don't create the ignorefile, just ignore the flag & JS
+        // addIgnoreRule(flag);
+        var ext = program.ext.replace(/\./g, '\\.');
+        if (ext) addIgnoreRule('^((?!' + ext + '$).)*$', true);
+      }
+    });
+  } else {
+    readIgnoreFile();
+  }
 });
