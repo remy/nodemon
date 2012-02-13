@@ -21,6 +21,7 @@ var fs = require('fs'),
     lastStarted = +new Date,
     statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
     isWindows = process.platform === 'win32',
+    noWatch = process.platform !== 'win32' && process.platform !== 'linux',
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -71,55 +72,36 @@ function startNode() {
   setTimeout(startMonitor, timeout);
 }
 
-function changedSince(time, dir, callback) {
-  callback || (callback = dir);
-  var changed = [],
-      i = 0,
-      j = 0,
-      dir = dir && typeof dir !== 'function' ? [dir] : dirs,
-      dlen = dir.length,
-      todo = 0, // how fucking lame is this? promises anyone?
-      flen = 0,
-      done = function () {
-        todo--;
-        if (todo === 0) callback(changed);
-      };
-    
-  dir.forEach(function (dir) {
-    todo++;
-    fs.readdir(dir, function (err, files) {
-      if (err) {
-        done();
-        return;
-      }
-
-      files.forEach(function (file) {
-        if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
-          todo++;
-          file = path.resolve(dir + '/' + file);
-          var stat = fs.stat(file, function (err, stat) {
-            if (stat) {
-              if (stat.isDirectory()) {
-                todo++;
-                changedSince(time, file, function (subChanged) {
-                  if (subChanged.length) changed = changed.concat(subChanged);
-                  done();
-                });
-              } else if (stat.mtime.getTime() > time + statOffset) {
-                changed.push(file);
-              }
-            }
-            done();
-          });
-        }
-      });
-      done();
-    });    
-  });
-}
-
 function startMonitor() {
-  changedSince(lastStarted, function (files) {
+  var changeFunction;
+
+  if (noWatch) {
+    changeFunction = function (lastStarted, callback) {
+      var cmds = [],
+          changed = [];
+
+      dirs.forEach(function(dir) {      
+        cmds.push('find -L ' + dir + ' -type f -mtime -' + ((+new Date - lastStarted)/1000|0) + 's -print');
+      });
+
+      exec(cmds.join(';'), function (error, stdout, stderr) {  
+        var files = stdout.split(/\n/);
+        files.pop(); // remove blank line ending and split
+
+        callback(files);
+      });
+    }
+  } else {
+    changeFunction = function (lastStarted, callback) {
+      dirs.forEach(function (dir) {
+        fs.watch(dir, { persistent: false }, function (event, filename) {
+          callback([filename]);
+        });
+      });
+    }
+  }
+
+  changeFunction(lastStarted, function (files) {
     if (files.length) {
       // filter ignored files
       if (ignoreFiles.length) {
@@ -147,7 +129,7 @@ function startMonitor() {
       }
     }
      
-    setTimeout(startMonitor, timeout);
+    if (noWatch) setTimeout(startMonitor, timeout);
   });
 }
 
@@ -322,12 +304,8 @@ function findStatOffset() {
     if (err) return;
     fs.stat(filename, function (err, stat) {
       if (err) return;
-      console.log(stat.mtime, new Date());
+
       statOffset = stat.mtime.getTime() - new Date().getTime();
-      // if (statOffset < 1000) {
-      //   statOffset = 0;
-      // }
-      console.log('setting stat offset to ' + statOffset);
       fs.unlink(filename);
     });
   });
