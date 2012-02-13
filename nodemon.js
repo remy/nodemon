@@ -65,9 +65,11 @@ function startNode() {
   });
   
   // pinched from https://github.com/DTrejo/run.js - pipes stdin to the child process - cheers DTrejo ;-)
-  process.stdin.resume();
-  process.stdin.setEncoding('utf8');
-  process.stdin.pipe(child.stdin);
+  if (program.options.stdin) {
+    process.stdin.resume();
+    process.stdin.setEncoding('utf8');
+    process.stdin.pipe(child.stdin);
+  }
 
   setTimeout(startMonitor, timeout);
 }
@@ -213,7 +215,8 @@ function getNodemonArgs() {
         verbose: true,
         js: false, // becomes the default anyway...
         includeHidden: false,
-        exitcrash: false
+        exitcrash: false,
+        stdin: true
         // args: []
       };
 
@@ -238,6 +241,8 @@ function getNodemonArgs() {
       options.delay = parseInt(args.shift());
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
+    } else if (arg === '--no-stdin' || arg === '-I') {
+      options.stdin = false;
     } else { //if (arg === "--") {
       // Remaining args are node arguments
       appargs.push(arg);
