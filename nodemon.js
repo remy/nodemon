@@ -332,6 +332,7 @@ function help() {
     '  -w, --watch dir  watch directory "dir". use once for each',
     '                   directory to watch',
     '  -x, --exec app   execute script with "app", ie. -x "python -v"',
+    '  -I, --no-stdin   don\'t try to read from stdin',
     '  -q, --quiet      minimise nodemon messages to start/stop only',
     '  --exitcrash      exit on crash, allows use of nodemon with',
     '                   daemon tools like forever.js',
