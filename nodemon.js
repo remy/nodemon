@@ -155,7 +155,7 @@ function readIgnoreFile(curr, prev) {
   fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
-  path.exists(ignoreFilePath, function(exists) {
+  fs.exists(ignoreFilePath, function(exists) {
     if (program.options.verbose) util.log('[nodemon] reading ignore list');
 
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
@@ -184,7 +184,7 @@ function getNodemonArgs() {
       app = null;
 
   for (; i < len; i++) {
-    if (path.existsSync(dir + '/' + args[i])) {
+    if (fs.existsSync(dir + '/' + args[i])) {
       // double check we didn't use the --watch or -w opt before this arg
       if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
         // ignore 
@@ -361,7 +361,7 @@ function help() {
 // this way, the .monitor file is removed entirely, and recreated with 
 // permissions that anyone can remove it later (i.e. if you run as root
 // by accident and then try again later).
-// if (path.existsSync(flag)) fs.unlinkSync(flag);
+// if (fs.existsSync(flag)) fs.unlinkSync(flag);
 // fs.writeFileSync(flag, '.'); // requires some content https://github.com/remy/nodemon/issues/36
 // fs.chmodSync(flag, '666');
 
@@ -428,10 +428,10 @@ findStatOffset();
 
 startNode();
 
-path.exists(ignoreFilePath, function (exists) {
+fs.exists(ignoreFilePath, function (exists) {
   if (!exists) {
     // try the old format
-    path.exists(oldIgnoreFilePath, function (exists) {
+    fs.exists(oldIgnoreFilePath, function (exists) {
       if (exists) {
         if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
         ignoreFilePath = oldIgnoreFilePath;
