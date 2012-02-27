@@ -21,7 +21,7 @@ var fs = require('fs'),
     lastStarted = +new Date,
     statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
     isWindows = process.platform === 'win32',
-    noWatch = process.platform !== 'win32' && process.platform !== 'linux',
+    noWatch = process.platform !== 'win32' || !fs.watch,
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -36,7 +36,7 @@ function startNode() {
   child = spawn(program.options.exec, program.args);
 
   lastStarted = +new Date;
-  
+
   child.stdout.on('data', function (data) {
     util.print(data);
   });
@@ -63,7 +63,7 @@ function startNode() {
       child = null;
     }
   });
-  
+
   // pinched from https://github.com/DTrejo/run.js - pipes stdin to the child process - cheers DTrejo ;-)
   if (program.options.stdin) {
     process.stdin.resume();
@@ -82,11 +82,11 @@ function startMonitor() {
       var cmds = [],
           changed = [];
 
-      dirs.forEach(function(dir) {      
-        cmds.push('find -L ' + dir + ' -type f -mtime -' + ((+new Date - lastStarted)/1000|0) + 's -print');
+      dirs.forEach(function(dir) {
+        cmds.push('find -L "' + dir + '" -type f -mtime -' + ((+new Date - lastStarted)/1000|0) + 's -print');
       });
 
-      exec(cmds.join(';'), function (error, stdout, stderr) {  
+      exec(cmds.join(';'), function (error, stdout, stderr) {
         var files = stdout.split(/\n/);
         files.pop(); // remove blank line ending and split
 
@@ -130,7 +130,7 @@ function startMonitor() {
         return;
       }
     }
-     
+ 
     if (noWatch) setTimeout(startMonitor, timeout);
   });
 }
@@ -141,7 +141,7 @@ function addIgnoreRule(line, noEscape) {
   if (!noEscape) {
     if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
        ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
-    }    
+    }
   } else if (line = line.replace(reTrim, '')) {
     ignoreFiles.push(line);
   }
@@ -157,7 +157,7 @@ function readIgnoreFile(curr, prev) {
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   path.exists(ignoreFilePath, function(exists) {
     if (program.options.verbose) util.log('[nodemon] reading ignore list');
-    
+
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
     // addIgnoreRule(flag);
     addIgnoreRule(ignoreFilePath);
@@ -172,7 +172,7 @@ function readIgnoreFile(curr, prev) {
 // the monitor file as nodemon exists
 function cleanup() {
   child && child.kill();
-  // fs.unlink(flag);  
+  // fs.unlink(flag);
 }
 
 function getNodemonArgs() {
@@ -272,11 +272,11 @@ function getAppScript(program) {
     } catch (e) {
       // no app found to run - so give them a tip and get the feck out
       help();
-    }  
+    } 
   } else if (!program.app) {
     program.app = program.args[0];
   }
-  
+
   program.app = path.basename(program.app);
   program.ext = path.extname(program.app);
 
@@ -382,7 +382,7 @@ if (!isWindows) { // because windows borks when listening for the SIG* events
   process.on('SIGTERM', function () {
     cleanup();
     process.exit(0);
-  });  
+  });
 }
 
 // TODO on a clean exit, we could continue to monitor the directory and reboot the service
