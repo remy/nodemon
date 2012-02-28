@@ -4,6 +4,8 @@ var fs = require('fs'),
     childProcess = require('child_process'),
     dirs = [],
     path = require('path'),
+    exists = fs.exists || path.exists, // yay, exists moved from path to fs in 0.7.x ... :-\
+    existsSync = fs.existsSync || path.existsSync,
     spawn = childProcess.spawn,
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = childProcess.exec,
@@ -181,7 +183,7 @@ function readIgnoreFile(curr, prev) {
   fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
-  path.exists(ignoreFilePath, function(exists) {
+  exists(ignoreFilePath, function(exists) {
     if (program.options.verbose) util.log('[nodemon] reading ignore list');
 
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
@@ -210,7 +212,7 @@ function getNodemonArgs() {
       app = null;
 
   for (; i < len; i++) {
-    if (path.existsSync(dir + '/' + args[i])) {
+    if (existsSync(dir + '/' + args[i])) {
       // double check we didn't use the --watch or -w opt before this arg
       if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
         // ignore 
@@ -457,11 +459,12 @@ dirs.forEach(function(dir) {
 
 startNode();
 
-path.exists(ignoreFilePath, function (exists) {
-  if (!exists) {
+exists(ignoreFilePath, function (exist) {
+  // watch it: "exist" not to be confused with "exists"....
+  if (!exist) {
     // try the old format
-    path.exists(oldIgnoreFilePath, function (exists) {
-      if (exists) {
+    exists(oldIgnoreFilePath, function (exist) {
+      if (exist) {
         if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
         ignoreFilePath = oldIgnoreFilePath;
       } else {
