@@ -20,8 +20,9 @@ var fs = require('fs'),
     restartTimer = null,
     lastStarted = +new Date,
     statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
-    isWindows = process.platform === 'win32',
-    noWatch = process.platform !== 'win32' || !fs.watch,
+    platform = process.platform,
+    isWindows = platform === 'win32',
+    noWatch = (platform !== 'win32' && platform !== 'linux') || !fs.watch,
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -78,6 +79,7 @@ function startMonitor() {
   var changeFunction;
 
   if (noWatch) {
+    // if native fs.watch doesn't work the way we want, we keep polling find command (mac only oddly)
     changeFunction = function (lastStarted, callback) {
       var cmds = [],
           changed = [];
@@ -95,10 +97,34 @@ function startMonitor() {
     }
   } else {
     changeFunction = function (lastStarted, callback) {
+      // recursive watch - watch each directory and it's subdirectories, etc, etc
+      var watch = function (err, dir) {
+        try {
+          fs.watch(dir, { persistent: false }, function (event, filename) {
+            callback([filename]);
+          });
+
+          fs.readdir(dir, function (err, files) {
+            if (!err) {
+              files.forEach(function (file) {
+                var filename = dir + '/' + file;
+                fs.stat(filename, function (err, stat) {
+                  if (!err && stat) {
+                    if (stat.isDirectory()) {
+                      fs.realpath(filename, watch);
+                    }
+                  }
+                });
+              });
+            }
+          });
+        } catch (e) {
+          // ignoring this directory, likely it's "My Music" 
+          // or some such windows fangled stuff
+        }
+      }
       dirs.forEach(function (dir) {
-        fs.watch(dir, { persistent: false }, function (event, filename) {
-          callback([filename]);
-        });
+        fs.realpath(dir, watch);
       });
     }
   }
@@ -300,6 +326,9 @@ function getAppScript(program) {
     // monitor both types - TODO possibly make this an option?
     program.ext = '.coffee|.js';
     if (!program.options.exec || program.options.exec == 'node') program.options.exec = 'coffee';
+
+    // because windows can't find 'coffee', it needs the real file 'coffee.cmd'
+    if (isWindows) program.options.exec += '.cmd';
   }
 }
 
@@ -424,7 +453,7 @@ dirs.forEach(function(dir) {
   if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
 });
 
-findStatOffset();
+// findStatOffset();
 
 startNode();
 
