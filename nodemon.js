@@ -93,7 +93,6 @@ function startMonitor() {
       exec(cmds.join(';'), function (error, stdout, stderr) {
         var files = stdout.split(/\n/);
         files.pop(); // remove blank line ending and split
-
         callback(files);
       });
     }
@@ -139,6 +138,7 @@ function startMonitor() {
           return !reIgnoreFiles.test(file);
         });
       }
+
 
       if (files.length) {
         if (restartTimer !== null) clearTimeout(restartTimer);
@@ -471,7 +471,11 @@ exists(ignoreFilePath, function (exist) {
         // don't create the ignorefile, just ignore the flag & JS
         // addIgnoreRule(flag);
         var ext = program.ext.replace(/\./g, '\\.');
-        if (ext) addIgnoreRule('^((?!' + ext + '$).)*$', true);
+        if (ext) {
+          addIgnoreRule('^((?!' + ext + '$).)*$', true);
+        } else {
+          addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+        }
       }
     });
   } else {
