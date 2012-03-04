@@ -36,6 +36,13 @@ var fs = require('fs'),
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
 
+  if (program.options.onStart) {
+    exec(program.options.onStart, function (error, stdout, stderr) {
+      if (stderr) util.error(stderr);
+      if (stdout) util.print(stdout);
+    });
+  }
+  
   child = spawn(program.options.exec, program.args);
 
   lastStarted = +new Date;
@@ -64,6 +71,13 @@ function startNode() {
     } else {
       util.log('\x1B[1;31m[nodemon] app crashed - waiting for file changes before starting...\x1B[0m');
       child = null;
+    }
+    
+    if (program.options.onExit) {
+      exec(program.options.onExit, function (error, stdout, stderr) {
+        if (stderr) util.error(stderr);
+        if (stdout) util.print(stdout);
+      });
     }
   });
 
@@ -244,7 +258,9 @@ function getNodemonArgs() {
         js: false, // becomes the default anyway...
         includeHidden: false,
         exitcrash: false,
-        stdin: true
+        stdin: true,
+        onStart: null,
+        onExit: null
         // args: []
       };
 
@@ -271,6 +287,10 @@ function getNodemonArgs() {
       options.exec = args.shift();
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
+    } else if (arg === '--on-start') {
+      options.onStart = args.shift();
+    } else if (arg === '--on-exit') {
+      options.onExit = args.shift();
     } else { //if (arg === "--") {
       // Remaining args are node arguments
       appargs.push(arg);
