@@ -285,6 +285,7 @@ function getNodemonArgs() {
 }
 
 function getAppScript(program) {
+  var hokeycokey = false;
   if (!program.args.length || program.app === null) {
     // try to get the app from the package.json
     // doing a try/catch because we can't use the path.exist callback pattern
@@ -298,9 +299,10 @@ function getAppScript(program) {
         help();
       }
       program.args.unshift(program.app);
+      hokeycokey = true;
     } catch (e) {}
   } 
-  
+
   if (!program.app) {
     program.app = program.args[0];
   }
@@ -319,6 +321,9 @@ function getAppScript(program) {
   }
 
   if (program.options.exec === 'coffee') {
+    if (hokeycokey) {
+      program.args.push(program.args.shift());
+    }
     //coffeescript requires --nodejs --debug
     var debugIndex = program.args.indexOf('--debug');
     if (debugIndex === -1) debugIndex = program.args.indexOf('--debug-brk');
