@@ -24,7 +24,7 @@ var fs = require('fs'),
     statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
     platform = process.platform,
     isWindows = platform === 'win32',
-    noWatch = (platform !== 'win32' && platform !== 'linux') || !fs.watch,
+    noWatch = (platform !== 'win32') || !fs.watch, //  && platform !== 'linux' - removed linux fs.watch usage #72
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
