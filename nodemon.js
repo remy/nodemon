@@ -294,14 +294,14 @@ function getAppScript(program) {
       // note: this isn't nodemon's package, it's the user's cwd package
       program.app = JSON.parse(fs.readFileSync('./package.json').toString()).main;
       if (program.app === undefined) {
+        // no app found to run - so give them a tip and get the feck out
         help();
       }
       program.args.unshift(program.app);
-    } catch (e) {
-      // no app found to run - so give them a tip and get the feck out
-      help();
-    } 
-  } else if (!program.app) {
+    } catch (e) {}
+  } 
+  
+  if (!program.app) {
     program.app = program.args[0];
   }
 
