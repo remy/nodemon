@@ -212,7 +212,7 @@ function getNodemonArgs() {
       app = null;
 
   for (; i < len; i++) {
-    if (existsSync(dir + '/' + args[i])) {
+    if (existsSync(path.resolve(dir, args[i]))) {
       // double check we didn't use the --watch or -w opt before this arg
       if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
         // ignore 
