@@ -45,7 +45,7 @@ function startNode() {
   });
 
   child.stderr.on('data', function (data) {
-    util.error(data);
+    process.stderr.write(data);
   });
 
   child.on('exit', function (code, signal) {
