@@ -33,6 +33,20 @@ var fs = require('fs'),
     reEscapeChars = /[.|\-[\]()\\]/g,
     reAsterisk = /\*/g;
 
+// test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
+if (noWatch) {
+  exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
+    if (error) {
+      if (!fs.watch) {
+        util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
+        process.exit(1);
+      } else {
+        noWatch = false;
+      }
+    }
+  });
+}
+
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
 
