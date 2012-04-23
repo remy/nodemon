@@ -25,6 +25,7 @@ var fs = require('fs'),
     platform = process.platform,
     isWindows = platform === 'win32',
     noWatch = (platform !== 'win32') || !fs.watch, //  && platform !== 'linux' - removed linux fs.watch usage #72
+    watchFile = platform === 'darwin' ? fs.watchFile : fs.watch, // lame :(
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -147,6 +148,7 @@ function startMonitor() {
   changeFunction(lastStarted, function (files) {
     if (files.length) {
       // filter ignored files
+      console.log(ignoreFiles);
       if (ignoreFiles.length) {
         files = files.filter(function(file) {
           return !reIgnoreFiles.test(file);
@@ -194,7 +196,7 @@ function readIgnoreFile(curr, prev) {
   // unless the ignore file was actually modified, do no re-read it
   if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
 
-  fs.unwatchFile(ignoreFilePath);
+  if (platform === 'darwin') fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   exists(ignoreFilePath, function(exists) {
@@ -202,11 +204,12 @@ function readIgnoreFile(curr, prev) {
 
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
     // addIgnoreRule(flag);
-    addIgnoreRule(ignoreFilePath);
+    addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
       addIgnoreRule(rule);
     });
-    fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+
+    watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
 
