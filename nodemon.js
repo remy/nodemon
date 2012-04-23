@@ -116,7 +116,7 @@ function startMonitor() {
       var watch = function (err, dir) {
         try {
           fs.watch(dir, { persistent: false }, function (event, filename) {
-            callback([filename]);
+            callback([dir + '/' + filename]);
           });
 
           fs.readdir(dir, function (err, files) {
