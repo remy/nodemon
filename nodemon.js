@@ -150,7 +150,6 @@ function startMonitor() {
   changeFunction(lastStarted, function (files) {
     if (files.length) {
       // filter ignored files
-      console.log(ignoreFiles);
       if (ignoreFiles.length) {
         files = files.filter(function(file) {
           // If we are in a Windows machine
