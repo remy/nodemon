@@ -11,7 +11,7 @@ var fs = require('fs'),
     exec = childProcess.exec,
     flag = './.monitor',
     program = getNodemonArgs(),
-    child = null, 
+    child = null,
     monitor = null,
     ignoreFilePath = './.nodemonignore',
     oldIgnoreFilePath = './nodemon-ignore',
@@ -117,13 +117,14 @@ function startMonitor() {
       var watch = function (err, dir) {
         try {
           fs.watch(dir, { persistent: false }, function (event, filename) {
-            callback([dir + '/' + filename]);
+            var filepath = path.join(dir, filename);
+            callback([filepath]);
           });
 
           fs.readdir(dir, function (err, files) {
             if (!err) {
               files.forEach(function (file) {
-                var filename = dir + '/' + file;
+                var filename = path.join(dir, file);
                 fs.stat(filename, function (err, stat) {
                   if (!err && stat) {
                     if (stat.isDirectory()) {
@@ -135,7 +136,7 @@ function startMonitor() {
             }
           });
         } catch (e) {
-          // ignoring this directory, likely it's "My Music" 
+          // ignoring this directory, likely it's "My Music"
           // or some such windows fangled stuff
         }
       }
@@ -145,12 +146,24 @@ function startMonitor() {
     }
   }
 
+  var isWindows = process.platform === 'win32';
   changeFunction(lastStarted, function (files) {
     if (files.length) {
       // filter ignored files
       console.log(ignoreFiles);
       if (ignoreFiles.length) {
         files = files.filter(function(file) {
+          // If we are in a Windows machine
+          if (isWindows) {
+            // Break up the file by slashes
+            var fileParts = file.split(/\\/g);
+
+            // Remove the first piece (C:)
+            fileParts.shift();
+
+            // Join the parts together with Unix slashes
+            file = '/' + fileParts.join('/');
+          }
           return !reIgnoreFiles.test(file);
         });
       }
@@ -174,7 +187,7 @@ function startMonitor() {
         return;
       }
     }
- 
+
     if (noWatch) setTimeout(startMonitor, timeout);
   });
 }
@@ -232,7 +245,7 @@ function getNodemonArgs() {
     if (existsSync(path.resolve(dir, args[i]))) {
       // double check we didn't use the --watch or -w opt before this arg
       if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
-        // ignore 
+        // ignore
       } else {
         indexOfApp = i;
         break;
@@ -240,9 +253,9 @@ function getNodemonArgs() {
     }
   }
 
-  if (indexOfApp !== -1) { 
+  if (indexOfApp !== -1) {
     // not found, so assume we're reading the package.json and thus swallow up all the args
-    // indexOfApp = len; 
+    // indexOfApp = len;
     app = process.argv[i];
     indexOfApp++;
   } else {
@@ -306,7 +319,7 @@ function getAppScript(program) {
   if (!program.args.length || program.app === null) {
     // try to get the app from the package.json
     // doing a try/catch because we can't use the path.exist callback pattern
-    // or we could, but the code would get messy, so this will do exactly 
+    // or we could, but the code would get messy, so this will do exactly
     // what we're after - if the file doesn't exist, it'll throw.
     try {
       // note: this isn't nodemon's package, it's the user's cwd package
@@ -318,7 +331,7 @@ function getAppScript(program) {
       program.args.unshift(program.app);
       hokeycokey = true;
     } catch (e) {}
-  } 
+  }
 
   if (!program.app) {
     program.app = program.args[0];
@@ -411,7 +424,7 @@ function help() {
 
 // this little bit of hoop jumping is because sometimes the file can't be
 // touched properly, and it send nodemon in to a loop of restarting.
-// this way, the .monitor file is removed entirely, and recreated with 
+// this way, the .monitor file is removed entirely, and recreated with
 // permissions that anyone can remove it later (i.e. if you run as root
 // by accident and then try again later).
 // if (path.existsSync(flag)) fs.unlinkSync(flag);
