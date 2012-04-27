@@ -146,15 +146,23 @@ function startMonitor() {
     }
   }
 
-  var isWindows = process.platform === 'win32';
+  var cwd = process.cwd();
   changeFunction(lastStarted, function (files) {
     if (files.length) {
       // filter ignored files
-      console.log(ignoreFiles);
       if (ignoreFiles.length) {
         files = files.filter(function(file) {
-          // If we are in a Windows machine
-          if (isWindows) {
+          // If we want the relative path
+          if (program.options.relativePath) {
+            // Get it
+            file = path.relative(cwd, file);
+
+            // If we are on Windows, coerce over the path
+            if (isWindows) {
+              file = '/' + file.replace(/\\/g, '/');
+            }
+          } else if (isWindows) {
+          // Otherwise, if we are on Windows
             // Break up the file by slashes
             var fileParts = file.split(/\\/g);
 
@@ -274,7 +282,8 @@ function getNodemonArgs() {
         js: false, // becomes the default anyway...
         includeHidden: false,
         exitcrash: false,
-        stdin: true
+        stdin: true,
+        relativePath: true
         // args: []
       };
 
@@ -301,6 +310,8 @@ function getNodemonArgs() {
       options.exec = args.shift();
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
+    } else if (arg === '--relative-path' || arg === '-r') {
+      options.relativePath = true;
     } else { //if (arg === "--") {
       // Remaining args are node arguments
       appargs.push(arg);
@@ -394,16 +405,17 @@ function help() {
     '',
     ' Options:',
     '',
-    '  -d, --delay n    throttle restart for "n" seconds',
-    '  -w, --watch dir  watch directory "dir". use once for each',
-    '                   directory to watch',
-    '  -x, --exec app   execute script with "app", ie. -x "python -v"',
-    '  -I, --no-stdin   don\'t try to read from stdin',
-    '  -q, --quiet      minimise nodemon messages to start/stop only',
-    '  --exitcrash      exit on crash, allows use of nodemon with',
-    '                   daemon tools like forever.js',
-    '  -v, --version    current nodemon version',
-    '  -h, --help       you\'re looking at it',
+    '  -d, --delay n       throttle restart for "n" seconds',
+    '  -w, --watch dir     watch directory "dir". use once for each',
+    '                      directory to watch',
+    '  -x, --exec app      execute script with "app", ie. -x "python -v"',
+    '  -I, --no-stdin      don\'t try to read from stdin',
+    '  -q, --quiet         minimise nodemon messages to start/stop only',
+    '  -r, --relative-path use relative path for matching in .nodemonignore',
+    '  --exitcrash         exit on crash, allows use of nodemon with',
+    '                      daemon tools like forever.js',
+    '  -v, --version       current nodemon version',
+    '  -h, --help          you\'re looking at it',
     '',
     ' Note: if the script is omitted, nodemon will try to ',
     ' read "main" from package.json and without a .nodemonignore,',
