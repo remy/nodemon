@@ -102,6 +102,14 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
 
+Newly introduced nodemon --graceful [n] switch, when used, will cause nodemon to send `SIGUSR2` signal to handled script and then wait n seconds for graceful shutdown, once nodemon receive `SIGINT` signal (eg. when Ctrl-C is pressed). When --graceful switch is used without any arguments, nodemon will wait for default 5 seconds. In order for switch to work, running script should handle `SIGUSR2` for shutdown purposes but it is also required to handle `SIGINT` (because of signal propagation), following should be enough:
+
+    process.once('SIGUSR2', function () {
+      // here we initialize our shutdown task
+    });
+    process.once('SIGINT', function () {
+      // empty
+    });
 
 # Using nodemon with forever
 

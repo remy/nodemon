@@ -18,6 +18,7 @@ var fs = require('fs'),
     ignoreFiles = [],
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
+    gracefulTimeout = null,
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
     restartTimer = null,
     lastStarted = +new Date,
@@ -64,6 +65,9 @@ function startNode() {
   });
 
   child.on('exit', function (code, signal) {
+    if (gracefulTimeout) {
+      process.exit(0);
+    }
     // this is nasty, but it gives it windows support
     if (isWindows && signal == 'SIGTERM') signal = 'SIGUSR2';
     // exit the monitor, but do it gracefully
@@ -267,6 +271,7 @@ function getNodemonArgs() {
       arg,
       options = {
         delay: 1,
+        graceful: null,
         watch: [],
         exec: 'node',
         verbose: true,
@@ -296,6 +301,12 @@ function getNodemonArgs() {
       options.exitcrash = true;
     } else if (arg === '--delay' || arg === '-d') {
       options.delay = parseInt(args.shift());
+    } else if (arg === '--graceful') {
+      if (args.length && ! isNaN(parseInt(args[0]))) {
+        options.graceful = args.shift()*1000;
+      } else {
+        options.graceful = 5000;
+      }
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
     } else if (arg === '--no-stdin' || arg === '-I') {
@@ -401,6 +412,8 @@ function help() {
     '  -q, --quiet      minimise nodemon messages to start/stop only',
     '  --exitcrash      exit on crash, allows use of nodemon with',
     '                   daemon tools like forever.js',
+    '  --graceful [n]   performs graceful shutdown sending SIGUSR2',
+    '                   to an app and waiting "n" seconds (default 5)',
     '  -v, --version    current nodemon version',
     '  -h, --help       you\'re looking at it',
     '',
@@ -439,9 +452,17 @@ process.on('exit', function (code) {
 if (!isWindows) { // because windows borks when listening for the SIG* events
   // usual suspect: ctrl+c exit
   process.on('SIGINT', function () {
-    child && child.kill('SIGINT');
-    cleanup();
-    process.exit(0);
+    if (program.options.graceful) {
+      child && child.kill('SIGUSR2');
+      gracefulTimeout = setTimeout(function() {
+        cleanup();
+        process.exit(0);
+      }, program.options.graceful);
+    } else {
+      child && child.kill('SIGINT');
+      cleanup();
+      process.exit(0);
+    }
   });
 
   process.on('SIGTERM', function () {
