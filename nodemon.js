@@ -10,7 +10,6 @@ var fs = require('fs'),
     meta = JSON.parse(fs.readFileSync(__dirname + '/package.json')),
     exec = childProcess.exec,
     flag = './.monitor',
-    program = getNodemonArgs(),
     child = null,
     monitor = null,
     ignoreFilePath = './.nodemonignore',
@@ -32,7 +31,11 @@ var fs = require('fs'),
     reComments = /#.*$/,
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
     reEscapeChars = /[.|\-[\]()\\]/g,
-    reAsterisk = /\*/g;
+    reAsterisk = /\*/g,
+    // Flag to distinguish an app crash from intentional killing (used on Windows only for now)
+    killedAfterChange = false,
+    // Make this the last call so it can use the variables defined above (specifically isWindows)
+    program = getNodemonArgs();
 
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
 if (noWatch) {
@@ -64,6 +67,11 @@ function startNode() {
   });
 
   child.on('exit', function (code, signal) {
+    // In case we killed the app ourselves, set the signal thusly
+    if (killedAfterChange) {
+      killedAfterChange = false;
+      signal = 'SIGUSR2';
+    }
     // this is nasty, but it gives it windows support
     if (isWindows && signal == 'SIGTERM') signal = 'SIGUSR2';
     // exit the monitor, but do it gracefully
@@ -178,7 +186,18 @@ function startMonitor() {
           if (program.options.verbose) util.print('\n\n');
 
           if (child !== null) {
-            child.kill(isWindows ? '' : 'SIGUSR2');
+            // When using CoffeeScript under Windows, child's process is not node.exe
+            // Instead coffee.cmd is launched, which launches cmd.exe, which starts node.exe as a child process
+            // child.kill() would only kill cmd.exe, not node.exe
+            // Therefore we use the Windows taskkill utility to kill the process and all its children (/T for tree)
+            if (isWindows) {
+              // For the on('exit', ...) handler above the following looks like a crash, so we set the killedAfterChange flag
+              killedAfterChange = true;
+              // Force kill (/F) the whole child tree (/T) by PID (/PID 123)
+              exec('taskkill /pid '+child.pid+' /T /F');
+            } else {
+              child.kill('SIGUSR2');
+            }
           } else {
             startNode();
           }
