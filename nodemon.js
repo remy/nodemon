@@ -36,15 +36,20 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
+console.log("DEBUG: Attempting to find appropriate method for file watch.");
 if (noWatch) {
+  console.log("DEBUG: Trying find method...");
   exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
     if (error) {
+      console.log("DEBUG: Find method unsuccessful");
       if (!fs.watch) {
         util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
         process.exit(1);
       } else {
         noWatch = false;
+        console.log("DEBUG: Checking if fs.watch works...");
         watchFileChecker.check(function(success) {
+          console.log("DEBUG: fs.watch " + success ? "works!" : "does NOT work.");
           watchWorks = success;
           startNode();
         });
@@ -55,7 +60,9 @@ if (noWatch) {
     }
   });
 } else {
+  console.log("DEBUG: Checking if fs.watch works...");
   watchFileChecker.check(function(success) {
+    console.log("DEBUG: fs.watch " + success ? "works!" : "does NOT work.");
     watchWorks = success;
     startNode();
   });
@@ -63,6 +70,7 @@ if (noWatch) {
 
 // This is a fallback function if fs.watch does not work
 function changedSince(time, dir, callback) {
+  console.log("DEBUG: In fallback check at: " + time);
   callback || (callback = dir);
   var changed = [],
       i = 0,
@@ -205,6 +213,7 @@ function startMonitor() {
   var changeFunction;
 
   if (noWatch) {
+      console.log("DEBUG: Trying find method...");
     // if native fs.watch doesn't work the way we want, we keep polling find command (mac only oddly)
     changeFunction = function (lastStarted, callback) {
       var cmds = [],
@@ -222,6 +231,7 @@ function startMonitor() {
     }
   } else if (watchWorks) {
     changeFunction = function (lastStarted, callback) {
+      console.log("DEBUG: Trying fs.watch file...");
       // recursive watch - watch each directory and it's subdirectories, etc, etc
       var watch = function (err, dir) {
         try {
