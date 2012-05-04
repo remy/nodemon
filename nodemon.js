@@ -11,7 +11,7 @@ var fs = require('fs'),
     exec = childProcess.exec,
     flag = './.monitor',
     program = getNodemonArgs(),
-    child = null, 
+    child = null,
     monitor = null,
     ignoreFilePath = './.nodemonignore',
     oldIgnoreFilePath = './nodemon-ignore',
@@ -25,6 +25,8 @@ var fs = require('fs'),
     platform = process.platform,
     isWindows = platform === 'win32',
     noWatch = (platform !== 'win32') || !fs.watch, //  && platform !== 'linux' - removed linux fs.watch usage #72
+    watchFile = platform === 'darwin' ? fs.watchFile : fs.watch, // lame :(
+    watchWorks = true, // whether or not fs.watch actually works on this platform, tested and set later before starting
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -32,6 +34,128 @@ var fs = require('fs'),
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
     reEscapeChars = /[.|\-[\]()\\]/g,
     reAsterisk = /\*/g;
+
+// test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
+if (noWatch) {
+  exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
+    if (error) {
+      if (!fs.watch) {
+        util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
+        process.exit(1);
+      } else {
+        noWatch = false;
+        watchFileChecker.check(function(success) {
+          watchWorks = success;
+          startNode();
+        });
+      }
+    } else {
+      // Find is compatible with -1s
+      startNode();
+    }
+  });
+} else {
+  watchFileChecker.check(function(success) {
+    watchWorks = success;
+    startNode();
+  });
+}
+
+// This is a fallback function if fs.watch does not work
+function changedSince(time, dir, callback) {
+  callback || (callback = dir);
+  var changed = [],
+      i = 0,
+      j = 0,
+      dir = dir && typeof dir !== 'function' ? [dir] : dirs,
+      dlen = dir.length,
+      todo = 0,
+      flen = 0,
+      done = function () {
+        todo--;
+        if (todo === 0) callback(changed);
+      };
+
+  dir.forEach(function (dir) {
+    todo++;
+    fs.readdir(dir, function (err, files) {
+      if (err) return;
+
+      files.forEach(function (file) {
+        if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
+          todo++;
+          file = path.resolve(dir + '/' + file);
+          var stat = fs.stat(file, function (err, stat) {
+            if (stat) {
+              if (stat.isDirectory()) {
+                todo++;
+                changedSince(time, file, function (subChanged) {
+                  if (subChanged.length) changed = changed.concat(subChanged);
+                  done();
+                });
+              } else if (stat.mtime > time) {
+                changed.push(file);
+              }
+            }
+            done();
+          });
+        }
+      });
+      done();
+    });    
+  });
+}
+
+// Attempts to see if fs.watch will work. On some platforms, it doesn't.
+// See: http://nodejs.org/api/fs.html#fs_caveats  
+// Sends the callback true if fs.watch will work, false if it won't
+//
+// Caveats:
+// If there is no writable tmp directory, it will also return true, although
+// a warning message will be displayed.
+//
+var watchFileChecker = {};
+watchFileChecker.check = function(cb) {
+  var tmpdir
+    , seperator = '/';
+
+  this.cb = cb;
+  this.changeDetected = false;
+  if (isWindows) {
+    seperator = '\\';
+    tmpdir = process.env.TEMP;
+  } else if (process.env.TMPDIR) {
+    tmpdir = process.env.TMPDIR
+  } else {
+    tmpdir = '/tmp';
+  }
+  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch'
+  var watchFile = fs.openSync(watchFileName, 'w');
+  if (!watchFile) {
+    util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
+    cb(true);
+    return;
+  }
+  fs.writeSync(watchFile, '1');
+  fs.watch(watchFileName, function(event, filename) {
+    watchFileChecker.changeDetected = true;
+    cb(true);
+  });
+
+  // This should trigger fs.watch, if it works
+  fs.unlinkSync(watchFileName);
+
+  setTimeout(function() { watchFileChecker.verify() }, 250);
+}
+
+// Verifies that fs.watch was not triggered and sends false to the callback
+watchFileChecker.verify = function() {
+  if (!this.changeDetected) {
+    this.cb(false);
+  }
+}
+
+
 
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
@@ -45,7 +169,7 @@ function startNode() {
   });
 
   child.stderr.on('data', function (data) {
-    util.error(data);
+    process.stderr.write(data);
   });
 
   child.on('exit', function (code, signal) {
@@ -96,19 +220,20 @@ function startMonitor() {
         callback(files);
       });
     }
-  } else {
+  } else if (watchWorks) {
     changeFunction = function (lastStarted, callback) {
       // recursive watch - watch each directory and it's subdirectories, etc, etc
       var watch = function (err, dir) {
         try {
           fs.watch(dir, { persistent: false }, function (event, filename) {
-            callback([filename]);
+            var filepath = path.join(dir, filename);
+            callback([filepath]);
           });
 
           fs.readdir(dir, function (err, files) {
             if (!err) {
               files.forEach(function (file) {
-                var filename = dir + '/' + file;
+                var filename = path.join(dir, file);
                 fs.stat(filename, function (err, stat) {
                   if (!err && stat) {
                     if (stat.isDirectory()) {
@@ -120,47 +245,98 @@ function startMonitor() {
             }
           });
         } catch (e) {
-          // ignoring this directory, likely it's "My Music" 
+          // ignoring this directory, likely it's "My Music"
           // or some such windows fangled stuff
         }
       }
       dirs.forEach(function (dir) {
         fs.realpath(dir, watch);
       });
-    }
+    }  
+  } else {
+    // changedSince, the fallback for when both the find method and fs.watch don't work, 
+    // is not compatible with the way changeFunction works. If we have reached this point,
+    // changeFunction should not be called from herein out. 
+    changeFunction = function() { util.error("Nodemon error: changeFunction called when it shouldn't be.") }
   }
 
-  changeFunction(lastStarted, function (files) {
-    if (files.length) {
-      // filter ignored files
-      if (ignoreFiles.length) {
-        files = files.filter(function(file) {
-          return !reIgnoreFiles.test(file);
-        });
-      }
 
-
+  var isWindows = process.platform === 'win32';
+  if (noWatch || watchWorks) {
+    changeFunction(lastStarted, function (files) {
       if (files.length) {
-        if (restartTimer !== null) clearTimeout(restartTimer);
-        restartTimer = setTimeout(function () {
-          if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
-          files.forEach(function (file) {
-            if (program.options.verbose) util.log('[nodemon] ' + file);
-          });
-          if (program.options.verbose) util.print('\n\n');
+        // filter ignored files
+        if (ignoreFiles.length) {
+          files = files.filter(function(file) {
+            // If we are in a Windows machine
+            if (isWindows) {
+              // Break up the file by slashes
+              var fileParts = file.split(/\\/g);
 
-          if (child !== null) {
-            child.kill(isWindows ? '' : 'SIGUSR2');
-          } else {
-            startNode();
-          }
-        }, restartDelay);
-        return;
+              // Remove the first piece (C:)
+              fileParts.shift();
+
+              // Join the parts together with Unix slashes
+              file = '/' + fileParts.join('/');
+            }
+            return !reIgnoreFiles.test(file);
+          });
+        }
+
+        if (files.length) {
+          if (restartTimer !== null) clearTimeout(restartTimer);
+          restartTimer = setTimeout(function () {
+            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            files.forEach(function (file) {
+              if (program.options.verbose) util.log('[nodemon] ' + file);
+            });
+            if (program.options.verbose) util.print('\n\n');
+
+            if (child !== null) {
+              child.kill(isWindows ? '' : 'SIGUSR2');
+            } else {
+              startNode();
+            }
+          }, restartDelay);
+          return;
+        }
       }
-    }
- 
-    if (noWatch) setTimeout(startMonitor, timeout);
-  });
+
+      if (noWatch) setTimeout(startMonitor, timeout);
+    });
+  } else {
+    // Fallback for when both find and fs.watch don't work
+    changedSince(lastStarted, function (files) {
+      if (files.length) {
+        // filter ignored files
+        if (ignoreFiles.length) {
+          files = files.filter(function(file) {
+            return !reIgnoreFiles.test(file);
+          });
+        }
+
+        if (files.length) {
+          if (restartTimer !== null) clearTimeout(restartTimer);
+          restartTimer = setTimeout(function () {
+            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            files.forEach(function (file) {
+              if (program.options.verbose) util.log('[nodemon] ' + file);
+            });
+            if (program.options.verbose) util.print('\n\n');
+
+            if (child !== null) {
+              child.kill(isWindows ? '' : 'SIGUSR2');
+            } else {
+              startNode();
+            }
+          }, restartDelay);
+          return;
+        }
+      }
+       
+      setTimeout(startMonitor, timeout);
+    });
+  }
 }
 
 function addIgnoreRule(line, noEscape) {
@@ -180,7 +356,7 @@ function readIgnoreFile(curr, prev) {
   // unless the ignore file was actually modified, do no re-read it
   if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
 
-  fs.unwatchFile(ignoreFilePath);
+  if (platform === 'darwin') fs.unwatchFile(ignoreFilePath);
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   exists(ignoreFilePath, function(exists) {
@@ -188,11 +364,12 @@ function readIgnoreFile(curr, prev) {
 
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
     // addIgnoreRule(flag);
-    addIgnoreRule(ignoreFilePath);
+    addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
       addIgnoreRule(rule);
     });
-    fs.watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+
+    watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
 
@@ -212,10 +389,10 @@ function getNodemonArgs() {
       app = null;
 
   for (; i < len; i++) {
-    if (existsSync(dir + '/' + args[i])) {
+    if (existsSync(path.resolve(dir, args[i]))) {
       // double check we didn't use the --watch or -w opt before this arg
       if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
-        // ignore 
+        // ignore
       } else {
         indexOfApp = i;
         break;
@@ -223,9 +400,9 @@ function getNodemonArgs() {
     }
   }
 
-  if (indexOfApp !== -1) { 
+  if (indexOfApp !== -1) {
     // not found, so assume we're reading the package.json and thus swallow up all the args
-    // indexOfApp = len; 
+    // indexOfApp = len;
     app = process.argv[i];
     indexOfApp++;
   } else {
@@ -289,7 +466,7 @@ function getAppScript(program) {
   if (!program.args.length || program.app === null) {
     // try to get the app from the package.json
     // doing a try/catch because we can't use the path.exist callback pattern
-    // or we could, but the code would get messy, so this will do exactly 
+    // or we could, but the code would get messy, so this will do exactly
     // what we're after - if the file doesn't exist, it'll throw.
     try {
       // note: this isn't nodemon's package, it's the user's cwd package
@@ -301,7 +478,7 @@ function getAppScript(program) {
       program.args.unshift(program.app);
       hokeycokey = true;
     } catch (e) {}
-  } 
+  }
 
   if (!program.app) {
     program.app = program.args[0];
@@ -394,7 +571,7 @@ function help() {
 
 // this little bit of hoop jumping is because sometimes the file can't be
 // touched properly, and it send nodemon in to a loop of restarting.
-// this way, the .monitor file is removed entirely, and recreated with 
+// this way, the .monitor file is removed entirely, and recreated with
 // permissions that anyone can remove it later (i.e. if you run as root
 // by accident and then try again later).
 // if (path.existsSync(flag)) fs.unlinkSync(flag);
@@ -461,8 +638,6 @@ dirs.forEach(function(dir) {
 });
 
 // findStatOffset();
-
-startNode();
 
 exists(ignoreFilePath, function (exist) {
   // watch it: "exist" not to be confused with "exists"....
