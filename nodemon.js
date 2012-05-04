@@ -272,7 +272,7 @@ function startMonitor() {
 
 
   var isWindows = process.platform === 'win32';
-  if (noWatch || watchWorks) {
+  if ((noWatch || watchWorks) && !program.options.forceLegacyWatch) {
     changeFunction(lastStarted, function (files) {
       if (files.length) {
         // filter ignored files
@@ -431,6 +431,7 @@ function getNodemonArgs() {
         js: false, // becomes the default anyway...
         includeHidden: false,
         exitcrash: false,
+        forceLegacyWatch: false, // forces nodemon to use the slowest but most compatible method for watching for file changes
         stdin: true
         // args: []
       };
@@ -456,6 +457,8 @@ function getNodemonArgs() {
       options.delay = parseInt(args.shift());
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
+    } else if (arg == '--force-legacy-watch' || arg == '-L') {
+      options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
     } else { //if (arg === "--") {
