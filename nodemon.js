@@ -49,7 +49,7 @@ if (noWatch) {
         noWatch = false;
         console.log("DEBUG: Checking if fs.watch works...");
         watchFileChecker.check(function(success) {
-          console.log("DEBUG: fs.watch " + success ? "works!" : "does NOT work.");
+          console.log("DEBUG: fs.watch " + (success ? "works!" : "does NOT work."));
           watchWorks = success;
           startNode();
         });
@@ -62,7 +62,7 @@ if (noWatch) {
 } else {
   console.log("DEBUG: Checking if fs.watch works...");
   watchFileChecker.check(function(success) {
-    console.log("DEBUG: fs.watch " + success ? "works!" : "does NOT work.");
+    console.log("DEBUG: fs.watch " + (success ? "works!" : "does NOT work."));
     watchWorks = success;
     startNode();
   });
