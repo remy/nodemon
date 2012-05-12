@@ -36,20 +36,15 @@ var fs = require('fs'),
     reAsterisk = /\*/g;
 
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
-console.log("DEBUG: Attempting to find appropriate method for file watch.");
 if (noWatch) {
-  console.log("DEBUG: Trying find method...");
   exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
     if (error) {
-      console.log("DEBUG: Find method unsuccessful");
       if (!fs.watch) {
         util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
         process.exit(1);
       } else {
         noWatch = false;
-        console.log("DEBUG: Checking if fs.watch works...");
         watchFileChecker.check(function(success) {
-          console.log("DEBUG: fs.watch " + (success ? "works!" : "does NOT work."));
           watchWorks = success;
           startNode();
         });
@@ -60,9 +55,7 @@ if (noWatch) {
     }
   });
 } else {
-  console.log("DEBUG: Checking if fs.watch works...");
   watchFileChecker.check(function(success) {
-    console.log("DEBUG: fs.watch " + (success ? "works!" : "does NOT work."));
     watchWorks = success;
     startNode();
   });
@@ -70,7 +63,6 @@ if (noWatch) {
 
 // This is a fallback function if fs.watch does not work
 function changedSince(time, dir, callback) {
-  console.log("DEBUG: In fallback check at: " + time);
   callback || (callback = dir);
   var changed = [],
       i = 0,
@@ -213,7 +205,6 @@ function startMonitor() {
   var changeFunction;
 
   if (noWatch) {
-      console.log("DEBUG: Trying find method...");
     // if native fs.watch doesn't work the way we want, we keep polling find command (mac only oddly)
     changeFunction = function (lastStarted, callback) {
       var cmds = [],
@@ -231,7 +222,6 @@ function startMonitor() {
     }
   } else if (watchWorks) {
     changeFunction = function (lastStarted, callback) {
-      console.log("DEBUG: Trying fs.watch file...");
       // recursive watch - watch each directory and it's subdirectories, etc, etc
       var watch = function (err, dir) {
         try {
@@ -457,7 +447,7 @@ function getNodemonArgs() {
       options.delay = parseInt(args.shift());
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
-    } else if (arg == '--force-legacy-watch' || arg == '-L') {
+    } else if (arg == '--legacy-watch' || arg == '-L') {
       options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
@@ -554,16 +544,18 @@ function help() {
     '',
     ' Options:',
     '',
-    '  -d, --delay n    throttle restart for "n" seconds',
-    '  -w, --watch dir  watch directory "dir". use once for each',
-    '                   directory to watch',
-    '  -x, --exec app   execute script with "app", ie. -x "python -v"',
-    '  -I, --no-stdin   don\'t try to read from stdin',
-    '  -q, --quiet      minimise nodemon messages to start/stop only',
-    '  --exitcrash      exit on crash, allows use of nodemon with',
-    '                   daemon tools like forever.js',
-    '  -v, --version    current nodemon version',
-    '  -h, --help       you\'re looking at it',
+    '  -d, --delay n      throttle restart for "n" seconds',
+    '  -w, --watch dir    watch directory "dir". use once for each',
+    '                     directory to watch',
+    '  -x, --exec app     execute script with "app", ie. -x "python -v"',
+    '  -I, --no-stdin     don\'t try to read from stdin',
+    '  -q, --quiet        minimise nodemon messages to start/stop only',
+    '  --exitcrash        exit on crash, allows use of nodemon with',
+    '                     daemon tools like forever.js',
+    '  -L, --legacy-watch Forces node to use the most compatible',
+    '                     version for watching file changes',
+    '  -v, --version      current nodemon version',
+    '  -h, --help         you\'re looking at it',
     '',
     ' Note: if the script is omitted, nodemon will try to ',
     ' read "main" from package.json and without a .nodemonignore,',
