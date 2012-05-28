@@ -332,12 +332,10 @@ function getAppScript(program) {
     } catch (e) {}
   }
 
-  if (!program.app) {
-    program.app = program.args[0];
+  if (program.app) {
+    program.app = path.basename(program.app);
+    program.ext = path.extname(program.app);
   }
-
-  program.app = path.basename(program.app);
-  program.ext = path.extname(program.app);
 
   if (program.options.exec.indexOf(' ') !== -1) {
     var execOptions = program.options.exec.split(' ');
