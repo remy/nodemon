@@ -196,7 +196,7 @@ function addIgnoreRule(line, noEscape) {
   // this mess of replace methods is escaping "\#" to allow for emacs temp files
   if (!noEscape) {
     if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
-       ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
+       ignoreFiles.push(line.replace(reEscapeChars, '\\\\$&').replace(reAsterisk, '.*'));
     }
   } else if (line = line.replace(reTrim, '')) {
     ignoreFiles.push(line);
@@ -466,7 +466,7 @@ if (program.options.delay) {
 
 // this is the default - why am I making it a cmd line opt?
 if (program.options.js) {
-  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+  addIgnoreRule('^((?!\\.js|\\.coffee$).)*$', true); // ignores everything except JS
 }
 
 if (program.options.watch && program.options.watch.length > 0) {
@@ -504,11 +504,11 @@ exists(ignoreFilePath, function (exist) {
       } else {
         // don't create the ignorefile, just ignore the flag & JS
         // addIgnoreRule(flag);
-        var ext = program.ext.replace(/\./g, '\\.');
+        var ext = program.ext.replace(/\./g, '\\\\.');
         if (ext) {
           addIgnoreRule('^((?!' + ext + '$).)*$', true);
         } else {
-          addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+          addIgnoreRule('^((?!\\.js|\\.coffee$).)*$', true); // ignores everything except JS
         }
       }
     });
