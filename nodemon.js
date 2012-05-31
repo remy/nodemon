@@ -26,6 +26,7 @@ var fs = require('fs'),
     isWindows = platform === 'win32',
     noWatch = (platform !== 'win32') || !fs.watch, //  && platform !== 'linux' - removed linux fs.watch usage #72
     watchFile = platform === 'darwin' ? fs.watchFile : fs.watch, // lame :(
+    watchWorks = true, // whether or not fs.watch actually works on this platform, tested and set later before starting
     // create once, reuse as needed
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
@@ -43,10 +44,117 @@ if (noWatch) {
         process.exit(1);
       } else {
         noWatch = false;
+        watchFileChecker.check(function(success) {
+          watchWorks = success;
+          startNode();
+        });
       }
+    } else {
+      // Find is compatible with -1s
+      startNode();
     }
   });
+} else {
+  watchFileChecker.check(function(success) {
+    watchWorks = success;
+    startNode();
+  });
 }
+
+// This is a fallback function if fs.watch does not work
+function changedSince(time, dir, callback) {
+  callback || (callback = dir);
+  var changed = [],
+      i = 0,
+      j = 0,
+      dir = dir && typeof dir !== 'function' ? [dir] : dirs,
+      dlen = dir.length,
+      todo = 0,
+      flen = 0,
+      done = function () {
+        todo--;
+        if (todo === 0) callback(changed);
+      };
+
+  dir.forEach(function (dir) {
+    todo++;
+    fs.readdir(dir, function (err, files) {
+      if (err) return;
+
+      files.forEach(function (file) {
+        if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
+          todo++;
+          file = path.resolve(dir + '/' + file);
+          var stat = fs.stat(file, function (err, stat) {
+            if (stat) {
+              if (stat.isDirectory()) {
+                todo++;
+                changedSince(time, file, function (subChanged) {
+                  if (subChanged.length) changed = changed.concat(subChanged);
+                  done();
+                });
+              } else if (stat.mtime > time) {
+                changed.push(file);
+              }
+            }
+            done();
+          });
+        }
+      });
+      done();
+    });    
+  });
+}
+
+// Attempts to see if fs.watch will work. On some platforms, it doesn't.
+// See: http://nodejs.org/api/fs.html#fs_caveats  
+// Sends the callback true if fs.watch will work, false if it won't
+//
+// Caveats:
+// If there is no writable tmp directory, it will also return true, although
+// a warning message will be displayed.
+//
+var watchFileChecker = {};
+watchFileChecker.check = function(cb) {
+  var tmpdir
+    , seperator = '/';
+
+  this.cb = cb;
+  this.changeDetected = false;
+  if (isWindows) {
+    seperator = '\\';
+    tmpdir = process.env.TEMP;
+  } else if (process.env.TMPDIR) {
+    tmpdir = process.env.TMPDIR
+  } else {
+    tmpdir = '/tmp';
+  }
+  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch'
+  var watchFile = fs.openSync(watchFileName, 'w');
+  if (!watchFile) {
+    util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
+    cb(true);
+    return;
+  }
+  fs.writeSync(watchFile, '1');
+  fs.watch(watchFileName, function(event, filename) {
+    watchFileChecker.changeDetected = true;
+    cb(true);
+  });
+
+  // This should trigger fs.watch, if it works
+  fs.unlinkSync(watchFileName);
+
+  setTimeout(function() { watchFileChecker.verify() }, 250);
+}
+
+// Verifies that fs.watch was not triggered and sends false to the callback
+watchFileChecker.verify = function() {
+  if (!this.changeDetected) {
+    this.cb(false);
+  }
+}
+
 
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
@@ -111,7 +219,7 @@ function startMonitor() {
         callback(files);
       });
     }
-  } else {
+  } else if (watchWorks) {
     changeFunction = function (lastStarted, callback) {
       // recursive watch - watch each directory and it's subdirectories, etc, etc
       var watch = function (err, dir) {
@@ -143,52 +251,90 @@ function startMonitor() {
       dirs.forEach(function (dir) {
         fs.realpath(dir, watch);
       });
-    }
+    }  
+  } else {
+    // changedSince, the fallback for when both the find method and fs.watch don't work, 
+    // is not compatible with the way changeFunction works. If we have reached this point,
+    // changeFunction should not be called from herein out. 
+    changeFunction = function() { util.error("Nodemon error: changeFunction called when it shouldn't be.") }
   }
 
   var isWindows = process.platform === 'win32';
-  changeFunction(lastStarted, function (files) {
-    if (files.length) {
-      // filter ignored files
-      if (ignoreFiles.length) {
-        files = files.filter(function(file) {
-          // If we are in a Windows machine
-          if (isWindows) {
-            // Break up the file by slashes
-            var fileParts = file.split(/\\/g);
-
-            // Remove the first piece (C:)
-            fileParts.shift();
-
-            // Join the parts together with Unix slashes
-            file = '/' + fileParts.join('/');
-          }
-          return !reIgnoreFiles.test(file);
-        });
-      }
-
-
+  if ((noWatch || watchWorks) && !program.options.forceLegacyWatch) {
+    changeFunction(lastStarted, function (files) {
       if (files.length) {
-        if (restartTimer !== null) clearTimeout(restartTimer);
-        restartTimer = setTimeout(function () {
-          if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
-          files.forEach(function (file) {
-            if (program.options.verbose) util.log('[nodemon] ' + file);
+        // filter ignored files
+        if (ignoreFiles.length) {
+          files = files.filter(function(file) {
+            // If we are in a Windows machine
+            if (isWindows) {
+              // Break up the file by slashes
+              var fileParts = file.split(/\\/g);
+
+              // Remove the first piece (C:)
+              fileParts.shift();
+
+              // Join the parts together with Unix slashes
+              file = '/' + fileParts.join('/');
+            }
+            return !reIgnoreFiles.test(file);
           });
-          if (program.options.verbose) util.print('\n\n');
+        }
 
-          if (child !== null) {
-            child.kill(isWindows ? '' : 'SIGUSR2');
-          } else {
-            startNode();
-          }
-        }, restartDelay);
-        return;
+        if (files.length) {
+          if (restartTimer !== null) clearTimeout(restartTimer);
+          restartTimer = setTimeout(function () {
+            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            files.forEach(function (file) {
+              if (program.options.verbose) util.log('[nodemon] ' + file);
+            });
+            if (program.options.verbose) util.print('\n\n');
+
+            if (child !== null) {
+              child.kill(isWindows ? '' : 'SIGUSR2');
+            } else {
+              startNode();
+            }
+          }, restartDelay);
+          return;
+        }
       }
-    }
 
-    if (noWatch) setTimeout(startMonitor, timeout);
-  });
+      if (noWatch) setTimeout(startMonitor, timeout);
+    });
+  } else {
+    // Fallback for when both find and fs.watch don't work
+    changedSince(lastStarted, function (files) {
+      if (files.length) {
+        // filter ignored files
+        if (ignoreFiles.length) {
+          files = files.filter(function(file) {
+            return !reIgnoreFiles.test(file);
+          });
+        }
+
+        if (files.length) {
+          if (restartTimer !== null) clearTimeout(restartTimer);
+          restartTimer = setTimeout(function () {
+            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            files.forEach(function (file) {
+              if (program.options.verbose) util.log('[nodemon] ' + file);
+            });
+            if (program.options.verbose) util.print('\n\n');
+
+            if (child !== null) {
+              child.kill(isWindows ? '' : 'SIGUSR2');
+            } else {
+              startNode();
+            }
+          }, restartDelay);
+          return;
+        }
+      }
+
+      setTimeout(startMonitor, timeout);
+    });
+  }
 }
 
 function addIgnoreRule(line, noEscape) {
@@ -273,6 +419,7 @@ function getNodemonArgs() {
         js: false, // becomes the default anyway...
         includeHidden: false,
         exitcrash: false,
+        forceLegacyWatch: false, // forces nodemon to use the slowest but most compatible method for watching for file changes
         stdin: true
         // args: []
       };
@@ -298,6 +445,8 @@ function getNodemonArgs() {
       options.delay = parseInt(args.shift());
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
+    } else if (arg == '--legacy-watch' || arg == '-L') {
+      options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
     } else { //if (arg === "--") {
@@ -393,16 +542,18 @@ function help() {
     '',
     ' Options:',
     '',
-    '  -d, --delay n    throttle restart for "n" seconds',
-    '  -w, --watch dir  watch directory "dir". use once for each',
-    '                   directory to watch',
-    '  -x, --exec app   execute script with "app", ie. -x "python -v"',
-    '  -I, --no-stdin   don\'t try to read from stdin',
-    '  -q, --quiet      minimise nodemon messages to start/stop only',
-    '  --exitcrash      exit on crash, allows use of nodemon with',
-    '                   daemon tools like forever.js',
-    '  -v, --version    current nodemon version',
-    '  -h, --help       you\'re looking at it',
+    '  -d, --delay n      throttle restart for "n" seconds',
+    '  -w, --watch dir    watch directory "dir". use once for each',
+    '                     directory to watch',
+    '  -x, --exec app     execute script with "app", ie. -x "python -v"',
+    '  -I, --no-stdin     don\'t try to read from stdin',
+    '  -q, --quiet        minimise nodemon messages to start/stop only',
+    '  --exitcrash        exit on crash, allows use of nodemon with',
+    '                     daemon tools like forever.js',
+    '  -L, --legacy-watch Forces node to use the most compatible',
+    '                     version for watching file changes',
+    '  -v, --version      current nodemon version',
+    '  -h, --help         you\'re looking at it',
     '',
     ' Note: if the script is omitted, nodemon will try to ',
     ' read "main" from package.json and without a .nodemonignore,',
@@ -490,8 +641,6 @@ dirs.forEach(function(dir) {
 });
 
 // findStatOffset();
-
-startNode();
 
 exists(ignoreFilePath, function (exist) {
   // watch it: "exist" not to be confused with "exists"....
