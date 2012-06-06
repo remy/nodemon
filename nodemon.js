@@ -119,8 +119,8 @@ function changedSince(time, dir, callback) {
 //
 var watchFileChecker = {};
 watchFileChecker.check = function(cb) {
-  var tmpdir
-    , seperator = '/';
+  var tmpdir,
+      seperator = '/';
 
   this.cb = cb;
   this.changeDetected = false;
@@ -149,14 +149,14 @@ watchFileChecker.check = function(cb) {
   fs.unlinkSync(watchFileName);
 
   setTimeout(function() { watchFileChecker.verify() }, 250);
-}
+};
 
 // Verifies that fs.watch was not triggered and sends false to the callback
 watchFileChecker.verify = function() {
   if (!this.changeDetected) {
     this.cb(false);
   }
-}
+};
 
 
 function startNode() {
