@@ -36,7 +36,8 @@ var fs = require('fs'),
     // Flag to distinguish an app crash from intentional killing (used on Windows only for now)
     killedAfterChange = false,
     // Make this the last call so it can use the variables defined above (specifically isWindows)
-    program = getNodemonArgs();
+    program = getNodemonArgs(),
+    watched = [];
 
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
 if (noWatch) {
@@ -239,19 +240,27 @@ function startMonitor() {
 
           fs.readdir(dir, function (err, files) {
             if (!err) {
+              files = files.
+                map(function (file ) { return path.join(dir, file); }).
+                filter(ignoredFilter);
               files.forEach(function (file) {
-                var filename = path.join(dir, file);
-                fs.stat(filename, function (err, stat) {
-                  if (!err && stat) {
-                    if (stat.isDirectory()) {
-                      fs.realpath(filename, watch);
+                if (-1 === watched.indexOf(file)) {
+                  watched.push(file);
+                  fs.stat(file, function (err, stat) {
+                    if (!err && stat) {
+                      if (stat.isDirectory()) {
+                        fs.realpath(file, watch);
+                      }
                     }
-                  }
-                });
+                  });
+                }
               });
             }
           });
         } catch (e) {
+          if ('EMFILE' === e.code) {
+            console.error('EMFILE: Watching too many files.');
+          }
           // ignoring this directory, likely it's "My Music"
           // or some such windows fangled stuff
         }
@@ -267,45 +276,41 @@ function startMonitor() {
     changeFunction = function() { util.error("Nodemon error: changeFunction called when it shouldn't be.") }
   }
 
+  // filter ignored files
+  var ignoredFilter = function (file) {
+    // If we are in a Windows machine
+    if (isWindows) {
+      // Break up the file by slashes
+      var fileParts = file.split(/\\/g);
+
+      // Remove the first piece (C:)
+      fileParts.shift();
+
+      // Join the parts together with Unix slashes
+      file = '/' + fileParts.join('/');
+    }
+    return !reIgnoreFiles.test(file);
+  };
+
   var isWindows = process.platform === 'win32';
   if ((noWatch || watchWorks) && !program.options.forceLegacyWatch) {
     changeFunction(lastStarted, function (files) {
       if (files.length) {
-        // filter ignored files
-        if (ignoreFiles.length) {
-          files = files.filter(function(file) {
-            // If we are in a Windows machine
-            if (isWindows) {
-              // Break up the file by slashes
-              var fileParts = file.split(/\\/g);
-
-              // Remove the first piece (C:)
-              fileParts.shift();
-
-              // Join the parts together with Unix slashes
-              file = '/' + fileParts.join('/');
-            }
-            return !reIgnoreFiles.test(file);
+        if (restartTimer !== null) clearTimeout(restartTimer);
+        restartTimer = setTimeout(function () {
+          if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+          files.forEach(function (file) {
+            if (program.options.verbose) util.log('[nodemon] ' + file);
           });
-        }
+          if (program.options.verbose) util.print('\n\n');
 
-        if (files.length) {
-          if (restartTimer !== null) clearTimeout(restartTimer);
-          restartTimer = setTimeout(function () {
-            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
-            files.forEach(function (file) {
-              if (program.options.verbose) util.log('[nodemon] ' + file);
-            });
-            if (program.options.verbose) util.print('\n\n');
-
-            if (child !== null) {
-              child.kill(isWindows ? '' : 'SIGUSR2');
-            } else {
-              startNode();
-            }
-          }, restartDelay);
-          return;
-        }
+          if (child !== null) {
+            child.kill(isWindows ? '' : 'SIGUSR2');
+          } else {
+            startNode();
+          }
+        }, restartDelay);
+        return;
       }
 
       if (noWatch) setTimeout(startMonitor, timeout);
