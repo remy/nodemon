@@ -39,30 +39,34 @@ var fs = require('fs'),
     program = getNodemonArgs(),
     watched = [];
 
+
+
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
-if (noWatch) {
-  exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
-    if (error) {
-      if (!fs.watch) {
-        util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
-        process.exit(1);
+var testAndStart = function() {
+  if (noWatch) {
+    exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
+      if (error) {
+        if (!fs.watch) {
+          util.error('\x1B[1;31mThe version of node you are using combined with the version of find being used does not support watching files. Upgrade to a newer version of node, or install a version of find that supports search by seconds.\x1B[0m');
+          process.exit(1);
+        } else {
+          noWatch = false;
+          watchFileChecker.check(function(success) {
+            watchWorks = success;
+            startNode();
+          });
+        }
       } else {
-        noWatch = false;
-        watchFileChecker.check(function(success) {
-          watchWorks = success;
-          startNode();
-        });
+        // Find is compatible with -1s
+        startNode();
       }
-    } else {
-      // Find is compatible with -1s
+    });
+  } else {
+    watchFileChecker.check(function(success) {
+      watchWorks = success;
       startNode();
-    }
-  });
-} else {
-  watchFileChecker.check(function(success) {
-    watchWorks = success;
-    startNode();
-  });
+    });
+  }
 }
 
 // This is a fallback function if fs.watch does not work
@@ -158,6 +162,7 @@ watchFileChecker.verify = function() {
     this.cb(false);
   }
 };
+
 
 
 function startNode() {
@@ -689,3 +694,5 @@ exists(ignoreFilePath, function (exist) {
     readIgnoreFile();
   }
 });
+
+testAndStart();
