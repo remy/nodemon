@@ -143,14 +143,13 @@ watchFileChecker.check = function(cb) {
     util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
     cb(true);
     return;
-  }
-  fs.writeSync(watchFile, '1');
+  }  
   fs.watch(watchFileName, function(event, filename) {
     watchFileChecker.changeDetected = true;
     cb(true);
   });
-
   // This should trigger fs.watch, if it works
+  fs.writeSync(watchFile, '1');
   fs.unlinkSync(watchFileName);
 
   setTimeout(function() { watchFileChecker.verify() }, 250);
@@ -301,21 +300,21 @@ function startMonitor() {
   if ((noWatch || watchWorks) && !program.options.forceLegacyWatch) {
     changeFunction(lastStarted, function (files) {
       if (files.length) {
-        if (restartTimer !== null) clearTimeout(restartTimer);
-        restartTimer = setTimeout(function () {
-          if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
-          files.forEach(function (file) {
-            if (program.options.verbose) util.log('[nodemon] ' + file);
-          });
-          if (program.options.verbose) util.print('\n\n');
+        files = files.filter(ignoredFilter);
+        if (files.length) {
+          if (restartTimer !== null) clearTimeout(restartTimer);
+          restartTimer = setTimeout(function () {
+            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            files.forEach(function (file) {
+              if (program.options.verbose) util.log('[nodemon] ' + file);
+            });
+            if (program.options.verbose) util.print('\n\n');
 
-          if (child !== null) {
-            child.kill(isWindows ? '' : 'SIGUSR2');
-          } else {
-            startNode();
-          }
-        }, restartDelay);
-        return;
+            killNode();
+            
+          }, restartDelay);
+          return;
+        }
       }
 
       if (noWatch) setTimeout(startMonitor, timeout);
@@ -340,22 +339,8 @@ function startMonitor() {
             });
             if (program.options.verbose) util.print('\n\n');
 
-            if (child !== null) {
-              // When using CoffeeScript under Windows, child's process is not node.exe
-              // Instead coffee.cmd is launched, which launches cmd.exe, which starts node.exe as a child process
-              // child.kill() would only kill cmd.exe, not node.exe
-              // Therefore we use the Windows taskkill utility to kill the process and all its children (/T for tree)
-              if (isWindows) {
-                // For the on('exit', ...) handler above the following looks like a crash, so we set the killedAfterChange flag
-                killedAfterChange = true;
-                // Force kill (/F) the whole child tree (/T) by PID (/PID 123)
-                exec('taskkill /pid '+child.pid+' /T /F');
-              } else {
-                child.kill('SIGUSR2');
-              }
-            } else {
-              startNode();
-            }
+            killNode();
+            
           }, restartDelay);
           return;
         }
@@ -363,6 +348,25 @@ function startMonitor() {
 
       setTimeout(startMonitor, timeout);
     });
+  }
+}
+
+function killNode() {
+  if (child !== null) {
+    // When using CoffeeScript under Windows, child's process is not node.exe
+    // Instead coffee.cmd is launched, which launches cmd.exe, which starts node.exe as a child process
+    // child.kill() would only kill cmd.exe, not node.exe
+    // Therefore we use the Windows taskkill utility to kill the process and all its children (/T for tree)
+    if (isWindows) {
+      // For the on('exit', ...) handler above the following looks like a crash, so we set the killedAfterChange flag
+      killedAfterChange = true;
+      // Force kill (/F) the whole child tree (/T) by PID (/PID 123)
+      exec('taskkill /pid '+child.pid+' /T /F');
+    } else {
+      child.kill('SIGUSR2');
+    }
+  } else {
+    startNode();
   }
 }
 
