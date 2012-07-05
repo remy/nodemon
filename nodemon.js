@@ -127,6 +127,19 @@ watchFileChecker.check = function(cb) {
   var tmpdir,
       seperator = '/';
 
+  // Stop the `cb` from being called twice
+  cb = (function(cb) { // Keep a reference to the original `cb`
+    var called = false; // Have not called it yet
+    
+    return function() {
+      if(called) return; // Only call `cb` once
+      
+      called = true; // We called it
+      
+      return cb.apply(null, arguments); // And call `cb`
+    };
+  })(cb);
+
   this.cb = cb;
   this.changeDetected = false;
   if (isWindows) {
