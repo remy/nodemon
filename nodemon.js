@@ -127,15 +127,16 @@ watchFileChecker.check = function(cb) {
   var tmpdir,
       seperator = '/';
 
-  cb = (function(cb) {
-    var called = false;
+  // Stop the `cb` from being called twice
+  cb = (function(cb) { // Keep a reference to the original `cb`
+    var called = false; // Have not called it yet
     
     return function() {
-      if(called) return;
+      if(called) return; // Only call `cb` once
       
-      called = true;
+      called = true; // We called it
       
-      return cb.apply(null, arguments);
+      return cb.apply(null, arguments); // And call `cb`
     };
   })(cb);
 
