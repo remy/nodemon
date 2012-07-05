@@ -127,6 +127,16 @@ watchFileChecker.check = function(cb) {
   var tmpdir,
       seperator = '/';
 
+  cb = (function(cb) {
+    var called = false;
+    
+    return function() {
+      if(called) return;
+      
+      return cb.apply(null, arguments);
+    };
+  })(cb);
+
   this.cb = cb;
   this.changeDetected = false;
   if (isWindows) {
