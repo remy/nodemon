@@ -133,6 +133,8 @@ watchFileChecker.check = function(cb) {
     return function() {
       if(called) return;
       
+      called = true;
+      
       return cb.apply(null, arguments);
     };
   })(cb);
