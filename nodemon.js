@@ -145,6 +145,7 @@ watchFileChecker.check = function(cb) {
     return;
   }  
   fs.watch(watchFileName, function(event, filename) {
+    if (watchFileChecker.changeDetected) { return; }
     watchFileChecker.changeDetected = true;
     cb(true);
   });
