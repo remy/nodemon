@@ -489,6 +489,8 @@ function getNodemonArgs() {
       options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
+    } else if (arg === '--ext' || arg === '-e') {
+      options.ext = args.shift();
     } else { //if (arg === "--") {
       // Remaining args are node arguments
       appargs.push(arg);
@@ -593,6 +595,7 @@ function help() {
     '  -L, --legacy-watch Forces node to use the most compatible',
     '                     version for watching file changes',
     '  -v, --version      current nodemon version',
+    '  -e, --ext          extensions to look for Example: ".js|.html|.css"',
     '  -h, --help         you\'re looking at it',
     '',
     ' Note: if the script is omitted, nodemon will try to ',
