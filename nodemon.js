@@ -620,8 +620,11 @@ if (!isWindows) { // because windows borks when listening for the SIG* events
   // usual suspect: ctrl+c exit
   process.on('SIGINT', function () {
     child && child.kill('SIGINT');
-    cleanup();
-    process.exit(0);
+    child.removeAllListeners("exit");
+    child.on("exit", function() {
+      cleanup();
+      process.exit(0);
+    });
   });
 
   process.on('SIGTERM', function () {
