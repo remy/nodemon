@@ -364,13 +364,7 @@ function killNode() {
       // Force kill (/F) the whole child tree (/T) by PID (/PID 123)
       exec('taskkill /pid '+child.pid+' /T /F');
     } else {
-      killedAfterChange = true;
-  	  exec('pkill -P ' + child.pid, function (error, stdout, stderr) {
-  	    if (error !== null) {
-          killedAfterChange = false;
-  		    child.kill('SIGUSR2');
-  	    }
-  	  });
+      child.kill('SIGUSR2');
     }
   } else {
     startNode();
