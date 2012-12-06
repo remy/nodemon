@@ -13,6 +13,7 @@ var fs = require('fs'),
     child = null,
     monitor = null,
     ignoreFilePath = './.nodemonignore',
+    ignoreFileWatcher = null,
     oldIgnoreFilePath = './nodemon-ignore',
     ignoreFiles = [],
     reIgnoreFiles = null,
@@ -386,9 +387,14 @@ function addIgnoreRule(line, noEscape) {
 
 function readIgnoreFile(curr, prev) {
   // unless the ignore file was actually modified, do no re-read it
-  if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
-
-  if (platform === 'darwin') fs.unwatchFile(ignoreFilePath);
+  // on darwin platform only
+  if (platform === 'darwin') {
+    if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
+    fs.unwatchFile(ignoreFilePath);
+  } else {
+    // in windows and linux use FSWatcher.close() method to stop .nodemonignore watching
+    if (ignoreFileWatcher) ignoreFileWatcher.close();
+  }
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
   exists(ignoreFilePath, function(exists) {
@@ -401,7 +407,7 @@ function readIgnoreFile(curr, prev) {
       addIgnoreRule(rule);
     });
 
-    watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+    ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
   });
 }
 
