@@ -398,7 +398,7 @@ function readIgnoreFile(curr, prev) {
     // addIgnoreRule(flag);
     addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
     fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
-      var noEscape = rule.substr(0,1) === ':'
+      var noEscape = rule.substr(0,1) === ':';
       if (noEscape) {
         rule = rule.substr(1);
       }
