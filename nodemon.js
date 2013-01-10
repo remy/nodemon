@@ -295,6 +295,7 @@ function startMonitor() {
       // Join the parts together with Unix slashes
       file = '/' + fileParts.join('/');
     }
+
     return !reIgnoreFiles.test(file);
   };
 
@@ -397,7 +398,11 @@ function readIgnoreFile(curr, prev) {
   }
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
-  exists(ignoreFilePath, function(exists) {
+  // uses a sync method because with programs like vi - the file
+  // gets swapped out as it's updated, and the async exists would
+  // pass, whilst the readFile would fail (because the file wasn't
+  // there anymore).
+  if (existsSync(ignoreFilePath)) {
     if (program.options.verbose) util.log('[nodemon] reading ignore list');
 
     // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
@@ -412,7 +417,7 @@ function readIgnoreFile(curr, prev) {
     });
 
     ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
-  });
+  }
 }
 
 // attempt to shutdown the wrapped node instance and remove
