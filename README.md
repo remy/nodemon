@@ -88,6 +88,12 @@ The ignore file accepts:
 * Specific files
 * File patterns (this is converted to a regex, so you have full control of the pattern)
 
+# Specifying extension watch list
+
+By default, `nodemon` looks for files with the `.js` extension. You can specify your own list with the `-e` switch like so:
+
+    nodemon -e '.js|.css|.html'
+
 # Controlling shutdown of your script
 
 nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
