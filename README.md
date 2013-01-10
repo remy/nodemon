@@ -58,6 +58,18 @@ By default nodemon monitors the current working directory. If you want to take c
 
 Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
+# Specifying extension watch list
+
+By default, nodemon looks for files with the `.js` extension. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` switch like so:
+
+    nodemon --ext '.js|.css|.html'
+    
+Or with alternative syntax:
+
+    nodemon -e js,css,html
+
+Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .css or .html.
+
 # Delaying restarting
 
 In some situations, you may want to wait until a number of files have changed. The timeout before checking for new file changes is 1 second. If you're uploading a number of files and it's taking some number of seconds, this could cause your app to restart multiple time unnecessarily.
