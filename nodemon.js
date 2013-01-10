@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+
+"use strict";
+
 var fs = require('fs'),
     util = require('util'),
     childProcess = require('child_process'),
@@ -19,7 +22,7 @@ var fs = require('fs'),
     timeout = 1000, // check every 1 second
     restartDelay = 0, // controlled through arg --delay 10 (for 10 seconds)
     restartTimer = null,
-    lastStarted = +new Date,
+    lastStarted = Date.now(),
     statOffset = 0, // stupid fix for https://github.com/joyent/node/issues/2705
     platform = process.platform,
     isWindows = platform === 'win32',
@@ -75,7 +78,6 @@ function changedSince(time, dir, callback) {
   var changed = [],
       i = 0,
       j = 0,
-      dir = dir && typeof dir !== 'function' ? [dir] : dirs,
       dlen = dir.length,
       todo = 0,
       flen = 0,
@@ -84,13 +86,15 @@ function changedSince(time, dir, callback) {
         if (todo === 0) callback(changed);
       };
 
+  dir = dir && typeof dir !== 'function' ? [dir] : dirs;
+
   dir.forEach(function (dir) {
     todo++;
     fs.readdir(dir, function (err, files) {
       if (err) return;
 
       files.forEach(function (file) {
-        if (program.includeHidden == true || !program.includeHidden && file.indexOf('.') !== 0) {
+        if (program.includeHidden === true || !program.includeHidden && file.indexOf('.') !== 0) {
           todo++;
           file = path.resolve(dir + '/' + file);
           var stat = fs.stat(file, function (err, stat) {
@@ -110,12 +114,12 @@ function changedSince(time, dir, callback) {
         }
       });
       done();
-    });    
+    });
   });
 }
 
 // Attempts to see if fs.watch will work. On some platforms, it doesn't.
-// See: http://nodejs.org/api/fs.html#fs_caveats  
+// See: http://nodejs.org/api/fs.html#fs_caveats
 // Sends the callback true if fs.watch will work, false if it won't
 //
 // Caveats:
@@ -133,17 +137,17 @@ watchFileChecker.check = function(cb) {
     seperator = '\\';
     tmpdir = process.env.TEMP;
   } else if (process.env.TMPDIR) {
-    tmpdir = process.env.TMPDIR
+    tmpdir = process.env.TMPDIR;
   } else {
     tmpdir = '/tmp';
   }
-  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch'
+  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch';
   var watchFile = fs.openSync(watchFileName, 'w');
   if (!watchFile) {
     util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
     cb(true);
     return;
-  }  
+  }
   fs.watch(watchFileName, function(event, filename) {
     if (watchFileChecker.changeDetected) { return; }
     watchFileChecker.changeDetected = true;
@@ -153,7 +157,7 @@ watchFileChecker.check = function(cb) {
   fs.writeSync(watchFile, '1');
   fs.unlinkSync(watchFileName);
 
-  setTimeout(function() { watchFileChecker.verify() }, 250);
+  setTimeout(function() { watchFileChecker.verify(); }, 250);
 };
 
 // Verifies that fs.watch was not triggered and sends false to the callback
@@ -170,7 +174,7 @@ function startNode() {
 
   child = spawn(program.options.exec, program.args);
 
-  lastStarted = +new Date;
+  lastStarted = Date.now();
 
   child.stdout.on('data', function (data) {
     util.print(data);
@@ -187,9 +191,9 @@ function startNode() {
       signal = 'SIGUSR2';
     }
     // this is nasty, but it gives it windows support
-    if (isWindows && signal == 'SIGTERM') signal = 'SIGUSR2';
+    if (isWindows && signal === 'SIGTERM') signal = 'SIGUSR2';
     // exit the monitor, but do it gracefully
-    if (signal == 'SIGUSR2') {
+    if (signal === 'SIGUSR2') {
       // restart
       startNode();
     } else if (code === 0) { // clean exit - wait until file change to restart
@@ -224,7 +228,7 @@ function startMonitor() {
           changed = [];
 
       dirs.forEach(function(dir) {
-        cmds.push('find -L "' + dir + '" -type f -mtime -' + ((+new Date - lastStarted)/1000|0) + 's -print');
+        cmds.push('find -L "' + dir + '" -type f -mtime -' + ((Date.now() - lastStarted)/1000|0) + 's -print');
       });
 
       exec(cmds.join(';'), function (error, stdout, stderr) {
@@ -232,11 +236,11 @@ function startMonitor() {
         files.pop(); // remove blank line ending and split
         callback(files);
       });
-    }
+    };
   } else if (watchWorks) {
     changeFunction = function (lastStarted, callback) {
       // recursive watch - watch each directory and it's subdirectories, etc, etc
-      var watch = function (err, dir) {
+      function watch(err, dir) {
         try {
           fs.watch(dir, { persistent: false }, function (event, filename) {
             var filepath = path.join(dir, filename);
@@ -245,9 +249,10 @@ function startMonitor() {
 
           fs.readdir(dir, function (err, files) {
             if (!err) {
-              files = files.
-                map(function (file ) { return path.join(dir, file); }).
-                filter(ignoredFilter);
+              files = files.map(function (file) {
+                return path.join(dir, file);
+              }).filter(ignoredFilter);
+
               files.forEach(function (file) {
                 if (-1 === watched.indexOf(file)) {
                   watched.push(file);
@@ -270,15 +275,16 @@ function startMonitor() {
           // or some such windows fangled stuff
         }
       }
+
       dirs.forEach(function (dir) {
         fs.realpath(dir, watch);
       });
-    }  
+    };
   } else {
-    // changedSince, the fallback for when both the find method and fs.watch don't work, 
+    // changedSince, the fallback for when both the find method and fs.watch don't work,
     // is not compatible with the way changeFunction works. If we have reached this point,
-    // changeFunction should not be called from herein out. 
-    changeFunction = function() { util.error("Nodemon error: changeFunction called when it shouldn't be.") }
+    // changeFunction should not be called from herein out.
+    changeFunction = function() { util.error("Nodemon error: changeFunction called when it shouldn't be."); };
   }
 
   // filter ignored files
@@ -386,7 +392,7 @@ function addIgnoreRule(line, noEscape) {
 
 function readIgnoreFile(curr, prev) {
   // unless the ignore file was actually modified, do no re-read it
-  if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
+  if (curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
 
   if (platform === 'darwin') fs.unwatchFile(ignoreFilePath);
 
@@ -463,23 +469,23 @@ function getNodemonArgs() {
   while (arg = args.shift()) {
     if (arg === '--help' || arg === '-h' || arg === '-?') {
       return help(); // exits program
-    } else if (arg === '--version' || arg == '-v') {
+    } else if (arg === '--version' || arg === '-v') {
       return version(); // also exits
-    } else if (arg == '--js') {
+    } else if (arg === '--js') {
       options.js = true;
-    } else if (arg == '--quiet' || arg == '-q') {
+    } else if (arg === '--quiet' || arg === '-q') {
       options.verbose = false;
-    } else if (arg == '--hidden') {
+    } else if (arg === '--hidden') {
       options.includeHidden = true;
     } else if (arg === '--watch' || arg === '-w') {
       options.watch.push(args.shift());
     } else if (arg === '--exitcrash') {
       options.exitcrash = true;
     } else if (arg === '--delay' || arg === '-d') {
-      options.delay = parseInt(args.shift());
+      options.delay = parseInt(args.shift(), 10);
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
-    } else if (arg == '--legacy-watch' || arg == '-L') {
+    } else if (arg === '--legacy-watch' || arg === '-L') {
       options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
       options.stdin = false;
@@ -530,7 +536,7 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
-  if (program.options.exec === 'node' && program.ext == '.coffee') {
+  if (program.options.exec === 'node' && program.ext === '.coffee') {
     program.options.exec = 'coffee';
   }
 
@@ -538,9 +544,15 @@ function getAppScript(program) {
     if (hokeycokey) {
       program.args.push(program.args.shift());
     }
+
     //coffeescript requires --nodejs --debug
+
+    // this code is a dance to get the order of the debug flags right when combined with coffeescript
     var debugIndex = program.args.indexOf('--debug');
-    if (debugIndex === -1) debugIndex = program.args.indexOf('--debug-brk');
+    if (debugIndex === -1) {
+      debugIndex = program.args.indexOf('--debug-brk');
+    }
+
     if (debugIndex !== -1 && program.args.indexOf('--nodejs') === -1) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
