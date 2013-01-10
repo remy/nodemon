@@ -707,6 +707,10 @@ dirs.forEach(function(dir) {
 
 // findStatOffset();
 
+if (program.options.ext) {
+  addIgnoreRule('^((?!' + program.options.ext.replace(/\./g, '\\.') + '$).)*$', true);
+}
+
 exists(ignoreFilePath, function (exist) {
   // watch it: "exist" not to be confused with "exists"....
   if (!exist) {
@@ -718,11 +722,13 @@ exists(ignoreFilePath, function (exist) {
       } else {
         // don't create the ignorefile, just ignore the flag & JS
         // addIgnoreRule(flag);
-        var ext = program.ext.replace(/\./g, '\\.');
-        if (ext) {
-          addIgnoreRule('^((?!' + ext + '$).)*$', true);
-        } else {
-          addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+        if (!program.options.ext) {
+          var ext = program.ext.replace(/\./g, '\\.');
+          if (ext) {
+            addIgnoreRule('^((?!' + ext + '$).)*$', true);
+          } else {
+            addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+          }
         }
       }
     });
