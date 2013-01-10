@@ -556,12 +556,30 @@ function getAppScript(program) {
     if (debugIndex !== -1 && program.args.indexOf('--nodejs') === -1) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
-    // monitor both types - TODO possibly make this an option?
-    program.ext = '.coffee|.js';
-    if (!program.options.exec || program.options.exec == 'node') program.options.exec = 'coffee';
+    
+    // don't override user specified extention tracking
+    if (!program.options.ext) {
+      program.ext = '.coffee|.js';
+    }
+
+    if (!program.options.exec || program.options.exec === 'node') {
+      program.options.exec = 'coffee';
+    }
 
     // because windows can't find 'coffee', it needs the real file 'coffee.cmd'
-    if (isWindows) program.options.exec += '.cmd';
+    if (isWindows) {
+      program.options.exec += '.cmd';
+    }
+  }
+
+  // allow users to make a mistake on the program.ext to monitor
+  // converts js,jade => .js|.jade
+  // BIG NOTE: user can't do this: nodemon -e *.js
+  // because the terminal will automatically expand the glob against the file system :(
+  if (program.ext.indexOf(',') !== -1 || program.ext.indexOf('*.') !== -1) {
+    program.ext = program.ext.replace(/,/g, '|').split('|').map(function (item) {
+      return '.' + item.replace(/^[\*\.]+/, '');
+    }).join('|');
   }
 }
 
