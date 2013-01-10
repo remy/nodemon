@@ -172,18 +172,12 @@ watchFileChecker.verify = function() {
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
 
-  child = spawn(program.options.exec, program.args);
-
   lastStarted = Date.now();
 
-  child.stdout.on('data', function (data) {
-    util.print(data);
+  child = spawn(program.options.exec, program.args, {
+    stdio: ['pipe', process.stdout, process.stderr]
   });
-
-  child.stderr.on('data', function (data) {
-    process.stderr.write(data);
-  });
-
+  
   child.on('exit', function (code, signal) {
     // In case we killed the app ourselves, set the signal thusly
     if (killedAfterChange) {
