@@ -47,6 +47,13 @@ var fs = require('fs'),
 
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
 var testAndStart = function() {
+  var ready = function () {
+    watchFileChecker.check(function(success) {
+      watchWorks = success;
+      startNode();
+    });
+  };
+
   if (noWatch) {
     exec('find -L /dev/null -type f -mtime -1s -print', function(error, stdout, stderr) {
       if (error) {
@@ -55,10 +62,7 @@ var testAndStart = function() {
           process.exit(1);
         } else {
           noWatch = false;
-          watchFileChecker.check(function(success) {
-            watchWorks = success;
-            startNode();
-          });
+          ready();
         }
       } else {
         // Find is compatible with -1s
@@ -66,10 +70,7 @@ var testAndStart = function() {
       }
     });
   } else {
-    watchFileChecker.check(function(success) {
-      watchWorks = success;
-      startNode();
-    });
+    ready();
   }
 }
 
