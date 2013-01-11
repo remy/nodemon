@@ -245,17 +245,17 @@ function startMonitor() {
 
           fs.readdir(dir, function (err, files) {
             if (!err) {
-              files = files.map(function (file) {
-                return path.join(dir, file);
-              }).filter(ignoredFilter);
-
-              files.forEach(function (file) {
+              files.forEach(function (rawfile) {
+                var file = path.join(dir, rawfile);
                 if (-1 === watched.indexOf(file)) {
-                  watched.push(file);
                   fs.stat(file, function (err, stat) {
                     if (!err && stat) {
                       if (stat.isDirectory()) {
                         fs.realpath(file, watch);
+                      } else {
+                        if (ignoredFilter(file)) {
+                          watched.push(file);
+                        }
                       }
                     }
                   });
