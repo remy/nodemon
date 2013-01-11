@@ -397,14 +397,21 @@ function addIgnoreRule(line, noEscape) {
 }
 
 function readIgnoreFile(curr, prev) {
+  var hadfile = false;
   // unless the ignore file was actually modified, do no re-read it
   // on darwin platform only
   if (platform === 'darwin') {
-    if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) return;
+    if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) {
+      return;
+    }
+
     fs.unwatchFile(ignoreFilePath);
   } else {
     // in windows and linux use FSWatcher.close() method to stop .nodemonignore watching
-    if (ignoreFileWatcher) ignoreFileWatcher.close();
+    if (ignoreFileWatcher) {
+      hadfile = true;
+      ignoreFileWatcher.close();
+    }
   }
 
   // Check if ignore file still exists. Vim tends to delete it before replacing with changed file
@@ -412,22 +419,30 @@ function readIgnoreFile(curr, prev) {
   // gets swapped out as it's updated, and the async exists would
   // pass, whilst the readFile would fail (because the file wasn't
   // there anymore).
-  if (existsSync(ignoreFilePath)) {
-    if (program.options.verbose) util.log('[nodemon] reading ignore list');
-
-    // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
-    // addIgnoreRule(flag);
-    addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
-    fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
-      var noEscape = rule.substr(0,1) === ':';
-      if (noEscape) {
-        rule = rule.substr(1);
+  function checkTimer() {
+    if (existsSync(ignoreFilePath)) {
+      if (program.options.verbose) {
+        util.log('[nodemon] reading ignore list');
       }
-      addIgnoreRule(rule, noEscape);
-    });
 
-    ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+      // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
+      // addIgnoreRule(flag);
+      addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
+      fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
+        var noEscape = rule.substr(0,1) === ':';
+        if (noEscape) {
+          rule = rule.substr(1);
+        }
+        addIgnoreRule(rule, noEscape);
+      });
+
+      ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
+    } else if (hadfile) {
+      setTimeout(checkTimer, 100);
+    }
   }
+
+  setTimeout(checkTimer, 100);
 }
 
 // attempt to shutdown the wrapped node instance and remove
