@@ -306,13 +306,22 @@ function startMonitor() {
       if (files.length) {
         files = files.filter(ignoredFilter);
         if (files.length) {
-          if (restartTimer !== null) clearTimeout(restartTimer);
+          if (restartTimer !== null) {
+            clearTimeout(restartTimer);
+          }
+
           restartTimer = setTimeout(function () {
-            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            if (program.options.verbose) {
+              util.log('[nodemon] restarting due to changes...');
+            }
             files.forEach(function (file) {
-              if (program.options.verbose) util.log('[nodemon] ' + file);
+              if (program.options.verbose) {
+                util.log('[nodemon] ' + file);
+              }
             });
-            if (program.options.verbose) util.print('\n\n');
+            if (program.options.verbose) {
+              util.print('\n\n');
+            }
 
             killNode();
             
@@ -709,12 +718,16 @@ if (!program.app) {
   help();
 }
 
-if (program.options.verbose) util.log('[nodemon] v' + meta.version);
+if (program.options.verbose) {
+  util.log('[nodemon] v' + meta.version);
+}
 
 // this was causing problems for a lot of people, so now not moving to the subdirectory
 // process.chdir(path.dirname(app));
 dirs.forEach(function(dir) {
-  if (program.options.verbose) util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+  if (program.options.verbose) {
+    util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
+  }
 });
 
 // findStatOffset();
@@ -729,7 +742,9 @@ exists(ignoreFilePath, function (exist) {
     // try the old format
     exists(oldIgnoreFilePath, function (exist) {
       if (exist) {
-        if (program.options.verbose) util.log('[nodemon] detected old style .nodemonignore');
+        if (program.options.verbose) {
+          util.log('[nodemon] detected old style .nodemonignore');
+        }
         ignoreFilePath = oldIgnoreFilePath;
       } else {
         // don't create the ignorefile, just ignore the flag & JS
