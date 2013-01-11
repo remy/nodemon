@@ -673,6 +673,17 @@ function help() {
   process.exit(0);
 }
 
+function addSubdirectories() {
+  var files = fs.readdirSync(process.cwd()) || [];
+
+  files.forEach(function (file) {
+    var stat = fs.statSync(file);
+    if (stat && stat.isDirectory()) {
+      dirs.push(path.resolve(file));
+    }
+  });
+}
+
 // this little bit of hoop jumping is because sometimes the file can't be
 // touched properly, and it send nodemon in to a loop of restarting.
 // this way, the .monitor file is removed entirely, and recreated with
