@@ -759,7 +759,7 @@ dirs.forEach(function(dir) {
 // findStatOffset();
 
 if (program.options.ext) {
-  addIgnoreRule('^((?!' + program.options.ext.replace(/\./g, '\\.') + '$).)*$', true);
+  addIgnoreRule('^((?!' + program.ext.replace(/\./g, '\\.') + '$).)*$', true);
 }
 
 exists(ignoreFilePath, function (exist) {
