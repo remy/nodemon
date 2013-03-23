@@ -613,7 +613,7 @@ function getAppScript(program) {
   if (program.ext.indexOf(',') !== -1 || program.ext.indexOf('*.') !== -1) {
     program.ext = program.ext.replace(/,/g, '|').split('|').map(function (item) {
       return '.' + item.replace(/^[\*\.]+/, '');
-    }).join('|');
+    }).join('$|');
   }
 }
 
@@ -729,7 +729,7 @@ if (program.options.delay) {
 
 // this is the default - why am I making it a cmd line opt?
 if (program.options.js) {
-  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+  addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
 }
 
 if (program.options.watch && program.options.watch.length > 0) {
@@ -780,7 +780,7 @@ exists(ignoreFilePath, function (exist) {
           if (ext) {
             addIgnoreRule('^((?!' + ext + '$).)*$', true);
           } else {
-            addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+            addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
           }
         }
       }
