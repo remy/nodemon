@@ -179,7 +179,7 @@ function startNode() {
   child = spawn(program.options.exec, program.args, {
     stdio: ['pipe', process.stdout, process.stderr]
   });
-  
+
   child.on('exit', function (code, signal) {
     // In case we killed the app ourselves, set the signal thusly
     if (killedAfterChange) {
@@ -324,7 +324,7 @@ function startMonitor() {
             }
 
             killNode();
-            
+
           }, restartDelay);
           return;
         }
@@ -353,7 +353,7 @@ function startMonitor() {
             if (program.options.verbose) util.print('\n\n');
 
             killNode();
-            
+
           }, restartDelay);
           return;
         }
@@ -590,7 +590,7 @@ function getAppScript(program) {
     if (debugIndex !== -1 && program.args.indexOf('--nodejs') === -1) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
-    
+
     // don't override user specified extention tracking
     if (!program.options.ext) {
       program.ext = '.coffee|.js';
