@@ -239,7 +239,7 @@ function startMonitor() {
       function watch(err, dir) {
         try {
           fs.watch(dir, { persistent: false }, function (event, filename) {
-            var filepath = path.join(dir, filename);
+            var filepath = path.join(dir, filename || '');
             callback([filepath]);
           });
 

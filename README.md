@@ -102,6 +102,8 @@ The ignore file accepts:
 * File patterns (this is converted to a regex, so you have full control of the pattern)
 * Unescaped regex's begining with `:`.
 
+**Note** the `.nodemonignore` file is read from the directory you run nodemon from, *not* from the location of the node script you're running.
+
 # Controlling shutdown of your script
 
 nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
