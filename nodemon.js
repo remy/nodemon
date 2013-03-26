@@ -191,7 +191,7 @@ function startNode() {
       process.stderr.write(data);
     });
   }
-  
+
   child.on('exit', function (code, signal) {
     // In case we killed the app ourselves, set the signal thusly
     if (killedAfterChange) {
@@ -336,7 +336,7 @@ function startMonitor() {
             }
 
             killNode();
-            
+
           }, restartDelay);
           return;
         }
@@ -365,7 +365,7 @@ function startMonitor() {
             if (program.options.verbose) util.print('\n\n');
 
             killNode();
-            
+
           }, restartDelay);
           return;
         }
@@ -602,7 +602,7 @@ function getAppScript(program) {
     if (debugIndex !== -1 && program.args.indexOf('--nodejs') === -1) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
-    
+
     // don't override user specified extention tracking
     if (!program.options.ext) {
       program.ext = '.coffee|.js';
@@ -625,7 +625,7 @@ function getAppScript(program) {
   if (program.ext.indexOf(',') !== -1 || program.ext.indexOf('*.') !== -1) {
     program.ext = program.ext.replace(/,/g, '|').split('|').map(function (item) {
       return '.' + item.replace(/^[\*\.]+/, '');
-    }).join('|');
+    }).join('$|');
   }
 }
 
@@ -741,7 +741,7 @@ if (program.options.delay) {
 
 // this is the default - why am I making it a cmd line opt?
 if (program.options.js) {
-  addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+  addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
 }
 
 if (program.options.watch && program.options.watch.length > 0) {
@@ -792,7 +792,7 @@ exists(ignoreFilePath, function (exist) {
           if (ext) {
             addIgnoreRule('^((?!' + ext + '$).)*$', true);
           } else {
-            addIgnoreRule('^((?!\.js|\.coffee$).)*$', true); // ignores everything except JS
+            addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
           }
         }
       }
