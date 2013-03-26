@@ -118,26 +118,13 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
 
-
-# Using nodemon with forever
-
-If you're using nodemon with [forever](https://github.com/nodejitsu/forever) (perhaps in a production environment) you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script. For more detail, see [issue 30](https://github.com/remy/nodemon/issues/30).
-
-To acheive this you need to include the `--exitcrash` flag to ensure nodemon exits if the script crashes (or exits unexpectedly):
-
-    forever nodemon --exitcrash server.js
-
-To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
-
-Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
-
 # Help! My changes aren't being detected!
 
 nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example). 
 
-Next it tries using node's fs.watch. fs.watch will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
+Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
 
-In certain cases, like when where you are working on a different drive than your tmp directory is on, fs.watch may give you a false positive. You can force nodemon to start using the most compatible legacy method by passing the -L switch, e.g. `nodemon -L /my/odd/file.js`.
+In certain cases, like when where you are working on a different drive than your tmp directory is on, `fs.watch` may give you a false positive. You can force nodemon to start using the most compatible legacy method by passing the -L switch, e.g. `nodemon -L /my/odd/file.js`.
 
 # License
 
