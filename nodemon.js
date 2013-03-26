@@ -176,9 +176,21 @@ function startNode() {
 
   lastStarted = Date.now();
 
-  child = spawn(program.options.exec, program.args, {
-    stdio: ['pipe', process.stdout, process.stderr]
-  });
+  var nodeMajor = parseInt((process.versions.node.split('.') || [,,])[1] || 0)
+
+  if (nodeMajor >= 8) {
+    child = spawn(program.options.exec, program.args, {
+      stdio: ['pipe', process.stdout, process.stderr]
+    });
+  } else {
+    child = spawn(program.options.exec, program.args);
+    child.stdout.on('data', function (data) {
+      process.stdout.write(data);
+    });
+    child.stderr.on('data', function (data) {
+      process.stderr.write(data);
+    });
+  }
   
   child.on('exit', function (code, signal) {
     // In case we killed the app ourselves, set the signal thusly
