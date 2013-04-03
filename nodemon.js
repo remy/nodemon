@@ -582,7 +582,7 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
-  if (program.options.exec === 'node' && program.ext === '.coffee') {
+  if (program.options.exec === 'node' && program.ext.indexOf('.coffee') !== -1) {
     program.options.exec = 'coffee';
   }
 
