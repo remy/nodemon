@@ -11,7 +11,7 @@ nodemon does **not** require *any* changes to your code or method of development
 Either through forking or by using [npm](http://npmjs.org) (the recommended way):
 
     npm install -g nodemon
-    
+
 And nodemon will be installed in to your bin path. Note that as of npm v1, you must explicitly tell npm to install globally as nodemon is a command line utility.
 
 # Usage
@@ -42,6 +42,10 @@ If you have a `package.json` file for your app, you can omit the main script ent
 
 nodemon was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
 
+# Manual restarting
+
+Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carridge return, and nodemon will restart your process.
+
 # Running non-node scripts
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
@@ -62,11 +66,11 @@ Now nodemon will only restart if there are changes in the `./app` or `./libs` di
 
 By default, nodemon looks for files with the `.js` extension. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` switch like so:
 
-    nodemon --ext '.js|.css|.html'
-    
+    nodemon -e js,css,html
+
 Or with alternative syntax:
 
-    nodemon -e js,css,html
+    nodemon --ext '.js|.css|.html'
 
 Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .css or .html.
 

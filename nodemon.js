@@ -43,8 +43,6 @@ var fs = require('fs'),
     program = getNodemonArgs(),
     watched = [];
 
-
-
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
 var testAndStart = function() {
   var ready = function () {
@@ -177,8 +175,6 @@ watchFileChecker.verify = function() {
     this.cb(false);
   }
 };
-
-
 
 function startNode() {
   util.log('\x1B[32m[nodemon] starting `' + program.options.exec + ' ' + program.args.join(' ') + '`\x1B[0m');
@@ -368,8 +364,8 @@ function startMonitor() {
         }
 
         if (files.length) {
-          if (restartTimer !== null) { 
-            clearTimeout(restartTimer); 
+          if (restartTimer !== null) {
+            clearTimeout(restartTimer);
           }
           restartTimer = setTimeout(function () {
             if (program.options.verbose) {
@@ -775,7 +771,8 @@ if (!program.app) {
 }
 
 if (program.options.verbose) {
-  util.log('[nodemon] v' + meta.version);
+  util.log('\x1B[33m[nodemon] v' + meta.version + '\x1B[0m');
+  util.log('\x1B[33m[nodemon] to restart at any time, enter `rs`\x1B[0m');
 }
 
 // this was causing problems for a lot of people, so now not moving to the subdirectory
@@ -815,6 +812,17 @@ exists(ignoreFilePath, function (exist) {
     });
   } else {
     readIgnoreFile();
+  }
+});
+
+// allow nodemon to restart when the use types 'rs\n'
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+process.stdin.on('data', function (data) {
+  data = (data + '').trim().toLowerCase();
+  if (data === 'rs') {
+    util.log('\x1B[32m[nodemon] restarting child process\x1B[0m');
+    killNode();
   }
 });
 
