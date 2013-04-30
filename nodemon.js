@@ -72,11 +72,14 @@ var testAndStart = function() {
   } else {
     ready();
   }
-}
+};
 
 // This is a fallback function if fs.watch does not work
 function changedSince(time, dir, callback) {
-  callback || (callback = dir);
+  if (!callback) {
+    callback = dir;
+  }
+
   var changed = [],
       i = 0,
       j = 0,
@@ -85,7 +88,9 @@ function changedSince(time, dir, callback) {
       flen = 0,
       done = function () {
         todo--;
-        if (todo === 0) callback(changed);
+        if (todo === 0) {
+          callback(changed);
+        }
       };
 
   dir = dir && typeof dir !== 'function' ? [dir] : dirs;
@@ -93,7 +98,9 @@ function changedSince(time, dir, callback) {
   dir.forEach(function (dir) {
     todo++;
     fs.readdir(dir, function (err, files) {
-      if (err) return;
+      if (err) {
+        return;
+      }
 
       files.forEach(function (file) {
         if (program.includeHidden === true || !program.includeHidden && file.indexOf('.') !== 0) {
@@ -104,7 +111,9 @@ function changedSince(time, dir, callback) {
               if (stat.isDirectory()) {
                 todo++;
                 changedSince(time, file, function (subChanged) {
-                  if (subChanged.length) changed = changed.concat(subChanged);
+                  if (subChanged.length) {
+                    changed = changed.concat(subChanged);
+                  }
                   done();
                 });
               } else if (stat.mtime > time) {
@@ -176,7 +185,7 @@ function startNode() {
 
   lastStarted = Date.now();
 
-  var nodeMajor = parseInt((process.versions.node.split('.') || [,,])[1] || 0)
+  var nodeMajor = parseInt((process.versions.node.split('.') || [undefined,undefined,undefined])[1] || 0, 10);
 
   if (nodeMajor >= 8) {
     child = spawn(program.options.exec, program.args, {
@@ -199,7 +208,10 @@ function startNode() {
       signal = 'SIGUSR2';
     }
     // this is nasty, but it gives it windows support
-    if (isWindows && signal === 'SIGTERM') signal = 'SIGUSR2';
+    if (isWindows && signal === 'SIGTERM') {
+      signal = 'SIGUSR2';
+    }
+
     // exit the monitor, but do it gracefully
     if (signal === 'SIGUSR2') {
       // restart
@@ -342,7 +354,7 @@ function startMonitor() {
         }
       }
 
-      if (noWatch) setTimeout(startMonitor, timeout);
+      if (noWatch) { setTimeout(startMonitor, timeout); }
     });
   } else {
     // Fallback for when both find and fs.watch don't work
@@ -356,13 +368,21 @@ function startMonitor() {
         }
 
         if (files.length) {
-          if (restartTimer !== null) clearTimeout(restartTimer);
+          if (restartTimer !== null) { 
+            clearTimeout(restartTimer); 
+          }
           restartTimer = setTimeout(function () {
-            if (program.options.verbose) util.log('[nodemon] restarting due to changes...');
+            if (program.options.verbose) {
+              util.log('[nodemon] restarting due to changes...');
+            }
             files.forEach(function (file) {
-              if (program.options.verbose) util.log('[nodemon] ' + file);
+              if (program.options.verbose) {
+                util.log('[nodemon] ' + file);
+              }
             });
-            if (program.options.verbose) util.print('\n\n');
+            if (program.options.verbose) {
+              util.print('\n\n');
+            }
 
             killNode();
 
@@ -460,8 +480,9 @@ function readIgnoreFile(curr, prev) {
 // attempt to shutdown the wrapped node instance and remove
 // the monitor file as nodemon exists
 function cleanup() {
-  child && child.kill();
-  // fs.unlink(flag);
+  if (child) {
+    child.kill();
+  }
 }
 
 function getNodemonArgs() {
@@ -475,7 +496,7 @@ function getNodemonArgs() {
   for (; i < len; i++) {
     if (existsSync(path.resolve(dir, args[i]))) {
       // double check we didn't use the --watch or -w opt before this arg
-      if (args[i-1] && (args[i-1] == '-w' || args[i-1] == '--watch')) {
+      if (args[i-1] && (args[i-1] === '-w' || args[i-1] === '--watch')) {
         // ignore
       } else {
         indexOfApp = i;
@@ -486,15 +507,13 @@ function getNodemonArgs() {
 
   if (indexOfApp !== -1) {
     // not found, so assume we're reading the package.json and thus swallow up all the args
-    // indexOfApp = len;
     app = process.argv[i];
     indexOfApp++;
   } else {
     indexOfApp = len;
   }
 
-  var appargs = [], //process.argv.slice(indexOfApp),
-      // app = appargs[0],
+  var appargs = [],
       nodemonargs = process.argv.slice(2, indexOfApp - (app ? 1 : 0)),
       arg,
       options = {
@@ -537,7 +556,7 @@ function getNodemonArgs() {
       options.stdin = false;
     } else if (arg === '--ext' || arg === '-e') {
       options.ext = args.shift();
-    } else { //if (arg === "--") {
+    } else {
       // Remaining args are node arguments
       appargs.push(arg);
     }
@@ -629,19 +648,6 @@ function getAppScript(program) {
   }
 }
 
-function findStatOffset() {
-  var filename = './.stat-test';
-  fs.writeFile(filename, function (err) {
-    if (err) return;
-    fs.stat(filename, function (err, stat) {
-      if (err) return;
-
-      statOffset = stat.mtime.getTime() - new Date().getTime();
-      fs.unlink(filename);
-    });
-  });
-}
-
 function version() {
   console.log(meta.version);
   process.exit(0);
@@ -654,18 +660,18 @@ function help() {
     '',
     ' Options:',
     '',
-    '  -d, --delay n      throttle restart for "n" seconds',
+    '  -e, --ext          extensions to look for Example: ".js|.html|.css"',
+    '  -x, --exec app     execute script with "app", ie. -x "python -v"',
+    '  -q, --quiet        minimise nodemon messages to start/stop only',
     '  -w, --watch dir    watch directory "dir". use once for each',
     '                     directory to watch',
-    '  -x, --exec app     execute script with "app", ie. -x "python -v"',
     '  -I, --no-stdin     don\'t try to read from stdin',
-    '  -q, --quiet        minimise nodemon messages to start/stop only',
-    '  --exitcrash        exit on crash, allows use of nodemon with',
-    '                     daemon tools like forever.js',
+    '  -d, --delay n      throttle restart for "n" seconds',
     '  -L, --legacy-watch Forces node to use the most compatible',
     '                     version for watching file changes',
+    '  --exitcrash        exit on crash, allows use of nodemon with',
+    '                     daemon tools like forever.js',
     '  -v, --version      current nodemon version',
-    '  -e, --ext          extensions to look for Example: ".js|.html|.css"',
     '  -h, --help         you\'re looking at it',
     '',
     ' Note: if the script is omitted, nodemon will try to ',
@@ -707,7 +713,9 @@ function addSubdirectories() {
 
 // remove the flag file on exit
 process.on('exit', function (code) {
-  if (program.options.verbose) util.log('[nodemon] exiting');
+  if (program.options.verbose) {
+    util.log('[nodemon] exiting');
+  }
   cleanup();
 });
 
@@ -736,8 +744,6 @@ if (!isWindows) { // because windows borks when listening for the SIG* events
     process.exit(0);
   });
 }
-
-// TODO on a clean exit, we could continue to monitor the directory and reboot the service
 
 // on exception *inside* nodemon, shutdown wrapped node app
 process.on('uncaughtException', function (err) {
@@ -779,8 +785,6 @@ dirs.forEach(function(dir) {
     util.log('\x1B[32m[nodemon] watching: ' + dir + '\x1B[0m');
   }
 });
-
-// findStatOffset();
 
 if (program.options.ext) {
   addIgnoreRule('^((?!' + program.ext.replace(/\./g, '\\.') + '$).)*$', true);
