@@ -584,6 +584,22 @@ function getAppScript(program) {
     } catch (e) {}
   }
 
+  // make sure --debug and --debug-brk is moved to the front
+  // of the argument
+  var debugIndex = -1;
+  program.args = program.args.filter(function (arg, i) {
+    if (arg.indexOf('--debug') === 0) {
+      debugIndex = arg;
+      return false;
+    } else {
+      return true;
+    }
+  });
+
+  if (debugIndex !== -1) {
+    program.args.unshift(debugIndex);
+  }
+
   if (!program.app) {
     program.app = program.args[0];
   }
@@ -609,7 +625,7 @@ function getAppScript(program) {
     //coffeescript requires --nodejs --debug
 
     // this code is a dance to get the order of the debug flags right when combined with coffeescript
-    var debugIndex = program.args.indexOf('--debug');
+    debugIndex = program.args.indexOf('--debug');
     if (debugIndex === -1) {
       debugIndex = program.args.indexOf('--debug-brk');
     }
