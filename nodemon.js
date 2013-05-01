@@ -597,7 +597,7 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
-  if (program.options.exec === 'node' && program.ext.indexOf('.coffee') !== -1) {
+  if (program.options.exec === 'node' && ((program.ext.indexOf('.coffee') !== -1) || (program.ext.indexOf('.litcoffee') !== -1) )) {
     program.options.exec = 'coffee';
   }
 
@@ -620,7 +620,7 @@ function getAppScript(program) {
 
     // don't override user specified extention tracking
     if (!program.options.ext) {
-      program.ext = '.coffee|.js';
+      program.ext = '.coffee|.litcoffee|.js';
     }
 
     if (!program.options.exec || program.options.exec === 'node') {
@@ -672,7 +672,7 @@ function help() {
     '',
     ' Note: if the script is omitted, nodemon will try to ',
     ' read "main" from package.json and without a .nodemonignore,',
-    ' nodemon will monitor .js and .coffee by default.',
+    ' nodemon will monitor .js, .coffee, and .litcoffee by default.',
     '',
     ' Examples:',
     '',
@@ -755,7 +755,7 @@ if (program.options.delay) {
 
 // this is the default - why am I making it a cmd line opt?
 if (program.options.js) {
-  addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
+  addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
 }
 
 if (program.options.watch && program.options.watch.length > 0) {
@@ -805,7 +805,7 @@ exists(ignoreFilePath, function (exist) {
           if (ext) {
             addIgnoreRule('^((?!' + ext + '$).)*$', true);
           } else {
-            addIgnoreRule('^((?!\.js$|\.coffee$).)*$', true); // ignores everything except JS
+            addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
           }
         }
       }
