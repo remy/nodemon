@@ -15,5 +15,12 @@
       "type": "MIT",
       "url": "http://rem.mit-license.org"
     }],
-    "main": "./nodemon"
+    "main": "./nodemon",
+    "scripts": {
+    "test": "mocha --ui bdd --reporter spec  ./test/logTest.js"
+    },
+    "devDependencies": {
+      "mocha": "~1.9.0",
+      "should": "~1.2.2"
+    }
 }
