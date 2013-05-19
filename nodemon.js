@@ -552,6 +552,8 @@ function getNodemonArgs() {
       options.stdin = false;
     } else if (arg === '--ext' || arg === '-e') {
       options.ext = args.shift();
+    } else if (arg === '--ignore' || arg === '-i') {
+      options.ignore = args.shift();
     } else {
       // Remaining args are node arguments
       appargs.push(arg);
@@ -673,6 +675,8 @@ function help() {
     ' Options:',
     '',
     '  -e, --ext          extensions to look for Example: ".js|.html|.css"',
+    '  -i, --ignore       ignore paths that match the suppled RegEx.',
+    '                     E.g., "build|node_modules"',
     '  -x, --exec app     execute script with "app", ie. -x "python -v"',
     '  -q, --quiet        minimise nodemon messages to start/stop only',
     '  -w, --watch dir    watch directory "dir". use once for each',
@@ -813,7 +817,12 @@ exists(ignoreFilePath, function (exist) {
           util.log('[nodemon] detected old style .nodemonignore');
         }
         ignoreFilePath = oldIgnoreFilePath;
+        readIgnoreFile();
       } else {
+        if (program.options.ignore) {
+          addIgnoreRule(program.options.ignore);
+        }
+
         // don't create the ignorefile, just ignore the flag & JS
         // addIgnoreRule(flag);
         if (!program.options.ext) {
