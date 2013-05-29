@@ -18,6 +18,7 @@ var fs = require('fs'),
     ignoreFilePath = './.nodemonignore',
     ignoreFileWatcher = null,
     oldIgnoreFilePath = './nodemon-ignore',
+    jsongnoreFilePath = './nodemon.json',
     ignoreFiles = [],
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
@@ -316,7 +317,7 @@ function startMonitor() {
       // Join the parts together with Unix slashes
       file = '/' + fileParts.join('/');
     }
-
+	
     return !reIgnoreFiles.test(file);
   };
 
@@ -414,11 +415,13 @@ function killNode() {
 function addIgnoreRule(line, noEscape) {
   // remove comments and trim lines
   // this mess of replace methods is escaping "\#" to allow for emacs temp files
+  
   if (!noEscape) {
     if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
        ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
     }
   } else if (line = line.replace(reTrim, '')) {
+  
     ignoreFiles.push(line);
   }
   reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
@@ -428,6 +431,7 @@ function readIgnoreFile(curr, prev) {
   var hadfile = false;
   // unless the ignore file was actually modified, do no re-read it
   // on darwin platform only
+  
   if (platform === 'darwin') {
     if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) {
       return;
@@ -452,18 +456,28 @@ function readIgnoreFile(curr, prev) {
       if (program.options.verbose) {
         util.log('[nodemon] reading ignore list');
       }
+		
 
+		
       // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
       // addIgnoreRule(flag);
       addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
-      fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
-        var noEscape = rule.substr(0,1) === ':';
-        if (noEscape) {
-          rule = rule.substr(1);
-        }
-        addIgnoreRule(rule, noEscape);
-      });
-
+	  
+		if(ignoreFilePath==jsongnoreFilePath){
+			var 	ignorejson=fs.readFileSync(ignoreFilePath).toString();
+					ignorejson = JSON.parse(ignorejson);
+			ignorejson.ignore.forEach(function(i) {
+					addIgnoreRule(i, true);
+			});
+		}else{
+		  fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
+			var noEscape = rule.substr(0,1) === ':';
+			if (noEscape) {
+			  rule = rule.substr(1);
+			}
+			addIgnoreRule(rule, noEscape);
+		  });
+		}
       ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
     } else if (hadfile) {
       setTimeout(checkTimer, 100);
@@ -598,7 +612,7 @@ function getAppScript(program) {
 
   if (debugIndex !== -1) {
     program.args.unshift(debugIndex);
-  }
+  } 
 
   if (!program.app) {
     program.app = program.args[0];
@@ -814,16 +828,27 @@ exists(ignoreFilePath, function (exist) {
         }
         ignoreFilePath = oldIgnoreFilePath;
       } else {
-        // don't create the ignorefile, just ignore the flag & JS
-        // addIgnoreRule(flag);
-        if (!program.options.ext) {
-          var ext = program.ext.replace(/\./g, '\\.');
-          if (ext) {
-            addIgnoreRule('^((?!' + ext + '$).)*$', true);
-          } else {
-            addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
-          }
-        }
+
+		exists(jsongnoreFilePath, function (exist) {
+		    if (exist) {
+				if (program.options.verbose) {
+				  util.log('[nodemon] detected JSON nodemon.json');
+				}
+				ignoreFilePath = jsongnoreFilePath;
+				readIgnoreFile();
+			} else {
+			     // don't create the ignorefile, just ignore the flag & JS
+				// addIgnoreRule(flag);
+				if (!program.options.ext) {
+				  var ext = program.ext.replace(/\./g, '\\.');
+				  if (ext) {
+					addIgnoreRule('^((?!' + ext + '$).)*$', true);
+				  } else {
+					addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
+				  }
+				}
+			}
+		});
       }
     });
   } else {
