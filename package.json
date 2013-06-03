@@ -20,6 +20,7 @@
     "test": "mocha --ui bdd --reporter spec  ./test/logTest.js"
     },
     "devDependencies": {
+      "connect": "*",
       "mocha": "~1.9.0",
       "should": "~1.2.2"
     }
