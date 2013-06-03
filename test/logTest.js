@@ -8,17 +8,12 @@ describe('When nodemon is run', function () {
 
   before(function (done) {
     var nodeProcess = spawn('node', ['nodemon.js', serverLocation]);
-    var linesOfOutput = 0;
     var doneLogging = false;
 
     nodeProcess.stdout.setEncoding('utf8');
     nodeProcess.stdout.on('data', function (data) {
       logOutput += data;
-      if (data.indexOf('\n') !== -1) {
-        linesOfOutput++;
-      }
-      if (linesOfOutput === 3 && !doneLogging) {
-        doneLogging = true;
+      if (data.match(/^Running server.*/)) {
         nodeProcess.kill();
         done();
       }
