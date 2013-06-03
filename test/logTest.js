@@ -1,7 +1,7 @@
 var should = require('should');
 var fs = require('fs');
 var spawn = require('child_process').spawn;
-var logOutput;
+var logOutput = '';
 var serverLocation = 'test/fixtures/server/index.js';
 
 describe('When nodemon is run', function () {
