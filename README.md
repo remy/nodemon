@@ -122,7 +122,8 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
 
-# Using nodemon in your [grunt.js](http://gruntjs.com) workflow
+# Using nodemon in your Grunt workflow
+
 Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin to integrate nodemon with the rest of your project's grunt workflow.
 
 # Help! My changes aren't being detected!
