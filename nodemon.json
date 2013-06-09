@@ -1,6 +1,3 @@
 {
-"ignore" : [
-"/vendor/*",
-"/src/*"
-]
+"ignore" : []
 }
