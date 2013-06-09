@@ -18,7 +18,7 @@ var fs = require('fs'),
     ignoreFilePath = './.nodemonignore',
     ignoreFileWatcher = null,
     oldIgnoreFilePath = './nodemon-ignore',
-    jsongnoreFilePath = './nodemon.json',
+    NodejsonFilePath = './nodemon.json',
     ignoreFiles = [],
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
@@ -463,7 +463,7 @@ function readIgnoreFile(curr, prev) {
       // addIgnoreRule(flag);
       addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
 	  
-		if(ignoreFilePath==jsongnoreFilePath){
+		if(ignoreFilePath==NodejsonFilePath){
 			var 	ignorejson=fs.readFileSync(ignoreFilePath).toString();
 					ignorejson = JSON.parse(ignorejson);
 			ignorejson.ignore.forEach(function(i) {
@@ -829,12 +829,12 @@ exists(ignoreFilePath, function (exist) {
         ignoreFilePath = oldIgnoreFilePath;
       } else {
 
-		exists(jsongnoreFilePath, function (exist) {
+		exists(NodejsonFilePath, function (exist) {
 		    if (exist) {
 				if (program.options.verbose) {
 				  util.log('[nodemon] detected JSON nodemon.json');
 				}
-				ignoreFilePath = jsongnoreFilePath;
+				ignoreFilePath = NodejsonFilePath;
 				readIgnoreFile();
 			} else {
 			     // don't create the ignorefile, just ignore the flag & JS
