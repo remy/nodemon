@@ -17,7 +17,7 @@
     }],
     "main": "./nodemon",
     "scripts": {
-    "test": "mocha --ui bdd --reporter spec  ./test/logTest.js"
+    "test": "mocha --ui bdd --reporter spec  ./test/*.js"
     },
     "devDependencies": {
       "connect": "*",
