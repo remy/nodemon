@@ -4,6 +4,7 @@ node_js:
   - "0.10"
   - "0.8"
 before_script:
+  - npm install -g coffee-script
   - npm install
 notifications:
   email: false
