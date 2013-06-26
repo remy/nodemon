@@ -184,9 +184,13 @@ function startNode() {
   var nodeMajor = parseInt((process.versions.node.split('.') || [undefined,undefined,undefined])[1] || 0, 10);
 
   if (nodeMajor >= 8) {
-    child = spawn(program.options.exec, program.args, {
-      stdio: ['pipe', process.stdout, process.stderr]
-    });
+    var stdio = ['pipe', process.stdout, process.stderr];
+    if (program.options.stdin) {
+      process.stdin.pause();
+      process.stdin.setEncoding('utf8');
+      stdio = 'inherit';
+    }
+    child = spawn(program.options.exec, program.args, {stdio: stdio});
   } else {
     child = spawn(program.options.exec, program.args);
     child.stdout.on('data', function (data) {
@@ -223,13 +227,6 @@ function startNode() {
       child = null;
     }
   });
-
-  // pinched from https://github.com/DTrejo/run.js - pipes stdin to the child process - cheers DTrejo ;-)
-  if (program.options.stdin) {
-    process.stdin.resume();
-    process.stdin.setEncoding('utf8');
-    process.stdin.pipe(child.stdin);
-  }
 
   setTimeout(startMonitor, timeout);
 }
