@@ -215,6 +215,7 @@ function startNode() {
     // exit the monitor, but do it gracefully
     if (signal === 'SIGUSR2') {
       // restart
+      process.stdin.pause();
       startNode();
     } else if (code === 0) { // clean exit - wait until file change to restart
       util.log('\x1B[32m[nodemon] clean exit - waiting for changes before restart\x1B[0m');
