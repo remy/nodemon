@@ -516,6 +516,7 @@ function getNodemonArgs() {
         delay: 1,
         watch: [],
         exec: 'node',
+        forceExec: false,
         verbose: true,
         js: false, // becomes the default anyway...
         includeHidden: false,
@@ -546,6 +547,7 @@ function getNodemonArgs() {
       options.delay = parseInt(args.shift(), 10);
     } else if (arg === '--exec' || arg === '-x') {
       options.exec = args.shift();
+      options.forceExec = true;
     } else if (arg === '--legacy-watch' || arg === '-L') {
       options.forceLegacyWatch = true;
     } else if (arg === '--no-stdin' || arg === '-I') {
@@ -613,7 +615,7 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
-  if (program.options.exec === 'node' && ((program.ext.indexOf('.coffee') !== -1) || (program.ext.indexOf('.litcoffee') !== -1) )) {
+  if (!program.options.forceExec && (program.options.exec === 'node' && ((program.ext.indexOf('.coffee') !== -1) || (program.ext.indexOf('.litcoffee') !== -1) ))) {
     program.options.exec = 'coffee';
   }
 
