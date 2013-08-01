@@ -15,10 +15,10 @@ var fs = require('fs'),
     flag = './.monitor',
     child = null,
     monitor = null,
-    ignoreFilePath = './.nodemonignore',
     ignoreFileWatcher = null,
+    ignoreFilePath = './.nodemonignore',
     oldIgnoreFilePath = './nodemon-ignore',
-    NodemonJsonFilePath = './nodemon.json',
+    jsonFilePath = './nodemon.json',
     ignoreFiles = [],
     reIgnoreFiles = null,
     timeout = 1000, // check every 1 second
@@ -317,7 +317,7 @@ function startMonitor() {
       // Join the parts together with Unix slashes
       file = '/' + fileParts.join('/');
     }
-	
+
     return !reIgnoreFiles.test(file);
   };
 
@@ -415,13 +415,13 @@ function killNode() {
 function addIgnoreRule(line, noEscape) {
   // remove comments and trim lines
   // this mess of replace methods is escaping "\#" to allow for emacs temp files
-  
+
   if (!noEscape) {
     if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
-       ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
+      ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
     }
   } else if (line = line.replace(reTrim, '')) {
-  
+
     ignoreFiles.push(line);
   }
   reIgnoreFiles = new RegExp(ignoreFiles.join('|'));
@@ -431,7 +431,7 @@ function readIgnoreFile(curr, prev) {
   var hadfile = false;
   // unless the ignore file was actually modified, do no re-read it
   // on darwin platform only
-  
+
   if (platform === 'darwin') {
     if(curr && prev && curr.mtime.valueOf() === prev.mtime.valueOf()) {
       return;
@@ -456,28 +456,28 @@ function readIgnoreFile(curr, prev) {
       if (program.options.verbose) {
         util.log('[nodemon] reading ignore list');
       }
-		
 
-		
+
+
       // ignoreFiles = ignoreFiles.concat([flag, ignoreFilePath]);
       // addIgnoreRule(flag);
       addIgnoreRule(ignoreFilePath.substring(2)); // ignore the ./ part of the filename
-	  
-		if(ignoreFilePath==NodemonJsonFilePath){
-			var 	ignorejson=fs.readFileSync(ignoreFilePath).toString();
-					ignorejson = JSON.parse(ignorejson);
-			ignorejson.ignore.forEach(function(i) {
-					addIgnoreRule(i, true);
-			});
-		}else{
-		  fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
-			var noEscape = rule.substr(0,1) === ':';
-			if (noEscape) {
-			  rule = rule.substr(1);
-			}
-			addIgnoreRule(rule, noEscape);
-		  });
-		}
+
+  		if (ignoreFilePath === jsonFilePath) {
+  			var ignorejson = fs.readFileSync(ignoreFilePath).toString();
+  					ignorejson = JSON.parse(ignorejson);
+  			ignorejson.ignore.forEach(function(i) {
+  					addIgnoreRule(i, true);
+  			});
+  		} else {
+  		  fs.readFileSync(ignoreFilePath).toString().split(/\n/).forEach(function (rule, i) {
+  			var noEscape = rule.substr(0,1) === ':';
+  			if (noEscape) {
+  			  rule = rule.substr(1);
+  			}
+  			addIgnoreRule(rule, noEscape);
+  		  });
+  		}
       ignoreFileWatcher = watchFile(ignoreFilePath, { persistent: false }, readIgnoreFile);
     } else if (hadfile) {
       setTimeout(checkTimer, 100);
@@ -550,7 +550,7 @@ function getNodemonArgs() {
       options.js = true;
     } else if (arg === '--quiet' || arg === '-q') {
       options.verbose = false;
-    } else if (arg === '--hidden') {
+    } else if (arg === '--hidden') { // TODO document this flag?
       options.includeHidden = true;
     } else if (arg === '--watch' || arg === '-w') {
       options.watch.push(args.shift());
@@ -612,7 +612,7 @@ function getAppScript(program) {
 
   if (debugIndex !== -1) {
     program.args.unshift(debugIndex);
-  } 
+  }
 
   if (!program.app) {
     program.app = program.args[0];
@@ -829,12 +829,12 @@ exists(ignoreFilePath, function (exist) {
         ignoreFilePath = oldIgnoreFilePath;
       } else {
 
-		exists(NodemonJsonFilePath, function (exist) {
+		exists(jsonFilePath, function (exist) {
 		    if (exist) {
 				if (program.options.verbose) {
 				  util.log('[nodemon] detected JSON nodemon.json');
 				}
-				ignoreFilePath = NodemonJsonFilePath;
+				ignoreFilePath = jsonFilePath;
 				readIgnoreFile();
 			} else {
 			     // don't create the ignorefile, just ignore the flag & JS
