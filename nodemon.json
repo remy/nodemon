@@ -1,0 +1,15 @@
+{
+  "watch": [
+    "./",
+    "lib",
+    "src",
+    "plugins"
+  ],
+  "ext": "js css html",
+  "exec": "node",
+  "delay": 2,
+  "ignore": [
+    "/vendor/*",
+    ":(\d)*\.js"
+  ]
+}
