@@ -615,7 +615,7 @@ function getAppScript(program) {
     program.args = execOptions.concat(program.args);
   }
 
-  if (!program.options.forceExec && (program.options.exec === 'node' && ((program.ext.indexOf('.coffee') !== -1) || (program.ext.indexOf('.litcoffee') !== -1) ))) {
+  if (!program.options.forceExec && program.options.exec === 'node' && program.ext.indexOf('coffee') !== -1) {
     program.options.exec = 'coffee';
   }
 
