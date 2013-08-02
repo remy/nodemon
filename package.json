@@ -1,27 +1,41 @@
 {
-    "name": "nodemon",
-    "homepage": "http://github.com/remy/nodemon",
-    "author": {
-      "name": "Remy Sharp",
-      "url": "http://github.com/remy"
-    },
-    "bin": { "nodemon" : "./nodemon.js" },
-    "repository": { "type" : "git", "url" : "http://github.com/remy/nodemon.git" },
-    "description": "Simple monitor script for use during development of a node.js app.",
-    "keywords": ["monitor", "development", "restart", "autoload", "reload", "terminal"],
-    "version": "0.8.0a",
-    "preferGlobal" : "true",
-    "licenses": [{
+  "name": "nodemon",
+  "homepage": "http://github.com/remy/nodemon",
+  "author": {
+    "name": "Remy Sharp",
+    "url": "http://github.com/remy"
+  },
+  "bin": {
+    "nodemon": "./nodemon.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/remy/nodemon.git"
+  },
+  "description": "Simple monitor script for use during development of a node.js app.",
+  "keywords": [
+    "monitor",
+    "development",
+    "restart",
+    "autoload",
+    "reload",
+    "terminal"
+  ],
+  "version": "0.8.0a",
+  "preferGlobal": "true",
+  "licenses": [
+    {
       "type": "MIT",
       "url": "http://rem.mit-license.org"
-    }],
-    "main": "./nodemon",
-    "scripts": {
-    "test": "mocha --ui bdd --reporter spec  ./test/logTest.js"
-    },
-    "devDependencies": {
-      "connect": "*",
-      "mocha": "~1.9.0",
-      "should": "~1.2.2"
     }
+  ],
+  "main": "./nodemon",
+  "scripts": {
+    "test": "mocha --ui bdd --reporter dot test/**/*.test.js"
+  },
+  "devDependencies": {
+    "connect": "*",
+    "mocha": "~1.12.0",
+    "should": "~1.2.2"
+  }
 }
