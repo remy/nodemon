@@ -1,10 +1,15 @@
 # nodemon
 
+[![Flattr this](http://api.flattr.com/button/flattr-badge-large.png)](http://flattr.com/thing/1211372/remynodemon-on-GitHub)
+
 For use during development of a node.js based application. 
 
 nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
 
 nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
+
+[![NPM version](https://badge.fury.io/js/nodemon.png)](http://badge.fury.io/js/nodemon)  
+[![Travis Status](https://travis-ci.org/remy/nodemon.png)](https://travis-ci.org/remy/nodemon)
 
 # Installation
 
