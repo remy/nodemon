@@ -6,7 +6,7 @@
     "url": "http://github.com/remy"
   },
   "bin": {
-    "nodemon": "./nodemon.js"
+    "nodemon": "./bin/nodemon.js"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,7 @@
     "reload",
     "terminal"
   ],
-  "version": "0.8.0a",
+  "version": "0.8.0alpha",
   "preferGlobal": "true",
   "licenses": [
     {
@@ -29,7 +29,7 @@
       "url": "http://rem.mit-license.org"
     }
   ],
-  "main": "./nodemon",
+  "main": "./bin/nodemon.js",
   "scripts": {
     "test": "mocha --ui bdd --reporter dot test/**/*.test.js"
   },

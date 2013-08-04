@@ -1,0 +1,6 @@
+# this is my ignore file with a nice comment at the top
+
+/vendor/*     # ignore all external submodules
+/public/*     # comment
+./README.md   # a specific file
+*.css         # ignore any CSS files too
