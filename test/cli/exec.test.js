@@ -35,10 +35,10 @@ describe('nodemon exec', function () {
   it('should support input from argv#parse', function () {
     var parse = require('../../lib/cli/parse');
 
-    console.log(process.argv);
+    // console.log(process.argv);
 
     var parsed = parse('node /usr/local/bin/nodemon.js --debug -e js,jade,hbs app.js'.split(' '));
-    console.log(parsed);
+    // console.log(parsed);
   });
 
   it('should use coffeescript on .coffee', function () {

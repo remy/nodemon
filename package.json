@@ -31,7 +31,7 @@
   ],
   "main": "./bin/nodemon.js",
   "scripts": {
-    "test": "mocha --ui bdd --reporter dot test/**/*.test.js"
+    "test": "mocha --ui bdd --reporter spec test/**/*.test.js"
   },
   "devDependencies": {
     "connect": "*",

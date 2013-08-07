@@ -40,9 +40,8 @@ describe('nodemon parser', function () {
     it('should parse ' + command.command, function () {
       var parsed = parse(stringToArgs('node ' + command.command));
 
-      console.log(parsed.options.exec);
-
-      assert(parsed.options.exec === command.exec);
+      // undefined means it'll be later populated with `node`
+      assert(parsed.options.exec === undefined);
     });
   });
 });
