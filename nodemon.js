@@ -43,6 +43,10 @@ var fs = require('fs'),
     program = getNodemonArgs(),
     watched = [];
 
+if (program.options.exclude) {
+  ignoreFilePath = program.options.exclude;
+}
+
 // test to see if the version of find being run supports searching by seconds (-mtime -1s -print)
 var testAndStart = function() {
   var ready = function () {
@@ -317,6 +321,10 @@ function startMonitor() {
       file = '/' + fileParts.join('/');
     }
 
+    if (!reIgnoreFiles) {
+      return true;
+    }
+
     return !reIgnoreFiles.test(file);
   };
 
@@ -510,25 +518,25 @@ function getNodemonArgs() {
   }
 
   var appargs = [],
-      nodemonargs = process.argv.slice(2, indexOfApp - (app ? 1 : 0)),
-      arg,
-      options = {
-        delay: 1,
-        watch: [],
-        exec: 'node',
-        forceExec: false,
-        verbose: true,
-        js: false, // becomes the default anyway...
-        includeHidden: false,
-        exitcrash: false,
-        forceLegacyWatch: false, // forces nodemon to use the slowest but most compatible method for watching for file changes
-        stdin: true
-        // args: []
-      };
+    nodemonargs = process.argv.slice(2, indexOfApp - (app ? 1 : 0)),
+    arg;
+  var options = {
+    delay: 1,
+    watch: [],
+    exec: 'node',
+    forceExec: false,
+    verbose: true,
+    js: false, // becomes the default anyway...
+    includeHidden: false,
+    exitcrash: false,
+    forceLegacyWatch: false, // forces nodemon to use the slowest but most compatible method for watching for file changes
+    stdin: true
+    // args: []
+  };
 
   // process nodemon args
   args.splice(0, 2);
-  while (arg = args.shift()) {
+  while ((arg = args.shift())) {
     if (arg === '--help' || arg === '-h' || arg === '-?') {
       return help(); // exits program
     } else if (arg === '--version' || arg === '-v') {
@@ -554,6 +562,8 @@ function getNodemonArgs() {
       options.stdin = false;
     } else if (arg === '--ext' || arg === '-e') {
       options.ext = args.shift();
+    } else if (arg === '--exclude') {
+      options.exclude = args.shift(); //get path to get ignore list
     } else {
       // Remaining args are node arguments
       appargs.push(arg);
@@ -802,7 +812,9 @@ dirs.forEach(function(dir) {
 });
 
 if (program.options.ext) {
-  addIgnoreRule('^((?!' + program.ext.replace(/\./g, '\\.') + '$).)*$', true);
+  if (program.options.ext !== '*') {
+    addIgnoreRule('^((?!' + program.ext.replace(/\./g, '\\.') + '$).)*$', true);
+  }
 }
 
 exists(ignoreFilePath, function (exist) {
@@ -821,7 +833,9 @@ exists(ignoreFilePath, function (exist) {
         if (!program.options.ext) {
           var ext = program.ext.replace(/\./g, '\\.');
           if (ext) {
-            addIgnoreRule('^((?!' + ext + '$).)*$', true);
+            if (ext !== '*') {
+              addIgnoreRule('^((?!' + ext + '$).)*$', true);
+            }
           } else {
             addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
           }
