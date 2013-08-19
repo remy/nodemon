@@ -1,5 +1,6 @@
 /*global describe:true, it: true */
 var cli = require('../../lib/cli/'),
+    pkg = require('../../package'),
     assert = require('assert'),
     fs = require('fs'),
     cwd = process.cwd();
@@ -9,10 +10,10 @@ function asCLI(cmd) {
 }
 
 describe('nodemon CLI parser', function () {
-  it('should parse `nodemon`', function () {
+  it('should support stand alone `nodemon` command', function () {
     var settings = cli.parse(asCLI(''));
 
-    assert(settings.userScript === './bin/nodemon.js');
+    assert(settings.userScript === pkg.main);
   });
 
   it('should parse `nodemon lib/index.js`', function () {
