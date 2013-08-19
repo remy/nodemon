@@ -21,7 +21,7 @@
     "reload",
     "terminal"
   ],
-  "version": "0.8.0alpha",
+  "version": "0.8.0-alpha",
   "preferGlobal": "true",
   "licenses": [
     {
@@ -29,7 +29,8 @@
       "url": "http://rem.mit-license.org"
     }
   ],
-  "main": "./bin/nodemon.js",
+  "://main": "./bin/nodemon.js",
+  "main": "./test/fixtures/app.js",
   "scripts": {
     "test": "mocha --ui bdd --reporter spec test/**/*.test.js"
   },
@@ -37,5 +38,9 @@
     "connect": "*",
     "mocha": "~1.12.0",
     "should": "~1.2.2"
+  },
+  "dependencies": {
+    "update-notifier": "~0.1.5",
+    "colors": "~0.6.1"
   }
 }

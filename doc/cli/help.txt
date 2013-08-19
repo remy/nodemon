@@ -1,30 +1,31 @@
-Usage: nodemon [options] [script.js] [args]
+  Usage: nodemon [options] [script.js] [args]
 
-Options:
+  Options:
 
--e, --ext          extensions to look for Example: ".js|.html|.css"
--x, --exec app     execute script with "app", ie. -x "python -v"
--q, --quiet        minimise nodemon messages to start/stop only
--w, --watch dir    watch directory "dir". use once for each
-                   directory to watch
--I, --no-stdin     don't try to read from stdin
--d, --delay n      throttle restart for "n" seconds
--L, --legacy-watch Forces node to use the most compatible
-                   version for watching file changes
---exitcrash        exit on crash, allows use of nodemon with
-                   daemon tools like forever.js
--v, --version      current nodemon version
--h, --help         you're looking at it
+  -e, --ext ................ extensions to look for, ie. js,jade,hbs.
+  -x, --exec app ........... execute script with "app", ie. -x "python -v".
+  -w, --watch .............. watch directory "dir" or files. use once for each
+                             directory or file to watch.
+  -i, --ignore ............. ignore specific files or directories.
+  -q, --quiet .............. minimise nodemon messages to start/stop only.
+  -I, --no-stdin ........... don't try to read from stdin.
+  -d, --delay n ............ throttle restart for "n" seconds.
+  -L, --legacy-watch ....... Forces node to use the most compatible version for
+                             watching file changes.
+  --exitcrash .............. exit on crash, allows use of nodemon with daemon
+                             tools like forever.js.
+  -v, --version ............ current nodemon version.
+  -h, --help ............... you're looking at it.
 
-Note: if the script is omitted, nodemon will try to
-read "main" from package.json and without a .nodemon,
-nodemon will monitor .js, .coffee, and .litcoffee by default.
+  Note: if the script is omitted, nodemon will try to read "main" from
+  package.json and without a .nodemon, nodemon will monitor .js, .coffee,
+  and .litcoffee by default.
 
-Examples:
+  Examples:
 
-$ nodemon server.js
-$ nodemon -w ../foo server.js apparg1 apparg2
-$ PORT=8000 nodemon --debug-brk server.js
-$ nodemon --exec python app.py
+  $ nodemon server.js
+  $ nodemon -w ../foo server.js apparg1 apparg2
+  $ PORT=8000 nodemon --debug-brk server.js
+  $ nodemon --exec python app.py
 
-For more details see http://github.com/remy/nodemon/
+  For more details see http://github.com/remy/nodemon/

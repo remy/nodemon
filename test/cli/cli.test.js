@@ -8,7 +8,7 @@ function asCLI(cmd) {
   return ('node nodemon ' + cmd).trim();
 }
 
-describe('nodemon parser', function () {
+describe('nodemon CLI parser', function () {
   it('should parse `nodemon`', function () {
     var settings = cli.parse(asCLI(''));
 
