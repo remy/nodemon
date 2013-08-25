@@ -4,14 +4,14 @@
 
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
-  -w, --watch .............. watch directory "dir" or files. use once for each
-                             directory or file to watch.
+  -w, --watch .............. watch directory "dir" or files. use once for
+                             each directory or file to watch.
   -i, --ignore ............. ignore specific files or directories.
   -q, --quiet .............. minimise nodemon messages to start/stop only.
   -I, --no-stdin ........... don't try to read from stdin.
   -d, --delay n ............ throttle restart for "n" seconds.
-  -L, --legacy-watch ....... Forces node to use the most compatible version for
-                             watching file changes.
+  -L, --legacy-watch ....... Forces node to use the most compatible version
+                             for watching file changes.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
   -v, --version ............ current nodemon version.
