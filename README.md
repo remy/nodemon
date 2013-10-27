@@ -49,7 +49,7 @@ nodemon was original written to restart hanging processes such as web servers, b
 
 # Manual restarting
 
-Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carridge return, and nodemon will restart your process.
+Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carriage return, and nodemon will restart your process.
 
 # Running non-node scripts
 
