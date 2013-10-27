@@ -21,7 +21,7 @@
     "reload",
     "terminal"
   ],
-  "version": "0.8.0-alpha",
+  "version": "0.9.0",
   "preferGlobal": "true",
   "licenses": [
     {
