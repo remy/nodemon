@@ -24,24 +24,24 @@ describe('nodemon CLI parser', function () {
 
   it('should parse `nodemon test/fixtures/app.coffee`', function () {
     var settings = cli.parse(asCLI('test/fixtures/app.coffee'));
-    assert(settings.userScript === 'test/fixtures/app.coffee');
 
-    assert(settings.options.exec === 'coffee');
+    assert(settings.userScript === 'test/fixtures/app.coffee');
+    assert(settings.execOptions.exec === 'coffee');
   });
 
   it('should parse `nodemon --watch src/ -e js,coffee test/fixtures/app.js`', function () {
     var settings = cli.parse(asCLI('--watch src/ -e js,coffee test/fixtures/app.js'));
 
     assert(settings.userScript === 'test/fixtures/app.js');
-    assert(settings.options.exec === 'node');
+    assert(settings.execOptions.exec === 'node');
   });
 
   it('should pass --debug to node', function () {
     var settings = cli.parse(asCLI('--debug test/fixtures/app.js'));
 
     assert(settings.userScript === 'test/fixtures/app.js');
-    assert(settings.options.exec === 'node');
-    assert(settings.options.nodeArgs[0] === '--debug');
+    assert(settings.execOptions.exec === 'node');
+    assert(settings.nodeArgs[0] === '--debug');
   });
 
 
