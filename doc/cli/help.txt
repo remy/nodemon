@@ -8,6 +8,7 @@
                              each directory or file to watch.
   -i, --ignore ............. ignore specific files or directories.
   -q, --quiet .............. minimise nodemon messages to start/stop only.
+  -V, --verbose ............ show detail on what is causing restarts.
   -I, --no-stdin ........... don't try to read from stdin.
   -d, --delay n ............ throttle restart for "n" seconds.
   -L, --legacy-watch ....... Forces node to use the most compatible version
