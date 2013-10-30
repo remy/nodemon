@@ -40,7 +40,6 @@
     "should": "~1.2.2"
   },
   "dependencies": {
-    "update-notifier": "~0.1.5",
-    "object-mixin": "~0.2.1"
+    "update-notifier": "~0.1.5"
   }
 }
