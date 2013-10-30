@@ -21,6 +21,13 @@ describe('nodemon CLI parser', function () {
     assert(settings.userScript === pkg.main);
   });
 
+  it('should put --debug in the right place with coffescript', function () {
+    var settings = cli.parse(asCLI('--debug test/fixtures/app.coffee'));
+
+    assert(commandToString(command(settings)) === 'coffee --nodejs --debug test/fixtures/app.coffee');
+    assert(settings.execOptions.exec === 'coffee');
+  });
+
   it('should support period path', function () {
     var settings = cli.parse(asCLI('.'));
 
