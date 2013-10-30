@@ -2,6 +2,7 @@
 var cli = require('../../lib/cli/'),
     pkg = require('../../package'),
     assert = require('assert'),
+    command = require('../../lib/monitor/run').command,
     fs = require('fs'),
     cwd = process.cwd();
 
@@ -9,11 +10,21 @@ function asCLI(cmd) {
   return ('node nodemon ' + cmd).trim();
 }
 
+function commandToString(command) {
+  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+}
+
 describe('nodemon CLI parser', function () {
   it('should support stand alone `nodemon` command', function () {
     var settings = cli.parse(asCLI(''));
 
     assert(settings.userScript === pkg.main);
+  });
+
+  it('should support period path', function () {
+    var settings = cli.parse(asCLI('.'));
+
+    assert(commandToString(command(settings)) === 'node .');
   });
 
   it('should parse `nodemon lib/index.js`', function () {
