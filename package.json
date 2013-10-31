@@ -32,12 +32,13 @@
   "://main": "./bin/nodemon.js",
   "main": "./test/fixtures/app.js",
   "scripts": {
-    "test": "mocha --ui bdd --reporter spec test/**/*.test.js"
+    "test": "istanbul cover _mocha -- --ui bdd --reporter spec test/**/*.test.js"
   },
   "devDependencies": {
     "connect": "*",
     "mocha": "~1.12.0",
-    "should": "~1.2.2"
+    "should": "~1.2.2",
+    "istanbul": "~0.1.44"
   },
   "dependencies": {
     "update-notifier": "~0.1.5"
