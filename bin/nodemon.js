@@ -17,15 +17,3 @@ var options = cli.parse(process.argv);
 options.restartable = 'rs';
 
 nodemon(options);
-
-if (options.restartable) {
-  // allow nodemon to restart when the use types 'rs\n'
-  process.stdin.resume();
-  process.stdin.setEncoding('utf8');
-  process.stdin.on('data', function (data) {
-    data = (data + '').trim().toLowerCase();
-    if (data === options.restartable) {
-      nodemon.restart();
-    }
-  });
-}
