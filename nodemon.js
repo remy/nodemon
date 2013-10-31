@@ -104,7 +104,7 @@ function changedSince(time, dir, callback) {
       files.forEach(function (file) {
         if (program.includeHidden === true || !program.includeHidden && file.indexOf('.') !== 0) {
           todo++;
-          file = path.resolve(dir + '/' + file);
+          file = path.resolve(dir,file);
           var stat = fs.stat(file, function (err, stat) {
             if (stat) {
               if (stat.isDirectory()) {
