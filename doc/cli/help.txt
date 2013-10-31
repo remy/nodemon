@@ -17,10 +17,13 @@
                              tools like forever.js.
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
+  --help <topic> ........... help on a specific feature.
 
   Note: if the script is omitted, nodemon will try to read "main" from
-  package.json and without a .nodemon, nodemon will monitor .js, .coffee,
+  package.json and without a nodemon.json, nodemon will monitor .js, .coffee,
   and .litcoffee by default.
+
+  To learn more about nodemon.json config: nodemon --help config
 
   Examples:
 
@@ -28,5 +31,6 @@
   $ nodemon -w ../foo server.js apparg1 apparg2
   $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py
+  $ nodemon --exec "make build" -e "styl hbs"
 
   For more details see http://github.com/remy/nodemon/

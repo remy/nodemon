@@ -1,0 +1,9 @@
+
+  Typically the options to control nodemon are passed in via the CLI and are
+  listed under the default nodemon --help command.
+
+  nodemon can also be configured via a local and global config file.
+
+  ~/nodemon.json
+
+  or $PWD/nodemon.json
