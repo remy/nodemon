@@ -4,7 +4,7 @@
 
 For use during development of a node.js based application. 
 
-nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
+nodemon will watch the files in the directory where nodemon was started, and if they change, it will automatically restart your node application.
 
 nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
@@ -45,11 +45,11 @@ If you have a `package.json` file for your app, you can omit the main script ent
 
 # Automatic re-running
 
-nodemon was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
+nodemon was originally written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
 
 # Manual restarting
 
-Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carriage return, and nodemon will restart your process.
+Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restarting nodemon, you can simply type `rs` with a carriage return, and nodemon will restart your process.
 
 # Running non-node scripts
 
@@ -81,7 +81,7 @@ Now nodemon will restart on any changes to files in the directory (or subdirecto
 
 # Delaying restarting
 
-In some situations, you may want to wait until a number of files have changed. The timeout before checking for new file changes is 1 second. If you're uploading a number of files and it's taking some number of seconds, this could cause your app to restart multiple time unnecessarily.
+In some situations, you may want to wait until a number of files have changed. The timeout before checking for new file changes is 1 second. If you're uploading a number of files and it's taking some number of seconds, this could cause your app to restart multiple times unnecessarily.
 
 To add an extra throttle, or delay restarting, use the `--delay` command:
 
