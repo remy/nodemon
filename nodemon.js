@@ -34,6 +34,7 @@ var fs = require('fs'),
     reEscComments = /\\#/g,
     reUnescapeComments = /\^\^/g, // note that '^^' is used in place of escaped comments
     reComments = /#.*$/,
+    reNewLine = /[\n\r]/,
     reTrim = /^(\s|\u00A0)+|(\s|\u00A0)+$/g,
     reEscapeChars = /[.|\-[\]()\\]/g,
     reAsterisk = /\*/g,
@@ -415,7 +416,7 @@ function addIgnoreRule(line, noEscape) {
   // remove comments and trim lines
   // this mess of replace methods is escaping "\#" to allow for emacs temp files
   if (!noEscape) {
-    if (line = line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
+    if (line = line.replace(reNewLine,'').line.replace(reEscComments, '^^').replace(reComments, '').replace(reUnescapeComments, '#').replace(reTrim, '')) {
        ignoreFiles.push(line.replace(reEscapeChars, '\\$&').replace(reAsterisk, '.*'));
     }
   } else if (line = line.replace(reTrim, '')) {
