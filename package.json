@@ -29,7 +29,7 @@
       "url": "http://rem.mit-license.org"
     }
   ],
-  "://main": "./bin/nodemon.js",
+  ":main": "./lib/nodemon",
   "main": "./test/fixtures/app.js",
   "scripts": {
     "test": "mocha --ui bdd --reporter spec test/**/*.test.js"
