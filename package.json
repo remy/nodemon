@@ -32,7 +32,7 @@
   ":main": "./lib/nodemon",
   "main": "./test/fixtures/app.js",
   "scripts": {
-    "test": "istanbul cover _mocha -- --ui bdd --reporter spec test/**/*.test.js"
+    "test": "istanbul cover _mocha -- --timeout 5000 --ui bdd --reporter spec test/**/*.test.js"
   },
   "devDependencies": {
     "connect": "*",

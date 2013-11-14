@@ -9,7 +9,8 @@ var nodemon = 'bin/nodemon.js',
     spawn = childProcess.spawn,
     assert = require('assert'),
     lastChild = null,
-    ctr = 0;
+    ctr = 0,
+    pids = [];
 
 function asCLI(cmd) {
   return {
@@ -35,12 +36,19 @@ function run(cmd, callbacks) {
 
   lastChild = proc;
 
+  pids.push(proc.pid);
+
   proc.stderr.setEncoding('utf8');
   proc.stdout.setEncoding('utf8');
 
   // proc.on('close', function (code) {
   //   console.log('child process exited with code ' + code);
   // });
+  proc.stdout.on('data', function (data) {
+    if (match(data, 'pid: ')) {
+      pids.push(colour.strip(data).trim().replace(/.*pid:\s/, '') * 1);
+    }
+  });
   if (callbacks.output) proc.stdout.on('data', callbacks.output);
   if (callbacks.restart) proc.stdout.on('data', function (data) {
     if (match(data, 'restarting due to changes')) {
@@ -63,17 +71,16 @@ function cleanup(done) {
 }
 
 describe('nodemon monitor', function () {
-  // beforeEach(function (done) {
-  //   if (lastChild !== null) {
-  //     lastChild.on('exit', function () {
-  //       console.log('>>>>>>>>> beforeEach exit');
-  //       done();
-  //     });
-  //     lastChild.kill();
-  //   } else {
-  //     done();
-  //   }
-  // });
+  after(function (done) {
+    pids.forEach(function (pid) {
+      try {
+        process.kill(pid);
+      } catch (e) {
+        // ignore those processes that were kill by the cleanup process
+      }
+    });
+    done();
+  });
 
   it('should restart on .js file changes with no arguments', function (done) {
     setTimeout(function () {
@@ -81,8 +88,14 @@ describe('nodemon monitor', function () {
     }, 1000);
 
     run(appjs, {
-      restart: function () {
-        cleanup(done);
+      output: function (data) {
+        if (match(data, 'changes after filters')) {
+          var changes = colour.strip(data.trim()).slice(-5).split('/');
+          var restartedOn = changes.pop();
+
+          assert(restartedOn == '1');
+          cleanup(done);
+        }
       },
       error: function (data) {
         new Error(data);
