@@ -38,7 +38,8 @@
     "connect": "*",
     "mocha": "~1.12.0",
     "should": "~1.2.2",
-    "istanbul": "~0.1.44"
+    "istanbul": "~0.1.44",
+    "touch": "0.0.2"
   },
   "dependencies": {
     "update-notifier": "~0.1.5"
