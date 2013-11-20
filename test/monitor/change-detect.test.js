@@ -70,6 +70,33 @@ function cleanup(done) {
   }
 }
 
+describe('nodemon simply running', function () {
+  after(function (done) {
+    pids.forEach(function (pid) {
+      try {
+        process.kill(pid);
+      } catch (e) {
+        // ignore those processes that were kill by the cleanup process
+      }
+    });
+    done();
+  });
+
+  it('should start', function (done) {
+    run(appjs, {
+      output: function (data) {
+        if (match(data, appjs)) {
+          done();
+        }
+      },
+      error: function (data) {
+        done(new Error(data));
+      }
+    });
+  });
+
+});
+
 describe('nodemon monitor', function () {
   after(function (done) {
     pids.forEach(function (pid) {
@@ -98,7 +125,7 @@ describe('nodemon monitor', function () {
         }
       },
       error: function (data) {
-        new Error(data);
+        done(new Error(data));
       }
     });
   });
@@ -119,7 +146,7 @@ describe('nodemon monitor', function () {
         }
       },
       error: function (data) {
-        new Error(data);
+        done(new Error(data));
       }
     });
 
