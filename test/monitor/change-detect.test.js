@@ -1,16 +1,23 @@
 /*global describe:true, it: true */
-var nodemon = 'bin/nodemon.js',
+var nodemon = 'bin/nodemon.js -V',
     path = require('path'),
     colour = require('../../lib/utils/colour'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js'),
     appcoffee = path.resolve(__dirname, '..', 'fixtures', 'app.coffee'),
     childProcess = require('child_process'),
-    touch = require('touch'),
+    fs = require('fs'),
+    // touch = require('touch'),
     spawn = childProcess.spawn,
     assert = require('assert'),
     lastChild = null,
     ctr = 0,
     pids = [];
+
+function touch(path) {
+  fs.readFile(path, 'utf8', function (err, data) {
+    fs.writeFile(path, data);
+  });
+}
 
 function asCLI(cmd) {
   return {
@@ -56,17 +63,19 @@ function run(cmd, callbacks) {
     }
   });
   if (callbacks.error) proc.stderr.on('data', callbacks.error);
+
+  return proc;
 }
 
-function cleanup(done) {
+function cleanup(done, err) {
   if (lastChild) {
     lastChild.on('exit', function () {
       lastChild = null;
-      done();
+      done(err);
     });
     lastChild.kill();
   } else {
-    done();
+    done(err);
   }
 }
 
@@ -80,17 +89,18 @@ describe('nodemon simply running', function () {
       }
     });
     done();
+    pids = [];
   });
 
   it('should start', function (done) {
     run(appjs, {
       output: function (data) {
         if (match(data, appjs)) {
-          done();
+          cleanup(done);
         }
       },
       error: function (data) {
-        done(new Error(data));
+        cleanup(done, new Error(data));
       }
     });
   });
@@ -111,11 +121,13 @@ describe('nodemon monitor', function () {
 
   it('should restart on .js file changes with no arguments', function (done) {
     setTimeout(function () {
-      touch.sync(appjs);
+      console.log('touching ' + appjs);
+      touch(appjs);
     }, 1000);
 
     run(appjs, {
       output: function (data) {
+        console.log(data);
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
@@ -125,14 +137,14 @@ describe('nodemon monitor', function () {
         }
       },
       error: function (data) {
-        done(new Error(data));
+        cleanup(done, new Error(data));
       }
     });
   });
 
   it('should NOT restart on non-.js file changes with no arguments', function (done) {
     setTimeout(function () {
-      touch.sync(appcoffee);
+      touch(appcoffee);
     }, 1000);
 
     run(appjs, {
@@ -146,7 +158,7 @@ describe('nodemon monitor', function () {
         }
       },
       error: function (data) {
-        done(new Error(data));
+        cleanup(done, new Error(data));
       }
     });
 
