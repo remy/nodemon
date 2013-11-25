@@ -1,12 +1,11 @@
 /*global describe:true, it: true */
-var nodemon = 'bin/nodemon.js',
-    path = require('path'),
+var path = require('path'),
     colour = require('../../lib/utils/colour'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js'),
     appcoffee = path.resolve(__dirname, '..', 'fixtures', 'app.coffee'),
     childProcess = require('child_process'),
     touch = require('touch'),
-    spawn = childProcess.spawn,
+    fork = childProcess.fork,
     assert = require('assert'),
     lastChild = null,
     ctr = 0,
@@ -14,8 +13,8 @@ var nodemon = 'bin/nodemon.js',
 
 function asCLI(cmd) {
   return {
-    exec: 'node',
-    args: (nodemon + ' ' + cmd).trim().split(' ')
+    exec: 'bin/nodemon.js',
+    args: cmd.trim().split(' ')
   }
 }
 
@@ -29,9 +28,11 @@ function match(str, key) {
 
 function run(cmd, callbacks) {
   var cli = asCLI(cmd);
-  var proc = spawn(cli.exec, cli.args, {
+  var proc = fork(cli.exec, cli.args, {
     env: process.env,
-    cwd: process.cwd()
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    silent: true,
   });
 
   lastChild = proc;
@@ -56,6 +57,8 @@ function run(cmd, callbacks) {
     }
   });
   if (callbacks.error) proc.stderr.on('data', callbacks.error);
+
+  return proc;
 }
 
 function cleanup(done) {
@@ -64,66 +67,80 @@ function cleanup(done) {
       lastChild = null;
       done();
     });
-    lastChild.kill();
+    lastChild.send('quit');
   } else {
     done();
   }
 }
 
 describe('nodemon monitor', function () {
-  after(function (done) {
-    pids.forEach(function (pid) {
-      try {
-        process.kill(pid);
-      } catch (e) {
-        // ignore those processes that were kill by the cleanup process
-      }
+  // after(function (done) {
+  //   pids.forEach(function (pid) {
+  //     try {
+  //       process.kill(pid);
+  //     } catch (e) {
+  //       // ignore those processes that were kill by the cleanup process
+  //     }
+  //   });
+  //   done();
+  // });
+  //
+  var complete = function (p, done, err) {
+    p.once('exit', function () {
+      done(err);
     });
-    done();
-  });
+    p.send('quit');
+  }
 
   it('should restart on .js file changes with no arguments', function (done) {
-    setTimeout(function () {
-      touch.sync(appjs);
-    }, 1000);
 
-    run(appjs, {
+    var p = run(appjs, {
       output: function (data) {
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
-
           assert(restartedOn == '1');
-          cleanup(done);
         }
       },
       error: function (data) {
-        new Error(data);
+        complete(p, done, new Error(data));
       }
     });
+
+    p.on('message', function (event) {
+      if (event.type === 'restart') {
+        complete(p, done);
+      } else if (event.type === 'start') {
+        setTimeout(function () {
+          touch.sync(appjs);
+        }, 1000);
+      }
+    })
   });
 
   it('should NOT restart on non-.js file changes with no arguments', function (done) {
-    setTimeout(function () {
-      touch.sync(appcoffee);
-    }, 1000);
-
-    run(appjs, {
+    var p = run(appjs, {
       output: function (data) {
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
 
-          assert(restartedOn == '0');
-          cleanup(done);
+          assert(restartedOn == '0', 'expects to not have restarted');
+          complete(p, done);
         }
       },
       error: function (data) {
-        new Error(data);
+        complete(p, done, new Error(data));
       }
     });
 
-
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        setTimeout(function () {
+          touch.sync(appcoffee);
+        }, 1000);
+      }
+    });
   });
 });
 
