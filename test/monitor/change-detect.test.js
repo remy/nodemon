@@ -11,6 +11,12 @@ var path = require('path'),
     ctr = 0,
     pids = [];
 
+function touch(path) {
+  fs.readFile(path, 'utf8', function (err, data) {
+    fs.writeFile(path, data);
+  });
+}
+
 function asCLI(cmd) {
   return {
     exec: 'bin/nodemon.js',
@@ -61,17 +67,45 @@ function run(cmd, callbacks) {
   return proc;
 }
 
-function cleanup(done) {
+function cleanup(done, err) {
   if (lastChild) {
     lastChild.on('exit', function () {
       lastChild = null;
-      done();
+      done(err);
     });
     lastChild.send('quit');
   } else {
-    done();
+    done(err);
   }
 }
+
+describe('nodemon simply running', function () {
+  after(function (done) {
+    pids.forEach(function (pid) {
+      try {
+        process.kill(pid);
+      } catch (e) {
+        // ignore those processes that were kill by the cleanup process
+      }
+    });
+    done();
+    pids = [];
+  });
+
+  it('should start', function (done) {
+    run(appjs, {
+      output: function (data) {
+        if (match(data, appjs)) {
+          cleanup(done);
+        }
+      },
+      error: function (data) {
+        cleanup(done, new Error(data));
+      }
+    });
+  });
+
+});
 
 describe('nodemon monitor', function () {
   // after(function (done) {
@@ -93,9 +127,9 @@ describe('nodemon monitor', function () {
   }
 
   it('should restart on .js file changes with no arguments', function (done) {
-
     var p = run(appjs, {
       output: function (data) {
+        console.log(data);
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
