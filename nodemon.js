@@ -153,7 +153,7 @@ watchFileChecker.check = function(cb) {
   }
   var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch' + Date.now();
   var watchFile = fs.openSync(watchFileName, 'w');
-  if (!watchFile) {
+  if (watchFile < 0) {
     util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
     cb(true);
     return;
