@@ -648,7 +648,7 @@ function getAppScript(program) {
       program.args.splice(debugIndex, 0, '--nodejs');
     }
 
-    // don't override user specified extention tracking
+    // don't override user specified extension tracking
     if (!program.options.ext) {
       program.ext = '.coffee|.litcoffee|.js';
     }

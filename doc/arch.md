@@ -17,7 +17,7 @@ Parsed to:
     {
       watch: ['src/'],
       ignore: [],
-      userscript: 'app.js'
+      script: 'app.js'
       options: {
         extensions: ['js', 'coffee'],
         exec: 'node'
@@ -33,7 +33,7 @@ Parsed to (assuming a package.json or index.js is found):
     {
       watch: [], // meaning all subdirectories
       ignore: [],
-      userscript: 'index.js',
+      script: 'index.js',
       options: {
         extensions: ['js'],
         exec: 'node'

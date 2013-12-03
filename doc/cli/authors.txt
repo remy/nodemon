@@ -1,0 +1,8 @@
+
+  Remy Sharp - author and maintainer
+    github.com/remy
+    twitter.com/rem
+
+
+
+  Please contribute http://github.com/remy/nodemon/

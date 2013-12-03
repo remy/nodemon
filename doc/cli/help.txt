@@ -17,7 +17,7 @@
                              tools like forever.js.
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
-  --help <topic> ........... help on a specific feature.
+  --help <topic> ........... help on a specific feature. Try "--help topics"
 
   Note: if the script is omitted, nodemon will try to read "main" from
   package.json and without a nodemon.json, nodemon will monitor .js, .coffee,

@@ -5,11 +5,11 @@ var merge = require('../../lib/utils/merge'),
 function getOriginal() {
   return {
     verbose: true,
-    userScript: './lib/app',
+    script: './lib/app',
     args: [],
     execOptions:
      { verbose: true,
-       userScript: './lib/app',
+       script: './lib/app',
        args: [],
        exec: 'node',
        execArgs: [],
@@ -67,7 +67,7 @@ describe('utils merge', function () {
   it('should merge deep complex missing properties', function () {
     var target = {
       execOptions: { verbose: true,
-         userScript: './lib/app',
+         script: './lib/app',
          args: [],
          exec: 'node',
          execArgs: [],
