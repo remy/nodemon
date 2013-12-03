@@ -12,10 +12,9 @@ describe('require-able', function () {
     nodemon = require('../../lib/');
   });
 
-  it('should know nodemon has been required', function () {
-    console.log(nodemon.config);
-    assert(nodemon.config.required, 'nodemon has required property');
-  });
+  // it('should know nodemon has been required', function () {
+  //   assert(nodemon.config.required, 'nodemon has required property');
+  // });
 
   it('should restart on file change', function (done) {
     var restarted = false;
