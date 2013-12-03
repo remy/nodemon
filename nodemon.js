@@ -774,7 +774,7 @@ if (program.options.delay) {
 
 // this is the default - why am I making it a cmd line opt?
 if (program.options.js) {
-  addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
+  addIgnoreRule('^((?!\.js$|\.coffee$|\.litcoffee$).)*$', true); // ignores everything except JS
 }
 
 if (program.options.watch && program.options.watch.length > 0) {
@@ -824,7 +824,7 @@ exists(ignoreFilePath, function (exist) {
           if (ext) {
             addIgnoreRule('^((?!' + ext + '$).)*$', true);
           } else {
-            addIgnoreRule('^((?!\.js$|\.coffee|\.litcoffee$).)*$', true); // ignores everything except JS
+            addIgnoreRule('^((?!\.js$|\.coffee$|\.litcoffee$).)*$', true); // ignores everything except JS
           }
         }
       }
