@@ -8,24 +8,13 @@ var path = require('path'),
     fork = childProcess.fork,
     assert = require('assert'),
     lastChild = null,
-    ctr = 0,
     pids = [];
-
-function touch(path) {
-  fs.readFile(path, 'utf8', function (err, data) {
-    fs.writeFile(path, data);
-  });
-}
 
 function asCLI(cmd) {
   return {
     exec: 'bin/nodemon.js',
     args: cmd.trim().split(' ')
-  }
-}
-
-function noop() {
-  return function () {};
+  };
 }
 
 function match(str, key) {
@@ -56,13 +45,19 @@ function run(cmd, callbacks) {
       pids.push(colour.strip(data).trim().replace(/.*pid:\s/, '') * 1);
     }
   });
-  if (callbacks.output) proc.stdout.on('data', callbacks.output);
-  if (callbacks.restart) proc.stdout.on('data', function (data) {
-    if (match(data, 'restarting due to changes')) {
-      callbacks.restart(null, data);
-    }
-  });
-  if (callbacks.error) proc.stderr.on('data', callbacks.error);
+  if (callbacks.output) {
+    proc.stdout.on('data', callbacks.output);
+  }
+  if (callbacks.restart) {
+    proc.stdout.on('data', function (data) {
+      if (match(data, 'restarting due to changes')) {
+        callbacks.restart(null, data);
+      }
+    });
+  }
+  if (callbacks.error) {
+    proc.stderr.on('data', callbacks.error);
+  }
 
   return proc;
 }
@@ -80,26 +75,16 @@ function cleanup(done, err) {
 }
 
 describe('nodemon simply running', function () {
-  after(function (done) {
-    pids.forEach(function (pid) {
-      try {
-        process.kill(pid);
-      } catch (e) {
-        // ignore those processes that were kill by the cleanup process
-      }
-    });
-    done();
-    pids = [];
-  });
-
   it('should start', function (done) {
     run(appjs, {
       output: function (data) {
         if (match(data, appjs)) {
+          assert(true, 'nodemon started');
           cleanup(done);
         }
       },
       error: function (data) {
+        assert(false, 'nodemon failed with ' + data);
         cleanup(done, new Error(data));
       }
     });
@@ -108,32 +93,21 @@ describe('nodemon simply running', function () {
 });
 
 describe('nodemon monitor', function () {
-  // after(function (done) {
-  //   pids.forEach(function (pid) {
-  //     try {
-  //       process.kill(pid);
-  //     } catch (e) {
-  //       // ignore those processes that were kill by the cleanup process
-  //     }
-  //   });
-  //   done();
-  // });
-  //
   var complete = function (p, done, err) {
     p.once('exit', function () {
       done(err);
     });
     p.send('quit');
-  }
+  };
 
   it('should restart on .js file changes with no arguments', function (done) {
     var p = run(appjs, {
       output: function (data) {
-        console.log(data);
+        // console.log(data);
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
-          assert(restartedOn == '1');
+          assert(restartedOn === '1');
         }
       },
       error: function (data) {
@@ -149,7 +123,7 @@ describe('nodemon monitor', function () {
           touch.sync(appjs);
         }, 1000);
       }
-    })
+    });
   });
 
   it('should NOT restart on non-.js file changes with no arguments', function (done) {
@@ -159,7 +133,7 @@ describe('nodemon monitor', function () {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
 
-          assert(restartedOn == '0', 'expects to not have restarted');
+          assert(restartedOn === '0', 'expects to not have restarted');
           complete(p, done);
         }
       },
