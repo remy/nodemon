@@ -3,9 +3,7 @@ var cli = require('../../lib/cli/'),
     exec = require('../../lib/config/exec'),
     pkg = require('../../package'),
     assert = require('assert'),
-    command = require('../../lib/monitor/run').command,
-    fs = require('fs'),
-    cwd = process.cwd();
+    command = require('../../lib/monitor/run').command;
 
 function asCLI(cmd) {
   return ('node nodemon ' + cmd).trim();
@@ -68,6 +66,26 @@ describe('nodemon CLI parser', function () {
     assert(settings.execOptions.exec === 'node');
     assert(settings.nodeArgs[0] === '--debug');
   });
+});
 
+describe('nodemon with CoffeeScript', function () {
+  it('should not add --nodejs by default', function () {
+    var settings = parse(asCLI('test/fixtures/app.coffee'));
+    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
+  });
 
+  it('should add --nodejs when used with --debug', function () {
+    var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
+    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(settings.execOptions.execArgs.indexOf('--debug') !== -1, '--debug being used');
+  });
+
+  it('should add --nodejs when used with --debug-brk', function () {
+    var settings = parse(asCLI('--debug-brk test/fixtures/app.coffee'));
+    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(settings.execOptions.execArgs.indexOf('--debug-brk') !== -1, '--debug-brk being used');
+  });
 });
