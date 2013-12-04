@@ -13,7 +13,8 @@ var path = require('path'),
 function asCLI(cmd) {
   return {
     exec: 'bin/nodemon.js',
-    args: cmd.trim().split(' ')
+    // make nodemon verbose so we can check the filters being applied
+    args: ('-V ' + cmd).trim().split(' ')
   };
 }
 
@@ -103,7 +104,6 @@ describe('nodemon monitor', function () {
   it('should restart on .js file changes with no arguments', function (done) {
     var p = run(appjs, {
       output: function (data) {
-        // console.log(data);
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
@@ -145,8 +145,11 @@ describe('nodemon monitor', function () {
     p.on('message', function (event) {
       if (event.type === 'start') {
         setTimeout(function () {
+          // touch a different file, but in the same directory
           touch.sync(appcoffee);
         }, 1000);
+      } else if (event.type === 'restart') {
+        complete(p, done, new Error("nodemon restarted"));
       }
     });
   });
