@@ -1,92 +1,26 @@
 /*global describe:true, it: true */
-var path = require('path'),
+var utils = require('../utils'),
     colour = require('../../lib/utils/colour'),
-    appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js'),
-    appcoffee = path.resolve(__dirname, '..', 'fixtures', 'app.coffee'),
-    childProcess = require('child_process'),
-    touch = require('touch'),
-    fork = childProcess.fork,
     assert = require('assert'),
-    lastChild = null,
-    pids = [];
-
-function asCLI(cmd) {
-  return {
-    exec: 'bin/nodemon.js',
-    // make nodemon verbose so we can check the filters being applied
-    args: ('-V ' + cmd).trim().split(' ')
-  };
-}
-
-function match(str, key) {
-  return str.indexOf(key) !== -1;
-}
-
-function run(cmd, callbacks) {
-  var cli = asCLI(cmd);
-  var proc = fork(cli.exec, cli.args, {
-    env: process.env,
-    cwd: process.cwd(),
-    encoding: 'utf8',
-    silent: true,
-  });
-
-  lastChild = proc;
-
-  pids.push(proc.pid);
-
-  proc.stderr.setEncoding('utf8');
-  proc.stdout.setEncoding('utf8');
-
-  // proc.on('close', function (code) {
-  //   console.log('child process exited with code ' + code);
-  // });
-  proc.stdout.on('data', function (data) {
-    if (match(data, 'pid: ')) {
-      pids.push(colour.strip(data).trim().replace(/.*pid:\s/, '') * 1);
-    }
-  });
-  if (callbacks.output) {
-    proc.stdout.on('data', callbacks.output);
-  }
-  if (callbacks.restart) {
-    proc.stdout.on('data', function (data) {
-      if (match(data, 'restarting due to changes')) {
-        callbacks.restart(null, data);
-      }
-    });
-  }
-  if (callbacks.error) {
-    proc.stderr.on('data', callbacks.error);
-  }
-
-  return proc;
-}
-
-function cleanup(done, err) {
-  if (lastChild) {
-    lastChild.on('exit', function () {
-      lastChild = null;
-      done(err);
-    });
-    lastChild.send('quit');
-  } else {
-    done(err);
-  }
-}
+    touch = require('touch'),
+    appjs = utils.appjs,
+    appcoffee = utils.appcoffee,
+    match = utils.match,
+    cleanup = utils.cleanup,
+    run = utils.run;
 
 describe('nodemon simply running', function () {
   it('should start', function (done) {
-    run(appjs, {
+    var p = run(appjs, {
       output: function (data) {
         if (match(data, appjs)) {
           assert(true, 'nodemon started');
-          cleanup(done);
+          cleanup(p, done);
         }
       },
       error: function (data) {
         assert(false, 'nodemon failed with ' + data);
-        cleanup(done, new Error(data));
+        cleanup(p, done, new Error(data));
       }
     });
   });
@@ -149,21 +83,8 @@ describe('nodemon monitor', function () {
           touch.sync(appcoffee);
         }, 1000);
       } else if (event.type === 'restart') {
-        complete(p, done, new Error("nodemon restarted"));
+        complete(p, done, new Error('nodemon restarted'));
       }
     });
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,66 +1,8 @@
 /*global describe:true, it: true */
-var path = require('path'),
-    colour = require('../../lib/utils/colour'),
-    appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js'),
-    appcoffee = path.resolve(__dirname, '..', 'fixtures', 'app.coffee'),
-    childProcess = require('child_process'),
-    fork = childProcess.fork,
-    assert = require('assert'),
-    lastChild = null,
-    pids = [];
-
-function asCLI(cmd) {
-  return {
-    exec: 'bin/nodemon.js',
-    args: cmd.trim().split(' ')
-  };
-}
-
-function match(str, key) {
-  return str.indexOf(key) !== -1;
-}
-
-function run(cmd, callbacks) {
-  var cli = asCLI(cmd);
-  var proc = fork(cli.exec, cli.args, {
-    env: process.env,
-    cwd: process.cwd(),
-    encoding: 'utf8',
-    silent: true
-  });
-
-  lastChild = proc;
-
-  pids.push(proc.pid);
-
-  proc.stderr.setEncoding('utf8');
-  proc.stdout.setEncoding('utf8');
-
-  // proc.on('close', function (code) {
-  //   console.log('child process exited with code ' + code);
-  // });
-  proc.stdout.on('data', function (data) {
-    if (match(data, 'pid: ')) {
-      pids.push(colour.strip(data).trim().replace(/.*pid:\s/, '') * 1);
-    }
-  });
-  if (callbacks.output) {
-    proc.stdout.on('data', callbacks.output);
-  }
-
-  if (callbacks.restart) {
-    proc.stdout.on('data', function (data) {
-      if (match(data, 'restarting due to changes')) {
-        callbacks.restart(null, data);
-      }
-    });
-  }
-  if (callbacks.error) {
-    proc.stderr.on('data', callbacks.error);
-  }
-
-  return proc;
-}
+var assert = require('assert'),
+    utils = require('../utils'),
+    appjs = utils.appjs,
+    run = utils.run;
 
 describe('nodemon fork', function () {
   it('should start a fork', function (done) {
