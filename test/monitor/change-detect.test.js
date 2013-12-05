@@ -55,7 +55,7 @@ describe('nodemon monitor', function () {
       } else if (event.type === 'start') {
         setTimeout(function () {
           touch.sync(appjs);
-        }, 1000);
+        }, 2500);
       }
     });
   });
@@ -81,7 +81,7 @@ describe('nodemon monitor', function () {
         setTimeout(function () {
           // touch a different file, but in the same directory
           touch.sync(appcoffee);
-        }, 1000);
+        }, 2500);
       } else if (event.type === 'restart') {
         complete(p, done, new Error('nodemon restarted'));
       }

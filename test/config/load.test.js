@@ -39,16 +39,18 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       assert.deepEqual(config.ignore, ['one', 'three']);
+      assert.deepEqual(config.watch, ['four']);
       done();
     });
   });
 
   it('should give user specified settings preference', function (done) {
     var config = {},
-        settings = { ignore: ['one'], quiet: true },
+        settings = { ignore: ['one'], watch: ['one'], quiet: true },
         options = {};
     load(settings, options, config, function (config) {
       assert.deepEqual(config.ignore, ['one']);
+      assert.deepEqual(config.watch, ['one']);
       done();
     });
   });
