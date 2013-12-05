@@ -1,6 +1,6 @@
 # nodemon
 
-For use during development of a node.js based application. 
+For use during development of a node.js based application.
 
 nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
 
@@ -68,10 +68,6 @@ By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` 
 
     nodemon -e js,css,html
 
-Or with alternative syntax:
-
-    nodemon --ext '.js|.css|.html'
-
 Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .css or .html.
 
 # Delaying restarting
@@ -91,7 +87,7 @@ By default, if nodemon will only restart when a `.js` JavaScript file changes.  
 You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) (note that this example file is not hidden - you must rename it to `.nodemonignore`) as a basis for your nodemon, but it's very simple to create your own:
 
     # this is my ignore file with a nice comment at the top
-    
+
     /vendor/*     # ignore all external submodules
     /public/*     # static files
     ./README.md   # a specific file
@@ -116,7 +112,7 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
     process.once('SIGUSR2', function () {
       gracefulShutdown(function () {
-        process.kill(process.pid, 'SIGUSR2'); 
+        process.kill(process.pid, 'SIGUSR2');
       })
     });
 
@@ -128,7 +124,7 @@ Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin
 
 # Help! My changes aren't being detected!
 
-nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example). 
+nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example).
 
 Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
 

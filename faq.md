@@ -1,8 +1,20 @@
-# FAQ 
+# FAQ
 
 This is being added to as common issues occur on the [issues](http://github.com/remy/nodemon/issues), and where appropriate the answers will be added here.
 
 This is a working document, and if it makes sense, I'll take pull requests to help make it better.
+
+## nodemon doesn't work with my REPL
+
+Create an nodemon.json file with the setting:
+
+```js
+{
+  "restartable": false
+}
+```
+
+This will leave the STDIN to your application rather than listening for the `rs` command to restart.
 
 ## nodemon doesn't work with fedora
 
