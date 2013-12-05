@@ -49,12 +49,13 @@ describe('nodemon ignore', function () {
   after(function () {
     files.forEach(fs.unlink);
   });
+
   it('should be controlled via cli', function (done) {
     ignore('node_modules', done);
   });
 
-  it('should ignore node_modules by default', function (done) {
-    ignore('node_modules', done);
-  });
+  // it('should ignore node_modules by default', function (done) {
+  //   ignore('node_modules', done);
+  // });
 
 });

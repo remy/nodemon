@@ -1,0 +1,4 @@
+{
+  "ignore": ["one", "three"],
+  "watch": ["four"]
+}
