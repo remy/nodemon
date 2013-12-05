@@ -5,6 +5,7 @@
 var fs = require('fs'),
     util = require('util'),
     childProcess = require('child_process'),
+    crypto = require('crypto'),
     dirs = [],
     path = require('path'),
     exists = fs.exists || path.exists, // yay, exists moved from path to fs in 0.7.x ... :-\
@@ -151,7 +152,7 @@ watchFileChecker.check = function(cb) {
   } else {
     tmpdir = '/tmp';
   }
-  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch' + Date.now();
+  var watchFileName = tmpdir + seperator + 'nodemonCheckFsWatch' + crypto.randomBytes(16).toString('hex');
   var watchFile = fs.openSync(watchFileName, 'w');
   if (watchFile < 0) {
     util.log('\x1B[32m[nodemon] Unable to write to temp directory. If you experience problems with file reloading, ensure ' + tmpdir + ' is writable.\x1B[0m');
