@@ -744,10 +744,9 @@ if (!isWindows) { // because windows borks when listening for the SIG* events
           process.exit(0);
         };
 
-    if (child && !isWindows) {
+    if (child) {
       child.removeAllListeners('exit');
       child.on('exit', exit);
-      child.kill('SIGINT');
       setTimeout(exit, 10 * 1000); // give up waiting for the kids after 10 seconds
     } else {
       exit();
