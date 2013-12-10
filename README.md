@@ -38,15 +38,17 @@ You can also pass the debug flag to node through the command line as you would n
 
 If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app.
 
-# Automatic re-running
+Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
+
+## Automatic re-running
 
 nodemon was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
 
-# Manual restarting
+## Manual restarting
 
 Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carridge return, and nodemon will restart your process.
 
-# Running non-node scripts
+## Running non-node scripts
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
 
@@ -54,7 +56,7 @@ nodemon can also be used to execute and monitor other programs. nodemon will rea
 
 Now nodemon will run `app.py` with python in verbose mode (note that if you're not passing args to the exec program, you don't need the quotes), and look for new or modified files with the `.py` extension.
 
-# Monitoring multiple directories
+## Monitoring multiple directories
 
 By default nodemon monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
 
@@ -62,7 +64,7 @@ By default nodemon monitors the current working directory. If you want to take c
 
 Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
-# Specifying extension watch list
+## Specifying extension watch list
 
 By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` switch like so:
 
@@ -70,7 +72,7 @@ By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` 
 
 Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .css or .html.
 
-# Delaying restarting
+## Delaying restarting
 
 In some situations, you may want to wait until a number of files have changed. The timeout before checking for new file changes is 1 second. If you're uploading a number of files and it's taking some number of seconds, this could cause your app to restart multiple time unnecessarily.
 
@@ -80,7 +82,7 @@ To add an extra throttle, or delay restarting, use the `--delay` command:
 
 The delay figure is number of seconds to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
-# Ignoring files
+## Ignoring files
 
 By default, if nodemon will only restart when a `.js` JavaScript file changes.  In some cases you will want to ignore some specific files, directories or file patterns, to prevent nodemon from prematurely restarting your application.
 
@@ -104,7 +106,7 @@ The ignore file accepts:
 
 **Note** the `.nodemonignore` file is read from the directory you run nodemon from, *not* from the location of the node script you're running.
 
-# Controlling shutdown of your script
+## Controlling shutdown of your script
 
 nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
 
@@ -118,17 +120,9 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing technique this up.
 
-# Using nodemon in your Grunt workflow
+## Using nodemon in your Grunt workflow
 
 Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin to integrate nodemon with the rest of your project's grunt workflow.
-
-# Help! My changes aren't being detected!
-
-nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example).
-
-Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
-
-In certain cases, like when where you are working on a different drive than your tmp directory is on, `fs.watch` may give you a false positive. You can force nodemon to start using the most compatible legacy method by passing the -L switch, e.g. `nodemon -L /my/odd/file.js`.
 
 # License
 
