@@ -1,5 +1,7 @@
+'use strict';
 /*global describe:true, it: true */
 var exec = require('../../lib/config/exec'),
+    run = require('../../lib/monitor/run'),
     assert = require('assert');
 
 describe('nodemon exec', function () {
@@ -22,22 +24,27 @@ describe('nodemon exec', function () {
     assert(options.exec === 'node');
     assert(options.ext.indexOf('jade') !== -1, 'comma separated string');
 
-    // options = exec({ script: 'app.js', ext: 'js,jade,hbs'.split(',') });
-    // assert(options.exec === 'node');
-    // assert(options.ext.indexOf('jade') !== -1, 'as an array');
-
     options = exec({ script: 'app.js', ext: 'js|jade|hbs' });
     assert(options.exec === 'node');
     assert(options.ext.indexOf('jade') !== -1, 'pipe separated string');
   });
 
+  it('should replace {{filename}}', function () {
+    var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
+    var command = run.command({ execOptions: options });
+
+    assert(command.executable + ' ' + command.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
+  });
+
+  it('should support extension maps', function () {
+    var options = exec({ script: 'template.jade' }, { 'jade': 'jade {{filename}} --out /tmp' });
+    assert(options.exec === 'jade', 'correct exec is used');
+    assert(options.execArgs[0] === 'template.jade', 'filename interpolated');
+  });
+
   it('should support input from argv#parse', function () {
     var parse = require('../../lib/cli/parse');
-
-    // console.log(process.argv);
-
-    var parsed = parse('node /usr/local/bin/nodemon.js --debug -e js,jade,hbs app.js'.split(' '));
-    // console.log(parsed);
+    parse('node /usr/local/bin/nodemon.js --debug -e js,jade,hbs app.js'.split(' '));
   });
 
   it('should use coffeescript on .coffee', function () {

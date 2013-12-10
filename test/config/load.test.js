@@ -1,7 +1,9 @@
+'use strict';
 /*global describe:true, it: true, afterEach: true, beforeEach: true */
 var load = require('../../lib/config/load'),
     path = require('path'),
     utils = require('../../lib/utils'),
+    exec = require('../../lib/config/exec'),
     assert = require('assert');
 
 describe('config load', function () {
@@ -29,7 +31,13 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       assert(config.verbose);
+
+      // ensure global mapping works too
+      var options = exec({ script: 'template.jade' }, config.execMap);
+      assert(options.exec === 'bin/jade', 'correct exec is used');
+
       done();
+
     });
   });
 
