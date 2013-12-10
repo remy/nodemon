@@ -20,7 +20,7 @@ describe('nodemon simply running', function () {
       },
       error: function (data) {
         assert(false, 'nodemon failed with ' + data);
-        cleanup(p, done, new Error(data));
+        cleanup(p, done);
       }
     });
   });

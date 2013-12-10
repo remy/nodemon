@@ -48,3 +48,12 @@ To test this, you can kill the server.js process and forever will restart it. If
 
 Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
 
+## nodemon tries to run two scripts
+
+If you see nodemon trying to run two scripts, like:
+
+```
+9 Dec 23:52:58 - [nodemon] starting `node ./app.js fixtures/sigint.js`
+```
+
+This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file *was* found. ie. to solve, double check the path to your script is correct.
