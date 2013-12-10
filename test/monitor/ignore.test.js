@@ -1,3 +1,4 @@
+'use strict';
 /*global describe:true, it: true, after: true */
 var assert = require('assert'),
     path = require('path'),
@@ -13,8 +14,8 @@ var assert = require('assert'),
       return '_nodemon' + (Math.random() * Date.now() | 0);
     };
 
-function ignore(rule, done) {
-  var p = run('-i ' + rule + ' ' + appjs, {
+function ignore(rule, done, file) {
+  var p = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
       output: function (data) {
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
@@ -34,9 +35,23 @@ function ignore(rule, done) {
     if (event.type === 'start') {
       // touch
       setTimeout(function () {
-        var file = path.join(process.cwd(), rule, randomFile());
+        if (!file) {
+          file = path.join(process.cwd(), rule, randomFile());
+        }
+
         files.push(file);
-        fs.writeFile(file);
+        fs.writeFile(file, function (err) {
+          if (err) {
+            console.log('error on writing file');
+            cleanup(p, done, new Error(err));
+          }
+        });
+
+        // if this fires, then *nothing* happened, which is good
+        setTimeout(function () {
+          assert(true, 'nodemon did not restart');
+          cleanup(p, done);
+        }, 1000);
       }, 1000);
     } else if (event.type === 'restart') {
       assert(false, 'nodemon should not restart');
@@ -54,8 +69,8 @@ describe('nodemon ignore', function () {
     ignore('node_modules', done);
   });
 
-  // it('should ignore node_modules by default', function (done) {
-  //   ignore('node_modules', done);
-  // });
+  it('should ignore node_modules by default', function (done) {
+    ignore(null, done, path.join(process.cwd(), 'node_modules', 'connect', 'node_modules', randomFile()));
+  });
 
 });
