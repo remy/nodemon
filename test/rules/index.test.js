@@ -1,3 +1,4 @@
+'use strict';
 /*global describe:true, it: true, beforeEach: true */
 var fs = require('fs'),
     rules = require('../../lib/rules'),
@@ -25,21 +26,21 @@ describe('nodemon rules', function () {
   });
 
   it('should read json', function (done) {
-    rules.load('./test/fixtures/simple.json', function (rules) {
+    rules.load('./test/fixtures/simple.json', function (error, rules) {
       assert(rules.ignore.re.test('/public/anything'), 'ignores public directory');
       done();
     });
   });
 
   it('should ignore comments files', function (done) {
-    rules.load(fixtures.comments.path, function (rules) {
+    rules.load(fixtures.comments.path, function (error, rules) {
       assert.equal(rules.ignore.length, 0, 'zero ignore rules');
       done();
     });
   });
 
   it('should allow comments on lines', function (done) {
-    rules.load(fixtures.simple.path, function (rules) {
+    rules.load(fixtures.simple.path, function (error, rules) {
       rules.ignore.forEach(function (rule) {
         assert.equal(rule.indexOf('# comment'), -1, 'no comment found');
       });
@@ -48,7 +49,7 @@ describe('nodemon rules', function () {
   });
 
   it('should read regular expressions', function (done) {
-    rules.load(fixtures.regexp.path, function (rules) {
+    rules.load(fixtures.regexp.path, function (error, rules) {
       assert.equal(rules.ignore.re.test('nodemon.js'), true);
       done();
     });
