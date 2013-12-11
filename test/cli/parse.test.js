@@ -1,3 +1,4 @@
+'use strict';
 /*global describe:true, it: true */
 var cli = require('../../lib/cli/'),
     exec = require('../../lib/config/exec'),
@@ -20,6 +21,16 @@ function commandToString(command) {
 }
 
 describe('nodemon CLI parser', function () {
+  it('should support quotes around arguments', function () {
+    var settings = parse(asCLI('--watch "foo bar"'));
+    assert(settings.watch[0] === 'foo bar');
+  });
+
+  it('should support arguments from the cli', function () {
+    var settings = parse(['node', 'nodemon', '--watch', 'foo bar']);
+    assert(settings.watch[0] === 'foo bar');
+  });
+
   it('should support stand alone `nodemon` command', function () {
     var settings = parse(asCLI(''));
 
@@ -65,6 +76,43 @@ describe('nodemon CLI parser', function () {
     assert(settings.script === 'test/fixtures/app.js');
     assert(settings.execOptions.exec === 'node');
     assert(settings.nodeArgs[0] === '--debug');
+  });
+});
+
+describe('nodemon argument parser', function () {
+  it('support strings', function () {
+    var settings = cli.parse('node nodemon -v');
+    assert(settings.version === true, 'version flag');
+  });
+
+  it('should support short versions of flags', function () {
+    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -e jade');
+    assert(settings.version, 'version');
+    assert(settings.verbose, 'verbose');
+    assert(settings.exec === 'java', 'exec');
+    assert(settings.quiet, 'quiet');
+    assert(settings.stdin === false, 'read stdin');
+    assert(settings.watch[0] === 'fixtures', 'watch');
+    assert(settings.ignore[0] === 'fixtures', 'ignore');
+    assert(settings.delay === 5000, 'delay 5 seconds');
+    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.ext === 'jade', 'extension is jade');
+  });
+
+
+  it('should support long versions of flags', function () {
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --ext jade');
+    assert(settings.version, 'version');
+    assert(settings.verbose, 'verbose');
+    assert(settings.exec === 'java', 'exec');
+    assert(settings.quiet, 'quiet');
+    assert(settings.stdin === false, 'read stdin');
+    assert(settings.exitcrash, 'exit if crash');
+    assert(settings.watch[0] === 'fixtures', 'watch');
+    assert(settings.ignore[0] === 'fixtures', 'ignore');
+    assert(settings.delay === 5000, 'delay 5 seconds');
+    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.ext === 'jade', 'extension is jade');
   });
 });
 
