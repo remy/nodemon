@@ -19,6 +19,14 @@ describe('nodemon exec', function () {
     assert(options.ext.indexOf('.js') !== -1);
   });
 
+  it('should support --debug=XXXX', function () {
+    var options = exec({ script: 'app.js', nodeArgs: [ '--debug=9999' ]});
+
+    assert(options.exec === 'node');
+    assert(options.execArgs.indexOf('--debug=9999') !== -1);
+    assert(options.ext.indexOf('.js') !== -1);
+  });
+
   it('should support multiple extensions', function () {
     var options = exec({ script: 'app.js', ext: 'js, jade, hbs' });
     assert(options.exec === 'node');
