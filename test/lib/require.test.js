@@ -1,4 +1,5 @@
-/*global describe:true, it: true */
+'use strict';
+/*global describe:true, it: true, beforeEach: true */
 var nodemon = null,
     assert = require('assert'),
     path = require('path'),
@@ -10,10 +11,10 @@ describe('require-able', function () {
     nodemon = require('../../lib/');
   });
 
-  // it('should know nodemon has been required', function () {
-  //   assert(nodemon.config.required, 'nodemon has required property');
-  // });
-return;
+  it('should know nodemon has been required', function () {
+    assert(nodemon.config.required, 'nodemon has required property');
+  });
+
   it('should restart on file change', function (done) {
     var restarted = false;
 
