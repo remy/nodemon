@@ -1,16 +1,12 @@
 'use strict';
-/*global describe:true, it: true, beforeEach: true */
-var nodemon = null,
+/*global describe:true, it: true */
+var nodemon = require('../../lib/'),
     assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js');
 
 describe('require-able', function () {
-  beforeEach(function () {
-    nodemon = require('../../lib/');
-  });
-
   it('should know nodemon has been required', function () {
     assert(nodemon.config.required, 'nodemon has required property');
   });
