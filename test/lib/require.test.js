@@ -23,6 +23,7 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted);
+      nodemon.removeAllListners();
       done();
     });
   });
@@ -36,10 +37,13 @@ describe('require-able', function () {
         nodemon.restart();
       }, 1000);
     }).on('restart', function () {
+      console.log('>>>>>> restart');
       restarted = true;
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted);
+      // unbind events for testing again
+      nodemon.removeAllListners();
       done();
     });
   });
