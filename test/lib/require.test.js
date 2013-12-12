@@ -26,4 +26,22 @@ describe('require-able', function () {
       done();
     });
   });
+
+  it('should be restartable', function (done) {
+    var restarted = false;
+
+    nodemon(appjs).on('start', function () {
+      console.log('started');
+      setTimeout(function () {
+        nodemon.restart();
+      }, 1000);
+    }).on('restart', function () {
+      restarted = true;
+      nodemon.emit('quit');
+    }).on('quit', function () {
+      assert(restarted);
+      done();
+    });
+  });
+
 });
