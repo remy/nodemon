@@ -1,7 +1,8 @@
+'use strict';
 var fork = require('child_process').fork,
     path = require('path'),
-    appjs = path.relative(process.cwd(), path.resolve(__dirname, 'fixtures', 'app.js')),
-    appcoffee = path.relative(process.cwd(), path.resolve(__dirname, 'fixtures', 'app.coffee'));
+    appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
+    appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
 
 function asCLI(cmd) {
   return {
