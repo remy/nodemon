@@ -7,6 +7,7 @@ nodemon will emit events based on the child process.
 - start
 - crash
 - exit
+- restart
 - config:update
 
 ## Commands
