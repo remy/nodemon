@@ -18,13 +18,13 @@ describe('when nodemon runs', function () {
   });
 
   it('should wait when the script crashes', function (done) {
-    fs.writeFileSync(tmp, 'setTimeout(function () { intendedException(); }, 1000)');
+    fs.writeFileSync(tmp, 'throw Error("forced crash")');
 
     nodemon({ script: tmp }).on('crash', function () {
       assert(true, 'detected crashed state');
 
       setTimeout(function () {
-        fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10 + 2; }, 1000)');
+        fs.writeFileSync(tmp, 'var n = 10 + 2;');
       }, 500);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');

@@ -19,6 +19,7 @@ describe('change monitor', function () {
     setTimeout(function () {
       start = Date.now();
       changedSince(start, dir, function (files) {
+        console.log('changedSince', files.length, files);
         assert(files.length === 0, 'zero files');
         done();
       });

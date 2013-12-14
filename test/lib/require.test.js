@@ -1,5 +1,5 @@
 'use strict';
-/*global describe:true, it: true */
+/*global describe:true, it: true, afterEach: true */
 var nodemon = require('../../lib/'),
     assert = require('assert'),
     path = require('path'),
@@ -7,6 +7,11 @@ var nodemon = require('../../lib/'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js');
 
 describe('require-able', function () {
+  afterEach(function (){
+    nodemon.emit('quit');
+    nodemon.removeAllListners();
+  });
+
   it('should know nodemon has been required', function () {
     assert(nodemon.config.required, 'nodemon has required property');
   });
@@ -14,7 +19,7 @@ describe('require-able', function () {
   it('should restart on file change', function (done) {
     var restarted = false;
 
-    nodemon(appjs).on('start', function () {
+    nodemon({ script: appjs, verbose: true }).on('start', function () {
       setTimeout(function () {
         touch.sync(appjs);
       }, 1000);
@@ -22,9 +27,11 @@ describe('require-able', function () {
       restarted = true;
       nodemon.emit('quit');
     }).on('quit', function () {
-      assert(restarted);
+      assert(restarted, 'nodemon restarted and quit properly');
       nodemon.removeAllListners();
       done();
+    }).on('log', function (event) {
+      // console.log(event.message);
     });
   });
 
@@ -32,7 +39,6 @@ describe('require-able', function () {
     var restarted = false;
 
     nodemon(appjs).on('start', function () {
-      console.log('started');
       setTimeout(function () {
         nodemon.restart();
       }, 1000);
