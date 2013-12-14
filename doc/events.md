@@ -9,10 +9,12 @@ nodemon will emit events based on the child process.
 - exit
 - restart
 - config:update
+- log, args: type, message (plain text log), colour (colour coded log)
 
 ## Commands
 
 - restart
+- config:update
 - quit
 
 ## Using nodemon events

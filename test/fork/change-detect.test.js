@@ -1,3 +1,4 @@
+'use strict';
 /*global describe:true, it: true */
 var utils = require('../utils'),
     colour = require('../../lib/utils/colour'),
