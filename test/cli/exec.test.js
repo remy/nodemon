@@ -57,14 +57,14 @@ describe('nodemon exec', function () {
 
   it('should use coffeescript on .coffee', function () {
     var options = exec({ script: 'index.coffee' });
-    assert(options.exec === 'coffee');
+    assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
     assert(options.ext.indexOf('.coffee') !== -1);
   });
 
   it('should support coffeescript in debug mode', function () {
     var options = exec({ script: 'app.coffee', nodeArgs: [ '--debug' ] });
 
-    assert(options.exec === 'coffee');
+    assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
     assert(options.execArgs.indexOf('--debug') !== -1);
     assert(options.ext.indexOf('.coffee') !== -1);
   });
