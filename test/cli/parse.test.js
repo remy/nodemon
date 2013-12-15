@@ -41,7 +41,7 @@ describe('nodemon CLI parser', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
 
     assert(commandToString(command(settings)) === 'coffee --nodejs --debug test/fixtures/app.coffee');
-    assert(settings.execOptions.exec === 'coffee');
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
   });
 
   it('should support period path', function () {
@@ -60,7 +60,7 @@ describe('nodemon CLI parser', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
 
     assert(settings.script === 'test/fixtures/app.coffee');
-    assert(settings.execOptions.exec === 'coffee');
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
   });
 
   it('should parse `nodemon --watch src/ -e js,coffee test/fixtures/app.js`', function () {
@@ -119,20 +119,20 @@ describe('nodemon argument parser', function () {
 describe('nodemon with CoffeeScript', function () {
   it('should not add --nodejs by default', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
-    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
     assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
   });
 
   it('should add --nodejs when used with --debug', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
-    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
     assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
     assert(settings.execOptions.execArgs.indexOf('--debug') !== -1, '--debug being used');
   });
 
   it('should add --nodejs when used with --debug-brk', function () {
     var settings = parse(asCLI('--debug-brk test/fixtures/app.coffee'));
-    assert(settings.execOptions.exec === 'coffee', 'executable is coffee');
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
     assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
     assert(settings.execOptions.execArgs.indexOf('--debug-brk') !== -1, '--debug-brk being used');
   });
