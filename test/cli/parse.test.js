@@ -40,7 +40,9 @@ describe('nodemon CLI parser', function () {
   it('should put --debug in the right place with coffescript', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
 
-    assert(commandToString(command(settings)) === 'coffee --nodejs --debug test/fixtures/app.coffee');
+    // using indexOf instead of === because on windows
+    // coffee is coffee.cmd - so we check for a partial match
+    assert(commandToString(command(settings)).indexOf('--nodejs --debug test/fixtures/app.coffee') !== -1);
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
   });
 
