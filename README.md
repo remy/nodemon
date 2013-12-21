@@ -31,9 +31,13 @@ For example, if my application accepted a host and port as the arguments, I woul
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
 
-nodemon also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) apps:
+nodemon also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) and [LiveScript](http://livescript.net/) apps:
 
     nodemon server.coffee
+
+and
+
+    nodemon server.ls
 
 If no script is given, nodemon will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
 
