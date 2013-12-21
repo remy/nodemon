@@ -652,6 +652,17 @@ function getAppScript(program) {
     }
   }
 
+
+  if (!program.options.forceExec && program.options.exec === 'node' && program.ext.indexOf('ls') !== -1) {
+    program.options.exec = 'lsc';
+  }
+
+  if (program.options.exec === 'lsc') {
+    if (hokeycokey) {
+      program.args.push(program.args.shift());
+    }
+  }
+
   // allow users to make a mistake on the program.ext to monitor
   // converts js,jade => .js|.jade
   // BIG NOTE: user can't do this: nodemon -e *.js
