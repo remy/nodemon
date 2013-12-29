@@ -29,8 +29,7 @@
       "url": "http://rem.mit-license.org"
     }
   ],
-  ":main": "./lib/nodemon",
-  "main": "./test/fixtures/app.js",
+  "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 15000 --ui bdd --reporter list test/**/*.test.js",
     "test": "node_modules/mocha/bin/_mocha --timeout 15000 --ui bdd --reporter list test/**/*.test.js",
@@ -44,6 +43,6 @@
     "touch": "0.0.2"
   },
   "dependencies": {
-    "update-notifier": "~0.1.5"
+    "update-notifier": "~0.1.7"
   }
 }
