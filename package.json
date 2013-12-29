@@ -33,7 +33,8 @@
   "main": "./test/fixtures/app.js",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 15000 --ui bdd --reporter list test/**/*.test.js",
-    "test": "node_modules/mocha/bin/_mocha --timeout 15000 --ui bdd --reporter list test/**/*.test.js"
+    "test": "node_modules/mocha/bin/_mocha --timeout 15000 --ui bdd --reporter list test/**/*.test.js",
+    "web": "node web"
   },
   "devDependencies": {
     "connect": "*",

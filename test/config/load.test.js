@@ -9,13 +9,11 @@ var load = require('../../lib/config/load'),
 
 describe('config load', function () {
   var pwd = process.cwd(),
-      oldhome = utils.home,
-      log = utils.clone(utils.log);
+      oldhome = utils.home;
 
   afterEach(function () {
     process.chdir(pwd);
     utils.home = oldhome;
-    utils.log = log;
   });
 
   function removeRegExp(options) {
@@ -23,14 +21,14 @@ describe('config load', function () {
     delete options.ignore.re;
   }
 
+  utils.quiet();
+
   beforeEach(function () {
     // move to the fixtures directory to allow for config loading
     process.chdir(path.resolve(pwd, 'test/fixtures'));
     utils.home = path.resolve(pwd, ['test', 'fixtures', 'global'].join(path.sep));
 
     rules.reset();
-
-    utils.quiet();
   });
 
   it('should support old .nodemonignore', function (done) {

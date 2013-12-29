@@ -25,7 +25,7 @@ describe('when nodemon runs', function () {
 
       setTimeout(function () {
         fs.writeFileSync(tmp, 'var n = 10 + 2;');
-      }, 500);
+      }, 1000);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
       nodemon.emit('quit');
@@ -66,7 +66,7 @@ describe('when nodemon runs', function () {
         // });
 
         process.kill(process.pid, 'SIGINT');
-      }, 500);
+      }, 1000);
     }).on('crash', function () {
       assert(false, 'detected crashed state');
     }).on('exit', function () {
@@ -77,7 +77,7 @@ describe('when nodemon runs', function () {
 
       setTimeout(function () {
         process.kill(process.pid, 'SIGINT');
-      }, 500);
+      }, 1000);
 
     });
 
