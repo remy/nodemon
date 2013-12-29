@@ -31,3 +31,13 @@
       "exec": "processing --sketch={{pwd}} --run"
     }
 
+  The global config file is useful for setting up default default executables
+  instead of needed them in your local config:
+
+    {
+      "verbose": true,
+      "execMap": {
+        "rb": "ruby",
+        "pde": "processing --sketch={{pwd}} --run"
+      }
+    }

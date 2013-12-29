@@ -48,6 +48,35 @@ nodemon was original written to restart hanging processes such as web servers, b
 
 Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can simply type `rs` with a carridge return, and nodemon will restart your process.
 
+## Config files
+
+nodemon supports local and global configuration files. These are named `nodemon.json` and can be located in the current working directory or in your home directory.
+
+The specificity is as follows, so that a command line argument will always override the config file settings:
+
+- command line arguments
+- local config
+- global config
+
+A config file can take any of the command line arguments as JSON key values, for example:
+
+    {
+      "verbose": true,
+      "ignore": ["*.test.js", "fixtures/*"]
+      "execMap": {
+        "rb": "ruby",
+        "pde": "processing --sketch={{pwd}} --run"
+      }
+    }
+
+The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can simply run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
+
+Note that `ignore` and `watch` values are *merged* with your CLI arguments, rather than overwritten.
+
+A further example of options can be seen in [sample-nodemon.md]()
+
+*This section needs better documentation, but for now you can also see `nodemon --help config` ([also here]())*.
+
 ## Running non-node scripts
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
@@ -55,6 +84,24 @@ nodemon can also be used to execute and monitor other programs. nodemon will rea
     nodemon --exec "python -v" ./app.py
 
 Now nodemon will run `app.py` with python in verbose mode (note that if you're not passing args to the exec program, you don't need the quotes), and look for new or modified files with the `.py` extension.
+
+### Default executables
+
+Using the `nodemon.json` config file, you can define your own default executables using the `execMap` property. This is particularly useful if you're working with a language that isn't supported by default by nodemon.
+
+To add support for nodemon to know about the .pl extension (for Perl), the nodemon.json file would add:
+
+    {
+      "execMap": {
+         "pl": "perl"
+      }
+    }
+
+Now running the following, nodemon will know to use `perl` as the executable:
+
+    nodemon script.pl
+
+It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged in to the project so that nodemon supports it by default, by changing [default.js]() and sending a pull request.
 
 ## Monitoring multiple directories
 
@@ -66,11 +113,33 @@ Now nodemon will only restart if there are changes in the `./app` or `./libs` di
 
 ## Specifying extension watch list
 
-By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` switch like so:
+By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
-    nodemon -e js,css,html
+    nodemon -e js,jade
 
-Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .css or .html.
+Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
+
+## Ignoring files
+
+By default, if nodemon will only restart when a `.js` JavaScript file changes. In some cases you will want to ignore some specific files, directories or file patterns, to prevent nodemon from prematurely restarting your application.
+
+This can be done via the command line:
+
+    nodemon --ignore lib/ --ignore tests/
+
+Or specific files can be ignored:
+
+    nodemon --ignore lib/app.js
+
+Patterns can also be ignored (but be sure to quote the arguments):
+
+    nodemon --ignore 'lib/*.js'
+
+Finally regular expressions can be used, but need to be prefixed with a colon (this will ignore all numbered JS files):
+
+    nodemon --ignore ':(\d)+\.js$'
+
+Note that by default, nodemon will ignore the `.git` and `node_modules/**/node_modules` directories.
 
 ## Delaying restarting
 
@@ -81,30 +150,6 @@ To add an extra throttle, or delay restarting, use the `--delay` command:
     nodemon --delay 10 server.js
 
 The delay figure is number of seconds to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
-
-## Ignoring files
-
-By default, if nodemon will only restart when a `.js` JavaScript file changes.  In some cases you will want to ignore some specific files, directories or file patterns, to prevent nodemon from prematurely restarting your application.
-
-You can use the [example ignore file](http://github.com/remy/nodemon/blob/master/nodemonignore.example) (note that this example file is not hidden - you must rename it to `.nodemonignore`) as a basis for your nodemon, but it's very simple to create your own:
-
-    # this is my ignore file with a nice comment at the top
-
-    /vendor/*     # ignore all external submodules
-    /public/*     # static files
-    ./README.md   # a specific file
-    *.css         # ignore any CSS files too
-    :(\d)*\.js    # monitor javascript files with only digits in their name
-
-The ignore file accepts:
-
-* Comments starting with a `#` symbol
-* Blank lines
-* Specific files
-* File patterns (this is converted to a regex, so you have full control of the pattern)
-* Unescaped regex's begining with `:`.
-
-**Note** the `.nodemonignore` file is read from the directory you run nodemon from, *not* from the location of the node script you're running.
 
 ## Controlling shutdown of your script
 
