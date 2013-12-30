@@ -79,6 +79,14 @@ describe('nodemon CLI parser', function () {
     assert(settings.execOptions.exec === 'node');
     assert(settings.nodeArgs[0] === '--debug');
   });
+
+  it('should pass --harmony to node', function () {
+    var settings = parse(asCLI('--harmony test/fixtures/app.js'));
+
+    assert(settings.script === 'test/fixtures/app.js');
+    assert(settings.execOptions.exec === 'node');
+    assert(settings.nodeArgs[0] === '--harmony');
+  });
 });
 
 describe('nodemon argument parser', function () {
