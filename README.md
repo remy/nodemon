@@ -1,3 +1,5 @@
+![nodemon logo](http://nodemon.io/nodemon.png)
+
 # nodemon
 
 For use during development of a node.js based application.
