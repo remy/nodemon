@@ -22,7 +22,7 @@ describe('nodemon fork child restart', function () {
     fs.unlink(tmpmd);
     // clean up just in case.
     nodemon.emit('quit');
-    nodemon.removeAllListners();
+    nodemon.reset()
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -43,7 +43,7 @@ describe('nodemon fork child restart', function () {
       } else if (event.type === 'restart') {
         assert(true, 'nodemon restarted');
         nodemon.emit('quit');
-        nodemon.removeAllListners();
+        nodemon.reset()
         cleanup(p, done);
       }
     });
@@ -65,7 +65,7 @@ describe('nodemon fork child restart', function () {
             var restartedOn = changes.pop();
             assert(restartedOn === '1', 'nodemon restarted on a single file change');
             nodemon.emit('quit');
-            nodemon.removeAllListners();
+            nodemon.reset()
             cleanup(p, done);
           }
         }

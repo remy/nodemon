@@ -9,7 +9,7 @@ var nodemon = require('../../lib/'),
 describe('require-able', function () {
   afterEach(function (){
     nodemon.emit('quit');
-    nodemon.removeAllListners();
+    nodemon.reset()
   });
 
   it('should know nodemon has been required', function () {
@@ -28,7 +28,7 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted, 'nodemon restarted and quit properly');
-      nodemon.removeAllListners();
+      nodemon.reset()
       done();
     }).on('log', function (event) {
       // console.log(event.message);
@@ -48,7 +48,7 @@ describe('require-able', function () {
     }).on('quit', function () {
       assert(restarted);
       // unbind events for testing again
-      nodemon.removeAllListners();
+      nodemon.reset()
       done();
     });
   });

@@ -14,7 +14,7 @@ describe('when nodemon runs', function () {
     fs.unlink(tmp);
     // clean up just in case.
     nodemon.emit('quit');
-    nodemon.removeAllListners();
+    nodemon.reset()
   });
 
   it('should wait when the script crashes', function (done) {
@@ -29,7 +29,7 @@ describe('when nodemon runs', function () {
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
       nodemon.emit('quit');
-      nodemon.removeAllListners();
+      nodemon.reset()
       done();
     });
   });
@@ -48,7 +48,7 @@ describe('when nodemon runs', function () {
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
       nodemon.emit('quit');
-      nodemon.removeAllListners();
+      nodemon.reset()
       done();
     });
   });
@@ -72,7 +72,7 @@ describe('when nodemon runs', function () {
     }).on('exit', function () {
       assert(true, 'quit correctly');
       nodemon.emit('quit');
-      nodemon.removeAllListners();
+      nodemon.reset()
       done();
 
       setTimeout(function () {

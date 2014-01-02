@@ -2,9 +2,11 @@
 /*global describe:true, it: true, afterEach: true, beforeEach: true */
 var load = require('../../lib/config/load'),
     path = require('path'),
+    testUtils = require('../utils'),
     utils = require('../../lib/utils'),
     rules = require('../../lib/rules'),
     exec = require('../../lib/config/exec'),
+    nodemon = require('../../lib/nodemon'),
     assert = require('assert');
 
 describe('config load', function () {
@@ -15,6 +17,13 @@ describe('config load', function () {
     process.chdir(pwd);
     utils.home = oldhome;
   });
+
+  after(function () {
+    // clean up just in case.
+    nodemon.emit('quit');
+    nodemon.reset()
+  });
+
 
   function removeRegExp(options) {
     delete options.watch.re;
@@ -29,6 +38,30 @@ describe('config load', function () {
     utils.home = path.resolve(pwd, ['test', 'fixtures', 'global'].join(path.sep));
 
     rules.reset();
+  });
+
+  it('should remove ignore defaults if user provides their own', function (done) {
+
+    nodemon({
+      script: testUtils.appjs,
+      verbose: true
+    }).on('log', function (event) {
+      // console.log(event.colour);
+    }).on('start', function () {
+      assert.ok(nodemon.config.options.ignore.indexOf('one') !== -1, 'Contains "one" path');
+      assert.ok(nodemon.config.options.ignore.indexOf('three') !== -1, 'Contains "three" path');
+      // note: we use the escaped format: \\.git
+      assert.ok(nodemon.config.options.ignore.indexOf('\\.git') === -1, 'nodemon is not ignoring (default) .git');
+
+      nodemon.on('exit', function () {
+        nodemon.reset();
+        done();
+      });
+
+      setTimeout(function () {
+        nodemon.emit('quit');
+      }, 1000);
+    });
   });
 
   it('should support old .nodemonignore', function (done) {
@@ -71,7 +104,8 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
-      assert.deepEqual(config.ignore, ['one', 'three']);
+      assert.ok(config.ignore.indexOf('one') !== -1, 'Contains "one" path');
+      assert.ok(config.ignore.indexOf('three') !== -1, 'Contains "three" path');
       assert.deepEqual(config.watch, ['four']);
       done();
     });
