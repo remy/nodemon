@@ -4,6 +4,7 @@ WIP - but here's the TL;DR
 
 ## Issues
 
+- Please include the output from `nodemon --dump` for diagnosis
 - If there's a script that nodemon is having trouble with or is causing nodemon to throw exceptions, please include it in your filed issue to allow me to replicate the issue.
 
 ## Sending pull requests
