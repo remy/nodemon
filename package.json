@@ -21,7 +21,7 @@
     "reload",
     "terminal"
   ],
-  "version": "1.0.2rc2",
+  "version": "1.0.2-rc3",
   "preferGlobal": "true",
   "licenses": [
     {
@@ -43,6 +43,7 @@
     "touch": "0.0.2"
   },
   "dependencies": {
-    "update-notifier": "~0.1.7"
+    "update-notifier": "~0.1.7",
+    "minimatch": "~0.2.14"
   }
 }
