@@ -75,6 +75,10 @@ A further example of options can be seen in [sample-nodemon.md]()
 
 *This section needs better documentation, but for now you can also see `nodemon --help config` ([also here]())*.
 
+## Using nodemon as a module
+
+Please see [doc/requireable.md](doc/requireable.md)
+
 ## Running non-node scripts
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
