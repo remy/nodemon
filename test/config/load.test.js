@@ -18,10 +18,12 @@ describe('config load', function () {
     utils.home = oldhome;
   });
 
-  after(function () {
+  after(function (done) {
     // clean up just in case.
-    nodemon.emit('quit');
-    nodemon.reset();
+    nodemon.once('exit', function () {
+      nodemon.reset();
+      done();
+    }).emit('quit');
   });
 
 

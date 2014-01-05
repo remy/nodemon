@@ -25,9 +25,10 @@ describe('nodemon monitor child restart', function () {
     fs.unlink(tmpjs);
     fs.unlink(tmpmd);
     // clean up just in case.
-    bus.once('exit', done);
-    nodemon.emit('quit');
-    nodemon.reset();
+    nodemon.once('exit', function () {
+      nodemon.reset();
+      done();
+    }).emit('quit');
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -39,15 +40,16 @@ describe('nodemon monitor child restart', function () {
       }, 1000);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      bus.once('exit', done);
-      nodemon.emit('quit');
-      nodemon.reset();
+      nodemon.once('exit', function () {
+        nodemon.reset();
+        done();
+      }).emit('quit');
     });
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
+    write(true);
     setTimeout(function () {
-      write(true);
 
       nodemon({
         script: tmpjs,
@@ -64,9 +66,10 @@ describe('nodemon monitor child restart', function () {
           var changes = msg.trim().slice(-5).split('/');
           var restartedOn = changes.pop();
           assert(restartedOn === '1', 'nodemon restarted on a single file change');
-          bus.once('exit', done);
-          nodemon.emit('quit');
-          nodemon.reset();
+          nodemon.once('exit', function () {
+            nodemon.reset();
+            done();
+          }).emit('quit');
         }
       });
     }, 2000);
@@ -91,9 +94,10 @@ describe('nodemon monitor child restart', function () {
           var changes = msg.trim().slice(-5).split('/');
           var restartedOn = changes.pop();
           assert(restartedOn === '1', 'nodemon restarted when watched directory');
-          nodemon.once('exit', done);
-          nodemon.emit('quit');
-          nodemon.reset();
+          nodemon.once('exit', function () {
+            nodemon.reset();
+            done();
+          }).emit('quit');
         }
       });
     }, 2000);

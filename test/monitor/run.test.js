@@ -10,11 +10,13 @@ var nodemon = require('../../lib/'),
 describe('when nodemon runs', function () {
   var tmp = path.resolve('test/fixtures/test' + crypto.randomBytes(16).toString('hex') + '.js');
 
-  after(function () {
+  after(function (done) {
     fs.unlink(tmp);
     // clean up just in case.
-    nodemon.emit('quit');
-    nodemon.reset()
+    nodemon.once('exit', function () {
+      nodemon.reset();
+      done();
+    }).emit('quit');
   });
 
   it('should wait when the script crashes', function (done) {
@@ -28,9 +30,10 @@ describe('when nodemon runs', function () {
       }, 1000);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      nodemon.emit('quit');
-      nodemon.reset()
-      done();
+      nodemon.once('exit', function () {
+        nodemon.reset();
+        done();
+      }).emit('quit');
     });
   });
 
@@ -47,9 +50,10 @@ describe('when nodemon runs', function () {
       }, 500);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      nodemon.emit('quit');
-      nodemon.reset()
-      done();
+      nodemon.once('exit', function () {
+        nodemon.reset();
+        done();
+      }).emit('quit');
     });
   });
 
@@ -71,8 +75,7 @@ describe('when nodemon runs', function () {
       assert(false, 'detected crashed state');
     }).on('exit', function () {
       assert(true, 'quit correctly');
-      nodemon.emit('quit');
-      nodemon.reset()
+      nodemon.reset();
       done();
 
       setTimeout(function () {
