@@ -73,7 +73,7 @@ describe('config load', function () {
         options = {};
 
     load(settings, options, config, function (config) {
-      assert(config.ignore.length > 0, 'no ignore rules found');
+      assert(config.ignore.length === 5, '5 rules found: ' + config.ignore);
       done();
     });
   });
