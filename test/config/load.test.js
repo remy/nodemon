@@ -1,5 +1,5 @@
 'use strict';
-/*global describe:true, it: true, afterEach: true, beforeEach: true */
+/*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
 var load = require('../../lib/config/load'),
     path = require('path'),
     testUtils = require('../utils'),
@@ -21,14 +21,9 @@ describe('config load', function () {
   after(function () {
     // clean up just in case.
     nodemon.emit('quit');
-    nodemon.reset()
+    nodemon.reset();
   });
 
-
-  function removeRegExp(options) {
-    delete options.watch.re;
-    delete options.ignore.re;
-  }
 
   utils.quiet();
 
@@ -74,7 +69,6 @@ describe('config load', function () {
         options = {};
 
     load(settings, options, config, function (config) {
-      removeRegExp(config);
       assert(config.ignore.length > 0, 'no ignore rules found');
       done();
     });
@@ -86,7 +80,6 @@ describe('config load', function () {
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      removeRegExp(config);
       assert(config.verbose);
 
       // ensure global mapping works too
@@ -103,7 +96,6 @@ describe('config load', function () {
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      removeRegExp(config);
       assert.ok(config.ignore.indexOf('one') !== -1, 'Contains "one" path');
       assert.ok(config.ignore.indexOf('three') !== -1, 'Contains "three" path');
       assert.deepEqual(config.watch, ['four']);
@@ -116,7 +108,6 @@ describe('config load', function () {
         settings = { ignore: ['one'], watch: ['one'], quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      removeRegExp(config);
       assert.deepEqual(config.ignore, ['one']);
       assert.deepEqual(config.watch, ['one']);
       done();

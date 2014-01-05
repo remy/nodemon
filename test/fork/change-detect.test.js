@@ -10,7 +10,7 @@ var utils = require('../utils'),
     cleanup = utils.cleanup,
     run = utils.run;
 
-describe('nodemon simply running', function () {
+describe('nodemon fork simply running', function () {
   it('should start', function (done) {
     var p = run(appjs, {
       output: function (data) {
@@ -28,7 +28,7 @@ describe('nodemon simply running', function () {
 
 });
 
-describe('nodemon monitor', function () {
+describe('nodemon fork monitor', function () {
   var complete = function (p, done, err) {
     p.once('exit', function () {
       done(err);

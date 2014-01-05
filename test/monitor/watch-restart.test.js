@@ -10,7 +10,7 @@ var nodemon = require('../../lib/'),
     crypto = require('crypto'),
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
-describe('nodemon child restart', function () {
+describe('nodemon monitor child restart', function () {
   var tmpjs = path.resolve(baseFilename + '.js'),
       tmpmd = path.resolve(baseFilename + '.md');
 
@@ -27,7 +27,7 @@ describe('nodemon child restart', function () {
     // clean up just in case.
     bus.once('exit', done);
     nodemon.emit('quit');
-    nodemon.reset()
+    nodemon.reset();
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -41,7 +41,7 @@ describe('nodemon child restart', function () {
       assert(true, 'nodemon restarted');
       bus.once('exit', done);
       nodemon.emit('quit');
-      nodemon.reset()
+      nodemon.reset();
     });
   });
 
@@ -66,7 +66,7 @@ describe('nodemon child restart', function () {
           assert(restartedOn === '1', 'nodemon restarted on a single file change');
           bus.once('exit', done);
           nodemon.emit('quit');
-          nodemon.reset()
+          nodemon.reset();
         }
       });
     }, 2000);
@@ -79,6 +79,7 @@ describe('nodemon child restart', function () {
       nodemon({
         script: tmpjs,
         verbose: true,
+        ext: 'js md',
         watch: ['test/fixtures/']
       }).on('start', function () {
         setTimeout(function () {
@@ -90,9 +91,9 @@ describe('nodemon child restart', function () {
           var changes = msg.trim().slice(-5).split('/');
           var restartedOn = changes.pop();
           assert(restartedOn === '1', 'nodemon restarted when watched directory');
-          bus.once('exit', done);
+          nodemon.once('exit', done);
           nodemon.emit('quit');
-          nodemon.reset()
+          nodemon.reset();
         }
       });
     }, 2000);
