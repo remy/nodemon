@@ -82,7 +82,7 @@ describe('config load', function () {
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      assert(config.verbose);
+      assert(config.verbose, 'we are verbose');
 
       // ensure global mapping works too
       var options = exec({ script: 'template.jade' }, config.execMap);
