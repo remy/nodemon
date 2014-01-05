@@ -2,6 +2,9 @@
 
 # nodemon
 
+[![NPM version](https://badge.fury.io/js/nodemon.png)](http://badge.fury.io/js/nodemon)
+[![Travis Status](https://travis-ci.org/remy/nodemon.png)](https://travis-ci.org/remy/nodemon)
+
 For use during development of a node.js based application.
 
 nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
