@@ -28,22 +28,22 @@ describe('logger', function () {
     });
   });
 
-  it('should not log detail if debug is off', function (done) {
-    logger.debug = false;
+  // it('should not log detail if debug is off', function (done) {
+  //   logger.debug = false;
 
-    function handler() {
-      assert(false, 'logged a message when we should not have done');
-      bus.removeListener('log', handler);
-      done();
-    }
+  //   function handler() {
+  //     assert(false, 'logged a message when we should not have done');
+  //     bus.removeListener('log', handler);
+  //     done();
+  //   }
 
-    bus.addListener('log', handler);
+  //   bus.addListener('log', handler);
 
-    logger.detail('detail');
+  //   logger.detail('detail');
 
-    setTimeout(function () {
-      bus.removeListener('log', handler);
-      done();
-    }, 500);
-  });
+  //   setTimeout(function () {
+  //     bus.removeListener('log', handler);
+  //     done();
+  //   }, 500);
+  // });
 });

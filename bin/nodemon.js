@@ -12,6 +12,5 @@ if (notifier.update) {
 }
 
 var options = cli.parse(process.argv);
-options.restartable = 'rs';
 
 nodemon(options);

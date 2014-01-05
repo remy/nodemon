@@ -1,7 +1,6 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var nodemon = require('../../lib/'),
-    assert = require('assert'),
+var assert = require('assert'),
     fs = require('fs'),
     utils = require('../utils'),
     colour = require('../../lib/utils/colour'),
@@ -20,9 +19,6 @@ describe('nodemon fork child restart', function () {
   after(function () {
     fs.unlink(tmpjs);
     fs.unlink(tmpmd);
-    // clean up just in case.
-    nodemon.emit('quit');
-    nodemon.removeAllListners();
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -42,8 +38,6 @@ describe('nodemon fork child restart', function () {
         }, 1000);
       } else if (event.type === 'restart') {
         assert(true, 'nodemon restarted');
-        nodemon.emit('quit');
-        nodemon.removeAllListners();
         cleanup(p, done);
       }
     });
@@ -64,8 +58,6 @@ describe('nodemon fork child restart', function () {
             var changes = msg.slice(-5).split('/');
             var restartedOn = changes.pop();
             assert(restartedOn === '1', 'nodemon restarted on a single file change');
-            nodemon.emit('quit');
-            nodemon.removeAllListners();
             cleanup(p, done);
           }
         }

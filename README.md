@@ -73,11 +73,13 @@ A config file can take any of the command line arguments as JSON key values, for
 
 The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can simply run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
 
-Note that `ignore` and `watch` values are *merged* with your CLI arguments, rather than overwritten.
-
 A further example of options can be seen in [sample-nodemon.md]()
 
 *This section needs better documentation, but for now you can also see `nodemon --help config` ([also here]())*.
+
+## Using nodemon as a module
+
+Please see [doc/requireable.md](doc/requireable.md)
 
 ## Running non-node scripts
 

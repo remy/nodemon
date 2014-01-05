@@ -7,16 +7,16 @@ var exec = require('../../lib/config/exec'),
 describe('nodemon exec', function () {
   it('should default to node', function () {
     var options = exec({ script: 'index.js' });
-    assert(options.exec === 'node');
-    assert(options.ext === '.js$');
+    assert(options.exec === 'node', 'exec is node');
+    assert(options.ext === 'js');
   });
 
   it('should support --debug', function () {
     var options = exec({ script: 'app.js', nodeArgs: [ '--debug' ]});
 
-    assert(options.exec === 'node');
-    assert(options.execArgs.indexOf('--debug') !== -1);
-    assert(options.ext.indexOf('.js') !== -1);
+    assert(options.exec === 'node', 'exec is node');
+    assert(options.execArgs.indexOf('--debug') !== -1, '--debug is in the execArgs');
+    assert(options.ext.indexOf('js') !== -1, 'extension watched is .js');
   });
 
   it('should support --debug=XXXX', function () {
@@ -24,7 +24,7 @@ describe('nodemon exec', function () {
 
     assert(options.exec === 'node');
     assert(options.execArgs.indexOf('--debug=9999') !== -1);
-    assert(options.ext.indexOf('.js') !== -1);
+    assert(options.ext.indexOf('js') !== -1);
   });
 
   it('should support multiple extensions', function () {
@@ -58,7 +58,7 @@ describe('nodemon exec', function () {
   it('should use coffeescript on .coffee', function () {
     var options = exec({ script: 'index.coffee' });
     assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
-    assert(options.ext.indexOf('.coffee') !== -1);
+    assert(options.ext.indexOf('coffee') !== -1);
   });
 
   it('should support coffeescript in debug mode', function () {
@@ -66,14 +66,14 @@ describe('nodemon exec', function () {
 
     assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
     assert(options.execArgs.indexOf('--debug') !== -1);
-    assert(options.ext.indexOf('.coffee') !== -1);
+    assert(options.ext.indexOf('coffee') !== -1);
   });
 
   it('should support custom execs', function () {
     var options = exec({ script: 'app.py', exec: 'python'});
 
     assert(options.exec === 'python');
-    assert(options.ext.indexOf('.py') !== -1);
+    assert(options.ext.indexOf('py') !== -1);
   });
 
   it('should support custom executables with arguments', function () {
@@ -81,7 +81,7 @@ describe('nodemon exec', function () {
 
     assert(options.exec === 'python');
     assert(options.execArgs.indexOf('--debug') !== -1);
-    assert(options.ext.indexOf('.py') !== -1);
+    assert(options.ext.indexOf('py') !== -1);
   });
 
 });

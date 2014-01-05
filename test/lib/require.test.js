@@ -7,9 +7,11 @@ var nodemon = require('../../lib/'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js');
 
 describe('require-able', function () {
-  afterEach(function (){
-    nodemon.emit('quit');
-    nodemon.removeAllListners();
+  afterEach(function (done) {
+    nodemon.once('exit', function () {
+      nodemon.reset();
+      done();
+    }).emit('quit');
   });
 
   it('should know nodemon has been required', function () {
@@ -28,7 +30,7 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted, 'nodemon restarted and quit properly');
-      nodemon.removeAllListners();
+      nodemon.reset();
       done();
     }).on('log', function (event) {
       // console.log(event.message);
@@ -47,8 +49,8 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted);
+      nodemon.reset();
       // unbind events for testing again
-      nodemon.removeAllListners();
       done();
     });
   });

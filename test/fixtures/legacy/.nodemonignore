@@ -4,4 +4,5 @@
 /public/*     # static files
 ./README.md   # a specific file
 *.css         # ignore any CSS files too
-:(\d)*\.js    # monitor javascript files with only digits in their name
+:(\d)*\.js    # ignore javascript files with only digits in their name
+app.json      # any app.json file

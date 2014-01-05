@@ -1,10 +1,12 @@
 'use strict';
-/*global describe:true, it: true, afterEach: true, beforeEach: true */
+/*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
 var load = require('../../lib/config/load'),
     path = require('path'),
+    testUtils = require('../utils'),
     utils = require('../../lib/utils'),
     rules = require('../../lib/rules'),
     exec = require('../../lib/config/exec'),
+    nodemon = require('../../lib/nodemon'),
     assert = require('assert');
 
 describe('config load', function () {
@@ -16,12 +18,18 @@ describe('config load', function () {
     utils.home = oldhome;
   });
 
+  after(function (done) {
+    // clean up just in case.
+    nodemon.once('exit', function () {
+      nodemon.reset();
+      done();
+    }).emit('quit');
+  });
+
   function removeRegExp(options) {
     delete options.watch.re;
     delete options.ignore.re;
   }
-
-  utils.quiet();
 
   beforeEach(function () {
     // move to the fixtures directory to allow for config loading
@@ -29,6 +37,30 @@ describe('config load', function () {
     utils.home = path.resolve(pwd, ['test', 'fixtures', 'global'].join(path.sep));
 
     rules.reset();
+  });
+
+  it('should remove ignore defaults if user provides their own', function (done) {
+
+    nodemon({
+      script: testUtils.appjs,
+      verbose: true
+    }).on('log', function (event) {
+      // console.log(event.colour);
+    }).on('start', function () {
+      assert.ok(nodemon.config.options.ignore.indexOf('one') !== -1, 'Contains "one" path');
+      assert.ok(nodemon.config.options.ignore.indexOf('three') !== -1, 'Contains "three" path');
+      // note: we use the escaped format: \\.git
+      assert.ok(nodemon.config.options.ignore.indexOf('\\.git') === -1, 'nodemon is not ignoring (default) .git');
+
+      nodemon.on('exit', function () {
+        nodemon.reset();
+        done();
+      });
+
+      setTimeout(function () {
+        nodemon.emit('quit');
+      }, 1000);
+    });
   });
 
   it('should support old .nodemonignore', function (done) {
@@ -41,8 +73,7 @@ describe('config load', function () {
         options = {};
 
     load(settings, options, config, function (config) {
-      removeRegExp(config);
-      assert(config.ignore.length > 0, 'no ignore rules found');
+      assert(config.ignore.length === 5, '5 rules found: ' + config.ignore);
       done();
     });
   });
@@ -53,8 +84,7 @@ describe('config load', function () {
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      removeRegExp(config);
-      assert(config.verbose);
+      assert(config.verbose, 'we are verbose');
 
       // ensure global mapping works too
       var options = exec({ script: 'template.jade' }, config.execMap);
@@ -71,8 +101,9 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
-      assert.deepEqual(config.ignore, ['one', 'three']);
-      assert.deepEqual(config.watch, ['four']);
+      assert.ok(config.ignore.indexOf('one') !== -1, 'ignore contains "one": ' + config.ignore);
+      assert.ok(config.ignore.indexOf('three') !== -1, 'ignore contains "three": ' + config.ignore);
+      assert.deepEqual(config.watch, ['four'], 'watch is "four": ' + config.watch);
       done();
     });
   });
@@ -83,8 +114,8 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
-      assert.deepEqual(config.ignore, ['one']);
-      assert.deepEqual(config.watch, ['one']);
+      assert.deepEqual(config.ignore, ['one'], 'ignore is "one": ' + config.ignore);
+      assert.deepEqual(config.watch, ['one'], 'watch is "one": ' + config.watch);
       done();
     });
   });
