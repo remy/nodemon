@@ -34,17 +34,19 @@ describe('nodemon monitor child restart', function () {
   it('should happen when monitoring a single extension', function (done) {
     write();
 
-    nodemon({ script: tmpjs, verbose: true, ext: 'js' }).on('start', function () {
-      setTimeout(function () {
-        touch.sync(tmpjs);
-      }, 1000);
-    }).on('restart', function () {
-      assert(true, 'nodemon restarted');
-      nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
-      }).emit('quit');
-    });
+    setTimeout(function () {
+      nodemon({ script: tmpjs, verbose: true, ext: 'js' }).on('start', function () {
+        setTimeout(function () {
+          touch.sync(tmpjs);
+        }, 1500);
+      }).on('restart', function () {
+        assert(true, 'nodemon restarted');
+        nodemon.once('exit', function () {
+          nodemon.reset();
+          done();
+        }).emit('quit');
+      });
+    }, 2000);
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
@@ -58,7 +60,7 @@ describe('nodemon monitor child restart', function () {
       }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
-        }, 1000);
+        }, 1500);
       }).on('log', function (event) {
         // console.log(event.message);
         var msg = event.message;
