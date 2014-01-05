@@ -42,17 +42,17 @@ describe('nodemon fork monitor', function () {
         if (match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
-          assert(restartedOn === '1');
+          assert(restartedOn === '1', data);
         }
       },
       error: function (data) {
-        complete(p, done, new Error(data));
+        utils.cleanup(p, done, new Error(data));
       }
     });
 
     p.on('message', function (event) {
       if (event.type === 'restart') {
-        complete(p, done);
+        utils.cleanup(p, done);
       } else if (event.type === 'start') {
         setTimeout(function () {
           touch.sync(appjs);
@@ -62,30 +62,32 @@ describe('nodemon fork monitor', function () {
   });
 
   it('should NOT restart on non-.js file changes with no arguments', function (done) {
-    var p = run(appjs, {
-      output: function (data) {
-        if (match(data, 'changes after filters')) {
-          var changes = colour.strip(data.trim()).slice(-5).split('/');
-          var restartedOn = changes.pop();
+    setTimeout(function () {
+      var p = run(appjs, {
+        output: function (data) {
+          if (match(data, 'changes after filters')) {
+            var changes = colour.strip(data.trim()).slice(-5).split('/');
+            var restartedOn = changes.pop();
 
-          assert(restartedOn === '0', 'expects to not have restarted');
-          complete(p, done);
+            assert(restartedOn === '0', 'expects to not have restarted');
+            utils.cleanup(p, done);
+          }
+        },
+        error: function (data) {
+          utils.cleanup(p, done, new Error(data));
         }
-      },
-      error: function (data) {
-        complete(p, done, new Error(data));
-      }
-    });
+      });
 
-    p.on('message', function (event) {
-      if (event.type === 'start') {
-        setTimeout(function () {
-          // touch a different file, but in the same directory
-          touch.sync(appcoffee);
-        }, 2500);
-      } else if (event.type === 'restart') {
-        complete(p, done, new Error('nodemon restarted'));
-      }
-    });
+      p.on('message', function (event) {
+        if (event.type === 'start') {
+          setTimeout(function () {
+            // touch a different file, but in the same directory
+            touch.sync(appcoffee);
+          }, 2500);
+        } else if (event.type === 'restart') {
+          utils.cleanup(p, done, new Error('nodemon restarted'));
+        }
+      });
+    }, 2000);
   });
 });
