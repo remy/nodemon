@@ -26,8 +26,10 @@ describe('config load', function () {
     }).emit('quit');
   });
 
-
-  utils.quiet();
+  function removeRegExp(options) {
+    delete options.watch.re;
+    delete options.ignore.re;
+  }
 
   beforeEach(function () {
     // move to the fixtures directory to allow for config loading
@@ -98,9 +100,10 @@ describe('config load', function () {
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      assert.ok(config.ignore.indexOf('one') !== -1, 'Contains "one" path');
-      assert.ok(config.ignore.indexOf('three') !== -1, 'Contains "three" path');
-      assert.deepEqual(config.watch, ['four']);
+      removeRegExp(config);
+      assert.ok(config.ignore.indexOf('one') !== -1, 'ignore contains "one": ' + config.ignore);
+      assert.ok(config.ignore.indexOf('three') !== -1, 'ignore contains "three": ' + config.ignore);
+      assert.deepEqual(config.watch, ['four'], 'watch is "four": ' + config.watch);
       done();
     });
   });
@@ -110,8 +113,9 @@ describe('config load', function () {
         settings = { ignore: ['one'], watch: ['one'], quiet: true },
         options = {};
     load(settings, options, config, function (config) {
-      assert.deepEqual(config.ignore, ['one']);
-      assert.deepEqual(config.watch, ['one']);
+      removeRegExp(config);
+      assert.deepEqual(config.ignore, ['one'], 'ignore is "one": ' + config.ignore);
+      assert.deepEqual(config.watch, ['one'], 'watch is "one": ' + config.watch);
       done();
     });
   });

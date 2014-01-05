@@ -1,6 +1,7 @@
 'use strict';
 /*global describe:true, it: true, beforeEach: true */
 var fs = require('fs'),
+    nodemon = require('../../lib/nodemon'),
     rules = require('../../lib/rules'),
     assert = require('assert');
 
@@ -22,8 +23,22 @@ describe('nodemon rules', function () {
   };
 
   beforeEach(function () {
-    rules.reset();
+    nodemon.reset();
   });
+
+  it('should be resetable', function (done) {
+    nodemon.reset();
+    rules.load('./test/fixtures/simple.json', function () {
+      nodemon.reset();
+
+      rules.load('./test/fixtures/comments', function (error, rules) {
+        assert.deepEqual(rules, { watch: [], ignore: [] }, 'rules are empty: ' + JSON.stringify(rules));
+        done();
+      });
+
+    });
+  });
+
 
   it('should read json', function (done) {
     rules.load('./test/fixtures/simple.json', function (error, rules) {
