@@ -3,26 +3,20 @@
 Here is an example (of a contrived) `nodemon.json` file:
 
     {
-      "script": "./test/fixtures/app.js",
       "restartable": "rs",
       "ignore": [
-        "\\.git",
-        "node_modules/.*.*/node_modules"
+        ".git",
+        "node_modules/**/node_modules"
       ],
       "verbose": true,
       "execMap": {
-        "py": "python",
-        "rb": "ruby"
+        "js": "node --harmony"
       },
       "watch": [
-        ".js$"
+        "test/fixtures/",
+        "test/samples/"
       ],
-      "stdin": true,
-      "exec": "node"
-      "execOptions": {
-        "script": "./test/fixtures/app.js",
-        "exec": "node",
-        "ext": ".js$",
-        "execArgs": []
-      }
+      "ext": "js json"
     }
+
+Note that the `ignore` used is nodemon's default ignore rule. The complete defaults can be seen here: [defaults.js](https://github.com/remy/nodemon/blob/master/lib/config/defaults.js).

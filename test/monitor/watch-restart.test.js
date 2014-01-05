@@ -39,8 +39,8 @@ describe('nodemon monitor child restart', function () {
         setTimeout(function () {
           touch.sync(tmpjs);
         }, 1500);
-      }).on('restart', function () {
-        assert(true, 'nodemon restarted');
+      }).on('restart', function (files) {
+        assert(files[0] === tmpjs, 'nodemon restarted because of change to our file' + files);
         nodemon.once('exit', function () {
           nodemon.reset();
           done();
@@ -62,7 +62,6 @@ describe('nodemon monitor child restart', function () {
           touch.sync(tmpmd);
         }, 1500);
       }).on('log', function (event) {
-        // console.log(event.message);
         var msg = event.message;
         if (utils.match(msg, 'changes after filters')) {
           var changes = msg.trim().slice(-5).split('/');
@@ -90,17 +89,12 @@ describe('nodemon monitor child restart', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
         }, 1000);
-      }).on('log', function (event) {
-        var msg = event.message;
-        if (utils.match(msg, 'changes after filters')) {
-          var changes = msg.trim().slice(-5).split('/');
-          var restartedOn = changes.pop();
-          assert(restartedOn === '1', 'nodemon restarted when watched directory');
-          nodemon.once('exit', function () {
-            nodemon.reset();
-            done();
-          }).emit('quit');
-        }
+      }).on('restart', function (files) {
+        assert(files.length === 1, 'nodemon restarted when watching directory');
+        nodemon.once('exit', function () {
+          nodemon.reset();
+          done();
+        }).emit('quit');
       });
     }, 2000);
   });
