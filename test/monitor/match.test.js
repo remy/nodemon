@@ -40,7 +40,7 @@ describe('match', function () {
 
     var result = match(files, ['*.*'], 'js');
 
-    assert.deepEqual(result.result, [], 'no results returned');
+    assert.deepEqual(result.result, [], 'no results returned: ' + result.result);
   });
 
   it('should match .coffee if watching *.js & *.coffee', function (done) {
