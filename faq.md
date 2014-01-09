@@ -16,6 +16,16 @@ Create an nodemon.json file with the setting:
 
 This will leave the STDIN to your application rather than listening for the `rs` command to restart.
 
+# My script arguments are being taken by nodemon
+
+Use the `--` switch to tell nodemon to ignore all arguments after this point. So to pass `-L` to your script instead of nodemon, use:
+
+```
+$ nodemon app.js -- -L -opt2 -opt3
+```
+
+nodemon will ignore all script arguments after `--` and pass them to your script.
+
 # Help! My changes aren't being detected!
 
 nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example).

@@ -17,7 +17,8 @@
                              tools like forever.js.
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
-  --help <topic> ........... help on a specific feature. Try "--help topics"
+  --help <topic> ........... help on a specific feature. Try "--help topics".
+  -- <your args> ........... to tell nodemon stop slurping arguments.
 
   Note: if the script is omitted, nodemon will try to read "main" from
   package.json and without a nodemon.json, nodemon will monitor .js, .coffee,
@@ -32,5 +33,6 @@
   $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py
   $ nodemon --exec "make build" -e "styl hbs"
+  $ nodemon app.js -- -L
 
   For more details see http://github.com/remy/nodemon/
