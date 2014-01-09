@@ -26,6 +26,25 @@ describe('nodemon CLI parser', function () {
     assert(settings.watch[0] === 'foo bar');
   });
 
+  it('should keep eating arguments that are for nodemon after the script.js', function () {
+    var settings = parse(asCLI('--watch "foo bar" test/fixtures/app.js -V --scriptOpt1 -L -- -L'));
+    assert.deepEqual(settings.execOptions.args, ['--scriptOpt1', '-L'], 'script args are: ' + settings.execOptions.args.join(' '));
+    assert(settings.verbose === true, 'verbose');
+    assert(settings.watch[0] === 'foo bar', 'watching "foo bar" dir');
+    assert(settings.legacyWatch, 'legacy watch method enabled');
+  });
+
+  it('should allow -- to appear anywhere, and still find user script', function () {
+    var settings = parse(asCLI('test/fixtures/app.js -- -L'));
+    assert(!settings.legacyWatch, '-L arg was passed to script, not nodemon');
+    assert.deepEqual(settings.execOptions.args, ['-L'], 'script passed -L via --');
+    settings = parse(asCLI('-- test/fixtures/app.js -L'));
+    assert.deepEqual(settings.execOptions.args, ['-L'], 'leading -- finds script');
+    settings = parse(asCLI('test/fixtures/app.js -L --'));
+    assert.deepEqual(settings.execOptions.args, [], '-- is ignored');
+    assert(settings.legacyWatch, '-L was passed to nodemon');
+  });
+
   it('should support arguments from the cli', function () {
     var settings = parse(['node', 'nodemon', '--watch', 'foo bar']);
     assert(settings.watch[0] === 'foo bar');
@@ -105,7 +124,7 @@ describe('nodemon argument parser', function () {
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
-    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.legacyWatch, 'legacy watch method');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 
@@ -121,7 +140,7 @@ describe('nodemon argument parser', function () {
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
-    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.legacyWatch, 'legacy watch method');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 });
