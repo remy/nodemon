@@ -105,7 +105,7 @@ describe('nodemon argument parser', function () {
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
-    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.legacyWatch, 'legacy watch method');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 
@@ -121,7 +121,7 @@ describe('nodemon argument parser', function () {
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
-    assert(settings.forceLegacyWatch, 'legacy watch method');
+    assert(settings.legacyWatch, 'legacy watch method');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 });
