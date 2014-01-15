@@ -96,7 +96,8 @@ describe('nodemon CLI parser', function () {
 
     assert(settings.script === 'test/fixtures/app.js');
     assert(settings.execOptions.exec === 'node');
-    assert(settings.nodeArgs[0] === '--debug');
+
+    assert(commandToString(command(settings)).indexOf('--debug') !== -1);
   });
 
   it('should pass --harmony to node', function () {
@@ -104,7 +105,7 @@ describe('nodemon CLI parser', function () {
 
     assert(settings.script === 'test/fixtures/app.js');
     assert(settings.execOptions.exec === 'node');
-    assert(settings.nodeArgs[0] === '--harmony');
+    assert(commandToString(command(settings)).indexOf('--harmony') !== -1);
   });
 });
 
@@ -154,15 +155,19 @@ describe('nodemon with CoffeeScript', function () {
 
   it('should add --nodejs when used with --debug', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
+    var cmd = commandToString(command(settings));
+
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
-    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
-    assert(settings.execOptions.execArgs.indexOf('--debug') !== -1, '--debug being used');
+    assert(cmd.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(cmd.indexOf('--debug') !== -1, '--debug being used');
   });
 
   it('should add --nodejs when used with --debug-brk', function () {
     var settings = parse(asCLI('--debug-brk test/fixtures/app.coffee'));
+    var cmd = commandToString(command(settings));
+
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
-    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
-    assert(settings.execOptions.execArgs.indexOf('--debug-brk') !== -1, '--debug-brk being used');
+    assert(cmd.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(cmd.indexOf('--debug-brk') !== -1, '--debug-brk being used');
   });
 });
