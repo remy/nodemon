@@ -144,10 +144,6 @@ Patterns can also be ignored (but be sure to quote the arguments):
 
     nodemon --ignore 'lib/*.js'
 
-Finally regular expressions can be used, but need to be prefixed with a colon (this will ignore all numbered JS files):
-
-    nodemon --ignore ':(\d)+\.js$'
-
 Note that by default, nodemon will ignore the `.git` and `node_modules/**/node_modules` directories.
 
 ## Delaying restarting
