@@ -7,7 +7,12 @@ var load = require('../../lib/config/load'),
     rules = require('../../lib/rules'),
     exec = require('../../lib/config/exec'),
     nodemon = require('../../lib/nodemon'),
+    command = require('../../lib/monitor/run').command,
     assert = require('assert');
+
+function commandToString(command) {
+  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+}
 
 describe('config load', function () {
   var pwd = process.cwd(),
@@ -119,5 +124,28 @@ describe('config load', function () {
       done();
     });
   });
+
+  it('should support "ext" with "execMap"', function (done) {
+    // prevents our test from finding the nodemon.json files
+    process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
+    utils.home = path.resolve(pwd, 'test/fixtures/legacy');
+
+    var settings = { 'script': './index.js',
+          'verbose': true,
+          'ignore': ['*/artic/templates/*' ],
+          'ext' : 'js coffee json',
+          'watch': [ '*.coffee' ],
+          'execMap': {'js': 'node --harmony', 'coffee': 'node --harmony', }
+        },
+        config = {},
+        options = {};
+
+    load(settings, options, config, function (config) {
+      var cmd = commandToString(command(config));
+      assert(cmd === 'node --harmony ./index.js', 'cmd is: ' + cmd);
+      done();
+    });
+  });
+
 
 });

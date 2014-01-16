@@ -21,6 +21,45 @@ function commandToString(command) {
 }
 
 describe('nodemon CLI parser', function () {
+  it('should parse the help examples #1', function () {
+    var settings = parse(asCLI('test/fixtures/app.js')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'node test/fixtures/app.js', 'node test/fixtures/app.js: ' + cmd);
+  });
+
+  it('should parse the help examples #2', function () {
+    var settings = parse(asCLI('-w ../lib test/fixtures/app.js apparg1 apparg2')),
+        cmd = commandToString(command(settings));
+
+    assert.deepEqual(settings.watch, ['../lib'], 'watching ../lib: ' + settings.watch);
+    assert.deepEqual(settings.execOptions.args, ['apparg1', 'apparg2'], 'args are corr   ' + settings.execOptions.args);
+    assert(cmd === 'node test/fixtures/app.js apparg1 apparg2', 'command is ' + cmd);
+  });
+
+  it('should parse the help examples #3', function () {
+    var settings = parse(asCLI('--exec python app.py')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'python app.py', 'command is ' + cmd);
+    assert(settings.execOptions.exec === 'python', 'exec is python');
+  });
+
+  it('should parse the help examples #4', function () {
+    var settings = parse(asCLI('--exec "make build" -e "styl hbs"')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'make build', 'command is ' + cmd);
+    assert.deepEqual(settings.execOptions.ext.split(','), ['styl', 'hbs'], 'correct extensions being watched: ' + settings.execOptions.ext);
+  });
+
+  it('should parse the help examples #5', function () {
+    var settings = parse(asCLI('test/fixtures/app.js -- -L')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'node test/fixtures/app.js -L', 'command is ' + cmd);
+  });
+
   it('should support quotes around arguments', function () {
     var settings = parse(asCLI('--watch "foo bar"'));
     assert(settings.watch[0] === 'foo bar');
@@ -96,7 +135,8 @@ describe('nodemon CLI parser', function () {
 
     assert(settings.script === 'test/fixtures/app.js');
     assert(settings.execOptions.exec === 'node');
-    assert(settings.nodeArgs[0] === '--debug');
+
+    assert(commandToString(command(settings)).indexOf('--debug') !== -1);
   });
 
   it('should pass --harmony to node', function () {
@@ -104,7 +144,7 @@ describe('nodemon CLI parser', function () {
 
     assert(settings.script === 'test/fixtures/app.js');
     assert(settings.execOptions.exec === 'node');
-    assert(settings.nodeArgs[0] === '--harmony');
+    assert(commandToString(command(settings)).indexOf('--harmony') !== -1);
   });
 });
 
@@ -145,6 +185,15 @@ describe('nodemon argument parser', function () {
   });
 });
 
+describe('nodemon respects custom "ext" and "execMap"', function () {
+  it('should support "ext" and "execMap" for same extension', function () {
+    var settings = parse(asCLI('-x "node --harmony" -e "js json coffee" test/fixtures/app.coffee'));
+    assert(settings.execOptions.ext.indexOf('js') === 0, 'js is monitored: ' + settings.execOptions.ext);
+    assert(settings.execOptions.ext.split(',').length === 3, 'all extensions monitored');
+    assert(settings.execOptions.exec.indexOf('node') === 0, 'node is exec: ' + settings.execOptions.exec);
+  });
+});
+
 describe('nodemon with CoffeeScript', function () {
   it('should not add --nodejs by default', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
@@ -154,15 +203,19 @@ describe('nodemon with CoffeeScript', function () {
 
   it('should add --nodejs when used with --debug', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
+    var cmd = commandToString(command(settings));
+
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
-    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
-    assert(settings.execOptions.execArgs.indexOf('--debug') !== -1, '--debug being used');
+    assert(cmd.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(cmd.indexOf('--debug') !== -1, '--debug being used');
   });
 
   it('should add --nodejs when used with --debug-brk', function () {
     var settings = parse(asCLI('--debug-brk test/fixtures/app.coffee'));
+    var cmd = commandToString(command(settings));
+
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
-    assert(settings.execOptions.execArgs.indexOf('--nodejs') !== -1, '--nodejs being used');
-    assert(settings.execOptions.execArgs.indexOf('--debug-brk') !== -1, '--debug-brk being used');
+    assert(cmd.indexOf('--nodejs') !== -1, '--nodejs being used');
+    assert(cmd.indexOf('--debug-brk') !== -1, '--debug-brk being used');
   });
 });

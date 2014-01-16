@@ -15,7 +15,16 @@ nodemon will emit events based on the child process.
 - exit - child process has cleanly exited (ie. no crash)
 - restart([ array of files triggering the restart ]) - child process has restarted
 - config:update - nodemon's config has changed
+
+## Messages
+
 - log({ type, message (plain text log), colour (colour coded log) }) - logging from nodemon (not the child process)
+- stdout - the stdout stream from the child process
+- stderr - the stderr stream from the child process
+
+Note that if you want to supress the normal stdout & stderr of the child, in favour
+of processing the stream manually using the stdout/stderr nodemon events, pass
+nodemon the option of `stdout: false`.
 
 ## Using nodemon events
 
