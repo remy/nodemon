@@ -21,6 +21,45 @@ function commandToString(command) {
 }
 
 describe('nodemon CLI parser', function () {
+  it('should parse the help examples #1', function () {
+    var settings = parse(asCLI('test/fixtures/app.js')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'node test/fixtures/app.js', 'node test/fixtures/app.js: ' + cmd);
+  });
+
+  it('should parse the help examples #2', function () {
+    var settings = parse(asCLI('-w ../lib test/fixtures/app.js apparg1 apparg2')),
+        cmd = commandToString(command(settings));
+
+    assert.deepEqual(settings.watch, ['../lib'], 'watching ../lib: ' + settings.watch);
+    assert.deepEqual(settings.execOptions.args, ['apparg1', 'apparg2'], 'args are corr   ' + settings.execOptions.args);
+    assert(cmd === 'node test/fixtures/app.js apparg1 apparg2', 'command is ' + cmd);
+  });
+
+  it('should parse the help examples #3', function () {
+    var settings = parse(asCLI('--exec python app.py')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'python app.py', 'command is ' + cmd);
+    assert(settings.execOptions.exec === 'python', 'exec is python');
+  });
+
+  it('should parse the help examples #4', function () {
+    var settings = parse(asCLI('--exec "make build" -e "styl hbs"')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'make build', 'command is ' + cmd);
+    assert.deepEqual(settings.execOptions.ext.split(','), ['styl', 'hbs'], 'correct extensions being watched: ' + settings.execOptions.ext);
+  });
+
+  it('should parse the help examples #5', function () {
+    var settings = parse(asCLI('test/fixtures/app.js -- -L')),
+        cmd = commandToString(command(settings));
+
+    assert(cmd === 'node test/fixtures/app.js -L', 'command is ' + cmd);
+  });
+
   it('should support quotes around arguments', function () {
     var settings = parse(asCLI('--watch "foo bar"'));
     assert(settings.watch[0] === 'foo bar');
