@@ -146,6 +146,15 @@ describe('nodemon argument parser', function () {
   });
 });
 
+describe('nodemon respects custom "ext" and "execMap"', function () {
+  it('should support "ext" and "execMap" for same extension', function () {
+    var settings = parse(asCLI('-x "node --harmony" -e "js json coffee" test/fixtures/app.coffee'));
+    assert(settings.execOptions.ext.indexOf('js') === 0, 'js is monitored: ' + settings.execOptions.ext);
+    assert(settings.execOptions.ext.split(',').length === 3, 'all extensions monitored');
+    assert(settings.execOptions.exec.indexOf('node') === 0, 'node is exec: ' + settings.execOptions.exec);
+  });
+});
+
 describe('nodemon with CoffeeScript', function () {
   it('should not add --nodejs by default', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
