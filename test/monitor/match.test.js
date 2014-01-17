@@ -153,6 +153,23 @@ describe('match', function () {
 });
 
 describe('validating files that cause restart', function () {
+  it('should allow for relative paths outside of the cwd', function () {
+    var cwd = process.cwd();
+    var dir = cwd + '/test/fixtures/configs';
+    process.chdir(dir);
+    var filename = './watch-relative.json';
+    var config = JSON.parse(fs.readFileSync(filename));
+    var settings = merge(config, defaults);
+    var script = '../../../lib/__init__.py';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+
+    var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
+    process.chdir(cwd);
+
+    assert(matched.result.length === 1, 'relative file matched: ' + matched.results);
+  });
+
   it('should allow for simple star rule: public/*', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
     var config = JSON.parse(fs.readFileSync(filename));
