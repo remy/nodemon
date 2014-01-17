@@ -4,8 +4,11 @@ var assert = require('assert'),
     match = require('../../lib/monitor/match'),
     config = require('../../lib/config'),
     path = require('path'),
+    fs = require('fs'),
     nodemonUtils = require('../../lib/utils'),
-    utils = require('../utils');
+    defaults = require('../../lib/config/defaults'),
+    utils = require('../utils'),
+    merge = nodemonUtils.merge;
 
 describe('match', function () {
   var monitor = [
@@ -124,8 +127,6 @@ describe('match', function () {
     });
   });
 
-
-
   it('should be specific about directories', function (done) {
     config.load({
       ext: 'js md jade',
@@ -148,5 +149,19 @@ describe('match', function () {
       assert.deepEqual(result.result, [], 'no results');
       done();
     });
+  });
+});
+
+describe('validating files that cause restart', function () {
+  it('should allow for simple star rule: public/*', function () {
+    var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
+    var config = JSON.parse(fs.readFileSync(filename));
+    var settings = merge(config, defaults);
+    var script = 'public/js/chrome.save.js';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+
+    var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
+    assert(matched.result.length === 0, 'public/* ignored: ' + matched.results);
   });
 });
