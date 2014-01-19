@@ -16,6 +16,9 @@ Here is an example (of a contrived) `nodemon.json` file:
         "test/fixtures/",
         "test/samples/"
       ],
+      "env": {
+        "NODE_ENV": "development"
+      },
       "ext": "js json"
     }
 
