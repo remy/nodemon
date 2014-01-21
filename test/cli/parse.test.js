@@ -4,7 +4,7 @@ var cli = require('../../lib/cli/'),
     exec = require('../../lib/config/exec'),
     pkg = require('../../package'),
     assert = require('assert'),
-    command = require('../../lib/monitor/run').command;
+    command = require('../../lib/config/command');
 
 function asCLI(cmd) {
   return ('node nodemon ' + cmd).trim();

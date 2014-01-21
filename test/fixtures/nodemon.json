@@ -3,5 +3,8 @@
   "watch": ["four"],
   "env": {
     "USER": "remysharp"
+  },
+  "execMap": {
+    "js": "node --harmony"
   }
 }
