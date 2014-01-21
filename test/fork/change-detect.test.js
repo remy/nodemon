@@ -29,13 +29,6 @@ describe('nodemon fork simply running', function () {
 });
 
 describe('nodemon fork monitor', function () {
-  var complete = function (p, done, err) {
-    p.once('exit', function () {
-      done(err);
-    });
-    p.send('quit');
-  };
-
   it('should restart on .js file changes with no arguments', function (done) {
     var p = run(appjs, {
       output: function (data) {

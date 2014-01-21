@@ -17,7 +17,7 @@ function match(str, key) {
 }
 
 function run(cmd, callbacks) {
-  var cli = asCLI(cmd);
+  var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
   var proc = fork(cli.exec, cli.args, {
     env: process.env,
     cwd: process.cwd(),

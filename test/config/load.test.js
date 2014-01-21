@@ -7,7 +7,7 @@ var load = require('../../lib/config/load'),
     rules = require('../../lib/rules'),
     exec = require('../../lib/config/exec'),
     nodemon = require('../../lib/nodemon'),
-    command = require('../../lib/monitor/run').command,
+    command = require('../../lib/config/command'),
     assert = require('assert');
 
 function commandToString(command) {
@@ -42,6 +42,7 @@ describe('config load', function () {
     utils.home = path.resolve(pwd, ['test', 'fixtures', 'global'].join(path.sep));
 
     rules.reset();
+    nodemon.config.reset();
   });
 
   it('should remove ignore defaults if user provides their own', function (done) {
@@ -146,6 +147,4 @@ describe('config load', function () {
       done();
     });
   });
-
-
 });

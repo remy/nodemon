@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true */
 var exec = require('../../lib/config/exec'),
-    run = require('../../lib/monitor/run'),
+    command = require('../../lib/config/command'),
     assert = require('assert');
 
 describe('nodemon exec', function () {
@@ -39,9 +39,9 @@ describe('nodemon exec', function () {
 
   it('should replace {{filename}}', function () {
     var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
-    var command = run.command({ execOptions: options });
+    var cmd = command({ execOptions: options });
 
-    assert(command.executable + ' ' + command.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
+    assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
   });
 
   it('should support extension maps', function () {
