@@ -219,3 +219,25 @@ describe('nodemon with CoffeeScript', function () {
     assert(cmd.indexOf('--debug-brk') !== -1, '--debug-brk being used');
   });
 });
+
+describe('nodemon --delay argument', function () {
+  it('should support an integer value', function () {
+    var settings = cli.parse('node nodemon --delay 5');
+    assert(settings.delay === 5000, 'delay 5 seconds');
+  });
+
+  it('should support a float value', function () {
+    var settings = cli.parse('node nodemon --delay 1.2');
+    assert(settings.delay === 1200, 'delay 1.2 seconds');
+  });
+
+  it('should support a value with a time specifier for seconds (s)', function () {
+    var settings = cli.parse('node nodemon --delay 5s');
+    assert(settings.delay === 5000, 'delay 5 seconds');
+  });
+
+  it('should support a value with a time specifier for milliseconds (ms)', function () {
+    var settings = cli.parse('node nodemon --delay 1200ms');
+    assert(settings.delay === 1200, 'delay 1.2 seconds');
+  });
+});

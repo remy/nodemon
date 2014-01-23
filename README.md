@@ -154,7 +154,15 @@ To add an extra throttle, or delay restarting, use the `--delay` command:
 
     nodemon --delay 10 server.js
 
-The delay figure is number of seconds to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
+For more precision, milliseconds can be specified.  Either as a float:
+
+    nodemon --delay 2.5 server.js
+
+Or using the time specifier (ms):
+
+    nodemon --delay 2500ms server.js
+
+The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
 ## Controlling shutdown of your script
 
