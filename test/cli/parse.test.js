@@ -60,6 +60,17 @@ describe('nodemon CLI parser', function () {
     assert(cmd === 'node test/fixtures/app.js -L', 'command is ' + cmd);
   });
 
+  it('should put the script at the end if found in package.main', function () {
+    var pwd = process.cwd();
+    process.chdir('test/fixtures'); // allows us to load text/fixtures/package.json
+    var settings = parse(asCLI('--harmony')),
+        cmd = commandToString(command(settings));
+
+    process.chdir(pwd);
+
+    assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
+  });
+
   it('should support quotes around arguments', function () {
     var settings = parse(asCLI('--watch "foo bar"'));
     assert(settings.watch[0] === 'foo bar');
