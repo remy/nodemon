@@ -160,7 +160,7 @@ describe('validating files that cause restart', function () {
     var filename = './watch-relative.json';
     var config = JSON.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
-    var script = '../../../lib/__init__.py';
+    var script = path.resolve('../../../lib/__init__.py');
 
     settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
 
@@ -180,5 +180,60 @@ describe('validating files that cause restart', function () {
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     assert(matched.result.length === 0, 'public/* ignored: ' + matched.results);
+  });
+});
+
+describe('match rule parser', function () {
+  var pwd = process.cwd();
+
+  it('should support "--watch ."', function () {
+    var config = { watch: '.' };
+    var settings = merge(config, defaults);
+    var script = 'index.js';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
+    var matched = match([script], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
+
+
+  it('should support "--watch .*"', function () {
+    var config = { watch: '.*' };
+    var settings = merge(config, defaults);
+    var script = 'index.js';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
+    var matched = match([script], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
+
+
+
+  it('should support "--watch *.*"', function () {
+    var config = { watch: '*.*' };
+    var settings = merge(config, defaults);
+    var script = 'index.js';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
+    var matched = match([script], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
+
+  it('should support "--watch .."', function () {
+    var config = { watch: '..' };
+    var settings = merge(config, defaults);
+    var script = pwd + 'index.js';
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    assert(settings.monitor[0] === path.resolve(pwd, '..') + '/**/*', 'path resolved: ' + settings.monitor[0]);
+    var matched = match([script], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
   });
 });
