@@ -57,14 +57,14 @@ app.on('message', function (event) {
   if (event.type === 'start') {
     console.log('nodemon started');
   } else if (event.type === 'crash') {
-    console.log('script crasahed for some reason');
+    console.log('script crashed for some reason');
   }
 });
 
 // force a restart
 app.send('restart');
 
-// for a quit
+// force a quit
 app.send('quit');
 ```
 
