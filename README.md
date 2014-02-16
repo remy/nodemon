@@ -69,7 +69,7 @@ A config file can take any of the command line arguments as JSON key values, for
 
     {
       "verbose": true,
-      "ignore": ["*.test.js", "fixtures/*"]
+      "ignore": ["*.test.js", "fixtures/*"],
       "execMap": {
         "rb": "ruby",
         "pde": "processing --sketch={{pwd}} --run"
