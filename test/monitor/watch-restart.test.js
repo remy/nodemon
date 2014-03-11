@@ -81,7 +81,7 @@ describe('nodemon monitor child restart', function () {
       write(true);
 
       var pwd = process.cwd();
-      process.chrdir('test/fixtures');
+      process.chdir('test/fixtures');
 
       setTimeout(function () {
         nodemon({
