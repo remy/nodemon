@@ -170,6 +170,19 @@ describe('validating files that cause restart', function () {
     assert(matched.result.length === 1, 'relative file matched: ' + matched.results);
   });
 
+  it('should allow *.js to match at the top level', function () {
+    var filename = path.join('test', 'fixtures', 'configs', 'top-level.json');
+    var config = JSON.parse(fs.readFileSync(filename));
+    var settings = merge(config, defaults);
+    var script = path.resolve('app.js');
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+
+    var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
+    assert(matched.result.length === 1, 'found match ' + matched.results);
+    console.log(matched);
+  });
+
   it('should allow for simple star rule: public/*', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
     var config = JSON.parse(fs.readFileSync(filename));

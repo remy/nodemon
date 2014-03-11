@@ -1,0 +1,13 @@
+{
+  "verbose": "true",
+  "watch": [
+    "*.js",
+    "app/",
+    "helpers/",
+    "routes/",
+    "view/",
+    "views/"
+  ],
+  "ext": "js json html",
+  "exec": "node --harmony-generators"
+}
