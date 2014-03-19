@@ -1,10 +1,9 @@
 'use strict';
-/*global describe:true, it: true, after: true */
+/*global describe, it, after, afterEach */
 var nodemon = require('../../lib/'),
     assert = require('assert'),
     fs = require('fs'),
     utils = require('../utils'),
-    bus = require('../../lib/utils/bus'),
     path = require('path'),
     touch = require('touch'),
     crypto = require('crypto'),
@@ -20,6 +19,14 @@ describe('nodemon monitor child restart', function () {
       fs.writeFileSync(tmpmd, '# true');
     }
   }
+
+  var pwd = process.cwd(),
+      oldhome = utils.home;
+
+  afterEach(function () {
+    process.chdir(pwd);
+    utils.home = oldhome;
+  });
 
   after(function (done) {
     fs.unlink(tmpjs);
@@ -77,10 +84,9 @@ describe('nodemon monitor child restart', function () {
   });
 
   if (process.platform === 'darwin') {
-    it('should restart when watching directory', function (done) {
+    it('should restart when watching directory (mac only)', function (done) {
       write(true);
 
-      var pwd = process.cwd();
       process.chdir('test/fixtures');
 
       setTimeout(function () {
