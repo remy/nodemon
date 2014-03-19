@@ -180,7 +180,6 @@ describe('validating files that cause restart', function () {
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     assert(matched.result.length === 1, 'found match ' + matched.results);
-    console.log(matched);
   });
 
   it('should allow for simple star rule: public/*', function () {
@@ -224,6 +223,26 @@ describe('match rule parser', function () {
     assert(matched.result.length === 1, 'no file matched');
   });
 
+
+  it('should support "--watch <single file>"', function () {
+    var config = { watch: 'config.json' };
+    var settings = merge(config, defaults);
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
+
+  it('should support "--watch /some/path/*/config.json"', function () {
+    var config = { watch: '/*/config.json' };
+    var settings = merge(config, defaults);
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
 
 
   it('should support "--watch *.*"', function () {
