@@ -1,10 +1,9 @@
 'use strict';
-/*global describe:true, it: true, after: true */
+/*global describe, it, after, afterEach */
 var nodemon = require('../../lib/'),
     assert = require('assert'),
     fs = require('fs'),
     utils = require('../utils'),
-    bus = require('../../lib/utils/bus'),
     path = require('path'),
     touch = require('touch'),
     crypto = require('crypto'),
@@ -20,6 +19,14 @@ describe('nodemon monitor child restart', function () {
       fs.writeFileSync(tmpmd, '# true');
     }
   }
+
+  var pwd = process.cwd(),
+      oldhome = utils.home;
+
+  afterEach(function () {
+    process.chdir(pwd);
+    utils.home = oldhome;
+  });
 
   after(function (done) {
     fs.unlink(tmpjs);
@@ -75,6 +82,34 @@ describe('nodemon monitor child restart', function () {
       });
     }, 2000);
   });
+
+  if (process.platform === 'darwin') {
+    it('should restart when watching directory (mac only)', function (done) {
+      write(true);
+
+      process.chdir('test/fixtures');
+
+      setTimeout(function () {
+        nodemon({
+          script: tmpjs,
+          verbose: true,
+          ext: 'js',
+          watch: ['*.js', 'global']
+        }).on('start', function () {
+          setTimeout(function () {
+            touch.sync(tmpjs);
+          }, 1000);
+        }).on('restart', function (files) {
+          assert(files.length === 1, 'nodemon restarted when watching directory');
+          nodemon.once('exit', function () {
+            nodemon.reset();
+            done();
+          }).emit('quit');
+        });
+      }, 2000);
+    });
+  }
+
 
   it('should restart when watching directory', function (done) {
     write(true);

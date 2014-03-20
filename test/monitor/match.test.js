@@ -170,6 +170,18 @@ describe('validating files that cause restart', function () {
     assert(matched.result.length === 1, 'relative file matched: ' + matched.results);
   });
 
+  it('should allow *.js to match at the top level', function () {
+    var filename = path.join('test', 'fixtures', 'configs', 'top-level.json');
+    var config = JSON.parse(fs.readFileSync(filename));
+    var settings = merge(config, defaults);
+    var script = path.resolve('app.js');
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+
+    var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
+    assert(matched.result.length === 1, 'found match ' + matched.results);
+  });
+
   it('should allow for simple star rule: public/*', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
     var config = JSON.parse(fs.readFileSync(filename));
@@ -211,6 +223,26 @@ describe('match rule parser', function () {
     assert(matched.result.length === 1, 'no file matched');
   });
 
+
+  it('should support "--watch <single file>"', function () {
+    var config = { watch: 'config.json' };
+    var settings = merge(config, defaults);
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
+
+  it('should support "--watch /some/path/*/config.json"', function () {
+    var config = { watch: '/*/config.json' };
+    var settings = merge(config, defaults);
+
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+  });
 
 
   it('should support "--watch *.*"', function () {
