@@ -79,3 +79,47 @@ To acheive this you need to include the `--exitcrash` flag to ensure nodemon exi
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
 
 Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
+
+## What does "verbose" give me?
+
+The `--verbose` (or `-V`) puts nodemon in verbose mode which adds some detail to starting and restarting.
+
+Additional restart information:
+
+- Which nodemon configs are loaded (local and global if found)
+- Which ignore rules are being applied
+- Which file extensions are being watch
+- The process ID of your application (the `child pid`)
+
+For example:
+
+```text
+14 Apr 15:24:58 - [nodemon] v1.0.17
+14 Apr 15:24:58 - [nodemon] reading config /Users/remy/Sites/jsbin-private/nodemon.json
+14 Apr 15:24:58 - [nodemon] to restart at any time, enter `rs`
+14 Apr 15:24:58 - [nodemon] ignoring: /Users/remy/Sites/jsbin-private/.git/**/* node_modules/**/node_modules
+14 Apr 15:24:58 - [nodemon] watching: /Users/remy/Sites/jsbin/views/**/* /Users/remy/Sites/jsbin/lib/**/* ../json/*.json config.dev.json
+14 Apr 15:24:58 - [nodemon] watching extensions: json,js,html
+14 Apr 15:24:58 - [nodemon] starting `node run.js`
+14 Apr 15:24:58 - [nodemon] child pid: 9292
+```
+
+When nodemon detects a change, the following addition information is shown:
+
+- Which file(s) triggered the check
+- Which (if any) rules the file matched to cause a subsequent restart
+- How many rules were matched and out of those rules, how many cause a restart
+- A list of all the files that *successfully* caused a restart
+
+For example, on `lib/app.js` being changed:
+
+```text
+14 Apr 15:25:56 - [nodemon] files triggering change check: ../jsbin/lib/app.js
+14 Apr 15:25:56 - [nodemon] matched rule: **/Users/remy/Sites/jsbin/lib/**/*
+14 Apr 15:25:56 - [nodemon] changes after filters (before/after): 1/1
+14 Apr 15:25:56 - [nodemon] restarting due to changes...
+14 Apr 15:25:56 - [nodemon] ../jsbin/lib/app.js
+
+14 Apr 15:25:56 - [nodemon] starting `node run.js`
+14 Apr 15:25:56 - [nodemon] child pid: 9556
+```
