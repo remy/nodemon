@@ -40,7 +40,8 @@
     "mocha": "~1.12.0",
     "should": "~1.2.2",
     "istanbul": "~0.1.44",
-    "touch": "0.0.2"
+    "touch": "0.0.2",
+    "coffee-script": "~1.7.1"
   },
   "dependencies": {
     "update-notifier": "~0.1.8",
