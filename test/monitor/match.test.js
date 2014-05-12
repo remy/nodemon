@@ -193,6 +193,24 @@ describe('validating files that cause restart', function () {
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     assert(matched.result.length === 0, 'public/* ignored: ' + matched.results);
   });
+
+  it('should allow for relative paths with extensions', function () {
+    var cwd = process.cwd();
+    var dir = cwd + '/test/fixtures/configs';
+    process.chdir(dir);
+    var filename = './watch-relative-filter.json';
+    var config = JSON.parse(fs.readFileSync(filename));
+    var settings = merge(config, defaults);
+    var script = path.resolve('../jsbin/scripts.json');
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+
+    var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
+    process.chdir(cwd);
+
+    assert(matched.result.length === 1, 'relative file matched: ' + matched.results);
+  });
+
 });
 
 describe('match rule parser', function () {

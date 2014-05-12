@@ -1,0 +1,4 @@
+{
+  "ext": "json,js,html",
+  "watch": ["../jsbin/views", "../jsbin/lib", "../jsbin/*.json", "config.dev.json"]
+}
