@@ -32,7 +32,7 @@ describe('nodemon fork child restart', function () {
 
     var p = run('--debug ' + appcoffee, {
       error: function (data) {
-        if (data.indexOf('debugger listening') === -1) {
+        if (data.indexOf('ebugger listening') === -1) {
           p.send('quit');
           cleanup(p, done, new Error(data));
         }
