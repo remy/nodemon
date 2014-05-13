@@ -45,9 +45,9 @@ This is simply the event emitter bus that exists inside nodemon exposed at the t
 - `nodemon.addListener(event, fn)`
 - `nodemon.once(event, fn)`
 - `nodemon.emit(event)`
-- `nodemon.removeAllListners([event])`
+- `nodemon.removeAllListeners([event])`
 
-Note: there's no `removeListner` (happy to take a pull request if it's needed).
+Note: there's no `removeListener` (happy to take a pull request if it's needed).
 
 ### Test utilities
 
