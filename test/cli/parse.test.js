@@ -7,7 +7,7 @@ var cli = require('../../lib/cli/'),
     command = require('../../lib/config/command');
 
 function asCLI(cmd) {
-  return ('node nodemon ' + cmd).trim();
+  return ('node nodemon ' + (cmd|| '')).trim();
 }
 
 function parse(cmd) {
