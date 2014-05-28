@@ -71,6 +71,39 @@ describe('nodemon CLI parser', function () {
     assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
   });
 
+  it('should put the script at the end if found in package.scripts.start', function () {
+    var pwd = process.cwd();
+    process.chdir('test/fixtures/packages/start'); // allows us to load text/fixtures/package.json
+    var settings = parse(asCLI('--harmony')),
+        cmd = commandToString(command(settings));
+
+    process.chdir(pwd);
+
+    assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
+  });
+
+  it('should support default express4 format', function () {
+    var pwd = process.cwd();
+    process.chdir('test/fixtures/packages/express4'); // allows us to load text/fixtures/package.json
+    var settings = parse(asCLI()),
+        cmd = commandToString(command(settings));
+
+    process.chdir(pwd);
+
+    assert(cmd === 'node ./bin/www', 'command is "' + cmd + '"');
+  });
+
+  it('should support package.scripts.start with args', function () {
+    var pwd = process.cwd();
+    process.chdir('test/fixtures/packages/browserify'); // allows us to load text/fixtures/package.json
+    var settings = parse(asCLI('--debug')),
+        cmd = commandToString(command(settings));
+
+    process.chdir(pwd);
+
+    assert(cmd === 'browserify --debug -t hbsfy app.js -o bundle.js', 'command is "' + cmd + '"');
+  });
+
   it('should support quotes around arguments', function () {
     var settings = parse(asCLI('--watch "foo bar"'));
     assert(settings.watch[0] === 'foo bar');

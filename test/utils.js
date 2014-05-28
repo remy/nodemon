@@ -8,7 +8,7 @@ function asCLI(cmd) {
   return {
     exec: 'bin/nodemon.js',
     // make nodemon verbose so we can check the filters being applied
-    args: ('-V ' + cmd).trim().split(' ')
+    args: ('-V ' + (cmd || '')).trim().split(' ')
   };
 }
 

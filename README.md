@@ -45,6 +45,8 @@ You can also pass the debug flag to node through the command line as you would n
 
 If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app.
 
+nodemon will also search for the `scripts.start` property in `package.json` (as of nodemon 1.1.x).
+
 Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
 
 ## Automatic re-running
@@ -144,7 +146,7 @@ Patterns can also be ignored (but be sure to quote the arguments):
 
     nodemon --ignore 'lib/*.js'
 
-Note that by default, nodemon will ignore the `.git` and `node_modules/**/node_modules` directories.
+Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components` and `.sass-cache` directories.
 
 ## Delaying restarting
 
