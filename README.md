@@ -180,6 +180,23 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
+## Pipe output to somewhere else
+
+```js
+    nodemon({
+      script: ...,
+      stdout: false // important: this tells nodemon not to output to console
+
+    }).on('readable', function() { // the `readable` event indicates that data is ready to pick up
+      var stdoutWritable = fs.createWriteStream('output.txt');
+      var stderrWritable = fs.createWriteStream('err.txt');
+
+      this.stdout.pipe(stdoutWritable);
+      this.stderr.pipe(stderrWritable);
+
+    })
+```
+
 ## Using nodemon in your gulp workflow
 
 Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plugin to integrate nodemon with the rest of your project's gulp workflow.

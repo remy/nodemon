@@ -4,7 +4,7 @@ var nodemon = require('../../lib/'),
     path = require('path'),
     assert = require('assert');
 
-describe('when nodemon runs', function () {
+describe('when nodemon runs (1)', function () {
   var tmp = path.resolve('test/fixtures/env.js');
   after(function (done) {
     // clean up just in case.

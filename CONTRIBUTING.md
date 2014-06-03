@@ -1,6 +1,8 @@
 # Contributing
 
-WIP - but here's the TL;DR
+- [Remy Sharp](https://github.com/remy)
+- [Michael Heuberger](https://github.com/binarykitchen)
+- You?
 
 ## Issues
 

@@ -7,7 +7,7 @@ var nodemon = require('../../lib/'),
     touch = require('touch'),
     crypto = require('crypto');
 
-describe('when nodemon runs', function () {
+describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + crypto.randomBytes(16).toString('hex') + '.js');
 
   after(function (done) {
@@ -54,6 +54,55 @@ describe('when nodemon runs', function () {
         nodemon.reset();
         done();
       }).emit('quit');
+    });
+  });
+
+  it('should expose readable streams when stdout is false', function (done) {
+    var stdoutTestData = 'outputting some data';
+    var stderrTestData = 'outputting an error';
+
+    var script = 'setTimeout(function () { console.log("' + stdoutTestData + '"); }, 5);' +
+                 'setTimeout(function () { console.error("' + stderrTestData + '"); }, 10);';
+
+    fs.writeFileSync(tmp, script);
+
+    var stdoutFileName = 'test/fixtures/stdout.txt';
+    var stderrFileName = 'test/fixtures/stderr.txt';
+
+    var stdoutWritable = fs.createWriteStream(stdoutFileName);
+    var stderrWritable = fs.createWriteStream(stderrFileName);
+
+    nodemon({
+      script: tmp,
+      stdout: false
+
+    }).on('crash', function () {
+      assert(false, 'detected crashed state');
+
+    }).on('readable', function() {
+      this.stdout.pipe(stdoutWritable);
+      this.stderr.pipe(stderrWritable);
+
+    }).on('end', function() {
+        stdoutWritable.end();
+        stderrWritable.end();
+
+        var stdoutWritableResult = fs.readFileSync(stdoutFileName);
+        var stderrWritableResult = fs.readFileSync(stderrFileName);
+
+        assert(stdoutWritableResult === stdoutTestData, 'stdout has been piped correctly');
+        assert(stderrWritableResult === stderrTestData, 'stderr has been piped correctly');
+
+        this.emit('quit');
+
+    }).once('exit', function() {
+      assert(true, 'nodemon is quitting');
+
+      fs.unlinkSync(stdoutFileName);
+      fs.unlinkSync(stderrFileName);
+
+      nodemon.reset();
+      done();
     });
   });
 
