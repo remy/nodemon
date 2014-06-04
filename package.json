@@ -5,12 +5,6 @@
     "name": "Remy Sharp",
     "url": "http://github.com/remy"
   },
-  "contributors": [
-    {
-      "name": "Michael Hueuberger",
-      "email": "michael.heuberger@binarykitchen.com"
-    }
-  ],
   "bin": {
     "nodemon": "./bin/nodemon.js"
   },
