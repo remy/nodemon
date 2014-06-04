@@ -5,8 +5,17 @@
     "name": "Remy Sharp",
     "url": "http://github.com/remy"
   },
+  "contributors": [
+    {
+      "name": "Michael Hueuberger",
+      "email": "michael.heuberger@binarykitchen.com"
+    }
+  ],
   "bin": {
     "nodemon": "./bin/nodemon.js"
+  },
+  "engines": {
+    "node": ">=0.8"
   },
   "repository": {
     "type": "git",
@@ -36,16 +45,16 @@
     "web": "node web"
   },
   "devDependencies": {
-    "connect": "*",
-    "mocha": "~1.12.0",
-    "should": "~1.2.2",
-    "istanbul": "~0.1.44",
-    "touch": "0.0.2",
+    "connect": "~2.19.1",
+    "mocha": "~1.20.0",
+    "should": "~4.0.0",
+    "istanbul": "~0.2.10",
+    "touch": "~0.0.3",
     "coffee-script": "~1.7.1"
   },
   "dependencies": {
     "update-notifier": "~0.1.8",
-    "minimatch": "~0.2.14",
-    "ps-tree": "0.0.3"
+    "minimatch": "~0.3.0",
+    "ps-tree": "~0.0.3"
   }
 }
