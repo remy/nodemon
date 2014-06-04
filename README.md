@@ -204,7 +204,7 @@ Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
 
-# Contibutors
+# Contributors
 
 * [remy](https://github.com/remy)
 * [ChrisWren](https://github.com/ChrisWren)
