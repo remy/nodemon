@@ -27,7 +27,11 @@ nodemon wraps your application, so you can pass all the arguments you would norm
 
     nodemon [your node app]
 
-For example, if my application accepted a host and port as the arguments, I would start it as so:
+For CLI options, use the `-h` (or `--help`) argument:
+
+    nodemon -h
+
+Using nodemon is simple, if my application accepted a host and port as the arguments, I would start it as so:
 
     nodemon ./server.js localhost 8080
 
