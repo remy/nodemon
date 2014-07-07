@@ -4,6 +4,7 @@ node_js:
   - "0.10"
   - "0.8"
 before_script:
+  - npm update -q
   - npm install
 notifications:
   email: false
