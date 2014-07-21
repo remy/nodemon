@@ -25,7 +25,7 @@ describe('match', function () {
     var files = [ 'views/server/remy.coffee', 'random.coffee', '/User/remy/app/server/foo.coffee' ];
 
     var results = match(files, monitor); // ignoring extension support
-    assert(results.result.length === 1, 'expecting 1 file in good');
+    assert(results.result.length === 0, 'expecting no matches');
   });
 
   it('should apply *.js to any js file', function () {
