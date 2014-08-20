@@ -18,6 +18,9 @@ nodemon does **not** require *any* changes to your code or method of development
 Either through forking or by using [npm](http://npmjs.org) (the recommended way):
 
     npm install -g nodemon
+On Ubuntu/Linux (if failed)
+
+    sudo npm install -g nodemon
 
 And nodemon will be installed in to your bin path. Note that as of npm v1, you must explicitly tell npm to install globally as nodemon is a command line utility.
 
