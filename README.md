@@ -55,7 +55,7 @@ Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or 
 
 ## Automatic re-running
 
-nodemon was original written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
+nodemon was originally written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
 
 ## Manual restarting
 
