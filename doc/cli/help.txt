@@ -13,6 +13,7 @@
   -d, --delay n ............ throttle restart for "n" seconds.
   -L, --legacy-watch ....... Forces node to use the most compatible version
                              for watching file changes.
+  --no-exec-shell .......... treat `--exec` as a single path.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
   -v, --version ............ current nodemon version.
