@@ -2,6 +2,7 @@
 var fork = require('child_process').fork,
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
+    port = 8000,
     appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
 
 function asCLI(cmd) {
@@ -18,6 +19,8 @@ function match(str, key) {
 
 function run(cmd, callbacks) {
   var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
+  port++;
+  process.env.PORT = port;
   var proc = fork(cli.exec, cli.args, {
     env: process.env,
     cwd: process.cwd(),
