@@ -45,8 +45,6 @@
     "istanbul": "~0.2.10",
     "mocha": "^2.0.1",
     "should": "~4.0.0",
-    "tap-spec": "^2.1.1",
-    "tape": "^3.0.3",
     "touch": "~0.0.3"
   },
   "dependencies": {
