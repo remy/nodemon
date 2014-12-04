@@ -22,12 +22,12 @@ describe('nodemon rules', function () {
     simplejson: loadfixtures('simple.json')
   };
 
-  beforeEach(function () {
-    nodemon.reset();
+  beforeEach(function (done) {
+    nodemon.reset(done);
   });
 
   it('should be resetable', function (done) {
-    nodemon.reset();
+    // nodemon.reset();
     rules.load('./test/fixtures/simple.json', function () {
       nodemon.reset();
 
