@@ -35,8 +35,8 @@
   "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
-    ":test": "node_modules/mocha/bin/_mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    "test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; done",
+    "test": "node_modules/mocha/bin/_mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    ":test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; done",
     "web": "node web"
   },
   "devDependencies": {
