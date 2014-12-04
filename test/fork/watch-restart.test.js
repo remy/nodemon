@@ -89,6 +89,7 @@ describe('nodemon fork child restart', function () {
   it('should happen when monitoring multiple extensions', function (done) {
     fs.writeFileSync(tmpjs, 'true;');
     fs.writeFileSync(tmpmd, '# true');
+    var monitor = utils.monitorForChange('changes after filters');
     setTimeout(function () {
       var p = run('--ext js,md ' + appjs, {
         error: function (data) {
@@ -97,7 +98,7 @@ describe('nodemon fork child restart', function () {
         },
         output: function (data) {
           var msg = colour.strip(data.trim());
-          if (utils.match(msg, 'changes after filters')) {
+          if (monitor(msg)) {
             var changes = msg.slice(-5).split('/');
             var restartedOn = changes.pop();
             assert(restartedOn === '1', 'nodemon restarted on a single file change');

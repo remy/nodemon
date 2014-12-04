@@ -17,6 +17,25 @@ function match(str, key) {
   return str.indexOf(key) !== -1;
 }
 
+function monitorForChange(str) {
+  var watch = false;
+  return function (line) {
+    if (match(line, 'files triggering change check: nodemonCheckFsWatch')) {
+      watch = false;
+    } else if (match(line, 'files triggering change check:')) {
+      watch = true;
+    }
+
+    if (watch) {
+      if (match(line, str)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+}
+
 function run(cmd, callbacks) {
   var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
   port++;
@@ -66,5 +85,6 @@ module.exports = {
   run: run,
   cleanup: cleanup,
   appjs: appjs,
-  appcoffee: appcoffee
+  appcoffee: appcoffee,
+  monitorForChange: monitorForChange,
 };
