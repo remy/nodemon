@@ -4,6 +4,7 @@ var nodemon = require('../../lib/'),
     assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
+    utils = require('../utils'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js');
 
 describe('require-able', function () {
@@ -21,7 +22,7 @@ describe('require-able', function () {
   it('should restart on file change', function (done) {
     var restarted = false;
 
-    nodemon({ script: appjs, verbose: true }).on('start', function () {
+    nodemon({ script: appjs, verbose: true, env: { PORT: utils.port + 1 } }).on('start', function () {
       setTimeout(function () {
         touch.sync(appjs);
       }, 1000);
@@ -30,8 +31,7 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted, 'nodemon restarted and quit properly');
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
     }).on('log', function (event) {
       // console.log(event.message);
     });
@@ -49,9 +49,8 @@ describe('require-able', function () {
       nodemon.emit('quit');
     }).on('quit', function () {
       assert(restarted);
-      nodemon.reset();
+      nodemon.reset(done);
       // unbind events for testing again
-      done();
     });
   });
 

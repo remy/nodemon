@@ -87,4 +87,5 @@ module.exports = {
   appjs: appjs,
   appcoffee: appcoffee,
   monitorForChange: monitorForChange,
+  port: port,
 };
