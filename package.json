@@ -35,16 +35,17 @@
   "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
-    "test": "node_modules/mocha/bin/_mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    ":test": "node_modules/mocha/bin/_mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    "test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; done",
     "web": "node web"
   },
   "devDependencies": {
+    "coffee-script": "~1.7.1",
     "connect": "~2.19.1",
-    "mocha": "~1.20.0",
-    "should": "~4.0.0",
     "istanbul": "~0.2.10",
-    "touch": "~0.0.3",
-    "coffee-script": "~1.7.1"
+    "mocha": "^2.0.1",
+    "should": "~4.0.0",
+    "touch": "~0.0.3"
   },
   "dependencies": {
     "minimatch": "~0.3.0",

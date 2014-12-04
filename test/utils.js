@@ -2,6 +2,7 @@
 var fork = require('child_process').fork,
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
+    port = 8000,
     appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
 
 function asCLI(cmd) {
@@ -16,8 +17,29 @@ function match(str, key) {
   return str.indexOf(key) !== -1;
 }
 
+function monitorForChange(str) {
+  var watch = false;
+  return function (line) {
+    if (match(line, 'files triggering change check: nodemonCheckFsWatch')) {
+      watch = false;
+    } else if (match(line, 'files triggering change check:')) {
+      watch = true;
+    }
+
+    if (watch) {
+      if (match(line, str)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+}
+
 function run(cmd, callbacks) {
   var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
+  port++;
+  process.env.PORT = port;
   var proc = fork(cli.exec, cli.args, {
     env: process.env,
     cwd: process.cwd(),
@@ -63,5 +85,6 @@ module.exports = {
   run: run,
   cleanup: cleanup,
   appjs: appjs,
-  appcoffee: appcoffee
+  appcoffee: appcoffee,
+  monitorForChange: monitorForChange,
 };

@@ -30,12 +30,16 @@ describe('nodemon fork simply running', function () {
 
 describe('nodemon fork monitor', function () {
   it('should restart on .js file changes with no arguments', function (done) {
+    var startWatch = false;
     var p = run(appjs, {
       output: function (data) {
-        if (match(data, 'changes after filters')) {
+        if (match(data, 'files triggering change check: test/fixtures/app.js')) {
+          startWatch = true;
+        }
+        if (startWatch && match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
-          assert(restartedOn === '1', 'nodemon restarted on 1 file');
+          assert(restartedOn === '1', 'nodemon restarted on 1 file: ' + restartedOn);
         }
       },
       error: function (data) {
