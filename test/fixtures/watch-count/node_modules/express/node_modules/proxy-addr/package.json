@@ -1,0 +1,89 @@
+{
+  "name": "proxy-addr",
+  "description": "Determine address of proxied request",
+  "version": "1.0.4",
+  "author": {
+    "name": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ip",
+    "proxy",
+    "x-forwarded-for"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jshttp/proxy-addr"
+  },
+  "dependencies": {
+    "forwarded": "~0.1.0",
+    "ipaddr.js": "0.1.5"
+  },
+  "devDependencies": {
+    "benchmark": "1.0.0",
+    "beautify-benchmark": "0.2.4",
+    "istanbul": "0.3.2",
+    "mocha": "~1.21.5"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "README.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.6"
+  },
+  "scripts": {
+    "bench": "node benchmark/index.js",
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  },
+  "gitHead": "f72c40adfeeb81fa905f017030d2ecd1cd4d1821",
+  "bugs": {
+    "url": "https://github.com/jshttp/proxy-addr/issues"
+  },
+  "homepage": "https://github.com/jshttp/proxy-addr",
+  "_id": "proxy-addr@1.0.4",
+  "_shasum": "51dbebbb22cc0eb04b77a76d871b75970f198cdd",
+  "_from": "proxy-addr@~1.0.4",
+  "_npmVersion": "1.4.21",
+  "_npmUser": {
+    "name": "dougwilson",
+    "email": "doug@somethingdoug.com"
+  },
+  "maintainers": [
+    {
+      "name": "dougwilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
+      "name": "jongleberry",
+      "email": "jonathanrichardong@gmail.com"
+    },
+    {
+      "name": "shtylman",
+      "email": "shtylman@gmail.com"
+    },
+    {
+      "name": "tjholowaychuk",
+      "email": "tj@vision-media.ca"
+    },
+    {
+      "name": "mscdex",
+      "email": "mscdex@mscdex.net"
+    },
+    {
+      "name": "fishrock123",
+      "email": "fishrock123@rocketmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "51dbebbb22cc0eb04b77a76d871b75970f198cdd",
+    "tarball": "http://registry.npmjs.org/proxy-addr/-/proxy-addr-1.0.4.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/proxy-addr/-/proxy-addr-1.0.4.tgz"
+}

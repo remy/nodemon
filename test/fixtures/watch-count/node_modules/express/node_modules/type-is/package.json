@@ -1,0 +1,93 @@
+{
+  "name": "type-is",
+  "description": "Infer the content-type of a request.",
+  "version": "1.5.3",
+  "author": {
+    "name": "Jonathan Ong",
+    "email": "me@jongleberry.com",
+    "url": "http://jongleberry.com"
+  },
+  "contributors": [
+    {
+      "name": "Douglas Christopher Wilson",
+      "email": "doug@somethingdoug.com"
+    }
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jshttp/type-is"
+  },
+  "dependencies": {
+    "media-typer": "0.3.0",
+    "mime-types": "~2.0.3"
+  },
+  "devDependencies": {
+    "istanbul": "~0.3.0",
+    "mocha": "~1.21.5"
+  },
+  "engines": {
+    "node": ">= 0.6"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "mocha --reporter spec --check-leaks --bail test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  },
+  "keywords": [
+    "content",
+    "type",
+    "checking"
+  ],
+  "gitHead": "202b4823bcc0aeda3595c14a03fdcb2c60cb0ebf",
+  "bugs": {
+    "url": "https://github.com/jshttp/type-is/issues"
+  },
+  "homepage": "https://github.com/jshttp/type-is",
+  "_id": "type-is@1.5.3",
+  "_shasum": "b7fb92d0abc628393f10dd260932cca65fe9ff68",
+  "_from": "type-is@~1.5.3",
+  "_npmVersion": "1.4.21",
+  "_npmUser": {
+    "name": "dougwilson",
+    "email": "doug@somethingdoug.com"
+  },
+  "maintainers": [
+    {
+      "name": "jongleberry",
+      "email": "jonathanrichardong@gmail.com"
+    },
+    {
+      "name": "dougwilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
+      "name": "tjholowaychuk",
+      "email": "tj@vision-media.ca"
+    },
+    {
+      "name": "shtylman",
+      "email": "shtylman@gmail.com"
+    },
+    {
+      "name": "mscdex",
+      "email": "mscdex@mscdex.net"
+    },
+    {
+      "name": "fishrock123",
+      "email": "fishrock123@rocketmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "b7fb92d0abc628393f10dd260932cca65fe9ff68",
+    "tarball": "http://registry.npmjs.org/type-is/-/type-is-1.5.3.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/type-is/-/type-is-1.5.3.tgz",
+  "readme": "ERROR: No README data found!"
+}
