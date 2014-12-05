@@ -1,6 +1,7 @@
 'use strict';
 /*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
 var load = require('../../lib/config/load'),
+    cli = require('../../lib/cli/'),
     path = require('path'),
     testUtils = require('../utils'),
     utils = require('../../lib/utils'),
@@ -9,6 +10,16 @@ var load = require('../../lib/config/load'),
     nodemon = require('../../lib/nodemon'),
     command = require('../../lib/config/command'),
     assert = require('assert');
+
+function asCLI(cmd) {
+  return ('node nodemon ' + (cmd|| '')).trim();
+}
+
+function parse(cmd) {
+  var parsed = cli.parse(cmd);
+  parsed.execOptions = exec(parsed);
+  return parsed;
+}
 
 function commandToString(command) {
   return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
@@ -94,7 +105,7 @@ describe('config load', function () {
 
       // ensure global mapping works too
       var options = exec({ script: 'template.jade' }, config.execMap);
-      assert(options.exec === 'bin/jade', 'correct exec is used');
+      assert(options.exec === 'bin/jade', 'exec used, should be "bin/jade": ' + options.exec);
 
       done();
 
@@ -122,6 +133,20 @@ describe('config load', function () {
       removeRegExp(config);
       assert.deepEqual(config.ignore, ['one'], 'ignore is "one": ' + config.ignore);
       assert.deepEqual(config.watch, ['one'], 'watch is "one": ' + config.watch);
+      done();
+    });
+  });
+
+  it('should give user specified exec preference over package.scripts.start', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/start-and-settings');
+    process.chdir(dir);
+
+    var config = {},
+        settings = { 'script': './index.js', },
+        options = {};
+
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       done();
     });
   });

@@ -10,13 +10,13 @@ var assert = require('assert'),
 describe('nodemon full config test', function () {
   var pwd = process.cwd();
 
-  afterEach(function () {
-    process.chdir(pwd);
-  });
-
   beforeEach(function () {
     // move to the fixtures directory to allow for config loading
     process.chdir(path.resolve(pwd, 'test/fixtures'));
+  });
+
+  afterEach(function () {
+    process.chdir(pwd);
   });
 
   it('should allow execMap.js to be overridden', function (done) {
@@ -26,7 +26,7 @@ describe('nodemon full config test', function () {
       error: function (data) {
         p.send('quit');
         cleanup(p, done, new Error(data));
-      }
+      },
     });
 
     p.on('message', function (event) {
