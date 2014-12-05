@@ -146,7 +146,7 @@ describe('config load', function () {
         options = {};
 
     load(settings, options, config, function (config) {
-      assert.deepEqual(config.exec, 'foo', '2. exec is "foo": ' + config.exec);
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       done();
     });
   });
