@@ -1,0 +1,29 @@
+{
+  "name": "escape-html",
+  "description": "Escape HTML entities",
+  "version": "1.0.1",
+  "keywords": [
+    "escape",
+    "html",
+    "utility"
+  ],
+  "dependencies": {},
+  "main": "index.js",
+  "component": {
+    "scripts": {
+      "escape-html/index.js": "index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/component/escape-html.git"
+  },
+  "readme": "\n# escape-html\n\n  Escape HTML entities\n\n## Example\n\n```js\nvar escape = require('escape-html');\nescape(str);\n```\n\n## License\n\n  MIT",
+  "readmeFilename": "Readme.md",
+  "bugs": {
+    "url": "https://github.com/component/escape-html/issues"
+  },
+  "homepage": "https://github.com/component/escape-html",
+  "_id": "escape-html@1.0.1",
+  "_from": "escape-html@1.0.1"
+}

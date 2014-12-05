@@ -1,0 +1,81 @@
+{
+  "name": "finalhandler",
+  "description": "Node.js final http responder",
+  "version": "0.3.2",
+  "author": {
+    "name": "Douglas Christopher Wilson",
+    "email": "doug@somethingdoug.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pillarjs/finalhandler"
+  },
+  "dependencies": {
+    "debug": "~2.1.0",
+    "escape-html": "1.0.1",
+    "on-finished": "~2.1.1"
+  },
+  "devDependencies": {
+    "istanbul": "0.3.2",
+    "mocha": "~2.0.0",
+    "readable-stream": "~1.0.33",
+    "should": "~4.1.0",
+    "supertest": "~0.14.0"
+  },
+  "files": [
+    "LICENSE",
+    "HISTORY.md",
+    "index.js"
+  ],
+  "engines": {
+    "node": ">= 0.8"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --bail --check-leaks test/",
+    "test-cov": "istanbul cover node_modules/mocha/bin/_mocha -- --reporter dot --check-leaks test/",
+    "test-travis": "istanbul cover node_modules/mocha/bin/_mocha --report lcovonly -- --reporter spec --check-leaks test/"
+  },
+  "gitHead": "1dc292faf576fade3b0218caab39060f4da5fe9c",
+  "bugs": {
+    "url": "https://github.com/pillarjs/finalhandler/issues"
+  },
+  "homepage": "https://github.com/pillarjs/finalhandler",
+  "_id": "finalhandler@0.3.2",
+  "_shasum": "7b389b0fd3647a6f90bd564e22624bf8a4a77fb5",
+  "_from": "finalhandler@0.3.2",
+  "_npmVersion": "1.4.21",
+  "_npmUser": {
+    "name": "dougwilson",
+    "email": "doug@somethingdoug.com"
+  },
+  "maintainers": [
+    {
+      "name": "dougwilson",
+      "email": "doug@somethingdoug.com"
+    },
+    {
+      "name": "jongleberry",
+      "email": "jonathanrichardong@gmail.com"
+    },
+    {
+      "name": "shtylman",
+      "email": "shtylman@gmail.com"
+    },
+    {
+      "name": "tjholowaychuk",
+      "email": "tj@vision-media.ca"
+    },
+    {
+      "name": "fishrock123",
+      "email": "fishrock123@rocketmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "7b389b0fd3647a6f90bd564e22624bf8a4a77fb5",
+    "tarball": "http://registry.npmjs.org/finalhandler/-/finalhandler-0.3.2.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-0.3.2.tgz",
+  "readme": "ERROR: No README data found!"
+}
