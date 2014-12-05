@@ -25,7 +25,6 @@ describe('watch count', function () {
   it('should respect ignore rules', function (done) {
     process.chdir('test/fixtures/watch-count');
     nodemon({ script: appjs, verbose: true }).on('start', function () {
-      console.log(nodemon.config);
       setTimeout(function () {
         nodemon.once('exit', done).emit('quit');
       }, 200);
@@ -34,7 +33,7 @@ describe('watch count', function () {
       var count = 0;
       if (match = data.message.match(watchRe)) {
         count = match[1].replace(',', '') * 1;
-        console.log(count, data.message);
+        assert(count === 6, 'Watching ' + count + ' files, expecting 6.');
       }
     });
   });
