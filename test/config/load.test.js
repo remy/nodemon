@@ -105,7 +105,7 @@ describe('config load', function () {
 
       // ensure global mapping works too
       var options = exec({ script: 'template.jade' }, config.execMap);
-      assert(options.exec === 'bin/jade', 'correct exec is used');
+      assert(options.exec === 'bin/jade', 'exec used, should be "bin/jade": ' + options.exec);
 
       done();
 

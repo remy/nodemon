@@ -46,7 +46,7 @@ describe('nodemon exec', function () {
 
   it('should support extension maps', function () {
     var options = exec({ script: 'template.jade' }, { 'jade': 'jade {{filename}} --out /tmp' });
-    assert(options.exec === 'jade', 'correct exec is used');
+    assert(options.exec === 'jade', 'exec used, should be "jade": ' + options.exec);
     assert(options.execArgs[0] === 'template.jade', 'filename interpolated');
   });
 
