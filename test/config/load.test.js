@@ -137,13 +137,16 @@ describe('config load', function () {
     });
   });
 
-  it('should give user specified exec preference of package.scripts.start', function (done) {
-    process.chdir(path.resolve(pwd, 'test/fixtures/packages/start-and-settings'));
+  it('should give user specified exec preference over package.scripts.start', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/start-and-settings');
+    process.chdir(dir);
+
     var config = {},
-        settings = parse(asCLI()),
+        settings = { 'script': './index.js', },
         options = {};
+
     load(settings, options, config, function (config) {
-      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
+      assert.deepEqual(config.exec, 'foo', '2. exec is "foo": ' + config.exec);
       done();
     });
   });
