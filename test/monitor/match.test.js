@@ -22,10 +22,14 @@ describe('match', function () {
   ];
 
   it('should match zero files', function () {
-    var files = [ 'views/server/remy.coffee', 'random.coffee', '/User/remy/app/server/foo.coffee' ];
+    var files = [
+      'views/server/remy.coffee',
+      'random.coffee',
+      '/User/remy/app/server/foo.coffee'
+    ];
 
     var results = match(files, monitor); // ignoring extension support
-    assert(results.result.length === 0, 'expecting no matches');
+    assert(results.result.length === 0, 'matched ' + results.result.length);
   });
 
   it('should match one file', function () {
@@ -36,7 +40,7 @@ describe('match', function () {
     ];
 
     var results = match(files, monitor);
-    assert(results.result.length === 1);
+    assert(results.result.length === 1, 'matched ' + results.result.length);
   });
 
   it('should match two files', function () {
@@ -47,7 +51,7 @@ describe('match', function () {
     ];
 
     var results = match(files, monitor);
-    assert(results.result.length === 2);
+    assert(results.result.length === 2, 'matched ' + results.result.length);
   });
 
   it('should match one file', function () {
@@ -60,7 +64,7 @@ describe('match', function () {
     monitor.push('!views/server/ignore.js');
 
     var results = match(files, monitor);
-    assert(results.result.length === 1);
+    assert(results.result.length === 1, 'matched ' + results.result.length);
   });
 
   it('should apply *.js to any js file', function () {
