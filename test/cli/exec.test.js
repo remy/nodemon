@@ -44,6 +44,13 @@ describe('nodemon exec', function () {
     assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
   });
 
+  it('should not split on spaces in {{filename}}', function () {
+    var options = exec({ script: 'my app.js', exec: 'node {{filename}}.tmp --somethingElse' });
+    var cmd = command({ execOptions: options });
+
+    assert(cmd.args[0] === 'my app.js.tmp', cmd.args[0]);
+  });
+
   it('should support extension maps', function () {
     var options = exec({ script: 'template.jade' }, { 'jade': 'jade {{filename}} --out /tmp' });
     assert(options.exec === 'jade', 'correct exec is used');
@@ -82,6 +89,14 @@ describe('nodemon exec', function () {
     assert(options.exec === 'python');
     assert(options.execArgs.indexOf('--debug') !== -1);
     assert(options.ext.indexOf('py') !== -1);
+  });
+
+  it('should support an array of exec arguments', function() {
+    var options = exec({script: 'app.js', exec: ['/path to node', '-v']});
+
+    assert(options.exec === '/path to node', options.exec);
+    assert(options.execArgs.length === 1, options.execArgs.length);
+    assert(options.execArgs[0] === '-v', options.execArgs[0]);
   });
 
 });
