@@ -17,15 +17,50 @@ describe('match', function () {
     '!public/*',
     '!npm-debug.log',
     '!node_modules/*',
-    'views/server/*.coffee',
+    'views/server/*',
     '!*.coffee',
   ];
 
-  it('should return based on number of slashes in monitor rules', function () {
+  it('should match zero files', function () {
     var files = [ 'views/server/remy.coffee', 'random.coffee', '/User/remy/app/server/foo.coffee' ];
 
     var results = match(files, monitor); // ignoring extension support
-    assert(results.result.length === 1, 'expecting 1 file in good');
+    assert(results.result.length === 0, 'expecting no matches');
+  });
+
+  it('should match one file', function () {
+    var files = [
+      'views/server/remy.js',
+      'random.coffee',
+      '/User/remy/app/server/foo.coffee'
+    ];
+
+    var results = match(files, monitor);
+    assert(results.result.length === 1);
+  });
+
+  it('should match two files', function () {
+    var files = [
+      'views/server/test.js',
+      'views/server/test2.js',
+      'views/server/test.coffee'
+    ];
+
+    var results = match(files, monitor);
+    assert(results.result.length === 2);
+  });
+
+  it('should match one file', function () {
+    var files = [
+      'views/server/remy.js',
+      'views/server/ignore.js',
+      'random.coffee',
+      '/User/remy/app/server/foo.coffee'
+    ];
+    monitor.push('!views/server/ignore.js');
+
+    var results = match(files, monitor);
+    assert(results.result.length === 1);
   });
 
   it('should apply *.js to any js file', function () {
