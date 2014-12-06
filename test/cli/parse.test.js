@@ -199,9 +199,10 @@ describe('nodemon argument parser', function () {
   });
 
   it('should support short versions of flags', function () {
-    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -e jade');
+    var settings = cli.parse('node nodemon -v -x java -I -C -V -q -w fixtures -i fixtures -d 5 -L -e jade');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
+    assert(settings.colour === false, 'nocolour');
     assert(settings.exec === 'java', 'exec');
     assert(settings.quiet, 'quiet');
     assert(settings.stdin === false, 'read stdin');
@@ -214,10 +215,11 @@ describe('nodemon argument parser', function () {
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --ext jade');
+    var settings = cli.parse('node nodemon --version --no-colour --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --ext jade');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
+    assert(settings.colour === false, 'nocolour');
     assert(settings.quiet, 'quiet');
     assert(settings.stdin === false, 'read stdin');
     assert(settings.exitcrash, 'exit if crash');
