@@ -84,4 +84,10 @@ describe('nodemon exec', function () {
     assert(options.ext.indexOf('py') !== -1);
   });
 
+  it('should treat exec as a single path when execShell is disabled', function() {
+    var options = exec({script: 'app.js', exec: '/path to node', execShell: false});
+
+    assert(options.exec === '/path to node', options.exec);
+  });
+
 });

@@ -214,12 +214,13 @@ describe('nodemon argument parser', function () {
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --ext jade');
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --no-exec-shell --delay 5 --legacy-watch --exitcrash --ext jade');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
     assert(settings.quiet, 'quiet');
     assert(settings.stdin === false, 'read stdin');
+    assert(settings.execShell === false, 'exec shell');
     assert(settings.exitcrash, 'exit if crash');
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
