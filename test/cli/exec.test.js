@@ -84,4 +84,14 @@ describe('nodemon exec', function () {
     assert(options.ext.indexOf('py') !== -1);
   });
 
+  it('should support escaped spaces in exec', function () {
+    var options = exec({ script: 'app.py', exec: '/path\ to\ node -v'});
+    assert(options.exec === '/path to node -v');
+  });
+
+  it('should support quoted spaces in exec', function () {
+    var options = exec({ script: 'app.py', exec: '"/path to node -v"'});
+    assert(options.exec === '/path to node -v');
+  });
+
 });
