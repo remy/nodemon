@@ -46,7 +46,7 @@ describe('nodemon fork', function () {
         setTimeout(function () {
           p.send('quit');
           done();
-          assert(found, '"OK" message found');
+          assert(found, '"OK" message was found');
         }, 100);
       }
     });
@@ -64,7 +64,6 @@ describe('nodemon fork', function () {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
         if (data.trim() === 'foo') {
           found = true;
         }
@@ -76,7 +75,7 @@ describe('nodemon fork', function () {
         setTimeout(function () {
           p.send('quit');
           done();
-          assert(found, '"OK" message found');
+          assert(found, '"foo" message found');
         }, 200);
       }
     });
