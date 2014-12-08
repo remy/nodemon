@@ -89,6 +89,12 @@ describe('nodemon exec', function () {
     assert(options.exec === '/path to node -v');
   });
 
+  it('should support escaped spaces in exec with arguments', function () {
+    var options = exec({ script: 'app.py', exec: 'app\\ with\\ spaces.js foo'});
+    assert(options.exec === 'app with spaces.js', 'exec is: ' + options.exec);
+    assert(options.execArgs[0] === 'foo', 'expected "foo", got: ' + options.execArgs[0]);
+  });
+
   it('should support quoted spaces in exec', function () {
     var options = exec({ script: 'app.py', exec: '"/path to node -v"'});
     assert(options.exec === '/path to node -v');

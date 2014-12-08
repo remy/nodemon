@@ -104,6 +104,19 @@ describe('nodemon CLI parser', function () {
     assert(cmd === 'browserify --debug -t hbsfy app.js -o bundle.js', 'command is "' + cmd + '"');
   });
 
+  it('should support spaces', function () {
+    var pwd = process.cwd();
+    process.chdir('test/fixtures/');
+    var settings = parse(asCLI('--exec \'"app with spaces.js" foo\''));
+    var options = settings.execOptions;
+
+    process.chdir(pwd);
+
+    assert(options.exec === 'app with spaces.js', 'exec is: ' + options.exec);
+    assert(options.execArgs[0] === 'foo', 'execArgs is: ' + options.execArgs[0]);
+  });
+
+
   it('should support quotes around arguments', function () {
     var settings = parse(asCLI('--watch "foo bar"'));
     assert(settings.watch[0] === 'foo bar');
