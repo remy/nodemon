@@ -35,9 +35,7 @@ describe('nodemon API events', function () {
 
   after(function (done) {
     // clean up just in case.
-    nodemon.once('exit', function () {
-      nodemon.reset(done);
-    }).emit('quit');
+    nodemon.reset(done);
   });
 
   beforeEach(function (done) {
@@ -49,17 +47,29 @@ describe('nodemon API events', function () {
   });
 
   it('should trigger start event script', function (done) {
-    var plan = new testUtils.Plan(2, done);
+    var plan = new testUtils.Plan(4, done);
     nodemon({
-      script: testUtils.appjs,
+      script: appjs,
       verbose: true,
       stdout: false,
+      env: { USER: 'nodemon' },
     }).on('start', function () {
       plan.assert(true, 'started');
     }).on('exit', function () {
       plan.assert(true, 'exit');
     }).on('stdout', function (data) {
-      console.log(data);
+      data = data.toString().trim();
+
+      if (data === 'KO') {
+        plan.assert(true, 'OK found');
+      } else if (data === 'DEPPOTS') {
+        plan.assert(true, 'STOPPED found');
+      } else if (data === 'nodemon') {
+        // expected output
+      } else {
+        plan.assert(false, data + ' found')
+      }
+
     });
   });
 });
