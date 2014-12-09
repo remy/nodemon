@@ -40,7 +40,15 @@ describe('nodemon exec', function () {
   it('should replace {{filename}}', function () {
     var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
     var cmd = command({ execOptions: options });
+
     assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
+  });
+
+  it('should not split on spaces in {{filename}}', function () {
+    var options = exec({ script: 'my app.js', exec: 'node {{filename}}.tmp --somethingElse' });
+    var cmd = command({ execOptions: options });
+
+    assert(cmd.args[0] === 'my app.js.tmp', cmd.args[0]);
   });
 
   it('should support extension maps', function () {
@@ -83,20 +91,12 @@ describe('nodemon exec', function () {
     assert(options.ext.indexOf('py') !== -1);
   });
 
-  it('should support escaped spaces in exec', function () {
-    var options = exec({ script: 'app.py', exec: '/path\\ to\\ node\\ -v'});
-    assert(options.exec === '/path to node -v');
-  });
+  it('should support an array of exec arguments', function() {
+    var options = exec({script: 'app.js', exec: ['/path to node', '-v']});
 
-  it('should support escaped spaces in exec with arguments', function () {
-    var options = exec({ script: 'app.py', exec: 'app\\ with\\ spaces.js foo'});
-    assert(options.exec === 'app with spaces.js', 'exec is: ' + options.exec);
-    assert(options.execArgs[0] === 'foo', 'expected "foo", got: ' + options.execArgs[0]);
-  });
-
-  it('should support quoted spaces in exec', function () {
-    var options = exec({ script: 'app.py', exec: '"/path to node -v"'});
-    assert(options.exec === '/path to node -v');
+    assert(options.exec === '/path to node', options.exec);
+    assert(options.execArgs.length === 1, options.execArgs.length);
+    assert(options.execArgs[0] === '-v', options.execArgs[0]);
   });
 
 });
