@@ -22,7 +22,8 @@ describe('require-able', function () {
   it('should restart on file change', function (done) {
     var restarted = false;
 
-    nodemon({ script: appjs, verbose: true, env: { PORT: utils.port + 1 } }).on('start', function () {
+    utils.port++;
+    nodemon({ script: appjs, verbose: true, env: { PORT: utils.port } }).on('start', function () {
       setTimeout(function () {
         touch.sync(appjs);
       }, 1000);
@@ -54,4 +55,28 @@ describe('require-able', function () {
     });
   });
 
+  it('should restart a file with spaces', function (done) {
+    var restarted = false;
+
+    var found = false;
+    utils.port++;
+    nodemon({
+      exec: [path.resolve(__dirname, '..', 'fixtures', 'app with spaces.js'), 'foo'],
+      verbose: true,
+      stdout: false,
+      env: { PORT: utils.port }
+    }).on('start', function () {
+      setTimeout(function () {
+        touch.sync(appjs);
+      }, 1000);
+    }).on('restart', function () {
+      restarted = true;
+      nodemon.emit('quit');
+    }).on('quit', function () {
+      assert(found, 'test for "foo" string in output');
+      nodemon.reset(done);
+    }).on('stdout', function (data) {
+      found = data.toString().trim() === 'foo';
+    });
+  });
 });

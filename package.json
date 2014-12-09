@@ -49,7 +49,6 @@
   },
   "dependencies": {
     "minimatch": "~0.3.0",
-    "mocha": "^2.0.1",
     "ps-tree": "~0.0.3",
     "update-notifier": "~0.1.8"
   }
