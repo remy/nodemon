@@ -8,36 +8,49 @@ var nodemon = require('../../lib/'),
     appjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
 
 describe('events should follow normal flow on user triggered change', function () {
-  // after(function (done) {
-  //   nodemon.once('exit', function () {
-  //     nodemon.reset();
-  //     done();
-  //   }).emit('quit');
-  // });
+  function conf() {
+    utils.port++;
+    return {
+      script: appjs,
+      verbose: true,
+      stdout: false,
+      noReset: true,
+      env: { PORT: utils.port, USER: 'nodemon' },
+    };
+  }
 
-  before(function (done) {
-    nodemon.reset(done);
+  beforeEach(function (done) {
+    nodemon.once('exit', function () {
+      nodemon.reset(done);
+    }).emit('quit');
   });
 
-  var run = 0;
+  after(function (done) {
+    nodemon.once('exit', function () {
+      nodemon.reset(done);
+    }).emit('quit');
+  });
+
   it('start', function (done) {
-    var plan = new utils.Plan(2, done);
-    nodemon.once('start', function () {
-      run++;
-      plan.assert(true, '"start" event');
+    nodemon(conf()).once('start', function () {
+      assert(true, '"start" event');
+      done();
     });
   });
 
   it('config:update', function (done) {
-    nodemon.on('config:update', function () {
+    nodemon(conf()).on('config:update', function () {
       assert(true, '"config:update" event');
       done();
     });
   });
 
   it('exit', function (done) {
-    var plan = new utils.Plan(3, done);
-    nodemon.on('exit', function () {
+    var plan = new utils.Plan(4, function () {
+      nodemon.reset(done);
+    });
+    var run = 0;
+    nodemon(conf()).on('exit', function () {
       plan.assert(true, '"exit" event');
       if (run === 1) {
         setTimeout(function () {
@@ -49,34 +62,32 @@ describe('events should follow normal flow on user triggered change', function (
       } else {
         plan.assert(false, 'quit too many times: ' + run);
       }
+    }).on('start', function () {
+      run++;
     });
   })
 
   it('stdout', function (done) {
-    nodemon.on('stdout', function (data) {
+    nodemon(conf()).on('stdout', function (data) {
       assert(true, '"stdout" event with: ' + data);
       done();
     });
   });
 
-    // }).on('stderr', function (data) {
-    //   assert(true, '"stderr" event with: ' + data);
   it('restart', function (done) {
-    nodemon.on('restart', function (files) {
+    var plan = new utils.Plan(4, function () {
+      nodemon.reset(done);
+    });
+
+    nodemon(conf()).on('restart', function (files) {
       assert(true, '"restart" event with ' + files);
       assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
-      done();
+    }).on('exit', function () {
+      plan.assert(true, '"exit" event');
+      setTimeout(function () {
+        plan.assert(true, 'restarting');
+        touch.sync(appjs);
+      }, 1000);
     });
   });
-
-  utils.port++;
-  nodemon({
-    script: appjs,
-    verbose: true,
-    stdout: false,
-    noReset: true,
-    env: { PORT: utils.port, USER: 'nodemon' },
-  });
-
-
 });

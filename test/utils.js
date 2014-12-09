@@ -85,7 +85,7 @@ function Plan(count, done) {
   this.count = count;
 }
 
-Plan.prototype.ok = function() {
+Plan.prototype.assert = function() {
   assert.apply(null, arguments);
 
   if (this.count === 0) {
