@@ -47,7 +47,7 @@ describe('nodemon fork', function () {
           p.send('quit');
           done();
           assert(found, '"OK" message was found');
-        }, 100);
+        }, 500);
       }
     });
   });
@@ -76,7 +76,7 @@ describe('nodemon fork', function () {
           p.send('quit');
           done();
           assert(found, '"foo" message found');
-        }, 200);
+        }, 500);
       }
     });
   });
@@ -106,7 +106,7 @@ describe('nodemon fork', function () {
           p.send('quit');
           done();
           assert(found, '"OK" message found');
-        }, 200);
+        }, 500);
       }
     });
   });
