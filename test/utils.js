@@ -2,6 +2,7 @@
 var fork = require('child_process').fork,
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
+    assert = require('assert'),
     port = 8000,
     appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
 
@@ -69,7 +70,7 @@ function run(cmd, callbacks) {
 
 function cleanup(p, done, err) {
   if (p) {
-    p.on('exit', function () {
+    p.once('exit', function () {
       p = null;
       done(err);
     });
@@ -79,7 +80,27 @@ function cleanup(p, done, err) {
   }
 }
 
+function Plan(count, done) {
+  this.done = done;
+  this.count = count;
+}
+
+Plan.prototype.assert = function() {
+  assert.apply(null, arguments);
+
+  if (this.count === 0) {
+    assert(false, 'Too many assertions called');
+  } else {
+    this.count--;
+  }
+
+  if (this.count === 0) {
+    this.done();
+  }
+};
+
 module.exports = {
+  Plan: Plan,
   asCLI: asCLI,
   match: match,
   run: run,
