@@ -70,7 +70,7 @@ function run(cmd, callbacks) {
 
 function cleanup(p, done, err) {
   if (p) {
-    p.on('exit', function () {
+    p.once('exit', function () {
       p = null;
       done(err);
     });
