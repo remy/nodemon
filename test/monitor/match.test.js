@@ -5,6 +5,7 @@ var assert = require('assert'),
     config = require('../../lib/config'),
     path = require('path'),
     fs = require('fs'),
+    cjson = require('cjson'),
     nodemonUtils = require('../../lib/utils'),
     defaults = require('../../lib/config/defaults'),
     utils = require('../utils'),
@@ -197,7 +198,7 @@ describe('validating files that cause restart', function () {
     var dir = cwd + '/test/fixtures/configs';
     process.chdir(dir);
     var filename = './watch-relative.json';
-    var config = JSON.parse(fs.readFileSync(filename));
+    var config = cjson.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
     var script = path.resolve('../../../lib/__init__.py');
 
@@ -211,7 +212,7 @@ describe('validating files that cause restart', function () {
 
   it('should allow *.js to match at the top level', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'top-level.json');
-    var config = JSON.parse(fs.readFileSync(filename));
+    var config = cjson.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
     var script = path.resolve('app.js');
 
@@ -223,7 +224,7 @@ describe('validating files that cause restart', function () {
 
   it('should allow for simple star rule: public/*', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
-    var config = JSON.parse(fs.readFileSync(filename));
+    var config = cjson.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
     var script = 'public/js/chrome.save.js';
 
@@ -238,7 +239,7 @@ describe('validating files that cause restart', function () {
     var dir = cwd + '/test/fixtures/configs';
     process.chdir(dir);
     var filename = './watch-relative-filter.json';
-    var config = JSON.parse(fs.readFileSync(filename));
+    var config = cjson.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
     var script = path.resolve('../jsbin/scripts.json');
 

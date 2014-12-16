@@ -48,6 +48,7 @@
     "touch": "~0.0.3"
   },
   "dependencies": {
+    "cjson": "~0.3.0",
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
     "update-notifier": "~0.1.8"
