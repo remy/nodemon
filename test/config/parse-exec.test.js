@@ -14,9 +14,8 @@ describe('exec.parseExecutable', function () {
     var cmd = 'run.js --arg1 --arg2';
     var result = parseExecutable(cmd);
     assert(result.exec === 'run.js', result.exec);
-    assert(result.execArgs.length === 2, 'args.length ' + result.execArgs.length);
-    assert(result.execArgs[0] === '--arg1', result.execArgs[0]);
-    assert(result.execArgs[1] === '--arg2', result.execArgs[1]);
+    assert(result.execArgs.length === 1, 'args.length ' + result.execArgs.length);
+    assert(result.execArgs[0] === '--arg1 --arg2', result.execArgs[0]);
   });
 
   it('should leave escaped characters alone', function () {
