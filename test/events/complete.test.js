@@ -25,6 +25,10 @@ describe('events should follow normal flow on user triggered change', function (
     }).emit('quit');
   });
 
+  before(function (done) {
+    nodemon.reset(done);
+  });
+
   after(function (done) {
     nodemon.once('exit', function () {
       nodemon.reset(done);

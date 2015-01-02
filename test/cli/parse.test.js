@@ -112,7 +112,7 @@ describe('nodemon CLI parser', function () {
 
     process.chdir(pwd);
 
-    assert(options.exec === 'app with spaces.js', 'exec is: ' + options.exec);
+    assert(options.exec === '"app with spaces.js"', 'exec is: ' + options.exec);
     assert(options.execArgs[0] === 'foo', 'execArgs is: ' + options.execArgs[0]);
   });
 
