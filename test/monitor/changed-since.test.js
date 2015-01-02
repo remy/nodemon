@@ -19,7 +19,7 @@ describe('change monitor', function () {
     setTimeout(function () {
       start = Date.now();
       changedSince(start, dir, function (files) {
-        assert(files.length === 0, 'zero files');
+        assert(files.length === 0, 'expected zero files, ' + JSON.stringify(files));
         done();
       });
     }, 2000);
