@@ -40,8 +40,7 @@ describe('nodemon exec', function () {
   it('should replace {{filename}}', function () {
     var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
     var cmd = command({ execOptions: options });
-
-    assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
+    assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated: ' + cmd.executable + ' ' + cmd.args.join(' '));
   });
 
   it('should not split on spaces in {{filename}}', function () {
