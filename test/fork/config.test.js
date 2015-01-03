@@ -34,7 +34,7 @@ describe('nodemon full config test', function () {
         if (match(event.data.message, 'starting `')) {
           event.data.message.replace(/`(.*)`/, function (all, m) {
             assert(m === 'node --harmony app.js', 'Arguments in the correct order: ' + m);
-            p.send('quit');
+            // p.send('quit');
             cleanup(p, done);
           });
         }

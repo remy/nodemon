@@ -40,21 +40,20 @@ describe('nodemon exec', function () {
   it('should replace {{filename}}', function () {
     var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
     var cmd = command({ execOptions: options });
-
-    assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated');
+    assert(cmd.executable + ' ' + cmd.args.join(' ') === 'node app.js.tmp --somethingElse', 'filename is interpolated: ' + cmd.executable + ' ' + cmd.args.join(' '));
   });
 
   it('should not split on spaces in {{filename}}', function () {
     var options = exec({ script: 'my app.js', exec: 'node {{filename}}.tmp --somethingElse' });
     var cmd = command({ execOptions: options });
 
-    assert(cmd.args[0] === 'my app.js.tmp', cmd.args[0]);
+    assert(cmd.args[0] === 'my app.js.tmp --somethingElse', cmd.args[0]);
   });
 
   it('should support extension maps', function () {
     var options = exec({ script: 'template.jade' }, { 'jade': 'jade {{filename}} --out /tmp' });
     assert(options.exec === 'jade', 'exec used, should be "jade": ' + options.exec);
-    assert(options.execArgs[0] === 'template.jade', 'filename interpolated');
+    assert(options.execArgs[0] === 'template.jade --out /tmp', 'filename interpolated');
   });
 
   it('should support input from argv#parse', function () {
