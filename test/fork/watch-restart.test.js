@@ -86,6 +86,44 @@ describe('nodemon fork child restart', function () {
     });
   });
 
+  it('should happen only once if delay option is set', function (done) {
+
+    var restartCount=0;
+
+    fs.writeFileSync(tmpjs, 'true;');
+    var p = run('--ext js --delay 1' + appjs, {
+      error: function (data) {
+        p.send('quit');
+        cleanup(p, done, new Error(data));
+      }
+    });
+
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        setTimeout(function () {
+          touch.sync(tmpjs);
+        }, 200);
+        setTimeout(function () {
+          touch.sync(tmpjs);
+        }, 400);
+      } else if (event.type === 'restart') {
+        restartCount++;
+        setTimeout(function () {
+            if (restartCount===1)
+            {
+                assert(true, 'nodemon restarted once');
+                cleanup(p, done);
+            }
+            else
+            {
+                p.send('quit');
+                cleanup(p, done, new Error('nodemon started more than once'));
+            }
+        }, 1500);
+      }
+    });
+  });
+
   it('should happen when monitoring multiple extensions', function (done) {
     fs.writeFileSync(tmpjs, 'true;');
     fs.writeFileSync(tmpmd, '# true');
