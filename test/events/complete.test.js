@@ -5,7 +5,8 @@ var nodemon = require('../../lib/'),
     path = require('path'),
     touch = require('touch'),
     utils = require('../utils'),
-    appjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
+    dir = path.resolve(__dirname, '..', 'fixtures', 'events'),
+    appjs = path.resolve(dir, 'env.js');
 
 describe('events should follow normal flow on user triggered change', function () {
   function conf() {
@@ -15,9 +16,12 @@ describe('events should follow normal flow on user triggered change', function (
       verbose: true,
       stdout: false,
       noReset: true,
+      ext: 'js',
       env: { PORT: utils.port, USER: 'nodemon' },
     };
   }
+
+  var cwd = process.cwd();
 
   beforeEach(function (done) {
     nodemon.once('exit', function () {
@@ -26,10 +30,12 @@ describe('events should follow normal flow on user triggered change', function (
   });
 
   before(function (done) {
+    process.chdir(dir)
     nodemon.reset(done);
   });
 
   after(function (done) {
+    process.chdir(cwd);
     nodemon.once('exit', function () {
       nodemon.reset(done);
     }).emit('quit');
@@ -58,9 +64,9 @@ describe('events should follow normal flow on user triggered change', function (
       plan.assert(true, '"exit" event');
       if (run === 1) {
         setTimeout(function () {
-          plan.assert(true, 'restarting');
+          plan.assert(true, 'restarting ' + appjs);
           touch.sync(appjs);
-        }, 1000);
+        }, 1500);
       } else if (run === 2) {
         plan.assert(true, 'finished');
       } else {
