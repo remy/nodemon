@@ -7,9 +7,6 @@ var nodemon = require('../../lib/'),
     touch = require('touch'),
     crypto = require('crypto');
 
-// the forced crash tends to blow up with warnings about too many event listeners
-process.setMaxListeners(0);
-
 describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + crypto.randomBytes(16).toString('hex') + '.js');
 
