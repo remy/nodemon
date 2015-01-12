@@ -88,37 +88,57 @@ describe('nodemon fork child restart', function () {
 
   it('should happen only once if delay option is set', function (done) {
     var restartCount = 0;
-    fs.writeFileSync(tmpjs, 'true;');
+    fs.writeFile(tmpjs, 'true;', function () {
+      var p = run('--verbose --ext js --delay 2' + tmpjs, {
+        error: function (data) {
+          p.send('quit');
+          cleanup(p, done, new Error(data));
+        }
+      });
 
-    var p = run('--ext js --delay 1' + appjs, {
-      error: function (data) {
-        p.send('quit');
-        cleanup(p, done, new Error(data));
-      }
+      setTimeout(function () {
+        if (restartCount === 1) {
+          assert(true, 'nodemon restarted ' + restartCount + ' times');
+          cleanup(p, done);
+        } else {
+          cleanup(p, done, new Error('nodemon started ' + restartCount + ' times'));
+        }
+      }, 8000);
+
+      p.on('message', function (event) {
+        if (event.type === 'log') {
+          // console.log(event.data.colour);
+        } else {
+          // console.log(event.type, Date.now()/1000|0);
+        }
+
+        // on first start - kick off timeouts to touch the files
+        if (event.type === 'start' && restartCount === 0) {
+          setTimeout(function () {
+            // console.log('touch 1', Date.now()/1000|0);
+            touch.sync(tmpjs);
+          }, 1000);
+          setTimeout(function () {
+            // console.log('touch 2', Date.now()/1000|0);
+            touch.sync(tmpjs);
+          }, 2000);
+          setTimeout(function () {
+            // console.log('touch 3', Date.now()/1000|0);
+            touch.sync(tmpjs);
+          }, 3000);
+          setTimeout(function () {
+            // console.log('touch 4', Date.now()/1000|0);
+            touch.sync(tmpjs);
+          }, 4000);
+        }
+
+        if (event.type === 'restart') {
+          restartCount++;
+        }
+      });
+
     });
 
-    p.on('message', function (event) {
-      if (event.type === 'start') {
-        setTimeout(function () {
-          touch.sync(tmpjs);
-        }, 200);
-        setTimeout(function () {
-          touch.sync(tmpjs);
-        }, 400);
-      } else if (event.type === 'restart') {
-        restartCount++;
-        setTimeout(function () {
-          if (restartCount===1) {
-            assert(true, 'nodemon restarted once');
-            cleanup(p, done);
-          }
-          else {
-            p.send('quit');
-            cleanup(p, done, new Error('nodemon started more than once'));
-          }
-        }, 1500);
-      }
-    });
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
