@@ -60,9 +60,9 @@ describe('nodemon API events', function () {
     }).on('stdout', function (data) {
       data = data.toString().trim();
 console.log(' > ' + data);
-      if (data === 'KO') {
+      if (data === 'OK') {
         plan.assert(true, 'OK found');
-      } else if (data === 'DEPPOTS') {
+      } else if (data === 'STOPPED') {
         plan.assert(true, 'STOPPED found');
       } else if (data === 'nodemon') {
         // expected output
