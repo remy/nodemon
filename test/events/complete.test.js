@@ -66,8 +66,6 @@ describe('events should follow normal flow on user triggered change', function (
     });
     var run = 0;
 
-    console.log(conf());
-
     nodemon(conf()).on('exit', function () {
       plan.assert(true, '"exit" event');
       if (run === 1) {
@@ -80,12 +78,7 @@ describe('events should follow normal flow on user triggered change', function (
       } else {
         plan.assert(false, 'quit too many times: ' + run);
       }
-    }).on('log', function (event) {
-      console.log(event.colour);
-    }).on('restart', function () {
-      console.log('>RESTART');
     }).on('start', function () {
-      console.log('START EVENT');
       run++;
     });
   })
