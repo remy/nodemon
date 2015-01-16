@@ -34,7 +34,67 @@ describe('nodemon fork', function () {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
+        if (data.trim() === 'OK') {
+          found = true;
+        }
+      }
+    });
+
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        setTimeout(function () {
+          p.send('quit');
+          done();
+          assert(found, '"OK" message was found');
+        }, 500);
+      }
+    });
+  });
+
+it('should start a fork exec with quotes and escaping', function (done) {
+    var found = false;
+    var p = run({
+      exec: 'bin/nodemon.js',
+      // make nodemon verbose so we can check the filters being applied
+      args: ['-q', '--exec', 'test/fixtures/some\\\"file']
+    }, {
+      error: function (data) {
+        p.send('quit');
+        done(new Error(data));
+      },
+      output: function (data) {
+        // process.stdout.write(data);
+        if (data.trim() === 'OK') {
+          found = true;
+        }
+      }
+    });
+
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        setTimeout(function () {
+          p.send('quit');
+          done();
+          assert(found, '"OK" message was found');
+        }, 500);
+      }
+    });
+  });
+
+it('should start a fork exec with spaces and slashes', function (done) {
+    var found = false;
+    var p = run({
+      exec: 'bin/nodemon.js',
+      // make nodemon verbose so we can check the filters being applied
+      args: ['-q', '--exec', '"test/fixtures/some\ \\file"']
+    }, {
+      error: function (data) {
+        p.send('quit');
+        done(new Error(data));
+      },
+      output: function (data) {
+        // process.stdout.write(data);
         if (data.trim() === 'OK') {
           found = true;
         }
@@ -93,7 +153,7 @@ describe('nodemon fork', function () {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
         if (data.trim() === 'foo') {
           found = true;
         }
