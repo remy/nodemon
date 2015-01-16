@@ -10,19 +10,20 @@ var nodemon = require('../../lib/'),
     appjs = path.resolve(dir, 'env.js');
 
 describe('events should follow normal flow on user triggered change', function () {
-  function conf(opts) {
+  function conf() {
     utils.port++;
-    return merge(opts, {
+    return {
       script: appjs,
       verbose: true,
       stdout: false,
       noReset: true,
+      novm: true,
       ext: 'js',
       env: {
         PORT: utils.port,
         USER: 'nodemon',
       },
-    });
+    };
   }
 
   var cwd = process.cwd();
@@ -65,13 +66,9 @@ describe('events should follow normal flow on user triggered change', function (
     });
     var run = 0;
 
-    console.log(conf({
-      stdout: true
-    }));
+    console.log(conf());
 
-    nodemon(conf({
-      stdout: true
-    })).on('exit', function () {
+    nodemon(conf()).on('exit', function () {
       plan.assert(true, '"exit" event');
       if (run === 1) {
         setTimeout(function () {
