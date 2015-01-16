@@ -85,7 +85,6 @@ describe('events should follow normal flow on user triggered change', function (
 
   it('stdout', function (done) {
     nodemon(conf()).once('stdout', function (data) {
-      console.log('@' + data.toString().trim());
       assert(true, '"stdout" event with: ' + data);
       done();
     });
