@@ -37,9 +37,15 @@ describe('nodemon fork monitor', function () {
           startWatch = true;
         }
         if (startWatch && match(data, 'changes after filters')) {
-          var changes = colour.strip(data.trim()).split('changes after filters').pop().split('/');
-          var restartedOn = changes.pop().trim();
-          assert(restartedOn == 1, 'nodemon restarted on 1 file: ' + restartedOn + ' / ' + data.toString());
+          var changes = colour.strip(data.trim());
+          var restartedOn = null;
+          changes.replace(/changes after filters \(before\/after\): \d+\/(\d+)/, function (all, m) {
+            restartedOn = m;
+          });
+
+          // .split('changes after filters').pop().split('/');
+          // var restartedOn = changes.pop().trim();
+          assert(restartedOn === '1', 'nodemon restarted on 1 file: ' + restartedOn + ' / ' + data.toString());
         }
       },
       error: function (data) {
