@@ -56,9 +56,12 @@ describe('nodemon API events', function () {
     }).on('start', function () {
       plan.assert(true, 'started');
     }).on('exit', function () {
+      console.log('>>>>>>>>EXIT');
       plan.assert(true, 'exit');
     }).on('stdout', function (data) {
       data = data.toString().trim();
+
+      console.log('>' + data + '<');
 
       if (data === 'KO') {
         plan.assert(true, 'OK found');

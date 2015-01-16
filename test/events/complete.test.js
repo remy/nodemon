@@ -5,20 +5,24 @@ var nodemon = require('../../lib/'),
     path = require('path'),
     touch = require('touch'),
     utils = require('../utils'),
+    merge = require('../../lib/utils/merge'),
     dir = path.resolve(__dirname, '..', 'fixtures', 'events'),
     appjs = path.resolve(dir, 'env.js');
 
 describe('events should follow normal flow on user triggered change', function () {
-  function conf() {
+  function conf(opts) {
     utils.port++;
-    return {
+    return merge(opts, {
       script: appjs,
       verbose: true,
       stdout: false,
       noReset: true,
       ext: 'js',
-      env: { PORT: utils.port, USER: 'nodemon' },
-    };
+      env: {
+        PORT: utils.port,
+        USER: 'nodemon',
+      },
+    });
   }
 
   var cwd = process.cwd();
@@ -60,7 +64,14 @@ describe('events should follow normal flow on user triggered change', function (
       nodemon.reset(done);
     });
     var run = 0;
-    nodemon(conf()).on('exit', function () {
+
+    console.log(conf({
+      stdout: true
+    }));
+
+    nodemon(conf({
+      stdout: true
+    })).on('exit', function () {
       plan.assert(true, '"exit" event');
       if (run === 1) {
         setTimeout(function () {
@@ -72,7 +83,12 @@ describe('events should follow normal flow on user triggered change', function (
       } else {
         plan.assert(false, 'quit too many times: ' + run);
       }
+    }).on('log', function (event) {
+      console.log(event.colour);
+    }).on('restart', function () {
+      console.log('>RESTART');
     }).on('start', function () {
+      console.log('START EVENT');
       run++;
     });
   })
