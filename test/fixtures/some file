@@ -1,2 +1,2 @@
 #!/usr/bin/env node
-console.log(process.env.USER || 'OK');
+console.log('OK');

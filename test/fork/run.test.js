@@ -34,7 +34,7 @@ describe('nodemon fork', function () {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
         if (data.trim() === 'OK') {
           found = true;
         }
@@ -64,7 +64,7 @@ it('should start a fork exec with quotes and escaping', function (done) {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
         if (data.trim() === 'OK') {
           found = true;
         }
@@ -87,14 +87,14 @@ it('should start a fork exec with spaces and slashes', function (done) {
     var p = run({
       exec: 'bin/nodemon.js',
       // make nodemon verbose so we can check the filters being applied
-      args: ['-q', '--exec', 'test/fixtures/some\ \\file']
+      args: ['-q', '--exec', '"test/fixtures/some\ \\file"']
     }, {
       error: function (data) {
         p.send('quit');
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
         if (data.trim() === 'OK') {
           found = true;
         }
@@ -153,7 +153,7 @@ it('should start a fork exec with spaces and slashes', function (done) {
         done(new Error(data));
       },
       output: function (data) {
-        process.stdout.write(data);
+        // process.stdout.write(data);
         if (data.trim() === 'foo') {
           found = true;
         }
