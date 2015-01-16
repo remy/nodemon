@@ -31,8 +31,8 @@
       "exec": "processing --sketch={{pwd}} --run"
     }
 
-  The global config file is useful for setting up default default executables
-  instead of needed them in your local config:
+  The global config file is useful for setting up default executables
+  instead of repeating the same option in each of your local configs:
 
     {
       "verbose": true,

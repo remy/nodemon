@@ -61,7 +61,7 @@ describe('require-able', function () {
     var found = false;
     utils.port++;
     nodemon({
-      exec: [path.resolve(__dirname, '..', 'fixtures', 'app with spaces.js'), 'foo'],
+      exec: [path.resolve(__dirname, '..', 'fixtures', 'app\\ with\\ spaces.js'), 'foo'],
       verbose: true,
       stdout: false,
       env: { PORT: utils.port }

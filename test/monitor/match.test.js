@@ -315,11 +315,17 @@ describe('match rule parser', function () {
   });
 
   it('should support "--watch .."', function () {
+    // make sure we're in a deep enough directory
+    var cwd = process.cwd();
+    process.chdir('./test/fixtures/');
+    var pwd = process.cwd();
     var config = { watch: '..' };
     var settings = merge(config, defaults);
     var script = pwd + 'index.js';
 
     settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+
+    process.chdir(cwd);
 
     assert(settings.monitor[0] === path.resolve(pwd, '..') + '/**/*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');

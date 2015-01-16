@@ -15,12 +15,6 @@ function asCLI(cmd) {
   return ('node nodemon ' + (cmd|| '')).trim();
 }
 
-function parse(cmd) {
-  var parsed = cli.parse(cmd);
-  parsed.execOptions = exec(parsed);
-  return parsed;
-}
-
 function commandToString(command) {
   return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
 }
@@ -149,6 +143,20 @@ describe('config load', function () {
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       done();
     });
+  });
+
+  it('should put the script at the end if found in package.scripts.start', function (done) {
+    process.chdir(path.resolve(pwd, 'test/fixtures/packages/start')); // allows us to load text/fixtures/package.json
+    var settings = cli.parse(asCLI('--harmony'));
+    var config = {};
+    var options = {};
+
+    load(settings, options, config, function (config) {
+      var cmd = commandToString(command(config));
+      assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
+      done();
+    });
+
   });
 
   it('should support "ext" with "execMap"', function (done) {
