@@ -39,7 +39,7 @@ describe('nodemon fork monitor', function () {
         if (startWatch && match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim()).slice(-5).split('/');
           var restartedOn = changes.pop();
-          assert(restartedOn === '1', 'nodemon restarted on 1 file: ' + restartedOn);
+          assert(restartedOn === '1', 'nodemon restarted on 1 file: ' + restartedOn + ' / ' + data.toString());
         }
       },
       error: function (data) {

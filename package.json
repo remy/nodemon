@@ -44,10 +44,10 @@
     "connect": "~2.19.1",
     "istanbul": "~0.2.10",
     "mocha": "^2.0.1",
-    "should": "~4.0.0",
-    "touch": "~0.0.3"
+    "should": "~4.0.0"
   },
   "dependencies": {
+    "touch": "~0.0.3",
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
     "update-notifier": "~0.1.8"
