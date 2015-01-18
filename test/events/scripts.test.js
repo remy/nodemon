@@ -25,7 +25,7 @@ function commandToString(command) {
   return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
 }
 
-if (nodeMajor > 0.8) {
+if (nodeMajor > 8) {
   describe('nodemon API events', function () {
     var pwd = process.cwd(),
         oldhome = utils.home;
