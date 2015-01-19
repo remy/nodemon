@@ -96,14 +96,14 @@ describe('events should follow normal flow on user triggered change', function (
     });
 
     nodemon(conf()).on('restart', function (files) {
-      assert(true, '"restart" event with ' + files);
-      assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
+      plan.assert(true, '"restart" event with ' + files);
+      plan.assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
     }).once('exit', function () {
       plan.assert(true, '"exit" event');
       setTimeout(function () {
         plan.assert(true, 'restarting');
         touch.sync(appjs);
-      }, 1000);
+      }, 1500);
     });
   });
 });

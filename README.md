@@ -1,4 +1,4 @@
-![nodemon logo](http://nodemon.io/nodemon.png)
+![nodemon logo](http://nodemon.io/nodemon.svg)
 
 # nodemon
 
