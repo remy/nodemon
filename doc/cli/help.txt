@@ -4,7 +4,7 @@
 
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
-  -w, --watch .............. watch directory "dir" or files. use once for
+  -w, --watch dir........... watch directory "dir" or files. use once for
                              each directory or file to watch.
   -i, --ignore ............. ignore specific files or directories.
   -q, --quiet .............. minimise nodemon messages to start/stop only.
