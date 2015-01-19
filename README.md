@@ -198,7 +198,9 @@ nodemon({
 
 ## Using io.js for nodemon
 
-Easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
+If you *only* have io.js installed (and the default install creates a symlink from `node` to `iojs`), then nodemon will work just fine out of the box (or [should](https://github.com/remy/nodemon/issues/468)).
+
+If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
 
 ```json
 {
