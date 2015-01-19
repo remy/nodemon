@@ -98,7 +98,7 @@ describe('events should follow normal flow on user triggered change', function (
     nodemon(conf()).on('restart', function (files) {
       assert(true, '"restart" event with ' + files);
       assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
-    }).on('exit', function () {
+    }).once('exit', function () {
       plan.assert(true, '"exit" event');
       setTimeout(function () {
         plan.assert(true, 'restarting');

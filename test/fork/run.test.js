@@ -117,7 +117,7 @@ it('should start a fork exec with spaces and slashes', function (done) {
     var p = run({
       exec: 'bin/nodemon.js',
       // make nodemon verbose so we can check the filters being applied
-      args: ['-q', '--exec', '"test/fixtures/app with spaces.js" foo']
+      args: ['-q', '--exec', '"test/fixtures/app with spaces.js" foo'],
     }, {
       error: function (data) {
         p.send('quit');
@@ -134,8 +134,8 @@ it('should start a fork exec with spaces and slashes', function (done) {
       if (event.type === 'start') {
         setTimeout(function () {
           p.send('quit');
-          done();
           assert(found, '"foo" message found');
+          done();
         }, 500);
       }
     });
