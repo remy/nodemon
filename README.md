@@ -184,6 +184,22 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
+## Triggering events when nodemon state changes
+
+If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or simply add event actions to your `nodemon.json` file.
+
+For example, to trigger a notification on a Mac when nodemon restarts, `nodemon.json` looks like this:
+
+```json
+{
+  "events": {
+    "restart": "osascript -e 'display notification \"app restarted\" with title \"nodemon\"'"
+  }
+}
+```
+
+A full list of available events is listed on the [event states wiki](https://github.com/remy/nodemon/wiki/Events#states). Note that you can bind to both states and messages.
+
 ## Pipe output to somewhere else
 
 ```js
@@ -223,46 +239,3 @@ Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
-
-# Contributors
-
-* [remy](https://github.com/remy)
-* [ChrisWren](https://github.com/ChrisWren)
-* [dylanmcd](https://github.com/dylanmcd)
-* [fearphage](https://github.com/fearphage)
-* [pasindud](https://github.com/pasindud)
-* [coen-hyde](https://github.com/coen-hyde)
-* [shawncplus](https://github.com/shawncplus)
-* [albertnetymk](https://github.com/albertnetymk)
-* [theredcoder](https://github.com/theredcoder)
-* [aivopaas](https://github.com/aivopaas)
-* [haircuttedfreak](https://github.com/haircuttedfreak)
-* [jdavis](https://github.com/jdavis)
-* [binarykitchen](https://github.com/binarykitchen)
-* [kuba-kubula](https://github.com/kuba-kubula)
-* [vadimi](https://github.com/vadimi)
-* [mentatxx](https://github.com/mentatxx)
-* [bryankaplan](https://github.com/bryankaplan)
-* [lordnox](https://github.com/lordnox)
-* [jaredhanson](https://github.com/jaredhanson)
-* [skaushik92](https://github.com/skaushik92)
-* [twolfson](https://github.com/twolfson)
-* [chrisklaiber](https://github.com/chrisklaiber)
-* [wasche](https://github.com/wasche)
-* [nuxlli](https://github.com/nuxlli)
-* [mvasilkov](https://github.com/mvasilkov)
-* [morganrallen](https://github.com/morganrallen)
-* [DennisKehrig](https://github.com/DennisKehrig)
-* [sahat](https://github.com/sahat)
-* [didoarellano](https://github.com/didoarellano)
-* [arielyang](https://github.com/arielyang)
-* [ZombieHippie](https://github.com/ZombieHippie)
-* [mikemaccana](https://github.com/mikemaccana)
-* [paularmstrong](https://github.com/paularmstrong)
-* [sainaen](https://github.com/sainaen)
-* [matthew-andrews](https://github.com/matthew-andrews)
-* [SlexAxton](https://github.com/SlexAxton)
-* [davedoesdev](https://github.com/davedoesdev)
-* [rps](https://github.com/rps)
-* [pauloadaoag](https://github.com/pauloadaoag)
-* [focusaurus](https://github.com/focusaurus)

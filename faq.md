@@ -28,7 +28,7 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Help! My changes aren't being detected!
 
-nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example).
+nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find.
 
 Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
 
@@ -54,7 +54,7 @@ Fedora is looking for `nodejs` rather than `node` which is the binary that nodem
 
 The solution is a simple workaround, Linux 101:
 
-```
+```bash
 sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 ```
 
