@@ -32,9 +32,6 @@ describe('require-able', function () {
       script: envjs,
       env: { USER: 'nodemon' },
       stdout: false,
-      verbose: false,
-    // }).on('log', function (event) {
-      // console.log(event.colour);
     }).on('stdout', function (data) {
       var out = data.toString().trim();
       assert(out === 'nodemon', 'expected output: ' + out);
