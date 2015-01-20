@@ -5,7 +5,8 @@ var nodemon = require('../../lib/'),
     path = require('path'),
     touch = require('touch'),
     utils = require('../utils'),
-    appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js');
+    appjs = path.resolve(__dirname, '..', 'fixtures', 'app.js'),
+    envjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
 
 describe('require-able', function () {
   var pwd = process.cwd(),
@@ -24,6 +25,25 @@ describe('require-able', function () {
     nodemon.reset(done);
   });
 
+  it('should prioritise options over package.start', function (done) {
+    process.chdir(path.resolve('fixtures/packages/start-ignored'));
+
+    nodemon({
+      script: envjs,
+      env: { USER: 'nodemon' },
+      stdout: false,
+      verbose: false,
+    // }).on('log', function (event) {
+      // console.log(event.colour);
+    }).on('stdout', function (data) {
+      var out = data.toString().trim();
+      assert(out === 'nodemon', 'expected output: ' + out);
+      done();
+    }).on('error', function (e) {
+      assert(false, 'script did not run: ' + e);
+      done();
+    });
+  });
 
   it('should know nodemon has been required', function () {
     assert(nodemon.config.required, 'nodemon has required property');
