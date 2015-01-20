@@ -36,7 +36,7 @@
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
     ":test": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    "test": "for FILE in `ls test | egrep -v 'fixtures|mocha.opts|utils.js'`; do echo test/$FILE; ./node_modules/.bin/mocha --timeout 30000 test/$FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "web": "node web"
   },
   "devDependencies": {
