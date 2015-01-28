@@ -236,6 +236,10 @@ Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plu
 
 Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin to integrate nodemon with the rest of your project's grunt workflow.
 
+## FAQ
+
+See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
