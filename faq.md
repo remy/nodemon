@@ -123,3 +123,9 @@ For example, on `lib/app.js` being changed:
 14 Apr 15:25:56 - [nodemon] starting `node run.js`
 14 Apr 15:25:56 - [nodemon] child pid: 9556
 ```
+
+## nodemon does nothing
+
+On Ubuntu globally installed node applications have been found to have no output when they're run. This *seems* to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
+
+The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, *rather* than using `apt-get` (or similar tools) to install node directly.
