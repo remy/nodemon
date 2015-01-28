@@ -12,6 +12,9 @@ Here is an example (of a contrived) `nodemon.json` file:
       "execMap": {
         "js": "node --harmony"
       },
+      "events": {
+        "restart": "osascript -e 'display notification \"App restarted due to:\n'$FILENAME'\" with title \"nodemon\"'"
+      },
       "watch": [
         "test/fixtures/",
         "test/samples/"
