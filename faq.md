@@ -124,6 +124,12 @@ For example, on `lib/app.js` being changed:
 14 Apr 15:25:56 - [nodemon] child pid: 9556
 ```
 
+## My .nodemonignore is being ignored
+
+The new `nodemon.json` superceeds the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
+
+Note that if you have a `nodemon.json` in your `$HOME` path, then this will also superceed the old ignore file.
+
 ## nodemon does nothing
 
 On Ubuntu globally installed node applications have been found to have no output when they're run. This *seems* to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
