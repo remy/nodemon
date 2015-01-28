@@ -135,4 +135,3 @@ Note that if you have a `nodemon.json` in your `$HOME` path, then this will also
 On Ubuntu globally installed node applications have been found to have no output when they're run. This *seems* to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
 
 The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, *rather* than using `apt-get` (or similar tools) to install node directly.
->>>>>>> master
