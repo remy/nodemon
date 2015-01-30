@@ -4,13 +4,13 @@
 
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
-  -w, --watch .............. watch directory "dir" or files. use once for
+  -w, --watch dir........... watch directory "dir" or files. use once for
                              each directory or file to watch.
   -i, --ignore ............. ignore specific files or directories.
   -q, --quiet .............. minimise nodemon messages to start/stop only.
   -V, --verbose ............ show detail on what is causing restarts.
   -I, --no-stdin ........... don't try to read from stdin.
-  -d, --delay n ............ throttle restart for "n" seconds.
+  -d, --delay n ............ debounce restart for "n" seconds.
   -L, --legacy-watch ....... Forces node to use the most compatible version
                              for watching file changes.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
@@ -25,6 +25,7 @@
   and .litcoffee by default.
 
   To learn more about nodemon.json config: nodemon --help config
+  See also the sample: https://github.com/remy/nodemon/wiki/Sample-nodemon.json
 
   Examples:
 

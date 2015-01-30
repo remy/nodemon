@@ -5,7 +5,9 @@ var nodemon = require('../../lib/'),
     path = require('path'),
     touch = require('touch'),
     utils = require('../utils'),
-    appjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
+    merge = require('../../lib/utils/merge'),
+    dir = path.resolve(__dirname, '..', 'fixtures', 'events'),
+    appjs = path.resolve(dir, 'env.js');
 
 describe('events should follow normal flow on user triggered change', function () {
   function conf() {
@@ -15,9 +17,16 @@ describe('events should follow normal flow on user triggered change', function (
       verbose: true,
       stdout: false,
       noReset: true,
-      env: { PORT: utils.port, USER: 'nodemon' },
+      novm: true,
+      ext: 'js',
+      env: {
+        PORT: utils.port,
+        USER: 'nodemon',
+      },
     };
   }
+
+  var cwd = process.cwd();
 
   beforeEach(function (done) {
     nodemon.once('exit', function () {
@@ -26,10 +35,12 @@ describe('events should follow normal flow on user triggered change', function (
   });
 
   before(function (done) {
+    process.chdir(dir)
     nodemon.reset(done);
   });
 
   after(function (done) {
+    process.chdir(cwd);
     nodemon.once('exit', function () {
       nodemon.reset(done);
     }).emit('quit');
@@ -54,13 +65,14 @@ describe('events should follow normal flow on user triggered change', function (
       nodemon.reset(done);
     });
     var run = 0;
+
     nodemon(conf()).on('exit', function () {
       plan.assert(true, '"exit" event');
       if (run === 1) {
         setTimeout(function () {
-          plan.assert(true, 'restarting');
+          plan.assert(true, 'restarting ' + appjs);
           touch.sync(appjs);
-        }, 1000);
+        }, 1500);
       } else if (run === 2) {
         plan.assert(true, 'finished');
       } else {
@@ -72,7 +84,7 @@ describe('events should follow normal flow on user triggered change', function (
   })
 
   it('stdout', function (done) {
-    nodemon(conf()).on('stdout', function (data) {
+    nodemon(conf()).once('stdout', function (data) {
       assert(true, '"stdout" event with: ' + data);
       done();
     });
@@ -84,14 +96,14 @@ describe('events should follow normal flow on user triggered change', function (
     });
 
     nodemon(conf()).on('restart', function (files) {
-      assert(true, '"restart" event with ' + files);
-      assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
-    }).on('exit', function () {
+      plan.assert(true, '"restart" event with ' + files);
+      plan.assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
+    }).once('exit', function () {
       plan.assert(true, '"exit" event');
       setTimeout(function () {
         plan.assert(true, 'restarting');
         touch.sync(appjs);
-      }, 1000);
+      }, 1500);
     });
   });
 });

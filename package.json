@@ -24,7 +24,7 @@
     "reload",
     "terminal"
   ],
-  "version": "1.3.0-7",
+  "version": "1.3.5",
   "preferGlobal": "true",
   "licenses": [
     {
@@ -35,8 +35,8 @@
   "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
-    "test": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    ":test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; done",
+    ":test": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    "test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "web": "node web"
   },
   "devDependencies": {
@@ -44,12 +44,12 @@
     "connect": "~2.19.1",
     "istanbul": "~0.2.10",
     "mocha": "^2.0.1",
-    "should": "~4.0.0",
-    "touch": "~0.0.3"
+    "should": "~4.0.0"
   },
   "dependencies": {
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
-    "update-notifier": "~0.1.8"
+    "touch": "~0.0.3",
+    "update-notifier": "^0.3.0"
   }
 }

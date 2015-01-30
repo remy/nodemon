@@ -3,42 +3,6 @@
     http://github.com/remy
     http://twitter.com/rem
 
- project: nodemon
- commits: 302
- active : 107 days
- files  : 73
- authors:
-   197  Remy Sharp              65.2%
-    40  remy                    13.2%
-     8  Phred                   2.6%
-     8  dylanmcd                2.6%
-     6  Pasindu De Silva        2.0%
-     4  ChrisWren               1.3%
-     3  Albert Netymk           1.0%
-     3  Shawn Biddle            1.0%
-     3  Coen Hyde               1.0%
-     2  Aivo Paas               0.7%
-     2  Christopher Wren        0.7%
-     2  Dylan McDiarmid         0.7%
-     2  Jason Griffin           0.7%
-     2  Josh Davis              0.7%
-     2  Vadim                   0.7%
-     2  fearphage               0.7%
-     1  Alex Sexton             0.3%
-     1  Matthew Andrews         0.3%
-     1  Morgan "ARR!" Allen     0.3%
-     1  Dennis Kehrig           0.3%
-     1  Paul Armstrong          0.3%
-     1  Peter Lyons             0.3%
-     1  Chris Wren              0.3%
-     1  Chris Klaiber           0.3%
-     1  Bryan Kaplan            0.3%
-     1  Todd Wolfson            0.3%
-     1  frekw                   0.3%
-     1  Wil Asche               0.3%
-     1  Everton Ribeiro         0.3%
-     1  Jared Hanson            0.3%
-     1  Alexey Petushkov        0.3%
-     1  Kaushik Shankar         0.3%
+ Contributors: https://github.com/remy/nodemon/graphs/contributors ❤︎
 
- Please contribute http://github.com/remy/nodemon/
+ Please help make nodemon better: https://github.com/remy/nodemon/

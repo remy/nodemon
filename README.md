@@ -1,4 +1,4 @@
-![nodemon logo](http://nodemon.io/nodemon.png)
+![nodemon logo](http://nodemon.io/nodemon.svg)
 
 # nodemon
 
@@ -6,7 +6,7 @@
 
 For use during development of a node.js based application.
 
-nodemon will watch the files in the directory that nodemon was started, and if they change, it will automatically restart your node application.
+nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
 
 nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
@@ -184,6 +184,22 @@ The following example will listen once for the `SIGUSR2` signal (used by nodemon
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
+## Triggering events when nodemon state changes
+
+If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or simply add event actions to your `nodemon.json` file.
+
+For example, to trigger a notification on a Mac when nodemon restarts, `nodemon.json` looks like this:
+
+```json
+{
+  "events": {
+    "restart": "osascript -e 'display notification \"app restarted\" with title \"nodemon\"'"
+  }
+}
+```
+
+A full list of available events is listed on the [event states wiki](https://github.com/remy/nodemon/wiki/Events#states). Note that you can bind to both states and messages.
+
 ## Pipe output to somewhere else
 
 ```js
@@ -196,6 +212,22 @@ nodemon({
 });
 ```
 
+## Using io.js for nodemon
+
+If you *only* have io.js installed (and the default install creates a symlink from `node` to `iojs`), then nodemon will work just fine out of the box (or [should](https://github.com/remy/nodemon/issues/468)).
+
+If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
+
+```json
+{
+  "execMap": {
+    "js": "iojs"
+  }
+}
+```
+
+Now you nodemon will use [io.js](https://iojs.org/) with JavaScript files instead of node.
+
 ## Using nodemon in your gulp workflow
 
 Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plugin to integrate nodemon with the rest of your project's gulp workflow.
@@ -204,49 +236,10 @@ Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plu
 
 Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin to integrate nodemon with the rest of your project's grunt workflow.
 
+## FAQ
+
+See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
-
-# Contributors
-
-* [remy](https://github.com/remy)
-* [ChrisWren](https://github.com/ChrisWren)
-* [dylanmcd](https://github.com/dylanmcd)
-* [fearphage](https://github.com/fearphage)
-* [pasindud](https://github.com/pasindud)
-* [coen-hyde](https://github.com/coen-hyde)
-* [shawncplus](https://github.com/shawncplus)
-* [albertnetymk](https://github.com/albertnetymk)
-* [theredcoder](https://github.com/theredcoder)
-* [aivopaas](https://github.com/aivopaas)
-* [haircuttedfreak](https://github.com/haircuttedfreak)
-* [jdavis](https://github.com/jdavis)
-* [binarykitchen](https://github.com/binarykitchen)
-* [kuba-kubula](https://github.com/kuba-kubula)
-* [vadimi](https://github.com/vadimi)
-* [mentatxx](https://github.com/mentatxx)
-* [bryankaplan](https://github.com/bryankaplan)
-* [lordnox](https://github.com/lordnox)
-* [jaredhanson](https://github.com/jaredhanson)
-* [skaushik92](https://github.com/skaushik92)
-* [twolfson](https://github.com/twolfson)
-* [chrisklaiber](https://github.com/chrisklaiber)
-* [wasche](https://github.com/wasche)
-* [nuxlli](https://github.com/nuxlli)
-* [mvasilkov](https://github.com/mvasilkov)
-* [morganrallen](https://github.com/morganrallen)
-* [DennisKehrig](https://github.com/DennisKehrig)
-* [sahat](https://github.com/sahat)
-* [didoarellano](https://github.com/didoarellano)
-* [arielyang](https://github.com/arielyang)
-* [ZombieHippie](https://github.com/ZombieHippie)
-* [mikemaccana](https://github.com/mikemaccana)
-* [paularmstrong](https://github.com/paularmstrong)
-* [sainaen](https://github.com/sainaen)
-* [matthew-andrews](https://github.com/matthew-andrews)
-* [SlexAxton](https://github.com/SlexAxton)
-* [davedoesdev](https://github.com/davedoesdev)
-* [rps](https://github.com/rps)
-* [pauloadaoag](https://github.com/pauloadaoag)
-* [focusaurus](https://github.com/focusaurus)

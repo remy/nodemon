@@ -28,7 +28,7 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Help! My changes aren't being detected!
 
-nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find (Mac, for example).
+nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find.
 
 Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
 
@@ -54,7 +54,7 @@ Fedora is looking for `nodejs` rather than `node` which is the binary that nodem
 
 The solution is a simple workaround, Linux 101:
 
-```
+```bash
 sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 ```
 
@@ -123,3 +123,15 @@ For example, on `lib/app.js` being changed:
 14 Apr 15:25:56 - [nodemon] starting `node run.js`
 14 Apr 15:25:56 - [nodemon] child pid: 9556
 ```
+
+## My .nodemonignore is being ignored
+
+The new `nodemon.json` superceeds the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
+
+Note that if you have a `nodemon.json` in your `$HOME` path, then this will also superceed the old ignore file.
+
+## nodemon does nothing
+
+On Ubuntu globally installed node applications have been found to have no output when they're run. This *seems* to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
+
+The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, *rather* than using `apt-get` (or similar tools) to install node directly.

@@ -87,9 +87,10 @@ function Plan(count, done) {
 
 Plan.prototype.assert = function() {
   assert.apply(null, arguments);
+  // console.log(arguments[1]);
 
   if (this.count === 0) {
-    assert(false, 'Too many assertions called');
+    assert(false, 'Too many assertions called via "' + arguments[1] + '"');
   } else {
     this.count--;
   }
