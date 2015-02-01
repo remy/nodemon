@@ -41,6 +41,12 @@ describe('nodemon CLI parser', function () {
     assert(cmd === 'node --debug ./bin/www')
   });
 
+  it('should replace {{filename}}', function () {
+    var settings = parse(asCLI('test/fixtures/app.js --exec "node {{filename}}.tmp" --somethingElse'));
+    var cmd = commandToString(command(settings));
+    assert(cmd === 'node test/fixtures/app.js.tmp --somethingElse', cmd);
+  });
+
   it('should parse the help examples #1', function () {
     var settings = parse(asCLI('test/fixtures/app.js')),
         cmd = commandToString(command(settings));
@@ -128,12 +134,11 @@ describe('nodemon CLI parser', function () {
     var pwd = process.cwd();
     process.chdir('test/fixtures/');
     var settings = parse(asCLI('--exec \'"app with spaces.js" foo\''));
-    var options = settings.execOptions;
+    var cmd = commandToString(command(settings));
 
     process.chdir(pwd);
 
-    assert(options.exec === '"app with spaces.js"', 'exec is: ' + options.exec);
-    assert(options.execArgs[0] === 'foo', 'execArgs is: ' + options.execArgs[0]);
+    assert(cmd === '"app with spaces.js" foo', cmd);
   });
 
 
