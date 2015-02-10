@@ -189,6 +189,14 @@ describe('match', function () {
       done();
     });
   });
+
+  it('should ignore case when comparing paths on Windows', function () {
+    if (!nodemonUtils.isWindows) {
+      return;
+    }
+    var results = match(['C:\\TEST\\fixtures'], ['c:\\test\\fixtures']);
+    assert(results.result.length === 1, 'matched ' + results.result.length);
+  });
 });
 
 describe('validating files that cause restart', function () {
