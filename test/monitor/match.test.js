@@ -209,7 +209,7 @@ describe('validating files that cause restart', function () {
     var settings = merge(config, defaults);
     var script = path.resolve('../../../lib/__init__.py');
 
-    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [], system: { useFind: true } });
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     process.chdir(cwd);
@@ -223,7 +223,7 @@ describe('validating files that cause restart', function () {
     var settings = merge(config, defaults);
     var script = path.resolve('app.js');
 
-    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [], system: { useFind: true } });
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     assert(matched.result.length === 1, 'found match ' + matched.results);
@@ -235,7 +235,7 @@ describe('validating files that cause restart', function () {
     var settings = merge(config, defaults);
     var script = 'public/js/chrome.save.js';
 
-    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [], system: { useFind: true } });
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     assert(matched.result.length === 0, 'public/* ignored: ' + matched.results);
@@ -250,7 +250,7 @@ describe('validating files that cause restart', function () {
     var settings = merge(config, defaults);
     var script = path.resolve('../jsbin/scripts.json');
 
-    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, { dirs: [], system: { useFind: true } });
 
     var matched = match([script], settings.monitor, settings.ext.replace(' ', ','));
     process.chdir(cwd);
@@ -261,14 +261,12 @@ describe('validating files that cause restart', function () {
 });
 
 describe('match rule parser', function () {
-  var pwd = process.cwd();
-
   it('should support "--watch ."', function () {
     var config = { watch: '.' };
     var settings = merge(config, defaults);
     var script = 'index.js';
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');
@@ -281,7 +279,7 @@ describe('match rule parser', function () {
     var settings = merge(config, defaults);
     var script = 'index.js';
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');
@@ -293,7 +291,7 @@ describe('match rule parser', function () {
     var config = { watch: 'config.json' };
     var settings = merge(config, defaults);
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
     assert(matched.result.length === 1, 'no file matched');
@@ -303,7 +301,7 @@ describe('match rule parser', function () {
     var config = { watch: '/*/config.json' };
     var settings = merge(config, defaults);
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
     assert(matched.result.length === 1, 'no file matched');
@@ -315,7 +313,7 @@ describe('match rule parser', function () {
     var settings = merge(config, defaults);
     var script = 'index.js';
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     assert(settings.monitor[0] === '*.*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');
@@ -331,7 +329,7 @@ describe('match rule parser', function () {
     var settings = merge(config, defaults);
     var script = pwd + 'index.js';
 
-    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [] });
+    settings.monitor = match.rulesToMonitor(settings.watch, [], { dirs: [], system: { useFind: true } });
 
     process.chdir(cwd);
 
