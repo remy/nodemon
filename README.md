@@ -236,6 +236,14 @@ Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plu
 
 Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin to integrate nodemon with the rest of your project's grunt workflow.
 
+## Pronunciation
+
+> nodemon, is it pronunced: node-mon, no-demon or node-e-mon (like pokémon)?
+
+Well...I've been asked this many times before. I like that I've been asked this before. There's been bets as to which one it actually is.
+
+The answer is simple, but possibly frustrating. I'm not saying (how I pronounce it). It's up to you to call it as you like. All answers are correct :)
+
 ## FAQ
 
 See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
