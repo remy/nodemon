@@ -70,13 +70,25 @@ Thank you [@EvanCarroll](https://github.com/remy/nodemon/issues/68#issuecomment-
 
 ## Using nodemon with forever
 
-If you're using nodemon with [forever](https://github.com/nodejitsu/forever) (perhaps in a production environment) you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script. For more detail, see [issue 30](https://github.com/remy/nodemon/issues/30).
+If you're using nodemon with [forever](https://github.com/foreverjs/forever) (perhaps in a production environment), you can combine the two together. This way if the script crashes, forever restarts the script, and if there are file changes, nodemon restarts your script. For more detail, see [issue 30](https://github.com/remy/nodemon/issues/30).
 
-To acheive this you need to include the `--exitcrash` flag to ensure nodemon exits if the script crashes (or exits unexpectedly):
+To achieve this you need to add the following on the call to `forever`:
 
-    forever nodemon --exitcrash server.js
+* Use forever's `-c nodemon` option to tell forever to run `nodemon` instead of `node`.
+* Include the nodemon `--exitcrash` flag to ensure nodemon exits if the script crashes (or exits unexpectedly).
+* Tell forever to use `SIGTERM` instead of `SIGKILL` when requesting nodemon to stop. This ensures that nodemon can stop the watched node process cleanly.
+* Optionally add the `--uid` parameter, adding a unique name for your process. In the example, the uid is set to `foo`.
+
+
+    forever start --uid foo --killSignal=SIGTERM -c nodemon --exitcrash server.js
 
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
+
+To stop the process monitored by forever and nodemon, simply call the following, using the `uid` we assigned above (`foo`):
+
+    forever stop foo
+
+This will stop both nodemon and the node process it was monitoring.
 
 Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
 
