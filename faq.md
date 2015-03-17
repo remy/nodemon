@@ -79,14 +79,17 @@ To achieve this you need to add the following on the call to `forever`:
 * Tell forever to use `SIGTERM` instead of `SIGKILL` when requesting nodemon to stop. This ensures that nodemon can stop the watched node process cleanly.
 * Optionally add the `--uid` parameter, adding a unique name for your process. In the example, the uid is set to `foo`.
 
-
-    forever start --uid foo --killSignal=SIGTERM -c nodemon --exitcrash server.js
+```bash
+forever start --uid foo --killSignal=SIGTERM -c nodemon --exitcrash server.js
+```
 
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
 
 To stop the process monitored by forever and nodemon, simply call the following, using the `uid` we assigned above (`foo`):
 
-    forever stop foo
+```bash
+forever stop foo
+```
 
 This will stop both nodemon and the node process it was monitoring.
 
