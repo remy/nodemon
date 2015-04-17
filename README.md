@@ -37,7 +37,7 @@ Using nodemon is simple, if my application accepted a host and port as the argum
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
 
-nodemon also supports running and monitoring [coffee-script](http://jashkenas.github.com/coffee-script/) apps:
+nodemon also supports running and monitoring [coffee-script](http://coffeescript.org/) apps:
 
     nodemon server.coffee
 
