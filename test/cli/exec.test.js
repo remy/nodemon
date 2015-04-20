@@ -87,7 +87,7 @@ describe('nodemon exec', function () {
     var options = exec({ script: 'app.coffee', nodeArgs: [ '--debug' ] });
 
     assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
-    assert(options.execArgs.indexOf('--debug') !== -1);
+    assert(options.execArgs[1].indexOf('--debug') !== -1);
     assert(options.ext.indexOf('coffee') !== -1);
   });
 
