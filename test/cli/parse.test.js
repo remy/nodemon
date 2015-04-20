@@ -4,7 +4,8 @@ var cli = require('../../lib/cli/'),
     exec = require('../../lib/config/exec'),
     pkg = require('../../package'),
     assert = require('assert'),
-    command = require('../../lib/config/command');
+    command = require('../../lib/config/command'),
+    utils = require('../../lib/utils');
 
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd|| '')).trim();
@@ -28,7 +29,7 @@ function parse(cmd) {
 }
 
 function commandToString(command) {
-  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+  return utils.stringify(command.executable, command.args);
 }
 
 describe('nodemon CLI parser', function () {
@@ -127,7 +128,7 @@ describe('nodemon CLI parser', function () {
 
     process.chdir(pwd);
 
-    assert(cmd === 'browserify --debug -t hbsfy app.js -o bundle.js', 'command is "' + cmd + '"');
+    assert(cmd === 'browserify --debug "-t hbsfy app.js -o bundle.js"', 'command is "' + cmd + '"');
   });
 
   it('should support spaces', function () {

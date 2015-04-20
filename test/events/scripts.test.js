@@ -21,7 +21,7 @@ function parse(cmd) {
 }
 
 function commandToString(command) {
-  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+  return utils.stringify(command.executable, command.args);
 }
 
 describe('nodemon API events', function () {

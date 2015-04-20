@@ -2,7 +2,8 @@
 /*global describe:true, it: true */
 var exec = require('../../lib/config/exec'),
     command = require('../../lib/config/command'),
-    assert = require('assert');
+    assert = require('assert'),
+    utils = require('../../lib/utils');
 
 function toCmd(options) {
   var cmd = command({
@@ -12,7 +13,7 @@ function toCmd(options) {
 
   return {
     cmd: cmd,
-    string: cmd.executable + (cmd.args.length ? ' ' + cmd.args.join(' ') : '')
+    string: utils.stringify(cmd.executable, cmd.args)
   };
 }
 
