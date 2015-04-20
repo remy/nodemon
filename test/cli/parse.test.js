@@ -282,6 +282,19 @@ describe('nodemon with CoffeeScript', function () {
     assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
   });
 
+  it('should not add --nodejs with app arguments', function () {
+    var settings = parse(asCLI('test/fixtures/app.coffee --my-app-arg'));
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
+    assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
+  });
+
+  it('groups exec argument into a single --nodejs argument', function () {
+    var settings = parse(asCLI('--harmony --debug test/fixtures/app.coffee'));
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
+    assert(settings.execOptions.execArgs[0] === '--nodejs', 'is using --nodejs');
+    assert(settings.execOptions.execArgs[1] === '--harmony --debug', 'is grouping exec arguments');
+  });
+
   it('should add --nodejs when used with --debug', function () {
     var settings = parse(asCLI('--debug test/fixtures/app.coffee'));
     var cmd = commandToString(command(settings));
