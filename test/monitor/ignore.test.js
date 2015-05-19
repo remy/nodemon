@@ -53,8 +53,11 @@ function ignore(rule, done, file) {
 }
 
 describe('nodemon ignore', function () {
-  after(function () {
-    files.forEach(fs.unlink);
+  after(function (done) {
+    files.forEach(function(file) {
+      fs.unlink(file, function() {});
+    });
+    done();
   });
 
   it('should be controlled via cli', function (done) {
