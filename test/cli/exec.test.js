@@ -2,7 +2,8 @@
 /*global describe:true, it: true */
 var exec = require('../../lib/config/exec'),
     command = require('../../lib/config/command'),
-    assert = require('assert');
+    assert = require('assert'),
+    utils = require('../../lib/utils');
 
 function toCmd(options) {
   var cmd = command({
@@ -12,7 +13,7 @@ function toCmd(options) {
 
   return {
     cmd: cmd,
-    string: cmd.executable + (cmd.args.length ? ' ' + cmd.args.join(' ') : '')
+    string: utils.stringify(cmd.executable, cmd.args)
   };
 }
 
@@ -87,7 +88,7 @@ describe('nodemon exec', function () {
     var options = exec({ script: 'app.coffee', nodeArgs: [ '--debug' ] });
 
     assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
-    assert(options.execArgs.indexOf('--debug') !== -1);
+    assert(options.execArgs[1].indexOf('--debug') !== -1);
     assert(options.ext.indexOf('coffee') !== -1);
   });
 

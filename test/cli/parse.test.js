@@ -4,7 +4,8 @@ var cli = require('../../lib/cli/'),
     exec = require('../../lib/config/exec'),
     pkg = require('../../package'),
     assert = require('assert'),
-    command = require('../../lib/config/command');
+    command = require('../../lib/config/command'),
+    utils = require('../../lib/utils');
 
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd|| '')).trim();
@@ -28,7 +29,7 @@ function parse(cmd) {
 }
 
 function commandToString(command) {
-  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+  return utils.stringify(command.executable, command.args);
 }
 
 describe('nodemon CLI parser', function () {
@@ -127,7 +128,7 @@ describe('nodemon CLI parser', function () {
 
     process.chdir(pwd);
 
-    assert(cmd === 'browserify --debug -t hbsfy app.js -o bundle.js', 'command is "' + cmd + '"');
+    assert(cmd === 'browserify --debug "-t hbsfy app.js -o bundle.js"', 'command is "' + cmd + '"');
   });
 
   it('should support spaces', function () {
@@ -280,6 +281,19 @@ describe('nodemon with CoffeeScript', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
     assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
     assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
+  });
+
+  it('should not add --nodejs with app arguments', function () {
+    var settings = parse(asCLI('test/fixtures/app.coffee --my-app-arg'));
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
+    assert(settings.execOptions.execArgs.indexOf('--nodejs') === -1, 'is not using --nodejs');
+  });
+
+  it('groups exec argument into a single --nodejs argument', function () {
+    var settings = parse(asCLI('--harmony --debug test/fixtures/app.coffee'));
+    assert(settings.execOptions.exec.indexOf('coffee') === 0, 'executable is CoffeeScript');
+    assert(settings.execOptions.execArgs[0] === '--nodejs', 'is using --nodejs');
+    assert(settings.execOptions.execArgs[1] === '--harmony --debug', 'is grouping exec arguments');
   });
 
   it('should add --nodejs when used with --debug', function () {

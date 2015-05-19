@@ -16,7 +16,7 @@ function asCLI(cmd) {
 }
 
 function commandToString(command) {
-  return command.executable + (command.args.length ? ' ' + command.args.join(' ') : '');
+  return utils.stringify(command.executable, command.args);
 }
 
 describe('config load', function () {
