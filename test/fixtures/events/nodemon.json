@@ -4,6 +4,7 @@
   "events": {
     "start": "echo 'OK'",
     "crash": "echo 'CRASHED'",
-    "exit": "echo 'STOPPED'"
+    "exit": "echo 'STOPPED'",
+    "quit": "echo 'QUIT'"
   }
 }

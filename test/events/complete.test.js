@@ -7,7 +7,9 @@ var nodemon = require('../../lib/'),
     utils = require('../utils'),
     merge = require('../../lib/utils/merge'),
     dir = path.resolve(__dirname, '..', 'fixtures', 'events'),
-    appjs = path.resolve(dir, 'env.js');
+    appjs = path.resolve(dir, 'env.js'),
+    asCLI = utils.asCLI,
+    fork = require('child_process').fork;
 
 describe('events should follow normal flow on user triggered change', function () {
   function conf() {
@@ -81,7 +83,28 @@ describe('events should follow normal flow on user triggered change', function (
     }).on('start', function () {
       run++;
     });
-  })
+  });
+
+  it('quit', function (done) {
+    var cmd = asCLI('env.js');
+    cmd.exec = path.join('..', '..', '..', cmd.exec);
+    var p = fork(cmd.exec, cmd.args, {
+      cwd: dir,
+      silent: true,
+      detached: true
+    });
+    p.stdout.on('data', function(m) {
+      m = m.toString().trim();
+      if (m === 'STOPPED') {
+        p.kill('SIGINT');
+      }
+      if (m === 'QUIT') {
+        assert(true, '"quit" event');
+        done();
+      }
+    });
+  });
+
 
   it('stdout', function (done) {
     nodemon(conf()).once('stdout', function (data) {
