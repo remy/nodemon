@@ -26,12 +26,7 @@
   ],
   "version": "1.3.7",
   "preferGlobal": "true",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://rem.mit-license.org"
-    }
-  ],
+  "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
