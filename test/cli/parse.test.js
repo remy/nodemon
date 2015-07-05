@@ -237,7 +237,7 @@ describe('nodemon argument parser', function () {
   });
 
   it('should support short versions of flags', function () {
-    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -e jade');
+    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -S -e jade');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -247,12 +247,13 @@ describe('nodemon argument parser', function () {
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
     assert(settings.legacyWatch, 'legacy watch method');
+    assert(settings.runOnStartup === false, 'run on startup');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --ext jade');
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --no-startup --ext jade');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -263,6 +264,7 @@ describe('nodemon argument parser', function () {
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
     assert(settings.legacyWatch, 'legacy watch method');
+    assert(settings.runOnStartup === false, 'run on startup');
     assert(settings.ext === 'jade', 'extension is jade');
   });
 });

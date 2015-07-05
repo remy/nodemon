@@ -106,6 +106,24 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
+  it('should not run command if runOnStartup is false', function(done) {
+    fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
+
+    nodemon({
+      script: tmp,
+      runOnStartup: false,
+      stdout: false
+    }).on('stdout', function() {
+      assert(false, 'there should not be any stdout');
+    }).on('stderr', function() {
+      assert(false, 'there should not be any stderr');
+    }).on('crash', function () {
+      assert(false, 'detected crashed state');
+    }).once('exit', function () {
+      done();
+    });
+  });
+
   // it('should kill child on SIGINT', function (done) {
   //   fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
 
