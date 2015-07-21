@@ -106,12 +106,12 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
-  it('should not run command if runOnStartup is false', function(done) {
+  it('should not run command on startup if runOnChangeOnly is true', function(done) {
     fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
     nodemon({
       script: tmp,
-      runOnStartup: false,
+      runOnChangeOnly: true,
       stdout: false
     }).on('stdout', function() {
       assert(false, 'there should not be any stdout');
