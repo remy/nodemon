@@ -106,6 +106,24 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
+  it('should not run command on startup if runOnChangeOnly is true', function(done) {
+    fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
+
+    nodemon({
+      script: tmp,
+      runOnChangeOnly: true,
+      stdout: false
+    }).on('stdout', function() {
+      assert(false, 'there should not be any stdout');
+    }).on('stderr', function() {
+      assert(false, 'there should not be any stderr');
+    }).on('crash', function () {
+      assert(false, 'detected crashed state');
+    }).once('exit', function () {
+      done();
+    });
+  });
+
   // it('should kill child on SIGINT', function (done) {
   //   fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
 
