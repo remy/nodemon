@@ -44,7 +44,7 @@
   "dependencies": {
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
-    "touch": "~0.0.3",
+    "touch": "~1.0.0",
     "update-notifier": "^0.3.0"
   }
 }
