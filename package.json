@@ -24,7 +24,7 @@
     "reload",
     "terminal"
   ],
-  "version": "1.4.0",
+  "version": "1.4.1",
   "preferGlobal": "true",
   "license": "MIT",
   "main": "./lib/nodemon",
