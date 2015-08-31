@@ -24,17 +24,18 @@
     "reload",
     "terminal"
   ],
-  "version": "1.5.0-alpha1",
+  "version": "1.5.0-alpha2",
   "preferGlobal": "true",
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
-    ":test": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    "test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "test": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    ":test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "web": "node web"
   },
   "devDependencies": {
+    "async": "^1.4.2",
     "coffee-script": "~1.7.1",
     "connect": "~2.19.1",
     "istanbul": "~0.2.10",
@@ -43,6 +44,7 @@
   },
   "dependencies": {
     "chokidar": "^1.0.5",
+    "debug": "^2.2.0",
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
     "touch": "~1.0.0",

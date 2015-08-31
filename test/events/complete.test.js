@@ -1,17 +1,18 @@
 'use strict';
-/*global describe:true, it: true, afterEach: true */
-var nodemon = require('../../lib/'),
-    assert = require('assert'),
-    path = require('path'),
-    touch = require('touch'),
-    utils = require('../utils'),
-    merge = require('../../lib/utils/merge'),
-    dir = path.resolve(__dirname, '..', 'fixtures', 'events'),
-    appjs = path.resolve(dir, 'env.js'),
-    asCLI = utils.asCLI,
-    fork = require('child_process').fork;
+/* global describe, it, beforeEach, before, after */
+var nodemon = require('../../lib/');
+var debug = require('debug')('nodemon');
+var assert = require('assert');
+var path = require('path');
+var touch = require('touch');
+var utils = require('../utils');
+var dir = path.resolve(__dirname, '..', 'fixtures', 'events');
+var appjs = path.resolve(dir, 'env.js');
+var asCLI = utils.asCLI;
+var fork = require('child_process').fork;
 
-describe('events should follow normal flow on user triggered change', function () {
+describe('events should follow normal flow on user triggered change',
+  function () {
   function conf() {
     utils.port++;
     return {
@@ -19,7 +20,6 @@ describe('events should follow normal flow on user triggered change', function (
       verbose: true,
       stdout: false,
       noReset: true,
-      novm: true,
       ext: 'js',
       env: {
         PORT: utils.port,
@@ -31,24 +31,28 @@ describe('events should follow normal flow on user triggered change', function (
   var cwd = process.cwd();
 
   beforeEach(function (done) {
+    debug('beforeEach');
     nodemon.once('exit', function () {
       nodemon.reset(done);
     }).emit('quit');
   });
 
-  before(function (done) {
-    process.chdir(dir)
-    nodemon.reset(done);
+  before(function () {
+    process.chdir(dir);
   });
 
   after(function (done) {
+    debug('after');
     process.chdir(cwd);
     nodemon.once('exit', function () {
-      nodemon.reset(done);
+      nodemon.reset(function () {
+        setTimeout(done, 1000);
+      });
     }).emit('quit');
   });
 
   it('start', function (done) {
+    debug('start');
     nodemon(conf()).once('start', function () {
       assert(true, '"start" event');
       done();
@@ -91,9 +95,9 @@ describe('events should follow normal flow on user triggered change', function (
     var p = fork(cmd.exec, cmd.args, {
       cwd: dir,
       silent: true,
-      detached: true
+      detached: true,
     });
-    p.stdout.on('data', function(m) {
+    p.stdout.on('data', function (m) {
       m = m.toString().trim();
       if (m === 'STOPPED') {
         p.kill('SIGINT');
@@ -120,7 +124,8 @@ describe('events should follow normal flow on user triggered change', function (
 
     nodemon(conf()).on('restart', function (files) {
       plan.assert(true, '"restart" event with ' + files);
-      plan.assert(files[0] === appjs, 'restart due to ' + files.join(' ') + ' changing');
+      plan.assert(files[0] === appjs, 'restart due to ' + files.join(' ') +
+        ' changing');
     }).once('exit', function () {
       plan.assert(true, '"exit" event');
       setTimeout(function () {

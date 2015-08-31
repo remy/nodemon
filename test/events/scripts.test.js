@@ -35,7 +35,7 @@ describe('nodemon API events', function () {
 
   after(function (done) {
     // clean up just in case.
-    nodemon.reset(done);
+    setTimeout(done, 1000);
   });
 
   beforeEach(function (done) {
@@ -59,7 +59,6 @@ describe('nodemon API events', function () {
       plan.assert(true, 'exit');
     }).on('stdout', function (data) {
       data = data.toString().trim();
-
       if (data === 'OK') {
         plan.assert(true, 'OK found');
       } else if (data === 'STOPPED') {
@@ -67,7 +66,7 @@ describe('nodemon API events', function () {
       } else if (data === 'nodemon') {
         // expected output
       } else {
-        plan.assert(false, data + ' found')
+        plan.assert(false, data + ' found');
       }
 
     });
