@@ -42,6 +42,8 @@
     "should": "~4.0.0"
   },
   "dependencies": {
+    "anymatch": "^1.3.0",
+    "chokidar": "^1.0.5",
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
     "touch": "~1.0.0",

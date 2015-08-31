@@ -10,10 +10,10 @@
   "delay": 2,
   "ignore": [
     "/vendor/*",
-    "/public/*"
-    "./README.md"
+    "/public/*",
+    "./README.md",
     "*.css",
     "/vendor/*",
-    ":(\d)*\.js"
+    ":(\\d)*\\.js"
   ]
 }

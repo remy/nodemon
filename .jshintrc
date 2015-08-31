@@ -10,5 +10,7 @@
   "node": true,
   "quotmark": "single",
   "undef": true,
+  "strict": false,
   "unused": true
 }
+
