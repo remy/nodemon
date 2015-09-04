@@ -21,6 +21,15 @@ describe('match', function () {
     '!*.coffee',
   ];
 
+  // Make sure all tests set the cwd back
+  var cwd;
+  beforeEach(function () {
+    cwd = process.cwd();
+  });
+  afterEach(function () {
+    process.chdir(cwd);
+  });
+
   it('should match zero files', function () {
     var files = [
       'views/server/remy.coffee',
@@ -336,5 +345,21 @@ describe('match rule parser', function () {
     assert(settings.monitor[0] === path.resolve(pwd, '..') + '/**/*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');
     assert(matched.result.length === 1, 'no file matched');
+  });
+
+  it('should support "--watch .. in windows"', function () {
+    // make sure we're in a deep enough directory
+    process.chdir('./test/fixtures/');
+    var pwd = process.cwd();
+    var settings = merge({ watch: '..' }, defaults);
+    var script = pwd + 'index.js';
+
+    var config = { dirs: [], system: { useFind: false } };
+    settings.monitor = match.rulesToMonitor(settings.watch, [], config);
+
+    assert(settings.monitor[0] === path.resolve(pwd, '..') + '/**/*', 'path resolved: ' + settings.monitor[0]);
+    var matched = match([script], settings.monitor, 'js');
+    assert(matched.result.length === 1, 'no file matched');
+    assert(config.dirs[0] === path.resolve(pwd, '..'), 'starting dirs: '+JSON.stringify(config.dirs));
   });
 });
