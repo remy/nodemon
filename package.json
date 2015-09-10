@@ -48,6 +48,7 @@
   "dependencies": {
     "chokidar": "^1.0.5",
     "debug": "^2.2.0",
+    "lodash.defaults": "^3.1.2",
     "minimatch": "~0.3.0",
     "ps-tree": "~0.0.3",
     "touch": "~1.0.0",

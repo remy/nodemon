@@ -14,13 +14,13 @@ var assert = require('assert'),
 
 function ignore(rule, done, file) {
   var p = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
-      // output: function (data) {
-      //   console.log(data.trim());
-      // },
+      output: function (data) {
+        // console.log(data.trim());
+      },
       error: function (data) {
         p.send('quit');
         cleanup(p, done, new Error(data));
-      }
+      },
     });
 
   p.on('message', function (event) {
@@ -54,8 +54,8 @@ function ignore(rule, done, file) {
 
 describe('nodemon ignore', function () {
   after(function (done) {
-    files.forEach(function(file) {
-      fs.unlink(file, function() {});
+    files.forEach(function (file) {
+      fs.unlink(file, function () {});
     });
     done();
   });
