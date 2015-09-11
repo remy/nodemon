@@ -5,6 +5,6 @@ var version = require('../../lib/version'),
 
 describe('version', function () {
   it('should match package.version', function () {
-    assert(version === 'v' + (pkg.version || 'development'));
+    assert.equal(version, pkg.version ? 'v' + pkg.version : 'development version');
   });
 });
