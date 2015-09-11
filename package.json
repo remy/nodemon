@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/remy/nodemon.git"
+    "url": "https://github.com/remy/nodemon.git"
   },
   "description": "Simple monitor script for use during development of a node.js app.",
   "keywords": [
@@ -24,7 +24,6 @@
     "reload",
     "terminal"
   ],
-  "version": "1.5.0-alpha2",
   "preferGlobal": "true",
   "license": "MIT",
   "main": "./lib/nodemon",
@@ -34,7 +33,8 @@
     "spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
     "test": "npm run lint && npm run spec",
     ":test": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
-    "web": "node web"
+    "web": "node web",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
     "async": "^1.4.2",
@@ -43,7 +43,8 @@
     "istanbul": "~0.2.10",
     "jscs": "^2.1.1",
     "mocha": "^2.0.1",
-    "should": "~4.0.0"
+    "should": "~4.0.0",
+    "semantic-release": "^4.3.4"
   },
   "dependencies": {
     "chokidar": "^1.0.5",
