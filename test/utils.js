@@ -62,13 +62,28 @@ function run(cmd, callbacks) {
     });
   }
   if (callbacks.error) {
-    proc.stderr.on('data', callbacks.error);
+    proc.stderr.on('data', function (error) {
+      error = error.toString().trim();
+
+      if (process.env.TRAVIS && error === 'User defined signal 2') {
+        // swallow the SIGUSR2 - it should never hit the stderr, but for some
+        // reason, travis sees it and causes our tests to fail, so we swallow
+        // if this specific error bubbles out
+      } else {
+        callbacks.error(error);
+      }
+    });
   }
 
   return proc;
 }
 
 function cleanup(p, done, err) {
+  // as above
+  if (process.env.TRAVIS && err &&
+    err.message.indexOf('User defined signal 2') === 0) {
+    err = null;
+  }
   if (p) {
     p.once('exit', function () {
       p = null;

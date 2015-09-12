@@ -89,7 +89,7 @@ describe('nodemon fork child restart', function () {
   it('should happen only once if delay option is set', function (done) {
     var restartCount = 0;
     fs.writeFile(tmpjs, 'true;', function () {
-      var p = run('--verbose --ext js --delay 2' + tmpjs, {
+      var p = run('--verbose --ext js --delay 2 ' + tmpjs, {
         error: function (data) {
           p.send('quit');
           cleanup(p, done, new Error(data));
@@ -156,7 +156,7 @@ describe('nodemon fork child restart', function () {
           if (monitor(msg)) {
             var changes = msg.slice(-5).split('/');
             var restartedOn = changes.pop();
-            assert(restartedOn === '1', 'nodemon restarted on a single file change');
+            assert(restartedOn === '1', 'nodemon restarted on a single file change: ' + restartedOn);
             cleanup(p, done);
           }
         }

@@ -84,6 +84,8 @@ describe('when nodemon runs (2)', function () {
       this.stderr.pipe(stderrWritable);
 
     }).on('end', function() {
+      this.stdout.unpipe(stdoutWritable);
+      this.stderr.unpipe(stderrWritable);
         stdoutWritable.end();
         stderrWritable.end();
 
