@@ -12,8 +12,6 @@
   -I, --no-stdin ........... don't try to read from stdin.
   -C, --on-change-only ..... execute script on change only, not startup
   -d, --delay n ............ debounce restart for "n" seconds.
-  -L, --legacy-watch ....... Forces node to use the most compatible version
-                             for watching file changes.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
   -v, --version ............ current nodemon version.
@@ -35,6 +33,6 @@
   $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py
   $ nodemon --exec "make build" -e "styl hbs"
-  $ nodemon app.js -- -L
+  $ nodemon app.js -- -v
 
   For more details see http://github.com/remy/nodemon/
