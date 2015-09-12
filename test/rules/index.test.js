@@ -19,7 +19,7 @@ describe('nodemon rules', function () {
     regexp: loadfixtures('regexp'),
     default: loadfixtures('default'),
     simple: loadfixtures('simple'),
-    simplejson: loadfixtures('simple.json')
+    simplejson: loadfixtures('simple.json'),
   };
 
   beforeEach(function (done) {
