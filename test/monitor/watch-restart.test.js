@@ -45,7 +45,7 @@ describe('nodemon monitor child restart', function () {
       nodemon({ script: tmpjs, verbose: true, ext: 'js' }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpjs);
-        }, 1500);
+        }, 2500);
       }).on('restart', function (files) {
         assert(files[0] === tmpjs, 'nodemon restarted because of change to our file' + files);
         nodemon.once('exit', function () {
@@ -67,18 +67,13 @@ describe('nodemon monitor child restart', function () {
       }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
-        }, 1500);
-      }).on('log', function (event) {
-        var msg = event.message;
-        if (utils.match(msg, 'changes after filters')) {
-          var changes = msg.trim().slice(-5).split('/');
-          var restartedOn = changes.pop();
-          assert(restartedOn === '1', 'nodemon restarted on a single file change');
-          nodemon.once('exit', function () {
-            nodemon.reset();
-            done();
-          }).emit('quit');
-        }
+        }, 2500);
+      }).on('restart', function (files) {
+        assert(files[0] === tmpmd, 'nodemon restarted because of change to our file' + files);
+        nodemon.once('exit', function () {
+          nodemon.reset();
+          done();
+        }).emit('quit');
       });
     }, 2000);
   });
@@ -98,7 +93,7 @@ describe('nodemon monitor child restart', function () {
         }).on('start', function () {
           setTimeout(function () {
             touch.sync(tmpjs);
-          }, 1000);
+          }, 2500);
         }).on('restart', function (files) {
           assert(files.length === 1, 'nodemon restarted when watching directory');
           nodemon.once('exit', function () {
@@ -123,7 +118,7 @@ describe('nodemon monitor child restart', function () {
       }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
-        }, 1000);
+        }, 2500);
       }).on('restart', function (files) {
         assert(files.length === 1, 'nodemon restarted when watching directory');
         nodemon.once('exit', function () {
