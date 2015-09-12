@@ -1,18 +1,19 @@
 'use strict';
-/*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
-var load = require('../../lib/config/load'),
-    cli = require('../../lib/cli/'),
-    path = require('path'),
-    testUtils = require('../utils'),
-    utils = require('../../lib/utils'),
-    rules = require('../../lib/rules'),
-    exec = require('../../lib/config/exec'),
-    nodemon = require('../../lib/nodemon'),
-    command = require('../../lib/config/command'),
-    assert = require('assert');
+/*global describe, it, afterEach, beforeEach, after */
+var load = require('../../lib/config/load');
+var defaults = require('../../lib/config/defaults');
+var cli = require('../../lib/cli/');
+var path = require('path');
+var testUtils = require('../utils');
+var utils = require('../../lib/utils');
+var rules = require('../../lib/rules');
+var exec = require('../../lib/config/exec');
+var nodemon = require('../../lib/nodemon');
+var command = require('../../lib/config/command');
+var assert = require('assert');
 
 function asCLI(cmd) {
-  return ('node nodemon ' + (cmd|| '')).trim();
+  return ('node nodemon ' + (cmd || '')).trim();
 }
 
 function commandToString(command) {
@@ -125,7 +126,7 @@ describe('config load', function () {
         options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
-      assert.deepEqual(config.ignore, ['one'], 'ignore is "one": ' + config.ignore);
+      assert(config.ignore.indexOf('one') !== -1, '"one" is ignored: ' + config.ignore);
       assert.deepEqual(config.watch, ['one'], 'watch is "one": ' + config.watch);
       done();
     });
@@ -164,19 +165,48 @@ describe('config load', function () {
     process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
     utils.home = path.resolve(pwd, 'test/fixtures/legacy');
 
-    var settings = { 'script': './index.js',
-          'verbose': true,
-          'ignore': ['*/artic/templates/*' ],
-          'ext' : 'js coffee json',
-          'watch': [ '*.coffee' ],
-          'execMap': {'js': 'node --harmony', 'coffee': 'node --harmony', }
-        },
-        config = {},
-        options = {};
+    var settings = {
+      script: './index.js',
+      verbose: true,
+      ignore: ['*/artic/templates/*' ],
+      ext: 'js coffee json',
+      watch: [ '*.coffee' ],
+      execMap: {js: 'node --harmony', coffee: 'node --harmony', },
+    };
+    var config = {};
+    var options = {};
 
     load(settings, options, config, function (config) {
       var cmd = commandToString(command(config));
       assert(cmd === 'node --harmony ./index.js', 'cmd is: ' + cmd);
+      done();
+    });
+  });
+
+  it('should merge ignore rules', function (done) {
+    load({
+      ignore: ['*/artic/templates/*', 'views/*' ],
+    }, {}, {}, function (config) {
+      assert.equal(config.ignore.length, defaults.ignore.length + 2);
+      done();
+    });
+  });
+
+  it('should merge ignore rules even when strings', function (done) {
+    load({
+      ignore: 'public',
+    }, {}, {}, function (config) {
+      assert.equal(config.ignore.length, defaults.ignore.length + 1);
+      done();
+    });
+  });
+
+  it('should allow user to override root ignore rules', function (done) {
+    load({
+      ignore: 'public',
+      ignoreRoot: [],
+    }, {}, {}, function (config) {
+      assert.equal(config.ignore.length, 1);
       done();
     });
   });
