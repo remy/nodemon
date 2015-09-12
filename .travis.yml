@@ -5,6 +5,9 @@ node_js:
   - "0.11"
   - "0.10"
   - "0.8"
+  - "iojs-v1.7.1"
+  - "iojs-v1.6.4"
+  - "iojs-v1.5.1"
 before_install:
   - npm install -g npm
 before_script:
