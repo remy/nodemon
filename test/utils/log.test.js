@@ -1,9 +1,10 @@
 'use strict';
 /*global describe:true, it: true */
-var logger = require('../../lib/utils/log')(true),
-    bus = require('../../lib/utils/bus'),
-    colour = require('../../lib/utils/colour'),
-    assert = require('assert');
+var Logger = require('../../lib/utils/log');
+var logger = new Logger(true);
+var bus = require('../../lib/utils/bus');
+var colour = require('../../lib/utils/colour');
+var assert = require('assert');
 
 describe('logger', function () {
   var types = {
@@ -26,6 +27,31 @@ describe('logger', function () {
       });
       logger[type](type);
     });
+  });
+
+  it('should disable colour', function () {
+    var type = 'fail';
+    bus.once('log', function (event) {
+      assert.equal(event.message, type);
+      assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
+    });
+    logger[type](type);
+
+    logger.useColours = false;
+
+    bus.once('log', function (event) {
+      assert.equal(event.message, type);
+      assert.ok(event.colour.indexOf(colour[types[type]]) === -1);
+    });
+    logger[type](type);
+
+    logger.useColours = true;
+
+    bus.once('log', function (event) {
+      assert.equal(event.message, type);
+      assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
+    });
+    logger[type](type);
   });
 
   // it('should not log detail if debug is off', function (done) {

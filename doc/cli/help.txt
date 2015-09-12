@@ -11,6 +11,7 @@
   -V, --verbose ............ show detail on what is causing restarts.
   -I, --no-stdin ........... don't try to read from stdin.
   -C, --on-change-only ..... execute script on change only, not startup
+  --no-colors .............. disable color output
   -d, --delay n ............ debounce restart for "n" seconds.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
