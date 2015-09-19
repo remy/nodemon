@@ -8,6 +8,7 @@ var assert = require('assert'),
     nodemonUtils = require('../../lib/utils'),
     defaults = require('../../lib/config/defaults'),
     utils = require('../utils'),
+    watch = require('../../lib/monitor/watch'),
     merge = nodemonUtils.merge;
 
 describe('match', function () {
@@ -336,5 +337,38 @@ describe('match rule parser', function () {
     assert(settings.monitor[0] === path.resolve(pwd, '..') + '/**/*', 'path resolved: ' + settings.monitor[0]);
     var matched = match([script], settings.monitor, 'js');
     assert(matched.result.length === 1, 'no file matched');
+  });
+});
+
+
+describe('watcher', function () {
+  afterEach(function () {
+    watch.resetWatchers();
+  });
+
+  it('should match a dotfile if explicitly asked to', function (done) {
+    config.load({
+      watch: ['test/fixtures/.dotfile']
+    }, function (config) {
+      return watch.watch()
+          .then(function (files) {
+            assert.deepEqual(files.length, 1, 'should contain .dotfile');
+          })
+          .then(done)
+          .catch(done);
+    })
+  });
+
+  it('should match a dotfolder if explicitly asked to', function (done) {
+    config.load({
+      watch: ['test/fixtures/.dotfolder']
+    }, function (config) {
+      return watch.watch()
+          .then(function (files) {
+            assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
+          })
+          .then(done)
+          .catch(done);
+    })
   });
 });
