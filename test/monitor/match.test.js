@@ -344,6 +344,7 @@ describe('match rule parser', function () {
 describe('watcher', function () {
   afterEach(function () {
     watch.resetWatchers();
+    config.reset();
   });
 
   it('should match a dotfile if explicitly asked to', function (done) {

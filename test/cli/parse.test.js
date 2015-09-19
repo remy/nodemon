@@ -39,7 +39,7 @@ describe('nodemon CLI parser', function () {
     var settings = parse(asCLI('--debug'));
     var cmd = commandToString(command(settings));
     process.chdir(cwd);
-    assert(cmd === 'node --debug ./bin/www')
+    assert(cmd === 'node --debug ./bin/www');
   });
 
   it('should replace {{filename}}', function () {
