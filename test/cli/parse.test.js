@@ -39,7 +39,7 @@ describe('nodemon CLI parser', function () {
     var settings = parse(asCLI('--debug'));
     var cmd = commandToString(command(settings));
     process.chdir(cwd);
-    assert(cmd === 'node --debug ./bin/www');
+    assert.equal(cmd, 'NODE_ENV=development node ./bin/www --debug');
   });
 
   it('should replace {{filename}}', function () {
@@ -117,18 +117,7 @@ describe('nodemon CLI parser', function () {
 
     process.chdir(pwd);
 
-    assert(cmd === 'node ./bin/www', 'command is "' + cmd + '"');
-  });
-
-  it('should support package.scripts.start with args', function () {
-    var pwd = process.cwd();
-    process.chdir('test/fixtures/packages/browserify'); // allows us to load text/fixtures/package.json
-    var settings = parse(asCLI('--debug')),
-        cmd = commandToString(command(settings));
-
-    process.chdir(pwd);
-
-    assert(cmd === 'browserify --debug "-t hbsfy app.js -o bundle.js"', 'command is "' + cmd + '"');
+    assert.equal(cmd, 'NODE_ENV=development node ./bin/www', 'command is "' + cmd + '"');
   });
 
   it('should support spaces', function () {
