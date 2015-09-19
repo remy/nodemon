@@ -154,8 +154,11 @@ describe('nodemon fork child restart', function () {
         output: function (data) {
           var msg = colour.strip(data.trim());
           if (monitor(msg)) {
-            var changes = msg.slice(-5).split('/');
+            var changes = msg.replace(/\s*/gm, '').slice(-5).split('/');
             var restartedOn = changes.pop();
+            console.log(msg);
+            console.log(JSON.stringify(changes));
+            console.log(restartedOn);
             assert.equal(restartedOn, '1', 'nodemon restarted on a single file change: ' + restartedOn + ' -- ' + msg);
             cleanup(p, done);
           }
