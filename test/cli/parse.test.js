@@ -39,7 +39,11 @@ describe('nodemon CLI parser', function () {
     var settings = parse(asCLI('--debug'));
     var cmd = commandToString(command(settings));
     process.chdir(cwd);
+<<<<<<< HEAD
     assert.equal(cmd, 'NODE_ENV=development node ./bin/www --debug');
+=======
+    assert(cmd === 'node --debug ./bin/www');
+>>>>>>> feature/legacy-polling-mode
   });
 
   it('should replace {{filename}}', function () {
