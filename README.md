@@ -128,9 +128,9 @@ Now nodemon will only restart if there are changes in the `./app` or `./libs` di
 
 ## Specifying extension watch list
 
-By default, nodemon looks for files with the `.js`, `.coffee`, and `.litcoffee` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
+By default, nodemon looks for files with the `.js` extension. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
-    nodemon -e js,jade
+    nodemon -e js,coffee,jade
 
 Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
 
