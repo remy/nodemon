@@ -187,7 +187,17 @@ describe('config load', function () {
     load({
       ignore: ['*/artic/templates/*', 'views/*' ],
     }, {}, {}, function (config) {
-      assert.equal(config.ignore.length, defaults.ignore.length + 2);
+      assert.equal(config.ignore.length, defaults.ignoreRoot.length + 2);
+      done();
+    });
+  });
+
+  it('should allow user to override ignoreRoot', function (done) {
+    load({
+      ignore: ['*/artic/templates/*', 'views/*' ],
+      ignoreRoot: ['.git'],
+    }, {}, {}, function (config) {
+      assert.equal(config.ignore.length, 3);
       done();
     });
   });
@@ -196,7 +206,7 @@ describe('config load', function () {
     load({
       ignore: 'public',
     }, {}, {}, function (config) {
-      assert.equal(config.ignore.length, defaults.ignore.length + 1);
+      assert.equal(config.ignore.length, defaults.ignoreRoot.length + 1);
       done();
     });
   });
