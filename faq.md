@@ -28,11 +28,24 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Help! My changes aren't being detected!
 
-nodemon has three potential methods it uses to look for file changes. First, it polls using the find command to search for files modified within the last second. This method works on systems with a BSD based find.
+nodemon (from 1.4.2 onwards) uses [Chokidar](https://www.npmjs.com/package/chokidar) as its underlying watch system.
 
-Next it tries using node's `fs.watch`. `fs.watch` will not always work however, and nodemon will try and detect if this is the case by writing a file to the tmp directory and seeing if fs.watch is triggered when it's removed. If nodemon finds that fs.watch was not triggered, it will then fall back to the third method (called legacy watch), which works by statting each file in your working directory looking for changes to the last modified time. This is the most cpu intensive method, but it may be the only option on some systems.
+If you find your files aren't being monitored, either nodemon isn't restarting, or it reports that zero files are being watched, then you may need the polling mode.
 
-In certain cases, like when where you are working on a different drive than your tmp directory is on, `fs.watch` may give you a false positive. You can force nodemon to start using the most compatible legacy method by passing the -L switch, e.g. `nodemon -L /my/odd/file.js`.
+To enable polling use the the legacy flag either via the terminal:
+
+```shell
+$ nodemon --legacy-watch
+$ nodemon -L # short alias
+```
+
+Or via the `nodemon.json`:
+
+```json
+{
+  "legacy-watch": true
+}
+```
 
 ## nodemon tries to run two scripts
 
@@ -47,6 +60,22 @@ This is because the main script argument (`fixtures/sigint.js` in this case) was
 ## What has precedence, ignore or watch?
 
 Everything under the ignore rule has the final word. So if you ignore the `node_modules` directory, but watch `node_modules/*.js`, then all changed files will be ignored, because any changed .js file in the `node_modules` are ignored.
+
+However, there are defaults in the ignore rules that your rules will be merged with, and not override. To override the see [overriding the underlying default ignore rules](#overriding-the-underlying-default-ignore-rules).
+
+## Overriding the underlying default ignore rules
+
+The way the ignore rules work is that your rules are merged with the `ignoreRoot` rules, which contain `['.git', 'node_modules', ...]`. So if you ignore `public`, the ignore rule results in `['.git', 'node_modules', ..., 'public']`.
+
+Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to you local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
+
+```json
+{
+  "ignoreRoot": [".git"]
+}
+```
+
+Now when ignoring `public`, the ignore rule results in `['.git', 'public']`, and nodemon will restart on `node_modules` changes.
 
 ## nodemon doesn't work with fedora
 
