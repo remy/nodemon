@@ -153,7 +153,7 @@ describe('nodemon fork child restart', function () {
         },
         output: function (data) {
           var msg = colour.strip(data.trim());
-          if (monitor(msg)) {
+          if (utils.match(msg, 'changes after filters (before/after)')) {
             var changes = msg.split(/\n/).shift();
             changes = changes.replace(/\s*/gm, '').slice(-5).split('/');
             var restartedOn = changes.pop();

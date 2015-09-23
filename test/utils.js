@@ -115,7 +115,14 @@ Plan.prototype.assert = function() {
   }
 };
 
+function getTriggerCount(msg) {
+  var changes = msg.split(/\n/).shift();
+  changes = changes.replace(/\s*/gm, '').slice(-5).split('/');
+  return changes.pop();
+}
+
 module.exports = {
+  getTriggerCount: getTriggerCount,
   Plan: Plan,
   asCLI: asCLI,
   match: match,
