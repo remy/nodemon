@@ -172,7 +172,7 @@ For example, on `lib/app.js` being changed:
 
 The new `nodemon.json` superceeds the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
 
-Note that if you have a `nodemon.json` in your `$HOME` path, then this will also superceed the old ignore file.
+Note that if you have a `nodemon.json` in your `$HOME` path, then this will also supersede the old ignore file.
 
 ## nodemon does nothing
 
