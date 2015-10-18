@@ -19,6 +19,10 @@ describe('when nodemon runs (2)', function () {
     }).emit('quit');
   });
 
+  beforeEach(function (done) {
+    nodemon.reset(done);
+  });
+
   it('should wait when the script crashes', function (done) {
     fs.writeFileSync(tmp, 'throw Error("forced crash")');
 
@@ -79,25 +83,25 @@ describe('when nodemon runs (2)', function () {
     }).on('crash', function () {
       assert(false, 'detected crashed state');
 
-    }).on('readable', function() {
+    }).on('readable', function () {
       this.stdout.pipe(stdoutWritable);
       this.stderr.pipe(stderrWritable);
 
-    }).on('end', function() {
+    }).on('end', function () {
       this.stdout.unpipe(stdoutWritable);
       this.stderr.unpipe(stderrWritable);
-        stdoutWritable.end();
-        stderrWritable.end();
+      stdoutWritable.end();
+      stderrWritable.end();
 
-        var stdoutWritableResult = fs.readFileSync(stdoutFileName);
-        var stderrWritableResult = fs.readFileSync(stderrFileName);
+      var stdoutWritableResult = fs.readFileSync(stdoutFileName);
+      var stderrWritableResult = fs.readFileSync(stderrFileName);
 
-        assert(stdoutWritableResult === stdoutTestData, 'stdout has been piped correctly');
-        assert(stderrWritableResult === stderrTestData, 'stderr has been piped correctly');
+      assert(stdoutWritableResult === stdoutTestData, 'stdout has been piped correctly');
+      assert(stderrWritableResult === stderrTestData, 'stderr has been piped correctly');
 
-        this.emit('quit');
+      this.emit('quit');
 
-    }).once('exit', function() {
+    }).once('exit', function () {
       assert(true, 'nodemon is quitting');
 
       fs.unlinkSync(stdoutFileName);
@@ -108,22 +112,22 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
-  it('should not run command on startup if runOnChangeOnly is true', function(done) {
+  it('should not run command on startup if runOnChangeOnly is true', function (done) {
     fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
     nodemon({
       script: tmp,
       runOnChangeOnly: true,
-      stdout: false
-    }).on('stdout', function() {
-      assert(false, 'there should not be any stdout');
-    }).on('stderr', function() {
-      assert(false, 'there should not be any stderr');
-    }).on('crash', function () {
-      assert(false, 'detected crashed state');
+      stdout: false,
+    }).on('start', function () {
+      assert(false, 'script should not start');
     }).once('exit', function () {
       done();
     });
+
+    setTimeout(function () {
+      nodemon.emit('quit');
+    }, 1500);
   });
 
   // it('should kill child on SIGINT', function (done) {
