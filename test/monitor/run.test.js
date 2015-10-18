@@ -1,14 +1,18 @@
 'use strict';
-/*global describe:true, it: true, after: true */
-var nodemon = require('../../lib/'),
-    assert = require('assert'),
-    fs = require('fs'),
-    path = require('path'),
-    touch = require('touch'),
-    crypto = require('crypto');
+/*global describe:true, it: true, after: true, beforeEach */
+var nodemon = require('../../lib/');
+var assert = require('assert');
+var fs = require('fs');
+var path = require('path');
+var touch = require('touch');
+var crypto = require('crypto');
+
+function rnd() {
+  return crypto.randomBytes(16).toString('hex');
+}
 
 describe('when nodemon runs (2)', function () {
-  var tmp = path.resolve('test/fixtures/test' + crypto.randomBytes(16).toString('hex') + '.js');
+  var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
 
   after(function (done) {
     fs.unlink(tmp);
@@ -23,10 +27,26 @@ describe('when nodemon runs (2)', function () {
     nodemon.reset(done);
   });
 
+  it('should restart when new files are added', function (done) {
+    fs.writeFileSync(tmp, 'setTimeout(true, 10000)');
+    var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
+
+    nodemon({
+      script: tmp,
+    }).on('start', function () {
+      setTimeout(function () {
+        fs.writeFileSync(tmp2, 'setTimeout(true, 10000)');
+      }, 500);
+    }).on('restart', function () {
+      assert(true, 'restarted after new file was added');
+      nodemon.once('exit', done).emit('quit');
+    });
+  });
+
   it('should wait when the script crashes', function (done) {
     fs.writeFileSync(tmp, 'throw Error("forced crash")');
 
-    nodemon({ script: tmp }).on('crash', function () {
+    nodemon({ script: tmp, stdout: false }).on('crash', function () {
       assert(true, 'detected crashed state');
 
       setTimeout(function () {
@@ -65,8 +85,9 @@ describe('when nodemon runs (2)', function () {
     var stdoutTestData = 'outputting some data';
     var stderrTestData = 'outputting an error';
 
-    var script = 'setTimeout(function () { console.log("' + stdoutTestData + '"); }, 5);' +
-                 'setTimeout(function () { console.error("' + stderrTestData + '"); }, 10);';
+    var script = 'setTimeout(function () { console.log("' + stdoutTestData +
+      '"); }, 5); setTimeout(function () { console.error("' + stderrTestData +
+      '"); }, 10);';
 
     fs.writeFileSync(tmp, script);
 
@@ -78,8 +99,7 @@ describe('when nodemon runs (2)', function () {
 
     nodemon({
       script: tmp,
-      stdout: false
-
+      stdout: false,
     }).on('crash', function () {
       assert(false, 'detected crashed state');
 
@@ -96,8 +116,10 @@ describe('when nodemon runs (2)', function () {
       var stdoutWritableResult = fs.readFileSync(stdoutFileName);
       var stderrWritableResult = fs.readFileSync(stderrFileName);
 
-      assert(stdoutWritableResult === stdoutTestData, 'stdout has been piped correctly');
-      assert(stderrWritableResult === stderrTestData, 'stderr has been piped correctly');
+      assert(stdoutWritableResult === stdoutTestData,
+        'stdout has been piped correctly');
+      assert(stderrWritableResult === stderrTestData,
+        'stderr has been piped correctly');
 
       this.emit('quit');
 
@@ -112,7 +134,8 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
-  it('should not run command on startup if runOnChangeOnly is true', function (done) {
+  it('should not run command on startup if runOnChangeOnly is true',
+    function (done) {
     fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
     nodemon({
