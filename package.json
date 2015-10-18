@@ -47,11 +47,11 @@
     "semantic-release": "4.3.5"
   },
   "dependencies": {
-    "chokidar": "1.1.0",
-    "debug": "2.2.0",
-    "es6-promise": "3.0.2",
-    "lodash.defaults": "3.1.2",
-    "minimatch": "~0.3.0",
+    "chokidar": "^1.2.0",
+    "debug": "^2.2.0",
+    "es6-promise": "^3.0.2",
+    "lodash.defaults": "^3.1.2",
+    "minimatch": "^3.0.0",
     "ps-tree": "~0.0.3",
     "touch": "1.0.0",
     "undefsafe": "0.0.3",
