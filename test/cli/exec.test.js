@@ -21,9 +21,9 @@ describe('nodemon exec', function () {
   it('should default to node', function () {
     var options = exec({ script: 'index.js' });
     var cmd = toCmd(options);
-    assert(options.exec === 'node', 'exec is node');
-    assert(options.ext === 'js');
-    assert(cmd.string === 'node index.js', cmd.string);
+    assert.equal(options.exec, 'node', 'exec is node');
+    assert.equal(options.ext, 'js,json');
+    assert.equal(cmd.string, 'node index.js', cmd.string);
   });
 
   it('should support --debug', function () {
