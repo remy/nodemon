@@ -26,6 +26,22 @@ $ nodemon app.js -- -L -opt2 -opt3
 
 nodemon will ignore all script arguments after `--` and pass them to your script.
 
+# Can't install nodemon: permission issue
+
+You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environemnts). If the install fails with this appearing in the npm error log, then you need the following workaround.
+
+```
+gyp WARN EACCES user "root" does not have permission to access the dev dir "<some-local-dir>"
+```
+
+Try to re-install adding `--unsafe-perm` to the arguments:
+
+```
+sudo npm install -g nodemon --unsafe-perm
+```
+
+Ref [#713](https://github.com/remy/nodemon/issues/713)
+
 # Help! My changes aren't being detected!
 
 nodemon (from 1.4.2 onwards) uses [Chokidar](https://www.npmjs.com/package/chokidar) as its underlying watch system.
