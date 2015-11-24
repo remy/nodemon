@@ -4,7 +4,7 @@ Here is an example (of a contrived) `nodemon.json` file:
 
     {
       "restartable": "rs",
-      "ignore": [
+      "ignoreRoot": [
         ".git",
         "node_modules/**/node_modules"
       ],
