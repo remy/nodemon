@@ -24,7 +24,6 @@
     "reload",
     "terminal"
   ],
-  "preferGlobal": "true",
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
