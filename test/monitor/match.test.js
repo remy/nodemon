@@ -342,10 +342,23 @@ describe('match rule parser', function () {
 
 
 describe('watcher', function () {
-  // afterEach(function () {
-  //   config.reset();
-  //   watch.resetWatchers();
-  // });
+  afterEach(function () {
+    config.reset();
+    watch.resetWatchers();
+  });
+
+  it('should not crash if ignoreRoot is an empty array', function (done) {
+    config.load({
+      watch: ['test/fixtures/app.js'],
+      ignoreRoot: []
+    }, function (config) {
+      return watch.watch()
+          .then(function () {
+            done();
+          })
+          .catch(done)
+    })
+  });
 
   it('should match a dotfile if explicitly asked to', function (done) {
     config.load({
