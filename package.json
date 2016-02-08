@@ -50,6 +50,7 @@
     "chokidar": "^1.2.0",
     "debug": "^2.2.0",
     "es6-promise": "^3.0.2",
+    "ignore-by-default": "^1.0.0",
     "lodash.defaults": "^3.1.2",
     "minimatch": "^3.0.0",
     "ps-tree": "^1.0.1",
