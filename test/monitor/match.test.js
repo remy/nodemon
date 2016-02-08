@@ -360,6 +360,22 @@ describe('watcher', function () {
     })
   });
 
+  it('should not match a dotfile unless explicitly asked to', function (done) {
+    config.load({
+      watch: ['test/fixtures/*']
+    }, function (config) {
+      return watch.watch()
+          .then(function (files) {
+            var withDotfile = files.filter(function (file) {
+              return /test\/fixtures\/\.dotfile$/.test(file);
+            });
+            assert.deepEqual(withDotfile.length, 0, 'should not contain .dotfile');
+            done();
+          })
+          .catch(done);
+    })
+  });
+
   it('should match a dotfile if explicitly asked to', function (done) {
     config.load({
       watch: ['test/fixtures/.dotfile']
