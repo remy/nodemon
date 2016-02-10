@@ -250,7 +250,7 @@ Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin
 
 ## Pronunciation
 
-> nodemon, is it pronunced: node-mon, no-demon or node-e-mon (like pokémon)?
+> nodemon, is it pronounced: node-mon, no-demon or node-e-mon (like pokémon)?
 
 Well...I've been asked this many times before. I like that I've been asked this before. There's been bets as to which one it actually is.
 
