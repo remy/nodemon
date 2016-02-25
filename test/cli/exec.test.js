@@ -115,4 +115,10 @@ describe('nodemon exec', function () {
     assert(options.execArgs[0] === '-v', options.execArgs[0]);
   });
 
+  it('should support non-english filenames', function () {
+    var parse = require('../../lib/cli/parse');
+    var options = parse('node nodemon.js -e ζ ./server.js "$@"'.split(' '));
+    var res = exec(options);
+    assert(res.ext === 'ζ', 'exec did not bail');
+  });
 });
