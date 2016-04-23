@@ -28,6 +28,14 @@ describe('events should follow normal flow on user triggered change',
     };
   }
 
+	function childStartedCustomConf()
+	{
+		var cConf = conf();
+		cConf['script'] = path.resolve(__dirname, 'childStartedApp.js');
+		cConf['childStarted'] = 'customChildStarted';
+		return cConf;
+	}
+
   var cwd = process.cwd();
 
   beforeEach(function (done) {
@@ -113,6 +121,20 @@ describe('events should follow normal flow on user triggered change',
   it('stdout', function (done) {
     nodemon(conf()).once('stdout', function (data) {
       assert(true, '"stdout" event with: ' + data);
+      done();
+    });
+  });
+
+	it('start:child', function (done) {
+    nodemon(conf()).once('start:child', function (data) {
+      assert(true, '"start:child" event with: ' + data);
+      done();
+    });
+  });
+
+	it('start:child with custom event-trigger', function (done) {
+    nodemon(childStartedCustomConf()).once('start:child', function (data) {
+      assert(true, '"start:child" event with: ' + data);
       done();
     });
   });
