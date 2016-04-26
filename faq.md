@@ -59,7 +59,7 @@ Or via the `nodemon.json`:
 
 ```json
 {
-  "legacy-watch": true
+  "legacyWatch": true
 }
 ```
 
