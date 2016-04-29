@@ -46,7 +46,7 @@
     "semantic-release": "4.3.5"
   },
   "dependencies": {
-    "chokidar": "^1.2.0",
+    "chokidar": "^1.4.3",
     "debug": "^2.2.0",
     "es6-promise": "^3.0.2",
     "ignore-by-default": "^1.0.0",
