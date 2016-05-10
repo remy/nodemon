@@ -19,7 +19,13 @@ Either through forking or by using [npm](http://npmjs.org) (the recommended way)
 
     npm install -g nodemon
 
-And nodemon will be installed in to your bin path. Note that as of npm v1, you must explicitly tell npm to install globally as nodemon is a command line utility.
+And nodemon will be installed globally to your system path.
+
+It is also possible to install locally:
+
+    npm install --save-dev nodemon
+    
+With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`). Additionally, the `npm bin` command can be used to obtain the path to the project's local `.bin` directory.
 
 # Usage
 
