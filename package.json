@@ -42,7 +42,7 @@
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",
     "mocha": "2.3.3",
-    "should": "~4.0.0",
+    "should": "~9.0.1",
     "semantic-release": "4.3.5"
   },
   "dependencies": {
