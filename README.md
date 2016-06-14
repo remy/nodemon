@@ -69,7 +69,7 @@ Whilst nodemon is running, if you need to manually restart your application, ins
 
 ## Config files
 
-nodemon supports local and global configuration files. These are named `nodemon.json` and can be located in the current working directory or in your home directory.
+nodemon supports local and global configuration files. These are usually named `nodemon.json` and can be located in the current working directory or in your home directory. An alternative local configuration file can be specified with the `--config <file>` option.
 
 The specificity is as follows, so that a command line argument will always override the config file settings:
 

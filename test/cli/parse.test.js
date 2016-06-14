@@ -186,6 +186,13 @@ describe('nodemon CLI parser', function () {
     assert(settings.script === 'lib/index.js');
   });
 
+  it('should parse `nodemon --config my/.nodemon.json server.js`', function () {
+    var settings = parse(asCLI('--config my/.nodemon.json test/fixtures/app.js'));
+
+    assert(settings.configFile === 'my/.nodemon.json');
+    assert(settings.script === 'test/fixtures/app.js');
+  });
+
   it('should parse `nodemon test/fixtures/app.coffee`', function () {
     var settings = parse(asCLI('test/fixtures/app.coffee'));
 
@@ -240,7 +247,7 @@ describe('nodemon argument parser', function () {
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext jade');
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext jade --config my/.nodemon.json');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -252,6 +259,7 @@ describe('nodemon argument parser', function () {
     assert(settings.delay === 5000, 'delay 5 seconds');
     assert(settings.runOnChangeOnly, 'run on change only');
     assert(settings.ext === 'jade', 'extension is jade');
+    assert(settings.configFile === 'my/.nodemon.json', 'custom config file name is my/.nodemon.json')
   });
 });
 
