@@ -136,7 +136,7 @@ Don't use unix globbing to pass multiple directories, e.g `--watch ./lib/*`, it 
 
 ## Specifying extension watch list
 
-By default, nodemon looks for files with the `.js`, `.coffee`, `.litcoffee`, and `.json` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
+By default, nodemon looks for files with the `.js`, `.coffee`, `.litcoffee`, `.ts`, and `.json` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
     nodemon -e js,jade
 
