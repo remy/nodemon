@@ -188,6 +188,14 @@ Or using the time specifier (ms):
 
 The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
+If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
+
+    nodemon --delay 2.5
+
+    {
+        "delay": "2500"
+    }
+
 ## Controlling shutdown of your script
 
 nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
