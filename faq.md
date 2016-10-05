@@ -77,7 +77,7 @@ This is because the main script argument (`fixtures/sigint.js` in this case) was
 
 Everything under the ignore rule has the final word. So if you ignore the `node_modules` directory, but watch `node_modules/*.js`, then all changed files will be ignored, because any changed .js file in the `node_modules` are ignored.
 
-However, there are defaults in the ignore rules that your rules will be merged with, and not override. To override the see [overriding the underlying default ignore rules](#overriding-the-underlying-default-ignore-rules).
+However, there are defaults in the ignore rules that your rules will be merged with, and not override. To override the ignore rules see [overriding the underlying default ignore rules](#overriding-the-underlying-default-ignore-rules).
 
 ## Overriding the underlying default ignore rules
 
