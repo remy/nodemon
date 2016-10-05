@@ -158,7 +158,7 @@ Patterns can also be ignored (but be sure to quote the arguments):
 
     nodemon --ignore 'lib/*.js'
 
-Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
+Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
 
 ## Application isn't restarting
 
