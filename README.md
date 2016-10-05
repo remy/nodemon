@@ -15,7 +15,7 @@ nodemon does **not** require *any* changes to your code or method of development
 
 # Installation
 
-Either through forking or by using [npm](http://npmjs.org) (the recommended way):
+Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
 
     npm install -g nodemon
 
