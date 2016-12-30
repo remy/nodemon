@@ -110,7 +110,7 @@ describe('events should follow normal flow on user triggered change',
       if (m === 'STOPPED') {
         p.kill('SIGINT');
       }
-      console.log("m");
+      console.log("m", m);
       if (m === 'QUIT') {
         assert(true, '"quit" event');
         done();
