@@ -15,7 +15,7 @@ nodemon does **not** require *any* changes to your code or method of development
 
 # Installation
 
-Either through forking or by using [npm](http://npmjs.org) (the recommended way):
+Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
 
     npm install -g nodemon
 
@@ -69,7 +69,7 @@ Whilst nodemon is running, if you need to manually restart your application, ins
 
 ## Config files
 
-nodemon supports local and global configuration files. These are named `nodemon.json` and can be located in the current working directory or in your home directory.
+nodemon supports local and global configuration files. These are usually named `nodemon.json` and can be located in the current working directory or in your home directory. An alternative local configuration file can be specified with the `--config <file>` option.
 
 The specificity is as follows, so that a command line argument will always override the config file settings:
 
@@ -158,7 +158,7 @@ Patterns can also be ignored (but be sure to quote the arguments):
 
     nodemon --ignore 'lib/*.js'
 
-Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
+Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
 
 ## Application isn't restarting
 
@@ -187,6 +187,14 @@ Or using the time specifier (ms):
     nodemon --delay 2500ms server.js
 
 The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
+
+If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
+
+    nodemon --delay 2.5
+
+    {
+        "delay": "2500"
+    }
 
 ## Controlling shutdown of your script
 

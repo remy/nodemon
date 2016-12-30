@@ -2,6 +2,7 @@
 
   Options:
 
+  --config file ............ alternate nodemon.json config file to use
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
   -w, --watch dir........... watch directory "dir" or files. use once for
@@ -30,6 +31,7 @@
   Examples:
 
   $ nodemon server.js
+  $ nodemon --config my/custom/nodemon.json server.js
   $ nodemon -w ../foo server.js apparg1 apparg2
   $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py
