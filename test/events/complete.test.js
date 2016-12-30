@@ -105,15 +105,12 @@ describe('events should follow normal flow on user triggered change',
       silent: true,
       detached: true,
     });
-    var now = new Date();
     p.stdout.on('data', function (m) {
-      m = m.toString().trim();
-      if (m === 'STOPPED') {
+      m = m.toString('utf8').trim();
+      if (/(^|\s)STOPPED/.test(m)) {
         p.kill('SIGINT');
       }
-      var later = new Date();
-      console.log("m", m, m === 'QUIT', "Time:", (later-now));
-      if (m === 'QUIT') {
+      if (/(^|\s)QUIT/.test(m)) {
         assert(true, '"quit" event');
         done();
       }
