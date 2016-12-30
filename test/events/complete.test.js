@@ -112,7 +112,7 @@ describe('events should follow normal flow on user triggered change',
         p.kill('SIGINT');
       }
       var later = new Date();
-      console.log("m", m, later-now);
+      console.log("m", m, m === 'QUIT', "Time:", (later-now));
       if (m === 'QUIT') {
         assert(true, '"quit" event');
         done();
