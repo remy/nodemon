@@ -36,25 +36,25 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "async": "1.4.2",
-    "coffee-script": "~1.7.1",
-    "connect": "~2.19.1",
-    "istanbul": "~0.2.10",
+    "async": "^2.1.5",
+    "coffee-script": "^1.12.4",
+    "connect": "^3.6.0",
+    "istanbul": "^0.4.5",
     "jscs": "2.1.1",
-    "mocha": "2.3.3",
-    "should": "~4.0.0",
-    "semantic-release": "4.3.5"
+    "mocha": "^3.2.0",
+    "semantic-release": "^6.3.2",
+    "should": "^11.2.0"
   },
   "dependencies": {
     "chokidar": "^1.4.3",
     "debug": "^2.2.0",
-    "es6-promise": "^3.0.2",
+    "es6-promise": "^4.0.5",
     "ignore-by-default": "^1.0.0",
-    "lodash.defaults": "^3.1.2",
+    "lodash.defaults": "^4.2.0",
     "minimatch": "^3.0.0",
     "ps-tree": "^1.0.1",
     "touch": "1.0.0",
-    "undefsafe": "0.0.3",
-    "update-notifier": "0.5.0"
+    "undefsafe": "^2.0.0",
+    "update-notifier": "^2.1.0"
   }
 }
