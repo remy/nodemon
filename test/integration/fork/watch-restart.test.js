@@ -5,7 +5,6 @@ var assert = require('assert'),
     utils = require('../../utils'),
     colour = require('../../../lib/utils/colour'),
     appjs = utils.appjs,
-    // appcoffee = utils.appcoffee,
     run = utils.run,
     cleanup = utils.cleanup,
     path = require('path'),
@@ -23,45 +22,6 @@ describe('nodemon fork child restart', function () {
     fs.unlink(tmpjs, noop);
     fs.unlink(tmpmd, noop);
     fs.unlink(tmpcoffee, noop);
-  });
-
-  /* Skipped test due to CoffeeScript using depreciate customFds - failing tests */
-  it.skip('should cleanly kill entire process tree', function (done) {
-    fs.writeFileSync(tmpcoffee, 'true');
-
-    var listening = 0;
-
-    var p = run('--debug ' + appcoffee, {
-      error: function (data) {
-        if (data.indexOf('ebugger listening') === -1) {
-          p.send('quit');
-          cleanup(p, done, new Error(data));
-        }
-      },
-      output: function (data) {
-        if (utils.match(data, 'Listening on port')) {
-          listening++;
-          if (listening === 2) {
-            assert(true, 'nodemon started child successfully twice');
-            cleanup(p, done);
-          }
-        }
-
-      }
-    });
-
-    var startedOnce = false;
-    p.on('message', function (event) {
-      if (startedOnce === false && event.type === 'start') {
-        startedOnce = true;
-        setTimeout(function () {
-          touch.sync(tmpcoffee);
-        }, 2000);
-      } else if (event.type === 'restart') {
-        assert(true, 'nodemon restarted');
-      }
-    });
-
   });
 
   it('should happen when monitoring a single extension', function (done) {

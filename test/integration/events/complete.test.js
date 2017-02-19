@@ -89,7 +89,7 @@ describe.skip('events should follow normal flow on user triggered change',
     });
   });
 
-  it('quit', function (done) {
+  it.skip('quit', function (done) {
     var cmd = asCLI('env.js');
     cmd.exec = path.join('..', '..', '..', cmd.exec);
     var p = fork(cmd.exec, cmd.args, {
