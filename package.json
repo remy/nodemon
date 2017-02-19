@@ -27,11 +27,11 @@
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
-    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
+    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list 'test/**/*.test.js'",
     "lint": "jscs lib/**/*.js -v",
-    ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    ":spec": "mocha --timeout 30000 --ui bdd 'test/**/*.test.js'",
     "test": "npm run lint && npm run spec",
-    "spec": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "spec": "for FILE in 'test/**/*.test.js'; do echo $FILE; mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
