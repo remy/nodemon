@@ -29,6 +29,8 @@ describe('listeners clean up', function () {
   it('should be able to re-run in required mode, many times, and not leak' +
     'listeners', function (done) {
 
+      this.timeout(5000);
+
       function run() {
         return function (done) {
           nodemon(conf());
@@ -36,7 +38,6 @@ describe('listeners clean up', function () {
           nodemon.on('start', function () {
             nodemon.on('exit', function () {
               nodemon.reset(done);
-              // done(null, id);
             });
           });
         };
@@ -48,6 +49,5 @@ describe('listeners clean up', function () {
       });
 
       async.series(toRun);
-
     });
 });

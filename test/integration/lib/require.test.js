@@ -82,7 +82,7 @@ describe('require-able', function () {
     });
   });
 
-  it.skip('should restart a file with spaces', function (done) {
+  it('should restart a file with spaces', function (done) {
     var restarted = false;
 
     var found = false;
