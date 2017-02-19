@@ -29,9 +29,9 @@
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list 'test/**/*.test.js'",
     "lint": "jscs lib/**/*.js -v",
-    ":spec": "mocha --timeout 30000 --ui bdd 'test/**/*.test.js'",
-    "test": "npm run lint && npm run spec",
-    "spec": "for FILE in 'test/**/*.test.js'; do echo $FILE; mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "spec:unit": "mocha 'test/unit/**/*.test.js'",
+    "spec:integration": "mocha --timeout 30000 'test/integration/**/*.test.js'",
+    "test": "npm run lint && npm run spec:unit && npm run spec:integration",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
