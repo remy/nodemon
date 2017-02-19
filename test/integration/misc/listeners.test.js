@@ -32,6 +32,7 @@ describe('listeners clean up', function () {
       function run() {
         return function (done) {
           nodemon(conf());
+
           nodemon.on('start', function () {
             nodemon.on('exit', function () {
               nodemon.reset(done);
@@ -41,7 +42,7 @@ describe('listeners clean up', function () {
         };
       }
 
-      var toRun = '01234567890123456789'.split('').map(run);
+      var toRun = '012345678'.split('').map(run);
       toRun.push(function () {
         done();
       });
