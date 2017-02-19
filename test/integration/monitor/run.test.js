@@ -11,11 +11,20 @@ function rnd() {
   return crypto.randomBytes(16).toString('hex');
 }
 
-describe.skip('when nodemon runs (2)', function () {
+describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
+  var dynamicOne;
+
+  afterEach(function() {
+    fs.unlinkSync(tmp);
+
+    if (typeof dynamicOne !== 'undefined') {
+      fs.unlinkSync(dynamicOne);
+      dynamicOne = undefined;
+    }
+  });
 
   after(function (done) {
-    fs.unlink(tmp);
     // clean up just in case.
     nodemon.once('exit', function () {
       nodemon.reset();
@@ -28,14 +37,14 @@ describe.skip('when nodemon runs (2)', function () {
   });
 
   it('should restart when new files are added', function (done) {
-    fs.writeFileSync(tmp, 'setTimeout(true, 10000)');
-    var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
+    fs.writeFileSync(tmp, 'setTimeout(function() {}, 10000)');
+    dynamicOne = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
     nodemon({
       script: tmp,
     }).on('start', function () {
       setTimeout(function () {
-        fs.writeFileSync(tmp2, 'setTimeout(true, 10000)');
+        fs.writeFileSync(dynamicOne, 'setTimeout(function() {}, 10000)');
       }, 500);
     }).on('restart', function () {
       assert(true, 'restarted after new file was added');
@@ -46,7 +55,10 @@ describe.skip('when nodemon runs (2)', function () {
   it('should wait when the script crashes', function (done) {
     fs.writeFileSync(tmp, 'throw Error("forced crash")');
 
-    nodemon({ script: tmp, stdout: false }).on('crash', function () {
+    nodemon({
+      script: tmp,
+      stdout: false
+    }).on('crash', function () {
       assert(true, 'detected crashed state');
 
       setTimeout(function () {
@@ -134,8 +146,7 @@ describe.skip('when nodemon runs (2)', function () {
     });
   });
 
-  it('should not run command on startup if runOnChangeOnly is true',
-    function (done) {
+  it('should not run command on startup if runOnChangeOnly is true', function (done) {
     fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
     nodemon({
@@ -152,33 +163,4 @@ describe.skip('when nodemon runs (2)', function () {
       nodemon.emit('quit');
     }, 1500);
   });
-
-  // it('should kill child on SIGINT', function (done) {
-  //   fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
-
-  //   nodemon({ script: tmp, verbose: true }).on('start', function () {
-  //     assert(true, 'nodemon is waiting for a change');
-
-  //     setTimeout(function () {
-  //       // process.once('SIGINT', function () {
-  //       //   // do nothing
-  //       //   console.log('not going to exit');
-  //       // });
-
-  //       process.kill(process.pid, 'SIGINT');
-  //     }, 1000);
-  //   }).on('crash', function () {
-  //     assert(false, 'detected crashed state');
-  //   }).on('exit', function () {
-  //     assert(true, 'quit correctly');
-  //     nodemon.reset();
-  //     done();
-
-  //     setTimeout(function () {
-  //       process.kill(process.pid, 'SIGINT');
-  //     }, 1000);
-
-  //   });
-
-  // });
 });
