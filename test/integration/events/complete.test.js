@@ -11,7 +11,7 @@ var appjs = path.resolve(dir, 'env.js');
 var asCLI = utils.asCLI;
 var fork = require('child_process').fork;
 
-describe.skip('events should follow normal flow on user triggered change',
+describe('events should follow normal flow on user triggered change',
   function () {
   function conf() {
     utils.port++;
@@ -89,7 +89,7 @@ describe.skip('events should follow normal flow on user triggered change',
     });
   });
 
-  it.skip('quit', function (done) {
+  it('quit', function (done) {
     var cmd = asCLI('env.js');
     cmd.exec = path.join('..', '..', '..', cmd.exec);
     var p = fork(cmd.exec, cmd.args, {
