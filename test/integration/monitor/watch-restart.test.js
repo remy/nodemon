@@ -32,18 +32,7 @@ describe('nodemon monitor child restart', function () {
     utils.home = oldhome;
   });
 
-  afterEach(function(done) {
-    // clean up just in case.
-    nodemon.once('quit', function() {
-    }).once('exit', function () {
-      nodemon.reset();
-
-      // Wait until chokidar will actually stop watching files
-      setTimeout(function() {
-        done();
-      }, 500)
-    }).emit('quit');
-  });
+  afterEach(utils.reset);
 
   after(function() {
     if (fs.existsSync(tmpjs)) {

@@ -2,6 +2,7 @@
 /*global describe:true, it: true, after: true, beforeEach */
 var nodemon = require('../../../lib/');
 var assert = require('assert');
+var utils = require('../../utils');
 var fs = require('fs');
 var path = require('path');
 var touch = require('touch');
@@ -15,6 +16,8 @@ describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
   var dynamicOne;
 
+  afterEach(utils.reset);
+
   afterEach(function() {
     fs.unlinkSync(tmp);
 
@@ -24,17 +27,7 @@ describe('when nodemon runs (2)', function () {
     }
   });
 
-  after(function (done) {
-    // clean up just in case.
-    nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
-    }).emit('quit');
-  });
-
-  beforeEach(function (done) {
-    nodemon.reset(done);
-  });
+  beforeEach(nodemon.reset);
 
   it('should restart when new files are added', function (done) {
     fs.writeFileSync(tmp, 'setTimeout(function() {}, 10000)');
@@ -66,10 +59,7 @@ describe('when nodemon runs (2)', function () {
       }, 1000);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
-      }).emit('quit');
+      done();
     });
   });
 
@@ -86,10 +76,7 @@ describe('when nodemon runs (2)', function () {
       }, 500);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
-      }).emit('quit');
+      done();
     });
   });
 

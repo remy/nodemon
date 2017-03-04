@@ -31,24 +31,13 @@ describe('events should follow normal flow on user triggered change',
   var cwd = process.cwd();
 
   beforeEach(function (done) {
-    debug('beforeEach');
-    nodemon.once('exit', function () {
-      nodemon.reset(done);
-    }).emit('quit');
-  });
-
-  before(function () {
     process.chdir(dir);
+    utils.reset(done);
   });
 
-  after(function (done) {
-    debug('after');
+  afterEach(function (done) {
     process.chdir(cwd);
-    nodemon.once('exit', function () {
-      nodemon.reset(function () {
-        setTimeout(done, 1000);
-      });
-    }).emit('quit');
+    utils.reset(done);
   });
 
   it('start', function (done) {

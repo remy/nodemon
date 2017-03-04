@@ -10,18 +10,15 @@ var assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
     crypto = require('crypto'),
-    noop = function () {},
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
 describe('nodemon fork child restart', function () {
   var tmpjs = path.resolve(baseFilename + '.js'),
-      tmpmd = path.resolve(baseFilename + '.md'),
-      tmpcoffee = path.resolve(baseFilename + '.coffee');
+      tmpmd = path.resolve(baseFilename + '.md');
 
   after(function () {
-    fs.unlink(tmpjs, noop);
-    fs.unlink(tmpmd, noop);
-    fs.unlink(tmpcoffee, noop);
+    fs.unlinkSync(tmpjs);
+    fs.unlinkSync(tmpmd);
   });
 
   it('should happen when monitoring a single extension', function (done) {

@@ -10,16 +10,11 @@ var watchRe = /watching ([\d,]+) files/;
 describe('watch count', function () {
   var pwd = process.cwd();
 
-  afterEach(function () {
+  afterEach(function (done) {
     // reset the cwd
     process.chdir(pwd);
-  });
 
-  after(function (done) {
-    // clean up just in case.
-    nodemon.once('exit', function () {
-      nodemon.reset(done);
-    }).emit('quit');
+    utils.reset(done);
   });
 
   it('should respect ignore rules', function (done) {

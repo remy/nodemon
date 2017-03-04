@@ -1,5 +1,6 @@
 'use strict';
 var fork = require('child_process').fork,
+    nodemon = require('../lib/'),
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
     assert = require('assert'),
@@ -16,6 +17,15 @@ function asCLI(cmd) {
 
 function match(str, key) {
   return str.indexOf(key) !== -1;
+}
+
+function reset(done) {
+  nodemon.once('exit', function () {
+    nodemon.reset();
+
+    // Wait until chokidar will actually stop watching files
+    setTimeout(done, 1000);
+  }).emit('quit');
 }
 
 function monitorForChange(str) {
@@ -102,7 +112,6 @@ function Plan(count, done) {
 
 Plan.prototype.assert = function() {
   assert.apply(null, arguments);
-  // console.log(arguments[1]);
 
   if (this.count === 0) {
     assert(false, 'Too many assertions called via "' + arguments[1] + '"');
@@ -127,6 +136,7 @@ module.exports = {
   asCLI: asCLI,
   match: match,
   run: run,
+  reset: reset,
   cleanup: cleanup,
   appjs: appjs,
   appcoffee: appcoffee,

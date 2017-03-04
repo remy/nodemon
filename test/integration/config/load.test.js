@@ -29,13 +29,7 @@ describe('config load', function () {
     utils.home = oldhome;
   });
 
-  after(function (done) {
-    // clean up just in case.
-    nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
-    }).emit('quit');
-  });
+  afterEach(utils.reset);
 
   function removeRegExp(options) {
     delete options.watch.re;
@@ -64,14 +58,7 @@ describe('config load', function () {
       // note: we use the escaped format: \\.git
       assert.ok(nodemon.config.options.ignore.indexOf('\\.git') === -1, 'nodemon is not ignoring (default) .git');
 
-      nodemon.on('exit', function () {
-        nodemon.reset();
-        done();
-      });
-
-      setTimeout(function () {
-        nodemon.emit('quit');
-      }, 1000);
+      done();
     });
   });
 

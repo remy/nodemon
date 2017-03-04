@@ -54,8 +54,10 @@ function ignore(rule, done, file) {
 
 describe('nodemon ignore', function () {
   after(function (done) {
-    files.forEach(function (file) {
-      fs.unlink(file, function () {});
+    files.forEach(function(file) {
+      if (fs.existsSync(file)) {
+        fs.unlinkSync(file);
+      }
     });
     done();
   });
@@ -64,7 +66,7 @@ describe('nodemon ignore', function () {
     ignore('node_modules', done);
   });
 
-  it.skip('should ignore node_modules by default', function (done) {
+  it('should ignore node_modules by default', function (done) {
     ignore(null, done, path.join(process.cwd(), 'node_modules', 'connect', 'node_modules', randomFile()));
   });
 
