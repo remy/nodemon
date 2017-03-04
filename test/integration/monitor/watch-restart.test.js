@@ -9,9 +9,8 @@ var nodemon = require('../../../lib/'),
     crypto = require('crypto'),
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
-describe.skip('nodemon monitor child restart', function () {
-  var tmpjs = path.resolve(baseFilename + '.js'),
-      tmpmd = path.resolve(baseFilename + '.md');
+describe('nodemon monitor child restart', function () {
+  var tmpjs, tmpmd;
 
   function write(both) {
     fs.writeFileSync(tmpjs, 'true;');
@@ -23,19 +22,37 @@ describe.skip('nodemon monitor child restart', function () {
   var pwd = process.cwd(),
       oldhome = utils.home;
 
+  before(function() {
+    tmpjs = path.resolve(baseFilename + '.js');
+    tmpmd = path.resolve(baseFilename + '.md');
+  });
+
   afterEach(function () {
     process.chdir(pwd);
     utils.home = oldhome;
   });
 
-  after(function (done) {
-    fs.unlink(tmpjs);
-    fs.unlink(tmpmd);
+  afterEach(function(done) {
     // clean up just in case.
-    nodemon.once('exit', function () {
+    nodemon.once('quit', function() {
+    }).once('exit', function () {
       nodemon.reset();
-      done();
+
+      // Wait until chokidar will actually stop watching files
+      setTimeout(function() {
+        done();
+      }, 500)
     }).emit('quit');
+  });
+
+  after(function() {
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpjs);
+    }
+
+    if (fs.existsSync(tmpmd)) {
+      fs.unlinkSync(tmpmd);
+    }
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -48,10 +65,8 @@ describe.skip('nodemon monitor child restart', function () {
         }, 1500);
       }).on('restart', function (files) {
         assert(files[0] === tmpjs, 'nodemon restarted because of change to our file' + files);
-        nodemon.once('exit', function () {
-          nodemon.reset();
-          done();
-        }).emit('quit');
+
+        done();
       });
     }, 2000);
   });
@@ -74,10 +89,8 @@ describe.skip('nodemon monitor child restart', function () {
           var changes = msg.trim().slice(-5).split('/');
           var restartedOn = changes.pop();
           assert(restartedOn === '1', 'nodemon restarted on a single file change');
-          nodemon.once('exit', function () {
-            nodemon.reset();
-            done();
-          }).emit('quit');
+
+          done();
         }
       });
     }, 2000);
@@ -101,10 +114,8 @@ describe.skip('nodemon monitor child restart', function () {
           }, 1000);
         }).on('restart', function (files) {
           assert(files.length === 1, 'nodemon restarted when watching directory');
-          nodemon.once('exit', function () {
-            nodemon.reset();
-            done();
-          }).emit('quit');
+
+          done();
         });
       }, 2000);
     });
@@ -126,10 +137,8 @@ describe.skip('nodemon monitor child restart', function () {
         }, 1000);
       }).on('restart', function (files) {
         assert(files.length === 1, 'nodemon restarted when watching directory');
-        nodemon.once('exit', function () {
-          nodemon.reset();
-          done();
-        }).emit('quit');
+
+        done();
       });
     }, 2000);
   });
