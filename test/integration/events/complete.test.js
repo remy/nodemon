@@ -90,6 +90,8 @@ describe('events should follow normal flow on user triggered change',
   });
 
   it('quit', function (done) {
+    this.timeout(50000);
+
     var cmd = asCLI('env.js');
     cmd.exec = path.join('..', '..', '..', cmd.exec);
     var p = fork(cmd.exec, cmd.args, {
