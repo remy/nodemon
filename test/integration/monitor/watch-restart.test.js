@@ -45,6 +45,8 @@ describe('nodemon monitor child restart', function () {
   });
 
   it('should happen when monitoring a single extension', function (done) {
+    this.timeout(10000);
+
     write();
 
     setTimeout(function () {
@@ -61,6 +63,8 @@ describe('nodemon monitor child restart', function () {
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
+    this.timeout(10000);
+
     write(true);
     setTimeout(function () {
 
@@ -76,6 +80,7 @@ describe('nodemon monitor child restart', function () {
         var msg = event.message;
         if (utils.match(msg, 'changes after filters')) {
           var changes = msg.trim().slice(-5).split('/');
+
           var restartedOn = changes.pop();
           assert(restartedOn === '1', 'nodemon restarted on a single file change');
 
@@ -87,6 +92,8 @@ describe('nodemon monitor child restart', function () {
 
   if (process.platform === 'darwin') {
     it('should restart when watching directory (mac only)', function (done) {
+      this.timeout(10000);
+
       write(true);
 
       process.chdir('test/fixtures');
@@ -112,6 +119,8 @@ describe('nodemon monitor child restart', function () {
 
 
   it('should restart when watching directory', function (done) {
+    this.timeout(10000);
+
     write(true);
 
     setTimeout(function () {

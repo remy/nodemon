@@ -10,6 +10,7 @@ var utils = require('../../utils'),
 
 describe('terminal signals', function () {
   it('should kill child with SIGINT (after ~10 seconds)', function (done) {
+    this.timeout(20000);
     var childPID = null;
 
     var p = run(appjs, {

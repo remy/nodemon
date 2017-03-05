@@ -17,8 +17,13 @@ describe('nodemon fork child restart', function () {
       tmpmd = path.resolve(baseFilename + '.md');
 
   after(function () {
-    fs.unlinkSync(tmpjs);
-    fs.unlinkSync(tmpmd);
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpjs);
+    }
+
+    if (fs.existsSync(tmpmd)) {
+      fs.unlinkSync(tmpmd);
+    }
   });
 
   it('should happen when monitoring a single extension', function (done) {
@@ -44,6 +49,8 @@ describe('nodemon fork child restart', function () {
   });
 
   it('should happen only once if delay option is set', function (done) {
+    this.timeout(15000);
+
     var restartCount = 0;
     fs.writeFile(tmpjs, 'true;', function () {
       var p = run('--verbose --ext js --delay 2 ' + tmpjs, {
@@ -99,6 +106,8 @@ describe('nodemon fork child restart', function () {
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
+    this.timeout(7000);
+
     fs.writeFileSync(tmpjs, 'true;');
     fs.writeFileSync(tmpmd, '# true');
     var monitor = utils.monitorForChange('changes after filters');

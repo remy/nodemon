@@ -27,10 +27,10 @@
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
-    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list 'test/**/*.test.js'",
+    "coverage": "istanbul cover _mocha -- --ui bdd --reporter list 'test/**/*.test.js'",
     "lint": "jscs lib/**/*.js -v",
     "spec:unit": "mocha 'test/unit/**/*.test.js'",
-    "spec:integration": "mocha --timeout 30000 'test/integration/**/*.test.js'",
+    "spec:integration": "mocha 'test/integration/**/*.test.js'",
     "test": "npm run lint && npm run spec:unit && npm run spec:integration",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
@@ -42,8 +42,8 @@
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",
     "mocha": "2.3.3",
-    "should": "~4.0.0",
-    "semantic-release": "4.3.5"
+    "semantic-release": "4.3.5",
+    "should": "~4.0.0"
   },
   "dependencies": {
     "chokidar": "^1.4.3",

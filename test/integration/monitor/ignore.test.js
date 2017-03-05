@@ -53,20 +53,15 @@ function ignore(rule, done, file) {
 }
 
 describe('nodemon ignore', function () {
-  after(function (done) {
-    files.forEach(function(file) {
-      if (fs.existsSync(file)) {
-        fs.unlinkSync(file);
-      }
-    });
-    done();
-  });
-
   it('should be controlled via cli', function (done) {
+    this.timeout(5000);
+
     ignore('node_modules', done);
   });
 
   it('should ignore node_modules by default', function (done) {
+    this.timeout(5000);
+
     ignore(null, done, path.join(process.cwd(), 'node_modules', 'connect', 'node_modules', randomFile()));
   });
 

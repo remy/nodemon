@@ -78,29 +78,6 @@ describe('events should follow normal flow on user triggered change',
     });
   });
 
-  it('quit', function (done) {
-    this.timeout(50000);
-
-    var cmd = asCLI('env.js');
-    cmd.exec = path.join('..', '..', '..', cmd.exec);
-    var p = fork(cmd.exec, cmd.args, {
-      cwd: dir,
-      silent: true,
-      detached: true,
-    });
-    p.stdout.on('data', function (m) {
-      m = m.toString().trim();
-      if (m === 'STOPPED') {
-        p.kill('SIGINT');
-      }
-      if (m === 'QUIT') {
-        assert(true, '"quit" event');
-        done();
-      }
-    });
-  });
-
-
   it('stdout', function (done) {
     nodemon(conf()).once('stdout', function (data) {
       assert(true, '"stdout" event with: ' + data);

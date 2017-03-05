@@ -342,21 +342,22 @@ describe('match rule parser', function () {
 
 
 describe('watcher', function () {
-  afterEach(function () {
-    config.reset();
-    watch.resetWatchers();
+  afterEach(function (done) {
+    process.nextTick(function() {
+      config.reset();
+      watch.resetWatchers();
+      done();
+    });
   });
 
-  it.skip('should not crash if ignoreRoot is an empty array', function (done) {
+  it('should not crash if ignoreRoot is an empty array', function (done) {
     config.load({
       watch: ['test/fixtures/app.js'],
       ignoreRoot: []
     }, function (config) {
-      return watch.watch()
-          .then(function () {
-            done();
-          })
-          .catch(done)
+      return watch.watch().then(function () {
+        done();
+      }).catch(done);
     })
   });
 
@@ -376,27 +377,13 @@ describe('watcher', function () {
     })
   });
 
-  it.skip('should match a dotfile if explicitly asked to', function (done) {
+  it('should match a dotfile if explicitly asked to', function (done) {
     config.load({
       watch: ['test/fixtures/.dotfile']
     }, function (config) {
       return watch.watch()
           .then(function (files) {
             assert.deepEqual(files.length, 1, 'should contain .dotfile');
-            done();
-          })
-          .catch(done);
-    })
-  });
-
-  /* fuck you, randomly, for no good goddamn reason, hanging test */
-  it.skip('should match a dotfolder if explicitly asked to', function (done) {
-    config.load({
-      watch: ['test/fixtures/.dotfolder']
-    }, function (config) {
-      return watch.watch()
-          .then(function (files) {
-            assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
             done();
           })
           .catch(done);

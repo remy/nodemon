@@ -83,6 +83,8 @@ describe('require-able', function () {
   });
 
   it('should restart a file with spaces', function (done) {
+    this.timeout(15000);
+
     var restarted = false;
 
     var found = false;

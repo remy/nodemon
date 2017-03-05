@@ -11,6 +11,8 @@ describe('when nodemon runs (1)', function () {
   afterEach(utils.reset);
 
   it('should pass through environment values', function (done) {
+    this.timeout(5000);
+
     nodemon({ script: tmp, stdout: false, env: { USER: 'nodemon' } }).on('stdout', function (data) {
       assert(data.toString().trim() === 'nodemon', 'USER env value correctly set to "nodemon": ' + data.toString());
 

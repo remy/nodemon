@@ -46,6 +46,8 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should wait when the script crashes', function (done) {
+    this.timeout(5000);
+
     fs.writeFileSync(tmp, 'throw Error("forced crash")');
 
     nodemon({
@@ -64,6 +66,8 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should wait when the script cleanly exits', function (done) {
+    this.timeout(5000);
+
     fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 1000)');
 
     nodemon({ script: tmp }).on('crash', function () {
@@ -134,6 +138,8 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should not run command on startup if runOnChangeOnly is true', function (done) {
+    this.timeout(15000);
+
     fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
     nodemon({

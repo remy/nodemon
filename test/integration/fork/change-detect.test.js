@@ -30,6 +30,8 @@ describe('nodemon fork simply running', function () {
 
 describe('nodemon fork monitor', function () {
   it('should restart on .js file changes with no arguments', function (done) {
+    this.timeout(10000);
+
     var startWatch = false;
     var p = run(appjs, {
       output: function (data) {
@@ -65,6 +67,8 @@ describe('nodemon fork monitor', function () {
   });
 
   it('should NOT restart on non-.js file changes with no arguments', function (done) {
+    this.timeout(10000);
+
     setTimeout(function () {
       var p = run(appjs, {
         output: function (data) {
