@@ -12,47 +12,58 @@ var assert = require('assert'),
       return '_nodemon' + (Math.random() * Date.now() | 0);
     };
 
-function ignore(rule, done, file) {
-  var p = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
+describe('nodemon ignore', function () {
+  var proc;
+
+  function ignore(rule, done, file) {
+    proc = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
       output: function (data) {
-        // console.log(data.trim());
+        assert(true, data.trim());
       },
       error: function (data) {
-        p.send('quit');
-        cleanup(p, done, new Error(data));
+        new Error(data);
       },
     });
 
-  p.on('message', function (event) {
-    if (event.type === 'start') {
-      // touch
-      setTimeout(function () {
-        if (!file) {
-          file = path.join(process.cwd(), rule, randomFile());
-        }
-
-        files.push(file);
-        fs.writeFile(file, function (err) {
-          if (err) {
-            console.log('error on writing file');
-            cleanup(p, done, new Error(err));
-          }
-        });
-
-        // if this fires, then *nothing* happened, which is good
+    proc.on('message', function (event) {
+      if (event.type === 'start') {
+        // touch
         setTimeout(function () {
-          // assert(true, 'nodemon did not restart');
-          cleanup(p, done);
-        }, 1000);
-      }, 1000);
-    } else if (event.type === 'restart') {
-      assert(false, 'nodemon should not restart');
-      cleanup(p, done);
-    }
-  });
-}
+          if (!file) {
+            file = path.join(process.cwd(), rule, randomFile());
+          }
 
-describe('nodemon ignore', function () {
+          files.push(file);
+          fs.writeFile(file, function (err) {
+            if (err) {
+              assert(false, 'error on writing file')
+              new Error(err);
+            }
+          });
+
+          // if this fires, then *nothing* happened, which is good
+          setTimeout(function () {
+            assert(true, 'nodemon did not restart');
+            done();
+          }, 1000);
+        }, 1000);
+      } else if (event.type === 'restart') {
+        assert(false, 'nodemon should not restart');
+        done();
+      }
+    });
+  }
+
+  afterEach(function(done) {
+    if (typeof proc === 'undefined') {
+      done();
+      return;
+    }
+
+    cleanup(proc, done);
+    proc = undefined;
+  });
+
   it('should be controlled via cli', function (done) {
     this.timeout(5000);
 
@@ -62,7 +73,13 @@ describe('nodemon ignore', function () {
   it('should ignore node_modules by default', function (done) {
     this.timeout(5000);
 
-    ignore(null, done, path.join(process.cwd(), 'node_modules', 'connect', 'node_modules', randomFile()));
+    var nodeModules = path.join(
+      process.cwd(),
+      'node_modules', 'connect', 'node_modules',
+      randomFile()
+    );
+
+    ignore(null, done, nodeModules);
   });
 
 });

@@ -1,16 +1,37 @@
 'use strict';
-/*global describe, it, after, afterEach */
+/*global describe, it, afterEach, beforeEach */
 var nodemon = require('../../../lib/'),
     assert = require('assert'),
     fs = require('fs'),
     utils = require('../../utils'),
     path = require('path'),
+    fs = require('fs-extra'),
     touch = require('touch'),
-    crypto = require('crypto'),
-    baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
+    temp = require('temp');
+
+temp.track();
 
 describe('nodemon monitor child restart', function () {
-  var tmpjs, tmpmd;
+  var tmpjs, tmpmd, tmpdir, appjs;
+
+  beforeEach(function() {
+    tmpdir = temp.mkdirSync();
+    appjs = temp.path({
+      dir: tmpdir,
+      suffix: '.js'
+    });
+
+    fs.copySync(utils.appjs, appjs);
+
+    tmpjs = temp.path({
+      dir: tmpdir,
+      suffix: '.js'
+    });
+    tmpmd = temp.path({
+      dir: tmpdir,
+      suffix: '.md'
+    });
+  });
 
   function write(both) {
     fs.writeFileSync(tmpjs, 'true;');
@@ -22,11 +43,6 @@ describe('nodemon monitor child restart', function () {
   var pwd = process.cwd(),
       oldhome = utils.home;
 
-  before(function() {
-    tmpjs = path.resolve(baseFilename + '.js');
-    tmpmd = path.resolve(baseFilename + '.md');
-  });
-
   afterEach(function () {
     process.chdir(pwd);
     utils.home = oldhome;
@@ -34,28 +50,27 @@ describe('nodemon monitor child restart', function () {
 
   afterEach(utils.reset);
 
-  after(function() {
-    if (fs.existsSync(tmpjs)) {
-      fs.unlinkSync(tmpjs);
-    }
-
-    if (fs.existsSync(tmpmd)) {
-      fs.unlinkSync(tmpmd);
-    }
-  });
-
   it('should happen when monitoring a single extension', function (done) {
     this.timeout(10000);
 
     write();
 
     setTimeout(function () {
-      nodemon({ script: tmpjs, verbose: true, ext: 'js' }).on('start', function () {
+      nodemon({
+        script: tmpjs,
+        verbose: true,
+        ext: 'js',
+        watch: [tmpdir]
+      }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpjs);
         }, 1500);
       }).on('restart', function (files) {
-        assert(files[0] === tmpjs, 'nodemon restarted because of change to our file' + files);
+        assert.equal(
+          files[0],
+          tmpjs,
+          'nodemon restarted because of change to our file ' + files
+        );
 
         done();
       });
@@ -69,9 +84,11 @@ describe('nodemon monitor child restart', function () {
     setTimeout(function () {
 
       nodemon({
+        cwd: tmpdir,
         script: tmpjs,
         ext: 'js md',
-        verbose: true
+        verbose: true,
+        watch:[tmpdir]
       }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
@@ -96,7 +113,10 @@ describe('nodemon monitor child restart', function () {
 
       write(true);
 
-      process.chdir('test/fixtures');
+      var globalFixture = path.resolve('test/fixtures/global');
+
+      process.chdir(tmpdir);
+      fs.copySync(globalFixture, path.join(tmpdir, 'global'));
 
       setTimeout(function () {
         nodemon({
@@ -128,7 +148,7 @@ describe('nodemon monitor child restart', function () {
         script: tmpjs,
         verbose: true,
         ext: 'js md',
-        watch: ['test/fixtures/']
+        watch: [tmpdir]
       }).on('start', function () {
         setTimeout(function () {
           touch.sync(tmpmd);
