@@ -24,7 +24,7 @@ And nodemon will be installed globally to your system path.
 It is also possible to install locally:
 
     npm install --save-dev nodemon
-    
+
 With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`). Additionally, the `npm bin` command can be used to obtain the path to the project's local `.bin` directory.
 
 # Usage
@@ -269,6 +269,17 @@ Check out the [grunt-nodemon](https://github.com/ChrisWren/grunt-nodemon) plugin
 Well...I've been asked this many times before. I like that I've been asked this before. There's been bets as to which one it actually is.
 
 The answer is simple, but possibly frustrating. I'm not saying (how I pronounce it). It's up to you to call it as you like. All answers are correct :)
+
+## Design principles
+
+- Less flags is better
+- Works across all platforms
+- Less features
+- Let individuals build on top of nodemon
+- Offer all CLI functionality as an API
+- Contributions must have and pass tests
+
+Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm completely happy, but perhaps it can be pulled back a little.
 
 ## FAQ
 
