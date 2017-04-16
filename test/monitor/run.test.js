@@ -181,4 +181,55 @@ describe('when nodemon runs (2)', function () {
   //   });
 
   // });
+
+  it('should signal child with SIGUSR2 for controlled shutdown before killing it', function (done) {
+    fs.writeFileSync(tmp, ' \
+      "use strict"; \
+ \
+      var fs = require("fs"); \
+      var path = require("path"); \
+ \
+      var signalReceived = path.join(__dirname, "run-test-child-shutdown-signal-received"); \
+ \
+      process.once("SIGUSR2", function () { \
+        fs.writeFileSync(signalReceived, ""); \
+        process.kill(process.pid, "SIGUSR2"); \
+      }); \
+\
+      function waitForSignal() { \
+        setTimeout(waitForSignal, 1000); \
+      } \
+ \
+      waitForSignal(); \
+    ');
+
+    var signalReceived = path.resolve('test/fixtures/run-test-child-shutdown-signal-received');
+    fs.existsSync(signalReceived) && fs.unlinkSync(signalReceived);
+
+    nodemon({ script: tmp }).on('crash', function () {
+      assert(false, 'detected crashed state');
+    }).on('exit', function () {
+      assert(true, 'child was killed');
+    }).on('restart', function () {
+      assert(true, 'nodemon restarted');
+
+      setTimeout(function () {
+        assert(fs.existsSync(signalReceived), 'child never received SIGUSR2 shutdown signal');
+
+        nodemon.once('exit', function () {
+          nodemon.reset();
+          done();
+        }).emit('quit');
+      }, 500);
+
+    });
+
+    setTimeout(function () {
+      touch.sync(tmp);
+    }, 500);
+
+  });
+
+
+
 });
