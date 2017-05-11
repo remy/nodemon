@@ -2,7 +2,7 @@
 
   Options:
 
-  --config file ............ alternate nodemon.json config file to use
+  --config file ............ alternate nodemon.json or nodemon.js config file to use
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
   -w, --watch dir........... watch directory "dir" or files. use once for
@@ -22,16 +22,17 @@
   -- <your args> ........... to tell nodemon stop slurping arguments.
 
   Note: if the script is omitted, nodemon will try to read "main" from
-  package.json and without a nodemon.json, nodemon will monitor .js, .coffee,
+  package.json and without a nodemon.json or nodemon.js, nodemon will monitor .js, .coffee,
   and .litcoffee by default.
 
-  To learn more about nodemon.json config: nodemon --help config
+  To learn more about nodemon.json or nodemon.js config: nodemon --help config
   See also the sample: https://github.com/remy/nodemon/wiki/Sample-nodemon.json
 
   Examples:
 
   $ nodemon server.js
   $ nodemon --config my/custom/nodemon.json server.js
+  $ nodemon --config my/custom/nodemon.js server.js
   $ nodemon -w ../foo server.js apparg1 apparg2
   $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py

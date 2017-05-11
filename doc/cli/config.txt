@@ -4,10 +4,10 @@
 
   nodemon can also be configured via a local and global config file:
 
-  * $HOME/nodemon.json
-  * $PWD/nodemon.json OR --config <file>
+  * $HOME/nodemon.json OR $HOME/nodemon.js
+  * $PWD/nodemon.json OR $PWD/nodemon.js OR --config <file>
 
-  All config options in the .json file map 1-to-1 with the CLI options, so a
+  All config options in the .json or .js file map 1-to-1 with the CLI options, so a
   config could read as:
 
     {

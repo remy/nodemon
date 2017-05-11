@@ -69,7 +69,7 @@ Whilst nodemon is running, if you need to manually restart your application, ins
 
 ## Config files
 
-nodemon supports local and global configuration files. These are usually named `nodemon.json` and can be located in the current working directory or in your home directory. An alternative local configuration file can be specified with the `--config <file>` option.
+nodemon supports local and global configuration files. These are usually named `nodemon.json` or `nodemon.js` and can be located in the current working directory or in your home directory. If both `nodemon.js` and `nodemon.json` are found in the same directory, an error will be thrown. An alternative local configuration file can be specified with the `--config <file>` option.
 
 The specificity is as follows, so that a command line argument will always override the config file settings:
 
@@ -92,6 +92,10 @@ The above `nodemon.json` file might be my global config so that I have support f
 
 A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md)
 
+If you use `nodemon.js`, make sure you export an object immediately, this cannot be async. The main reason to allow `nodemon.js` in addition to `nodemon.json` is to allow passing regular expressions to the `ignore` option (`nodemon.json` only supports strings with glob characters, not full blown regular expression).
+
+A further example of options using `nodemon.js` can be seen in [sample-nodemonjs.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemonjs.md)
+
 *This section needs better documentation, but for now you can also see `nodemon --help config` ([also here](https://github.com/remy/nodemon/blob/master/doc/cli/config.txt))*.
 
 ## Using nodemon as a module
@@ -108,7 +112,7 @@ Now nodemon will run `app.py` with python in verbose mode (note that if you're n
 
 ### Default executables
 
-Using the `nodemon.json` config file, you can define your own default executables using the `execMap` property. This is particularly useful if you're working with a language that isn't supported by default by nodemon.
+Using the `nodemon.json` or `nodemon.js` config files, you can define your own default executables using the `execMap` property. This is particularly useful if you're working with a language that isn't supported by default by nodemon.
 
 To add support for nodemon to know about the .pl extension (for Perl), the nodemon.json file would add:
 
@@ -188,12 +192,16 @@ Or using the time specifier (ms):
 
 The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
-If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
+If you are setting this value in `nodemon.json` or `nodemon.js`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
 
     nodemon --delay 2.5
 
     {
         "delay": "2500"
+    }
+
+    module.exports = {
+      delay: '2500'
     }
 
 ## Controlling shutdown of your script
@@ -212,7 +220,7 @@ Note that the `process.kill` is *only* called once your shutdown jobs are comple
 
 ## Triggering events when nodemon state changes
 
-If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or simply add event actions to your `nodemon.json` file.
+If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or simply add event actions to your `nodemon.json` or `nodemon.js` file.
 
 For example, to trigger a notification on a Mac when nodemon restarts, `nodemon.json` looks like this:
 
@@ -242,7 +250,7 @@ nodemon({
 
 If you *only* have io.js installed (and the default install creates a symlink from `node` to `iojs`), then nodemon will work just fine out of the box (or [should](https://github.com/remy/nodemon/issues/468)).
 
-If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
+If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` or `nodemon.js` file (in your working directory) or in your `$HOME` directory containing:
 
 ```json
 {
