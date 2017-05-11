@@ -1,5 +1,5 @@
 
-  config ................... default config options using nodemon.json
+  config ................... default config options using nodemon.json or nodemon.js
   authors .................. contributors to this project
   whoami ................... I, AM, NODEMON \o/
 

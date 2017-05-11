@@ -20,6 +20,7 @@ describe('nodemon rules', function () {
     default: loadfixtures('default'),
     simple: loadfixtures('simple'),
     simplejson: loadfixtures('simple.json'),
+    simplejs: loadfixtures('simple.js'),
   };
 
   beforeEach(function (done) {
@@ -45,6 +46,13 @@ describe('nodemon rules', function () {
       assert(typeof rules === 'object', 'rules file is parsed');
       done();
     });
+  });
+
+  it('should read js', function (done) {
+    rules.load('./test/fixtures/simple.js', function (error, rules) {
+      assert(typeof rules === 'object', 'rules file is parsed');
+      done();
+    })
   });
 
   it('should ignore comments files', function (done) {

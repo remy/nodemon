@@ -6,7 +6,7 @@ This is a working document, and if it makes sense, I'll take pull requests to he
 
 ## nodemon doesn't work with my REPL
 
-Create an nodemon.json file with the setting:
+Create an nodemon.json or nodemon.js file with the setting:
 
 ```js
 {
@@ -28,7 +28,7 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Can't install nodemon: permission issue
 
-You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environemnts). If the install fails with this appearing in the npm error log, then you need the following workaround.
+You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environments). If the install fails with this appearing in the npm error log, then you need the following workaround.
 
 ```
 gyp WARN EACCES user "root" does not have permission to access the dev dir "<some-local-dir>"
@@ -63,6 +63,13 @@ Or via the `nodemon.json`:
 }
 ```
 
+Or via the `nodemon.js`:
+```javascript
+module.exports = {
+  legacyWatch: true
+}
+```
+
 ## nodemon tries to run two scripts
 
 If you see nodemon trying to run two scripts, like:
@@ -83,7 +90,7 @@ However, there are defaults in the ignore rules that your rules will be merged w
 
 The way the ignore rules work is that your rules are merged with the `ignoreRoot` rules, which contain `['.git', 'node_modules', ...]`. So if you ignore `public`, the ignore rule results in `['.git', 'node_modules', ..., 'public']`.
 
-Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to you local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
+Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to you local `nodemon.json` or `nodemon.js`. If you want it for all projects, add it to `$HOME/nodemon.json` or `$HOME/nodemon.js`:
 
 ```json
 {
@@ -164,7 +171,7 @@ For example:
 14 Apr 15:24:58 - [nodemon] child pid: 9292
 ```
 
-When nodemon detects a change, the following addition information is shown:
+When nodemon detects a change, the following additional information is shown:
 
 - Which file(s) triggered the check
 - Which (if any) rules the file matched to cause a subsequent restart
@@ -186,9 +193,9 @@ For example, on `lib/app.js` being changed:
 
 ## My .nodemonignore is being ignored
 
-The new `nodemon.json` superceeds the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
+The new `nodemon.json` or `nodemon.js` superceed the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
 
-Note that if you have a `nodemon.json` in your `$HOME` path, then this will also supersede the old ignore file.
+Note that if you have a `nodemon.json` or `nodemon.js` in your `$HOME` path, then this will also supersede the old ignore file.
 
 ## nodemon does nothing
 
