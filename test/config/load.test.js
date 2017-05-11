@@ -90,6 +90,20 @@ describe('config load', function () {
     });
   });
 
+  it('should support new nodemon.js', function (done) {
+    // let our test find nodemon.js instead of nodemon.json
+    process.chdir(path.resolve(pwd, 'test/fixtures/nodemonjs'));
+    utils.home = path.resolve(pwd, 'test/fixtures/nodemonjs');
+
+    var config = {},
+      settings = {},
+      options = {};
+
+    load(settings, options, config, function (config) {
+      assert(config.ignore.length === 10, '10 rules found: ' + config.ignore);
+      done();
+    })
+  });
 
   it('should read global config', function (done) {
     var config = {},
