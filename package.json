@@ -41,7 +41,7 @@
     "connect": "~2.19.1",
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",
-    "mocha": "2.3.3",
+    "mocha": "2.5.3",
     "should": "~4.0.0",
     "semantic-release": "4.3.5"
   },
