@@ -36,7 +36,7 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "devDependencies": {
-    "async": "1.4.2",
+    "async": "2.0.1",
     "coffee-script": "~1.7.1",
     "connect": "~2.19.1",
     "istanbul": "~0.2.10",
