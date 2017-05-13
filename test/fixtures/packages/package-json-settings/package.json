@@ -1,0 +1,7 @@
+{
+  "nodemonConfig": {
+    "exec": "foo",
+    "ignore": ["one", "three"],
+    "watch": ["four"]
+  }
+}

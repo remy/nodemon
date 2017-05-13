@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "node app.js"
+  },
+  "nodemonConfig": {
+    "exec": "foo"
+  }
+}
