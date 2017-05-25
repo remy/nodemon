@@ -39,7 +39,7 @@
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
     "connect": "~2.19.1",
-    "istanbul": "~0.2.10",
+    "istanbul": "0.3.21",
     "jscs": "2.1.1",
     "mocha": "2.3.3",
     "should": "~4.0.0",
