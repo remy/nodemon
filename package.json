@@ -38,7 +38,7 @@
   "devDependencies": {
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
-    "connect": "~2.19.1",
+    "connect": "3.4.0",
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",
     "mocha": "2.3.3",
