@@ -16,6 +16,8 @@ Create an nodemon.json file with the setting:
 
 This will leave the STDIN to your application rather than listening for the `rs` command to restart.
 
+`CTRL+C` twice to exit the process, `CTRL+D` or `.exit` to exit the running REPL.
+
 # My script arguments are being taken by nodemon
 
 Use the `--` switch to tell nodemon to ignore all arguments after this point. So to pass `-L` to your script instead of nodemon, use:
