@@ -162,7 +162,7 @@ Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_com
 
 ## Application isn't restarting
 
-In some networked environments (such as a container running nodemon reading across a mounted drive), you will need to use the `legacyWatch: true` which enabled Chokidar's polling.
+In some networked environments (such as a container running nodemon reading across a mounted drive), you will need to use the `legacyWatch: true` which enables Chokidar's polling.
 
 Via the CLI, use either `--legacy-watch` or `-L` for short:
 
