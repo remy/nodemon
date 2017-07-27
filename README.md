@@ -238,22 +238,6 @@ nodemon({
 });
 ```
 
-## Using io.js for nodemon
-
-If you *only* have io.js installed (and the default install creates a symlink from `node` to `iojs`), then nodemon will work just fine out of the box (or [should](https://github.com/remy/nodemon/issues/468)).
-
-If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
-
-```json
-{
-  "execMap": {
-    "js": "iojs"
-  }
-}
-```
-
-Now you nodemon will use [io.js](https://iojs.org/) with JavaScript files instead of node.
-
 ## Using nodemon in your gulp workflow
 
 Check out the [gulp-nodemon](https://github.com/JacksonGariety/gulp-nodemon) plugin to integrate nodemon with the rest of your project's gulp workflow.
