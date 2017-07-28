@@ -16,6 +16,7 @@
   -d, --delay n ............ debounce restart for "n" seconds.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
+  --no-update-check......... do not check for updates of nodemon
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
   --help <topic> ........... help on a specific feature. Try "--help topics".
