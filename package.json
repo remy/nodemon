@@ -55,6 +55,6 @@
     "ps-tree": "^1.0.1",
     "touch": "1.0.0",
     "undefsafe": "0.0.3",
-    "update-notifier": "0.5.0"
+    "update-notifier": "^2.0.0"
   }
 }
