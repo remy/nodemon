@@ -11,6 +11,7 @@ nodemon will emit events based on the child process.
 ## States
 
 - start - child process has started
+- start:child - child process signaled that it has finished starting
 - crash - child process has crashed (nodemon will not emit exit)
 - exit - child process has cleanly exited (ie. no crash)
 - restart([ array of files triggering the restart ]) - child process has restarted
@@ -77,3 +78,24 @@ app.on('exit', function () {
   console.log('nodemon quit');
 });
 ```
+
+Nodemon listens for the string `nodemon:start:child` emitted from the app it monitors and emits a `start:child` event. This can be useful if one needs to know when a async app has started. For example:
+```js
+// server.js
+app.listen(app.get("port"), () =>
+{
+	console.log("server started on http://localhost:" + app.get("port"));
+	console.log("nodemon:start:child");
+});
+```
+
+```js
+var nodemon = require('nodemon');
+
+nodemon({ script: 'app.js' }).on('start:child', function () {
+  console.log('nodemon started');
+}).on('crash', function () {
+  console.log('script crashed for some reason');
+});
+```
+The `start:child` event will be triggered, when the server has successfully started. By using this event, one does no longer need timeouts e.g. when working with gulp and browserSync.
