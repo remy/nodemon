@@ -92,6 +92,25 @@ The above `nodemon.json` file might be my global config so that I have support f
 
 A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md)
 
+### package.json
+
+If you want to keep all your package configurations in one place, nodemon supports using `package.json` for configuration.
+Simply specify the config in the same format as you would for a config file but under `nodemonConfig` in the `package.json` file, for example, take the following `package.json`:
+
+    {
+      "name": "nodemon",
+      "homepage": "http://nodemon.io",
+      ...
+      ... other standard package.json values
+      ...
+      "nodemonConfig": {
+        "ignore": ["test/*", "docs/*"],
+        "delay": "2500"
+      }
+    }
+
+Note that if you specify a `--config` file or provide a local `nodemon.json` any `package.json` config is ignored.
+
 *This section needs better documentation, but for now you can also see `nodemon --help config` ([also here](https://github.com/remy/nodemon/blob/master/doc/cli/config.txt))*.
 
 ## Using nodemon as a module

@@ -107,12 +107,55 @@ describe('config load', function () {
     });
   });
 
+  it('should read package.json config', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    process.chdir(dir);
+    
+    var config = {},
+        settings = { quiet: true },
+        options = {};
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
+      done();
+    });
+  });
+
   it('should give local files preference', function (done) {
     var config = {},
         settings = { quiet: true },
         options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
+      assert.ok(config.ignore.indexOf('one') !== -1, 'ignore contains "one": ' + config.ignore);
+      assert.ok(config.ignore.indexOf('three') !== -1, 'ignore contains "three": ' + config.ignore);
+      assert.deepEqual(config.watch, ['four'], 'watch is "four": ' + config.watch);
+      done();
+    });
+  });
+
+  it('should give local files preference over package.json config', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/nodemon-settings-and-package-json-settings');
+    process.chdir(dir);
+    
+    var config = {},
+        settings = { quiet: true },
+        options = {};
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
+      done();
+    });
+  });
+
+  it('should give package.json config preference', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    process.chdir(dir);
+    
+    var config = {},
+        settings = { quiet: true },
+        options = {};
+    load(settings, options, config, function (config) {
+      removeRegExp(config);
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       assert.ok(config.ignore.indexOf('one') !== -1, 'ignore contains "one": ' + config.ignore);
       assert.ok(config.ignore.indexOf('three') !== -1, 'ignore contains "three": ' + config.ignore);
       assert.deepEqual(config.watch, ['four'], 'watch is "four": ' + config.watch);
@@ -132,12 +175,39 @@ describe('config load', function () {
     });
   });
 
+  it('should give user specified settings preference over package.json config', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    process.chdir(dir);
+    
+    var config = {},
+        settings = { exec: 'foo-user', quiet: true },
+        options = {};
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.exec, 'foo-user', 'exec is "foo-user": ' + config.exec);
+      done();
+    });
+  });
+
   it('should give user specified exec preference over package.scripts.start', function (done) {
     var dir = path.resolve(pwd, 'test/fixtures/packages/start-and-settings');
     process.chdir(dir);
 
     var config = {},
         settings = { 'script': './index.js', },
+        options = {};
+
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
+      done();
+    });
+  });
+
+  it('should give package.json specified exec config over package.scripts.start', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/start-and-package-json-settings');
+    process.chdir(dir);
+
+    var config = {},
+        settings = {},
         options = {};
 
     load(settings, options, config, function (config) {
