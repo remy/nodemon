@@ -2,7 +2,7 @@
 
 # nodemon
 
-[![Donate](https://img.shields.io/badge/donate-%20%E2%9D%A4%20-green.svg)](https://www.paypal.me/rem)
+<a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
 
 For use during development of a node.js based application.
 
@@ -25,7 +25,7 @@ It is also possible to install locally:
 
     npm install --save-dev nodemon
 
-With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`). Additionally, the `npm bin` command can be used to obtain the path to the project's local `.bin` directory.
+With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
 
 # Usage
 
@@ -181,7 +181,7 @@ Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_com
 
 ## Application isn't restarting
 
-In some networked environments (such as a container running nodemon reading across a mounted drive), you will need to use the `legacyWatch: true` which enabled Chokidar's polling.
+In some networked environments (such as a container running nodemon reading across a mounted drive), you will need to use the `legacyWatch: true` which enables Chokidar's polling.
 
 Via the CLI, use either `--legacy-watch` or `-L` for short:
 
@@ -256,22 +256,6 @@ nodemon({
   this.stderr.pipe(fs.createWriteStream('err.txt'));
 });
 ```
-
-## Using io.js for nodemon
-
-If you *only* have io.js installed (and the default install creates a symlink from `node` to `iojs`), then nodemon will work just fine out of the box (or [should](https://github.com/remy/nodemon/issues/468)).
-
-If you've got *both* node and io.js installed, then it's easy! You can either edit the local `nodemon.json` file (in your working directory) or in your `$HOME` directory containing:
-
-```json
-{
-  "execMap": {
-    "js": "iojs"
-  }
-}
-```
-
-Now you nodemon will use [io.js](https://iojs.org/) with JavaScript files instead of node.
 
 ## Using nodemon in your gulp workflow
 
