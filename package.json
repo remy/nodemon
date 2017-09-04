@@ -48,6 +48,7 @@
   "dependencies": {
     "chokidar": "^1.4.3",
     "debug": "^2.2.0",
+    "dotenv": "^2.0.0",
     "es6-promise": "^3.0.2",
     "ignore-by-default": "^1.0.0",
     "lodash.defaults": "^3.1.2",
