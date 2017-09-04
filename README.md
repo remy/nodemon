@@ -79,14 +79,16 @@ The specificity is as follows, so that a command line argument will always overr
 
 A config file can take any of the command line arguments as JSON key values, for example:
 
-    {
-      "verbose": true,
-      "ignore": ["*.test.js", "fixtures/*"],
-      "execMap": {
-        "rb": "ruby",
-        "pde": "processing --sketch={{pwd}} --run"
-      }
-    }
+```json
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*"],
+  "execMap": {
+    "rb": "ruby",
+    "pde": "processing --sketch={{pwd}} --run"
+  }
+}
+```
 
 The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can simply run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
 
@@ -110,13 +112,15 @@ Now nodemon will run `app.py` with python in verbose mode (note that if you're n
 
 Using the `nodemon.json` config file, you can define your own default executables using the `execMap` property. This is particularly useful if you're working with a language that isn't supported by default by nodemon.
 
-To add support for nodemon to know about the .pl extension (for Perl), the nodemon.json file would add:
+To add support for nodemon to know about the .pl extension (for Perl), the `nodemon.json file would add:
 
-    {
-      "execMap": {
-         "pl": "perl"
-      }
-    }
+```json
+{
+  "execMap": {
+     "pl": "perl"
+  }
+}
+```
 
 Now running the following, nodemon will know to use `perl` as the executable:
 
@@ -202,11 +206,13 @@ nodemon sends a kill signal to your application when it sees a file update. If y
 
 The following example will listen once for the `SIGUSR2` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
 
-    process.once('SIGUSR2', function () {
-      gracefulShutdown(function () {
-        process.kill(process.pid, 'SIGUSR2');
-      });
-    });
+```javascript
+process.once('SIGUSR2', function () {
+  gracefulShutdown(function () {
+    process.kill(process.pid, 'SIGUSR2');
+  });
+});
+```
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
