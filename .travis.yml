@@ -6,13 +6,10 @@ language: node_js
 notifications:
   email: false
 node_js:
+  - 8
+  - 7
   - 6
-  - 5
   - 4
-  # - iojs-v3
-  # - iojs-v2
-  # - iojs-v1
-  - '0.10'
 before_install:
   - npm i -g npm@^2.0.0
 before_script:
