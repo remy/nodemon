@@ -27,11 +27,11 @@
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
-    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
+    "coverage": "istanbul cover _mocha -- --ui bdd --reporter list 'test/**/*.test.js'",
     "lint": "jscs lib/**/*.js -v",
-    ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    "test": "npm run lint && npm run spec",
-    "spec": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "spec:unit": "mocha 'test/unit/**/*.test.js'",
+    "spec:integration": "mocha 'test/integration/**/*.test.js'",
+    "test": "npm run lint && npm run spec:unit && npm run spec:integration",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -39,11 +39,13 @@
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
     "connect": "~2.19.1",
+    "fs-extra": "^2.0.0",
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",
     "mocha": "2.3.3",
+    "semantic-release": "4.3.5",
     "should": "~4.0.0",
-    "semantic-release": "4.3.5"
+    "temp": "^0.8.3"
   },
   "dependencies": {
     "chokidar": "^1.4.3",
