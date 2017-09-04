@@ -196,6 +196,11 @@ On Ubuntu globally installed node applications have been found to have no output
 
 The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, *rather* than using `apt-get` (or similar tools) to install node directly.
 
-## If nodemon is facing the watch errors
-execute 'echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p' command on terminal
+## If nodemon is facing the watch errors (mac)
+
+Try the following command on terminal:
+
+```bash
+echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+```
 
