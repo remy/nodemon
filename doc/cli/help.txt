@@ -23,7 +23,7 @@
 
   Note: if the script is omitted, nodemon will try to read "main" from
   package.json and without a nodemon.json, nodemon will monitor .js, .coffee,
-  and .litcoffee by default.
+  .litcoffee, and .ts by default.
 
   To learn more about nodemon.json config: nodemon --help config
   See also the sample: https://github.com/remy/nodemon/wiki/Sample-nodemon.json
