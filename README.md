@@ -2,8 +2,6 @@
 
 # nodemon
 
-<a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
-
 For use during development of a node.js based application.
 
 nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
@@ -291,3 +289,5 @@ See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
+
+<a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
