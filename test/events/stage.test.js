@@ -17,7 +17,7 @@ describe('when nodemon restarts one time or more', function () {
     }).emit('quit');
   });
 
-  it('should pass a NODEMON_PROCESS_STAGE value of 2', function (done) {
+  it('should pass a NODEMON_PROCESS_STAGE value of 1 on first boot and 2 on subsequent boots', function (done) {
     var plan = new utils.Plan(3, function () {
       nodemon.reset(done);
     });
