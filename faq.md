@@ -93,6 +93,12 @@ Say you did want to watch the `node_modules` directory. You have to override the
 
 Now when ignoring `public`, the ignore rule results in `['.git', 'public']`, and nodemon will restart on `node_modules` changes.
 
+## How do I check from inside my script that it's running on nodemon?
+
+nodemon injects a single additional environment variable into the process: `NODEMON_PROCESS_STAGE`. Its value is `'1'` if nodemon has not restarted your process yet, and becomes `'2'` after subsequent restarts.
+
+If you have any initialization that you would like to do only when running nodemon and only one time (e.g. printing some help information to the terminal), you can do so by checking if `NODEMON_PROCESS_STAGE` equals `'1'`.
+
 ## nodemon doesn't work with fedora
 
 Fedora is looking for `nodejs` rather than `node` which is the binary that nodemon kicks off.
