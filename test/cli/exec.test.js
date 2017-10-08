@@ -121,4 +121,19 @@ describe('nodemon exec', function () {
     var res = exec(options);
     assert(res.ext === 'ζ', 'exec did not bail');
   });
+
+  it('should support multi-level file extensions', function () {
+    var options = exec({ ext: '.ts.d,js md' });
+
+    assert(options.ext.indexOf('ts.d') !== -1);
+    assert(options.ext.indexOf('js') !== -1);
+    assert(options.ext.indexOf('md') !== -1);
+  });
+
+  it('should support single-level file extensions', function () {
+    var options = exec({ ext: '.js, jade' });
+
+    assert(options.ext.indexOf('js') !== -1);
+    assert(options.ext.indexOf('jade') !== -1);
+  });
 });
