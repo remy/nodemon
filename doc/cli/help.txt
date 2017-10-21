@@ -19,6 +19,7 @@
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
   --help <topic> ........... help on a specific feature. Try "--help topics".
+  --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
   -- <your args> ........... to tell nodemon stop slurping arguments.
 
   Note: if the script is omitted, nodemon will try to read "main" from
