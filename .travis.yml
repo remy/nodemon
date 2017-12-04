@@ -1,19 +1,17 @@
-sudo: false
 language: node_js
-#cache:
-#  directories:
-#    - node_modules
+cache:
+  directories:
+    - ~/.npm
 notifications:
   email: false
 node_js:
-  - 9
-  - 8
-  - 7
-  - 6
-before_script:
-  - npm prune
-  - 'curl -Lo travis_after_all.py https://git.io/vLSON'
+  - '9'
+  - '8'
+  - '6'
+before_install:
+  - echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc
 after_success:
-  - python travis_after_all.py
-  - export $(cat .to_export_back)
   - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
