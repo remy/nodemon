@@ -13,13 +13,13 @@
   -I, --no-stdin ........... don't try to read from stdin.
   -C, --on-change-only ..... execute script on change only, not startup
   --no-colors .............. disable color output
+  --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
   -d, --delay n ............ debounce restart for "n" seconds.
   --exitcrash .............. exit on crash, allows use of nodemon with daemon
                              tools like forever.js.
   -v, --version ............ current nodemon version.
   -h, --help ............... you're looking at it.
   --help <topic> ........... help on a specific feature. Try "--help topics".
-  --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
   -- <your args> ........... to tell nodemon stop slurping arguments.
 
   Note: if the script is omitted, nodemon will try to read "main" from
@@ -32,11 +32,9 @@
   Examples:
 
   $ nodemon server.js
-  $ nodemon --config my/custom/nodemon.json server.js
   $ nodemon -w ../foo server.js apparg1 apparg2
-  $ PORT=8000 nodemon --debug-brk server.js
   $ nodemon --exec python app.py
   $ nodemon --exec "make build" -e "styl hbs"
-  $ nodemon app.js -- -v
+  $ nodemon app.js -- --inspect
 
   For more details see http://github.com/remy/nodemon/
