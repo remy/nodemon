@@ -9,7 +9,7 @@
     "nodemon": "./bin/nodemon.js"
   },
   "engines": {
-    "node": ">=0.8"
+    "node": ">=6"
   },
   "repository": {
     "type": "git",
@@ -60,7 +60,7 @@
     "ps-tree": "^1.1.0",
     "touch": "^3.1.0",
     "undefsafe": "0.0.3",
-    "update-notifier": "^2.2.0"
+    "update-notifier": "^2.3.0"
   },
   "version": "0.0.0-development"
 }
