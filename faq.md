@@ -125,7 +125,7 @@ To achieve this you need to add the following on the call to `forever`:
 * Optionally add the `--uid` parameter, adding a unique name for your process. In the example, the uid is set to `foo`.
 
 ```bash
-forever start --uid foo --killSignal=SIGTERM -c nodemon --exitcrash server.js
+forever start --uid foo --killSignal=SIGTERM -c 'nodemon --exitcrash' server.js
 ```
 
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
