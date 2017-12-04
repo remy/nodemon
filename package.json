@@ -32,7 +32,9 @@
     "lint": "jscs lib/**/*.js -v",
     ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
     "test": "npm run lint && npm run spec",
-    "spec": "for FILE in test/**/*.test.js; do echo $FILE; ./node_modules/.bin/mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "postspec": "npm run clean",
+    "clean": "rm -rf test/fixtures/test*.js",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
@@ -41,7 +43,6 @@
     "@commitlint/config-angular": "^3.1.1",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
-    "connect": "~2.19.1",
     "husky": "^0.14.3",
     "istanbul": "~0.2.10",
     "jscs": "2.1.1",

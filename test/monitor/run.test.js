@@ -15,7 +15,7 @@ describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
 
   after(function (done) {
-    fs.unlink(tmp);
+    fs.unlink(tmp, function () { });
     // clean up just in case.
     nodemon.once('exit', function () {
       nodemon.reset();
@@ -28,14 +28,14 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should restart when new files are added', function (done) {
-    fs.writeFileSync(tmp, 'setTimeout(true, 10000)');
+    fs.writeFileSync(tmp, 'setTimeout(function(){}, 10000)');
     var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
     nodemon({
       script: tmp,
     }).on('start', function () {
       setTimeout(function () {
-        fs.writeFileSync(tmp2, 'setTimeout(true, 10000)');
+        fs.writeFileSync(tmp2, 'setTimeout(function(){}, 10000)');
       }, 500);
     }).on('restart', function () {
       assert(true, 'restarted after new file was added');
@@ -136,22 +136,22 @@ describe('when nodemon runs (2)', function () {
 
   it('should not run command on startup if runOnChangeOnly is true',
     function (done) {
-    fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
+      fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
-    nodemon({
-      script: tmp,
-      runOnChangeOnly: true,
-      stdout: false,
-    }).on('start', function () {
-      assert(false, 'script should not start');
-    }).once('exit', function () {
-      done();
+      nodemon({
+        script: tmp,
+        runOnChangeOnly: true,
+        stdout: false,
+      }).on('start', function () {
+        assert(false, 'script should not start');
+      }).once('exit', function () {
+        done();
+      });
+
+      setTimeout(function () {
+        nodemon.emit('quit');
+      }, 1500);
     });
-
-    setTimeout(function () {
-      nodemon.emit('quit');
-    }, 1500);
-  });
 
   // it('should kill child on SIGINT', function (done) {
   //   fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
