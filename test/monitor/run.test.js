@@ -54,10 +54,10 @@ describe('when nodemon runs (2)', function () {
       }, 1000);
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
-      // nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
-      // }).emit('quit');
+      nodemon.once('exit', function () {
+        nodemon.reset();
+        done();
+      }).emit('quit');
     });
   });
 
