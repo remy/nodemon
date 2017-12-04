@@ -6,10 +6,10 @@ language: node_js
 notifications:
   email: false
 node_js:
+  - 9
   - 8
   - 7
   - 6
-  - 4
 before_install:
   - npm i -g npm@^2.0.0
 before_script:

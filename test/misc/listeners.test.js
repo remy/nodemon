@@ -29,13 +29,12 @@ describe('listeners clean up', function () {
   it('should be able to re-run in required mode, many times, and not leak' +
     'listeners', function (done) {
 
-      function run() {
+      function run(n) {
         return function (done) {
           nodemon(conf());
           nodemon.on('start', function () {
             nodemon.on('exit', function () {
               nodemon.reset(done);
-              // done(null, id);
             });
           });
         };
