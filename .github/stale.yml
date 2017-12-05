@@ -17,4 +17,4 @@ markComment: >
 
   Thank you for contributing <3
 # Comment to post when closing a stale issue. Set to `false` to disable
-closeComment: true
+closeComment: false
