@@ -1,14 +1,14 @@
 'use strict';
 /*global describe:true, it: true */
 var cli = require('../../lib/cli/'),
-    exec = require('../../lib/config/exec'),
-    pkg = require('../../package'),
-    assert = require('assert'),
-    command = require('../../lib/config/command'),
-    utils = require('../../lib/utils');
+  exec = require('../../lib/config/exec'),
+  pkg = require('../../package'),
+  assert = require('assert'),
+  command = require('../../lib/config/command'),
+  utils = require('../../lib/utils');
 
 function asCLI(cmd) {
-  return ('node nodemon ' + (cmd|| '')).trim();
+  return ('node nodemon ' + (cmd || '')).trim();
 }
 
 function parse(cmd) {
@@ -50,14 +50,14 @@ describe('nodemon CLI parser', function () {
 
   it('should parse the help examples #1', function () {
     var settings = parse(asCLI('test/fixtures/app.js')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     assert(cmd === 'node test/fixtures/app.js', 'node test/fixtures/app.js: ' + cmd);
   });
 
   it('should parse the help examples #2', function () {
     var settings = parse(asCLI('-w ../lib test/fixtures/app.js apparg1 apparg2')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     assert.deepEqual(settings.watch, ['../lib'], 'watching ../lib: ' + settings.watch);
     assert.deepEqual(settings.execOptions.args, ['apparg1', 'apparg2'], 'args are corr   ' + settings.execOptions.args);
@@ -66,7 +66,7 @@ describe('nodemon CLI parser', function () {
 
   it('should parse the help examples #3', function () {
     var settings = parse(asCLI('--exec python app.py')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     assert(cmd === 'python app.py', 'command is ' + cmd);
     assert(settings.execOptions.exec === 'python', 'exec is python');
@@ -74,7 +74,7 @@ describe('nodemon CLI parser', function () {
 
   it('should parse the help examples #4', function () {
     var settings = parse(asCLI('--exec "make build" -e "styl hbs"')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     assert(cmd === 'make build', 'command is ' + cmd);
     assert.deepEqual(settings.execOptions.ext.split(','), ['styl', 'hbs'], 'correct extensions being watched: ' + settings.execOptions.ext);
@@ -82,7 +82,7 @@ describe('nodemon CLI parser', function () {
 
   it('should parse the help examples #5', function () {
     var settings = parse(asCLI('test/fixtures/app.js -- -L')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     assert(cmd === 'node test/fixtures/app.js -L', 'command is ' + cmd);
   });
@@ -91,7 +91,7 @@ describe('nodemon CLI parser', function () {
     var pwd = process.cwd();
     process.chdir('test/fixtures'); // allows us to load text/fixtures/package.json
     var settings = parse(asCLI('--harmony')),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
     process.chdir(pwd);
 
     assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
@@ -113,7 +113,7 @@ describe('nodemon CLI parser', function () {
     var pwd = process.cwd();
     process.chdir('test/fixtures/packages/express4'); // allows us to load text/fixtures/package.json
     var settings = parse(asCLI()),
-        cmd = commandToString(command(settings));
+      cmd = commandToString(command(settings));
 
     process.chdir(pwd);
 
@@ -271,6 +271,14 @@ describe('nodemon respects custom "ext" and "execMap"', function () {
     assert(settings.execOptions.ext.indexOf('js') === 0, 'js is monitored: ' + settings.execOptions.ext);
     assert(settings.execOptions.ext.split(',').length === 3, 'all extensions monitored');
     assert(settings.execOptions.exec.indexOf('node') === 0, 'node is exec: ' + settings.execOptions.exec);
+  });
+});
+
+describe('nodemon should slurp properly', () => {
+  it('should read quotes as a single entity', () => {
+    const settings = parse(asCLI('notindex.js -- -b "hello - world"'));
+    assert(settings.execOptions.exec === 'node', 'node is exec');
+    assert(settings.args.length === 3, 'only has 3 arguments to node');
   });
 });
 
