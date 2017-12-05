@@ -22,7 +22,7 @@ function commandToString(command) {
 
 describe('config load', function () {
   var pwd = process.cwd(),
-      oldhome = utils.home;
+    oldhome = utils.home;
 
   afterEach(function () {
     process.chdir(pwd);
@@ -81,8 +81,8 @@ describe('config load', function () {
     utils.home = path.resolve(pwd, 'test/fixtures/legacy');
 
     var config = {},
-        settings = {},
-        options = {};
+      settings = {},
+      options = {};
 
     load(settings, options, config, function (config) {
       assert(config.ignore.length === 5, '5 rules found: ' + config.ignore);
@@ -93,8 +93,8 @@ describe('config load', function () {
 
   it('should read global config', function (done) {
     var config = {},
-        settings = { quiet: true },
-        options = {};
+      settings = { quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       assert(config.verbose, 'we are verbose');
 
@@ -110,10 +110,10 @@ describe('config load', function () {
   it('should read package.json config', function (done) {
     var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
-    
+
     var config = {},
-        settings = { quiet: true },
-        options = {};
+      settings = { quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       done();
@@ -122,8 +122,8 @@ describe('config load', function () {
 
   it('should give local files preference', function (done) {
     var config = {},
-        settings = { quiet: true },
-        options = {};
+      settings = { quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
       assert.ok(config.ignore.indexOf('one') !== -1, 'ignore contains "one": ' + config.ignore);
@@ -136,10 +136,10 @@ describe('config load', function () {
   it('should give local files preference over package.json config', function (done) {
     var dir = path.resolve(pwd, 'test/fixtures/packages/nodemon-settings-and-package-json-settings');
     process.chdir(dir);
-    
+
     var config = {},
-        settings = { quiet: true },
-        options = {};
+      settings = { quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
       done();
@@ -149,10 +149,10 @@ describe('config load', function () {
   it('should give package.json config preference', function (done) {
     var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
-    
+
     var config = {},
-        settings = { quiet: true },
-        options = {};
+      settings = { quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
@@ -165,8 +165,8 @@ describe('config load', function () {
 
   it('should give user specified settings preference', function (done) {
     var config = {},
-        settings = { ignore: ['one'], watch: ['one'], quiet: true },
-        options = {};
+      settings = { ignore: ['one'], watch: ['one'], quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       removeRegExp(config);
       assert(config.ignore.indexOf('one') !== -1, '"one" is ignored: ' + config.ignore);
@@ -178,10 +178,10 @@ describe('config load', function () {
   it('should give user specified settings preference over package.json config', function (done) {
     var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
-    
+
     var config = {},
-        settings = { exec: 'foo-user', quiet: true },
-        options = {};
+      settings = { exec: 'foo-user', quiet: true },
+      options = {};
     load(settings, options, config, function (config) {
       assert.deepEqual(config.exec, 'foo-user', 'exec is "foo-user": ' + config.exec);
       done();
@@ -193,8 +193,8 @@ describe('config load', function () {
     process.chdir(dir);
 
     var config = {},
-        settings = { 'script': './index.js', },
-        options = {};
+      settings = { 'script': './index.js', },
+      options = {};
 
     load(settings, options, config, function (config) {
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
@@ -207,8 +207,8 @@ describe('config load', function () {
     process.chdir(dir);
 
     var config = {},
-        settings = {},
-        options = {};
+      settings = {},
+      options = {};
 
     load(settings, options, config, function (config) {
       assert.deepEqual(config.exec, 'foo', 'exec is "foo": ' + config.exec);
@@ -238,10 +238,10 @@ describe('config load', function () {
     var settings = {
       script: './index.js',
       verbose: true,
-      ignore: ['*/artic/templates/*' ],
+      ignore: ['*/artic/templates/*'],
       ext: 'js coffee json',
-      watch: [ '*.coffee' ],
-      execMap: {js: 'node --harmony', coffee: 'node --harmony', },
+      watch: ['*.coffee'],
+      execMap: { js: 'node --harmony', coffee: 'node --harmony', },
     };
     var config = {};
     var options = {};
@@ -255,7 +255,7 @@ describe('config load', function () {
 
   it('should merge ignore rules', function (done) {
     load({
-      ignore: ['*/artic/templates/*', 'views/*' ],
+      ignore: ['*/artic/templates/*', 'views/*'],
     }, {}, {}, function (config) {
       assert.equal(config.ignore.length, defaults.ignoreRoot.length + 2);
       done();
@@ -264,7 +264,7 @@ describe('config load', function () {
 
   it('should allow user to override ignoreRoot', function (done) {
     load({
-      ignore: ['*/artic/templates/*', 'views/*' ],
+      ignore: ['*/artic/templates/*', 'views/*'],
       ignoreRoot: ['.git'],
     }, {}, {}, function (config) {
       assert.equal(config.ignore.length, 3);
@@ -289,5 +289,15 @@ describe('config load', function () {
       assert.equal(config.ignore.length, 1);
       done();
     });
+  });
+
+  it('should allow user to set execArgs', done => {
+    const execArgs = ['--inspect']
+    load({
+      execArgs,
+    }, {}, {}, config => {
+      assert.deepEqual(config.execArgs, execArgs);
+      done();
+    })
   });
 });
