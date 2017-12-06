@@ -291,11 +291,11 @@ describe('config load', function () {
     });
   });
 
-  it('should allow user to set execArgs', done => {
-    const execArgs = ['--inspect']
+  it('should allow user to set execArgs', function (done) {
+    var execArgs = ['--inspect'];
     load({
-      execArgs,
-    }, {}, {}, config => {
+      execArgs: execArgs,
+    }, {}, {}, function (config) {
       assert.deepEqual(config.execArgs, execArgs);
       done();
     })
