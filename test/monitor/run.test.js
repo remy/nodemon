@@ -153,32 +153,29 @@ describe('when nodemon runs (2)', function () {
       }, 1500);
     });
 
-  // it('should kill child on SIGINT', function (done) {
-  //   fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
+  it('should kill child on SIGINT', function (done) {
+    fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
 
-  //   nodemon({ script: tmp, verbose: true }).on('start', function () {
-  //     assert(true, 'nodemon is waiting for a change');
+    nodemon({ script: tmp, verbose: true }).on('start', function () {
+      assert(true, 'nodemon is waiting for a change');
 
-  //     setTimeout(function () {
-  //       // process.once('SIGINT', function () {
-  //       //   // do nothing
-  //       //   console.log('not going to exit');
-  //       // });
+      setTimeout(function () {
+        process.once('SIGINT', function () {
+          // do nothing
+        });
 
-  //       process.kill(process.pid, 'SIGINT');
-  //     }, 1000);
-  //   }).on('crash', function () {
-  //     assert(false, 'detected crashed state');
-  //   }).on('exit', function () {
-  //     assert(true, 'quit correctly');
-  //     nodemon.reset();
-  //     done();
+        process.kill(process.pid, 'SIGINT');
+      }, 1000);
+    }).on('crash', function () {
+      assert(false, 'detected crashed state');
+    }).on('exit', function () {
+      assert(true, 'quit correctly');
+      nodemon.reset();
+      done();
 
-  //     setTimeout(function () {
-  //       process.kill(process.pid, 'SIGINT');
-  //     }, 1000);
-
-  //   });
-
-  // });
+      setTimeout(function () {
+        process.kill(process.pid, 'SIGINT');
+      }, 1000);
+    });
+  });
 });
