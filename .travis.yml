@@ -9,7 +9,7 @@ node_js:
   - '8'
   - '6'
 before_install:
-  - if [ "$TRAVIS_BRANCH" == "master" ]; then echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc; fi
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then export _authToken=$NPM_TOKEN; fi
 after_success:
   - npm run semantic-release
 branches:
