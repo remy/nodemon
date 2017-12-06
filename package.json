@@ -32,11 +32,12 @@
     "lint": "jscs lib/**/*.js -v",
     ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
     "test": "npm run lint && npm run spec",
-    "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --exit --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "postspec": "npm run clean",
     "clean": "rm -rf test/fixtures/test*.js",
     "web": "node web",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "postinstall": "node -e \"console.log('\\u001b[32mLove nodemon? You can now support the project via the open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[96m\\u001b[1mhttps://opencollective.com/nodemon/donate\\u001b[0m\\n')\""
   },
   "devDependencies": {
     "@commitlint/cli": "^3.1.3",
@@ -46,7 +47,7 @@
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
-    "mocha": "^4.0.1",
+    "mocha": "^2.3.3",
     "semantic-release": "^8.2.0",
     "should": "~4.0.0"
   },
