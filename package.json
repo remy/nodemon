@@ -9,7 +9,7 @@
     "nodemon": "./bin/nodemon.js"
   },
   "engines": {
-    "node": ">=6"
+    "node": ">=0.10"
   },
   "repository": {
     "type": "git",
@@ -44,7 +44,6 @@
     "@commitlint/config-angular": "^3.1.1",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
-    "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
     "mocha": "^2.3.3",
@@ -59,7 +58,7 @@
     "lodash.defaults": "^3.1.2",
     "minimatch": "^3.0.4",
     "ps-tree": "^1.1.0",
-    "touch": "^3.1.0",
+    "touch": "^1.0.0",
     "undefsafe": "0.0.3",
     "update-notifier": "^2.3.0"
   },

@@ -18,3 +18,5 @@ node_modules
 coverage
 tmp
 test/fixtures/test*
+
+.idea
