@@ -71,7 +71,7 @@ If you see nodemon trying to run two scripts, like:
 9 Dec 23:52:58 - [nodemon] starting `node ./app.js fixtures/sigint.js`
 ```
 
-This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file *was* found. ie. to solve, double check the path to your script is correct.
+This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file _was_ found. ie. to solve, double check the path to your script is correct.
 
 ## What has precedence, ignore or watch?
 
@@ -106,10 +106,10 @@ sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 Fedora and Ubuntu pakage node as nodejs, because node.dpkg is
 
 > Description-en: Amateur Packet Radio Node program
- The node program accepts TCP/IP and packet radio network connections and
- presents users with an interface that allows them to make gateway connections
- to remote hosts using a variety of amateur radio protocols.
-They make the binary is nodejs, rather than node. So long as you're not using that Packet Radio Node Program mentioned above the workaround will work.
+> The node program accepts TCP/IP and packet radio network connections and
+> presents users with an interface that allows them to make gateway connections
+> to remote hosts using a variety of amateur radio protocols.
+> They make the binary is nodejs, rather than node. So long as you're not using that Packet Radio Node Program mentioned above the workaround will work.
 
 Thank you [@EvanCarroll](https://github.com/remy/nodemon/issues/68#issuecomment-13672509)
 
@@ -138,7 +138,7 @@ forever stop foo
 
 This will stop both nodemon and the node process it was monitoring.
 
-Note that I *would not* recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
+Note that I _would not_ recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
 
 ## What does "verbose" give me?
 
@@ -146,10 +146,10 @@ The `--verbose` (or `-V`) puts nodemon in verbose mode which adds some detail to
 
 Additional restart information:
 
-- Which nodemon configs are loaded (local and global if found)
-- Which ignore rules are being applied
-- Which file extensions are being watch
-- The process ID of your application (the `child pid`)
+* Which nodemon configs are loaded (local and global if found)
+* Which ignore rules are being applied
+* Which file extensions are being watch
+* The process ID of your application (the `child pid`)
 
 For example:
 
@@ -166,10 +166,10 @@ For example:
 
 When nodemon detects a change, the following addition information is shown:
 
-- Which file(s) triggered the check
-- Which (if any) rules the file matched to cause a subsequent restart
-- How many rules were matched and out of those rules, how many cause a restart
-- A list of all the files that *successfully* caused a restart
+* Which file(s) triggered the check
+* Which (if any) rules the file matched to cause a subsequent restart
+* How many rules were matched and out of those rules, how many cause a restart
+* A list of all the files that _successfully_ caused a restart
 
 For example, on `lib/app.js` being changed:
 
@@ -192,9 +192,9 @@ Note that if you have a `nodemon.json` in your `$HOME` path, then this will also
 
 ## nodemon does nothing
 
-On Ubuntu globally installed node applications have been found to have no output when they're run. This *seems* to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
+On Ubuntu globally installed node applications have been found to have no output when they're run. This _seems_ to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
 
-The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, *rather* than using `apt-get` (or similar tools) to install node directly.
+The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, _rather_ than using `apt-get` (or similar tools) to install node directly.
 
 ## If nodemon is facing the watch errors (Mac & Linux)
 
@@ -204,3 +204,15 @@ Try the following command on terminal:
 echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
 
+## Error: Cannot find module 'internal/util/types'
+
+If you see the error `Cannot find module 'internal/util/types'`, the error is solved with a clean npm cache and trying to reinstall the dependency you're working with.
+
+A start is to use the following commands:
+
+```
+sudo npm cache clean --force
+sudo npm i -g npm
+```
+
+Otherwise see [issue #1124](https://github.com/remy/nodemon/issues/1124) for further suggestions.
