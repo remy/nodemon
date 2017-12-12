@@ -8,6 +8,7 @@ node_js:
   - '9'
   - '8'
   - '6'
+  - '4'
 before_install:
   - if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > .npmrc; fi
 after_success:
