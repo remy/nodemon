@@ -204,3 +204,27 @@ Try the following command on terminal:
 echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
 
+## Error in ionic framework: "Error: Cannot find module 'internal/util/types'"
+The above error appears in a lot of places after you update your Node package. For someone working on ionic framework (ionic 1), this error appears when you're trying to build using command `ionic build android` in following form:
+
+    Error: Cannot find module 'internal/util/types'
+        at Function.Module._resolveFilename (module.js:542:15)
+        at Function.Module._load (module.js:472:25)
+        at Module.require (module.js:585:17)
+        at require (internal/module.js:11:18)
+        at evalmachine.<anonymous>:31:26
+        at Object.<anonymous> (/usr/local/lib/node_modules/ionic/node_modules/ionic-app-lib/node_modules/vinyl-fs/node_modules/graceful-fs/fs.js:11:1)
+        at Module._compile (module.js:641:30)
+        at Object.Module._extensions..js (module.js:652:10)
+        at Module.load (module.js:560:32)
+        at tryModuleLoad (module.js:503:12)
+
+    Cannot find module 'internal/util/types' (CLI v1.7.16)
+
+A quick fix is to run following commands on your CLI:
+
+`npm uninstall -g ionic-cli`
+
+`npm install -g ionic@latest`
+
+After running this commnand, all your `cordova` commands are to be preceded by `ionic`, with the exception of `ionic serve`. Eg, `ionic build android` will become `ionic cordova build android`. If you want to serve your ionic files with `noreload`, it'll be `ionic serve --no-livereload`
