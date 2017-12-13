@@ -8,7 +8,7 @@ nodemon will watch the files in the directory in which nodemon was started, and 
 
 nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
-[![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
+[![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors) [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon)
 
 <a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
@@ -287,6 +287,34 @@ Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm complete
 ## FAQ
 
 See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
+
+# Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute]](CONTRIBUTING.md).
+<a href="graphs/contributors"><img src="https://opencollective.com/nodemon/contributors.svg?width=890" /></a>
+
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/nodemon#backer)]
+
+<a href="https://opencollective.com/nodemon#backers" target="_blank"><img src="https://opencollective.com/nodemon/backers.svg?width=890"></a>n
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/nodemon#sponsor)]
+
+<a href="https://opencollective.com/nodemon/sponsor/0/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/0/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/1/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/1/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/2/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/2/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/3/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/3/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/4/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/4/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/5/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/5/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/6/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/6/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/7/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/7/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/8/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/8/avatar.svg"></a>
+<a href="https://opencollective.com/nodemon/sponsor/9/website" target="_blank"><img src="https://opencollective.com/nodemon/sponsor/9/avatar.svg"></a>
+
 
 # License
 
