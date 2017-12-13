@@ -1,7 +1,7 @@
 
  Remy Sharp - author and maintainer
-    http://github.com/remy
-    http://twitter.com/rem
+    https://github.com/remy
+    https://twitter.com/rem
 
  Contributors: https://github.com/remy/nodemon/graphs/contributors ❤︎
 

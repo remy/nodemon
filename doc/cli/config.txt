@@ -1,6 +1,6 @@
 
   Typically the options to control nodemon are passed in via the CLI and are
-  listed under the default nodemon --help command.
+  listed under: nodemon --help options
 
   nodemon can also be configured via a local and global config file:
 
