@@ -9,7 +9,7 @@ nodemon will watch the files in the directory in which nodemon was started, and 
 nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
-[![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon)
+[![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
 
 <a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
 
@@ -17,13 +17,17 @@ nodemon does **not** require *any* changes to your code or method of development
 
 Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
 
-    npm install -g nodemon
+```
+npm install -g nodemon
+```
 
 And nodemon will be installed globally to your system path.
 
-It is also possible to install locally:
+You can also install nodemon as a developement dependency:
 
-    npm install --save-dev nodemon
+```
+npm install --save-dev nodemon
+```
 
 With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
 
@@ -31,27 +35,31 @@ With a local installation, nodemon will not be available in your system path. In
 
 nodemon wraps your application, so you can pass all the arguments you would normally pass to your app:
 
-    nodemon [your node app]
+```
+nodemon [your node app]
+```
 
 For CLI options, use the `-h` (or `--help`) argument:
 
-    nodemon -h
+```
+nodemon -h
+```
 
 Using nodemon is simple, if my application accepted a host and port as the arguments, I would start it as so:
 
-    nodemon ./server.js localhost 8080
+```
+nodemon ./server.js localhost 8080
+```
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
 
-nodemon also supports running and monitoring [coffee-script](http://coffeescript.org/) apps:
-
-    nodemon server.coffee
-
 If no script is given, nodemon will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
 
-You can also pass the debug flag to node through the command line as you would normally:
+You can also pass the `inspect` flag to node through the command line as you would normally:
 
-    nodemon --debug ./server.js 80
+```
+nodemon --inspect ./server.js 80
+```
 
 If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app.
 
@@ -79,14 +87,16 @@ The specificity is as follows, so that a command line argument will always overr
 
 A config file can take any of the command line arguments as JSON key values, for example:
 
-    {
-      "verbose": true,
-      "ignore": ["*.test.js", "fixtures/*"],
-      "execMap": {
-        "rb": "ruby",
-        "pde": "processing --sketch={{pwd}} --run"
-      }
-    }
+```json
+{
+  "verbose": true,
+  "ignore": ["*.test.js", "fixtures/*"],
+  "execMap": {
+    "rb": "ruby",
+    "pde": "processing --sketch={{pwd}} --run"
+  }
+}
+```
 
 The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can simply run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
 
@@ -97,17 +107,17 @@ A further example of options can be seen in [sample-nodemon.md](https://github.c
 If you want to keep all your package configurations in one place, nodemon supports using `package.json` for configuration.
 Simply specify the config in the same format as you would for a config file but under `nodemonConfig` in the `package.json` file, for example, take the following `package.json`:
 
-    {
-      "name": "nodemon",
-      "homepage": "http://nodemon.io",
-      ...
-      ... other standard package.json values
-      ...
-      "nodemonConfig": {
-        "ignore": ["test/*", "docs/*"],
-        "delay": "2500"
-      }
-    }
+```json
+{
+  "name": "nodemon",
+  "homepage": "http://nodemon.io",
+  "...": "... other standard package.json values",
+  "nodemonConfig": {
+    "ignore": ["test/*", "docs/*"],
+"delay": "2500"
+  }
+}
+```
 
 Note that if you specify a `--config` file or provide a local `nodemon.json` any `package.json` config is ignored.
 
@@ -119,9 +129,11 @@ Please see [doc/requireable.md](doc/requireable.md)
 
 ## Running non-node scripts
 
-nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no .nodemonignore:
+nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no `nodemon.json`:
 
-    nodemon --exec "python -v" ./app.py
+```
+nodemon --exec "python -v" ./app.py
+```
 
 Now nodemon will run `app.py` with python in verbose mode (note that if you're not passing args to the exec program, you don't need the quotes), and look for new or modified files with the `.py` extension.
 
@@ -131,15 +143,19 @@ Using the `nodemon.json` config file, you can define your own default executable
 
 To add support for nodemon to know about the .pl extension (for Perl), the nodemon.json file would add:
 
-    {
-      "execMap": {
-         "pl": "perl"
-      }
-    }
+```json
+{
+  "execMap": {
+    "pl": "perl"
+  }
+}
+```
 
 Now running the following, nodemon will know to use `perl` as the executable:
 
-    nodemon script.pl
+```
+nodemon script.pl
+```
 
 It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged in to the project so that nodemon supports it by default, by changing [default.js](https://github.com/remy/nodemon/blob/master/lib/config/defaults.js) and sending a pull request.
 
@@ -147,7 +163,9 @@ It's generally recommended to use the global `nodemon.json` to add your own `exe
 
 By default nodemon monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
 
-    nodemon --watch app --watch libs app/server.js
+```
+nodemon --watch app --watch libs app/server.js
+```
 
 Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
@@ -157,7 +175,9 @@ Don't use unix globbing to pass multiple directories, e.g `--watch ./lib/*`, it 
 
 By default, nodemon looks for files with the `.js`, `.mjs`, `.coffee`, `.litcoffee`, and `.json` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
-    nodemon -e js,jade
+```
+nodemon -e js,jade
+```
 
 Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
 
@@ -167,15 +187,21 @@ By default, nodemon will only restart when a `.js` JavaScript file changes. In s
 
 This can be done via the command line:
 
-    nodemon --ignore lib/ --ignore tests/
+```
+nodemon --ignore lib/ --ignore tests/
+```
 
 Or specific files can be ignored:
 
-    nodemon --ignore lib/app.js
+```
+nodemon --ignore lib/app.js
+```
 
 Patterns can also be ignored (but be sure to quote the arguments):
 
-    nodemon --ignore 'lib/*.js'
+```
+nodemon --ignore 'lib/*.js'
+```
 
 Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
 
@@ -185,7 +211,9 @@ In some networked environments (such as a container running nodemon reading acro
 
 Via the CLI, use either `--legacy-watch` or `-L` for short:
 
-    nodemon -L
+```
+nodemon -L
+```
 
 Though this should be a last resort as it will poll every file it can find.
 
@@ -195,25 +223,33 @@ In some situations, you may want to wait until a number of files have changed. T
 
 To add an extra throttle, or delay restarting, use the `--delay` command:
 
-    nodemon --delay 10 server.js
+```
+nodemon --delay 10 server.js
+```
 
 For more precision, milliseconds can be specified.  Either as a float:
 
-    nodemon --delay 2.5 server.js
+```
+nodemon --delay 2.5 server.js
+```
 
 Or using the time specifier (ms):
 
-    nodemon --delay 2500ms server.js
+```
+nodemon --delay 2500ms server.js
+```
 
 The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
 If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
 
-    nodemon --delay 2.5
+```
+nodemon --delay 2.5
 
-    {
-        "delay": "2500"
-    }
+{
+  "delay": "2500"
+}
+```
 
 ## Controlling shutdown of your script
 
@@ -221,11 +257,13 @@ nodemon sends a kill signal to your application when it sees a file update. If y
 
 The following example will listen once for the `SIGUSR2` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
 
-    process.once('SIGUSR2', function () {
-      gracefulShutdown(function () {
-        process.kill(process.pid, 'SIGUSR2');
-      });
-    });
+```js
+process.once('SIGUSR2', function () {
+  gracefulShutdown(function () {
+    process.kill(process.pid, 'SIGUSR2');
+  });
+});
+```
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
@@ -282,11 +320,27 @@ The answer is simple, but possibly frustrating. I'm not saying (how I pronounce 
 - Offer all CLI functionality as an API
 - Contributions must have and pass tests
 
-Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm completely happy, but perhaps it can be pulled back a little.
+Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm completely happy, but perhaps it can be reduced a little one day.
 
 ## FAQ
 
 See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
+
+## Contributors
+
+This project exists thanks to all the people who [contribute](https://github.com/remy/nodemon/blob/master/.github/CONTRIBUTING.md).
+[![nodemon contributors](https://opencollective.com/nodemon/contributors.svg?width=890)](https://opencollective.com/nodemon#backer)
+
+
+## Backers
+
+Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
+
+[![nodemon backers](https://opencollective.com/nodemon/backers.svg?width=890)](https://opencollective.com/nodemon#backers)
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
 # License
 
