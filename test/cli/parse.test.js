@@ -162,7 +162,7 @@ describe('nodemon CLI parser', function () {
 
   it('should support stand alone `nodemon` command', function () {
     var settings = parse(asCLI(''));
-    assert(settings.execOptions.script === pkg.main);
+    assert(settings.execOptions.script === pkg.main + '.js', `${settings.execOptions.script} === ${pkg.main}`);
   });
 
   it('should put --debug in the right place with coffescript', function () {

@@ -1,9 +1,11 @@
 'use strict';
 /*global describe:true, it: true */
-var exec = require('../../lib/config/exec'),
-    command = require('../../lib/config/command'),
-    assert = require('assert'),
-    utils = require('../../lib/utils');
+const path = require('path');
+const exec = require('../../lib/config/exec');
+const expandScript = exec.expandScript;
+const command = require('../../lib/config/command');
+const assert = require('assert');
+const utils = require('../../lib/utils');
 
 function toCmd(options) {
   var cmd = command({
@@ -17,7 +19,46 @@ function toCmd(options) {
   };
 }
 
+describe('expandScript', () => {
+  var pwd = process.cwd();
+
+  afterEach(function () {
+    process.chdir(pwd);
+  });
+
+  beforeEach(function () {
+    // move to the fixtures directory to allow for config loading
+    process.chdir(path.resolve(pwd, 'test/fixtures'));
+  });
+
+  it('should expand app.js', () => {
+    const script = expandScript('app');
+    assert.equal(script, 'app.js', script);
+  })
+
+  it('should expand hello.py', () => {
+    const script = expandScript('hello', '.py');
+    assert.equal(script, 'hello.py', script);
+  })
+
+  it('should ignore foo.js', () => {
+    const script = expandScript('foo', '.js');
+    assert.equal(script, 'foo', script);
+  })
+});
+
 describe('nodemon exec', function () {
+  var pwd = process.cwd();
+
+  afterEach(function () {
+    process.chdir(pwd);
+  });
+
+  beforeEach(function () {
+    // move to the fixtures directory to allow for config loading
+    process.chdir(path.resolve(pwd, 'test/fixtures'));
+  });
+
   it('should default to node', function () {
     var options = exec({ script: 'index.js' });
     var cmd = toCmd(options);
@@ -135,5 +176,29 @@ describe('nodemon exec', function () {
 
     assert(options.ext.indexOf('js') !== -1);
     assert(options.ext.indexOf('jade') !== -1);
+  });
+
+  it('should expand app to app.js', function () {
+    var options = exec({ script: 'app' });
+    var cmd = toCmd(options);
+    assert(cmd.string === 'node app.js', cmd.string);
+  });
+
+  it('should expand based on custom extensions to hello.py', function () {
+    var options = exec({ script: 'hello', ext: '.py', exec: 'python' });
+    var cmd = toCmd(options);
+    assert(cmd.string === 'python hello.py', cmd.string);
+  });
+
+  it('should expand based on custom extensions to app.js (js,jsx,mjs)', function () {
+    var options = exec({ script: 'app', ext: 'js,jsx,mjs' });
+    var cmd = toCmd(options);
+    assert(cmd.string === 'node app.js', cmd.string);
+  });
+
+  it('should not expand index to non-existant index.js', function () {
+    var options = exec({ script: 'index' });
+    var cmd = toCmd(options);
+    assert(cmd.string === 'node index', cmd.string);
   });
 });
