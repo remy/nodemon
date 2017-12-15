@@ -1,5 +1,6 @@
 - `nodemon -v`:
 - `node -v`:
+- Operating system/terminal environment: 
 - Command you ran:
 
 
