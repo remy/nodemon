@@ -52,7 +52,7 @@
     "should": "~4.0.0"
   },
   "dependencies": {
-    "@remy/pstree": "^1.0.1",
+    "@remy/pstree": "^1.1.0",
     "chokidar": "^1.7.0",
     "debug": "^2.6.8",
     "es6-promise": "^3.3.1",
