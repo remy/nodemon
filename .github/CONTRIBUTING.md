@@ -2,7 +2,7 @@
 
 ## Commit messages
 
-Commit messages must follow the [Angular-style](https://github.com/angular/angular.js/blob/master/CONTRIBUTING.md#commit-message-format) commit format (but excluding the scope).
+Commit messages must follow the [Angular-style](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#commits) commit format (but excluding the scope).
 
 i.e:
 
