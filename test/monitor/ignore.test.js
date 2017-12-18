@@ -52,7 +52,7 @@ function ignore(rule, done, file) {
 }
 
 describe('nodemon ignore', function () {
-  after(function (done) {
+  afterEach(function (done) {
     files.forEach(function (file) {
       if (fs.existsSync(file)) {
         fs.unlinkSync(file);

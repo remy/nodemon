@@ -26,15 +26,16 @@ describe('nodemon monitor child restart', function () {
   afterEach(function () {
     process.chdir(pwd);
     utils.home = oldhome;
-  });
 
-  after(function (done) {
     if (fs.existsSync(tmpjs)) {
       fs.unlinkSync(tmpjs);
     }
     if (fs.existsSync(tmpmd)) {
       fs.unlinkSync(tmpmd);
     }
+  });
+
+  after(function (done) {
     nodemon.once('exit', function () {
       nodemon.reset(done);
     }).emit('quit');
