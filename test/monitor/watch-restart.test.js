@@ -9,6 +9,8 @@ var nodemon = require('../../lib/'),
     crypto = require('crypto'),
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
+var WAIT_BEFORE_START = 3000;
+
 describe('nodemon monitor child restart', function () {
   var tmpjs = path.resolve(baseFilename + '.js'),
       tmpmd = path.resolve(baseFilename + '.md');
@@ -55,7 +57,7 @@ describe('nodemon monitor child restart', function () {
           nodemon.reset(done);
         }).emit('quit');
       });
-    }, 2000);
+    }, WAIT_BEFORE_START);
   });
 
   it('should happen when monitoring multiple extensions', function (done) {
@@ -81,7 +83,7 @@ describe('nodemon monitor child restart', function () {
           }).emit('quit');
         }
       });
-    }, 2000);
+    }, WAIT_BEFORE_START);
   });
 
   if (process.platform === 'darwin') {
@@ -106,7 +108,7 @@ describe('nodemon monitor child restart', function () {
             nodemon.reset(done);
           }).emit('quit');
         });
-      }, 2000);
+      }, WAIT_BEFORE_START);
     });
   }
 
@@ -130,7 +132,7 @@ describe('nodemon monitor child restart', function () {
           nodemon.reset(done);
         }).emit('quit');
       });
-    }, 2000);
+    }, WAIT_BEFORE_START);
   });
 
 });
