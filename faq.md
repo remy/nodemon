@@ -97,11 +97,13 @@ Now when ignoring `public`, the ignore rule results in `['.git', 'public']`, and
 
 Fedora is looking for `nodejs` rather than `node` which is the binary that nodemon kicks off.
 
-The solution is a simple workaround, Linux 101:
+A workaround is to make sure that `node` binary exists in the `PATH`:
 
 ```bash
 sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 ```
+
+Alternatively the `--exec nodejs` option can be used. 
 
 Fedora and Ubuntu pakage node as nodejs, because node.dpkg is
 
