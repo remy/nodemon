@@ -342,9 +342,12 @@ describe('match rule parser', function () {
 
 
 describe('watcher', function () {
-  afterEach(function () {
+  afterEach(function (done) {
     config.reset();
-    watch.resetWatchers();
+    setTimeout(() => {
+      watch.resetWatchers();
+      done();
+    }, 0)
   });
 
   it('should not crash if ignoreRoot is an empty array', function (done) {
@@ -389,17 +392,16 @@ describe('watcher', function () {
     })
   });
 
-  /* fuck you, randomly, for no good goddamn reason, hanging test */
-  // it('should match a dotfolder if explicitly asked to', function (done) {
-  //   config.load({
-  //     watch: ['test/fixtures/.dotfolder']
-  //   }, function (config) {
-  //     return watch.watch()
-  //         .then(function (files) {
-  //           assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
-  //           done();
-  //         })
-  //         .catch(done);
-  //   })
-  // });
+  it('should match a dotfolder if explicitly asked to', function (done) {
+    config.load({
+      watch: ['test/fixtures/.dotfolder']
+    }, function (config) {
+      return watch.watch()
+          .then(function (files) {
+            assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
+            done();
+          })
+          .catch(done);
+    })
+  });
 });
