@@ -29,9 +29,12 @@ describe('nodemon monitor child restart', function () {
   });
 
   after(function (done) {
-    fs.unlink(tmpjs);
-    fs.unlink(tmpmd);
-    // clean up just in case.
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpjs);
+    }
+    if (fs.existsSync(tmpmd)) {
+      fs.unlinkSync(tmpmd);
+    }
     nodemon.once('exit', function () {
       nodemon.reset();
       done();

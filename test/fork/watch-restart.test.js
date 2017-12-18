@@ -11,7 +11,6 @@ var assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
     crypto = require('crypto'),
-    noop = function () {},
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
 describe('nodemon fork child restart', function () {
@@ -20,9 +19,15 @@ describe('nodemon fork child restart', function () {
       tmpcoffee = path.resolve(baseFilename + '.coffee');
 
   after(function () {
-    fs.unlink(tmpjs, noop);
-    fs.unlink(tmpmd, noop);
-    fs.unlink(tmpcoffee, noop);
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpjs);
+    }
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpmd);
+    }
+    if (fs.existsSync(tmpjs)) {
+      fs.unlinkSync(tmpcoffee);
+    }
   });
 
   /* removed test due to CoffeeScript using depreciate customFds - failing tests */

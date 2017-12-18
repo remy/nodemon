@@ -13,9 +13,15 @@ function rnd() {
 
 describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
+  var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
   after(function (done) {
-    fs.unlink(tmp, function () { });
+    if (fs.existsSync(tmp)) {
+      fs.unlinkSync(tmp);
+    }
+    if (fs.existsSync(tmp2)) {
+      fs.unlinkSync(tmp2);
+    }
     // clean up just in case.
     nodemon.once('exit', function () {
       nodemon.reset();
@@ -29,7 +35,6 @@ describe('when nodemon runs (2)', function () {
 
   it('should restart when new files are added', function (done) {
     fs.writeFileSync(tmp, 'setTimeout(function(){}, 10000)');
-    var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
     nodemon({
       script: tmp,
@@ -38,8 +43,11 @@ describe('when nodemon runs (2)', function () {
         fs.writeFileSync(tmp2, 'setTimeout(function(){}, 10000)');
       }, 500);
     }).on('restart', function () {
-      assert(true, 'restarted after new file was added');
-      nodemon.once('exit', done).emit('quit');
+      assert(fs.existsSync(tmp2), 'restarted after new file was added');
+      nodemon.once('exit', function () {
+        nodemon.reset();
+        done();
+      }).emit('quit');
     });
   });
 
