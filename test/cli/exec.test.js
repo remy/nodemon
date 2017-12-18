@@ -93,6 +93,20 @@ describe('nodemon exec', function () {
     assert(options.ext.indexOf('jade') !== -1, 'pipe separated string');
   });
 
+  it('should support watching all extensions', function () {
+    var options = exec({ script: 'app.js', ext: '' });
+    assert.equal(options.ext, '', 'does not set default extensions when empty extension requested');
+
+    options = exec({ script: 'app.js', ext: '.' });
+    assert.equal(options.ext, '', 'treats `.` as wildcard extension');
+
+    options = exec({ script: 'app.js', ext: '*' });
+    assert.equal(options.ext, '', 'treats `*` as wildcard extension');
+
+    options = exec({ script: 'app.coffee', exec: 'coffee', ext: '' });
+    assert.equal(options.ext, '', 'does not set default extensions when empty extension requested');
+  });
+
   it('should replace {{filename}}', function () {
     var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
 
@@ -181,6 +195,10 @@ describe('nodemon exec', function () {
   it('should expand app to app.js', function () {
     var options = exec({ script: 'app' });
     var cmd = toCmd(options);
+    assert(cmd.string === 'node app.js', cmd.string);
+
+    options = exec({ script: 'app', ext: '' });
+    cmd = toCmd(options);
     assert(cmd.string === 'node app.js', cmd.string);
   });
 
