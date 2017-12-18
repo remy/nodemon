@@ -32,8 +32,7 @@ describe('config load', function () {
   after(function (done) {
     // clean up just in case.
     nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
     }).emit('quit');
   });
 
@@ -65,8 +64,7 @@ describe('config load', function () {
       assert.ok(nodemon.config.options.ignore.indexOf('\\.git') === -1, 'nodemon is not ignoring (default) .git');
 
       nodemon.on('exit', function () {
-        nodemon.reset();
-        done();
+        nodemon.reset(done);
       });
 
       setTimeout(function () {

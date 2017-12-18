@@ -24,8 +24,7 @@ describe('when nodemon runs (2)', function () {
     }
     // clean up just in case.
     nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
     }).emit('quit');
   });
 
@@ -45,8 +44,7 @@ describe('when nodemon runs (2)', function () {
     }).on('restart', function () {
       assert(fs.existsSync(tmp2), 'restarted after new file was added');
       nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
+        nodemon.reset(done);
       }).emit('quit');
     });
   });
@@ -63,8 +61,7 @@ describe('when nodemon runs (2)', function () {
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
       nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
+        nodemon.reset(done);
       }).emit('quit');
     });
   });
@@ -83,8 +80,7 @@ describe('when nodemon runs (2)', function () {
     }).on('restart', function () {
       assert(true, 'nodemon restarted');
       nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
+        nodemon.reset(done);
       }).emit('quit');
     });
   });
@@ -137,8 +133,7 @@ describe('when nodemon runs (2)', function () {
       fs.unlinkSync(stdoutFileName);
       fs.unlinkSync(stderrFileName);
 
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
     });
   });
 
@@ -178,8 +173,7 @@ describe('when nodemon runs (2)', function () {
       assert(false, 'detected crashed state');
     }).on('exit', function () {
       assert(true, 'quit correctly');
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
 
       setTimeout(function () {
         process.kill(process.pid, 'SIGINT');

@@ -9,8 +9,7 @@ describe('when nodemon runs (1)', function () {
   after(function (done) {
     // clean up just in case.
     nodemon.once('exit', function () {
-      nodemon.reset();
-      done();
+      nodemon.reset(done);
     }).emit('quit');
   });
 
@@ -18,8 +17,7 @@ describe('when nodemon runs (1)', function () {
     nodemon({ script: tmp, stdout: false, env: { USER: 'nodemon' } }).on('stdout', function (data) {
       assert(data.toString().trim() === 'nodemon', 'USER env value correctly set to "nodemon": ' + data.toString());
       nodemon.once('exit', function () {
-        nodemon.reset();
-        done();
+        nodemon.reset(done);
       }).emit('quit');
     });
   });
