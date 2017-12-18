@@ -18,7 +18,7 @@ describe('nodemon fork child restart', function () {
       tmpmd = path.resolve(baseFilename + '.md'),
       tmpcoffee = path.resolve(baseFilename + '.coffee');
 
-  after(function () {
+  afterEach(function () {
     if (fs.existsSync(tmpjs)) {
       fs.unlinkSync(tmpjs);
     }

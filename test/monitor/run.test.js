@@ -15,13 +15,16 @@ describe('when nodemon runs (2)', function () {
   var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
   var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
-  after(function (done) {
+  afterEach(function () {
     if (fs.existsSync(tmp)) {
       fs.unlinkSync(tmp);
     }
     if (fs.existsSync(tmp2)) {
       fs.unlinkSync(tmp2);
     }
+  });
+
+  after(function (done) {
     // clean up just in case.
     nodemon.once('exit', function () {
       nodemon.reset(done);
