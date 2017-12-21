@@ -3,7 +3,7 @@ Configuration
   --config <file> .......... alternate nodemon.json config file to use
   --exitcrash .............. exit on crash, allows nodemon to work with other watchers
   -i, --ignore ............. ignore specific files or directories
-  --no-colors .............. disable color output
+  --[no-]color ............. toggle color output
   --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
   -w, --watch dir........... watch directory "dir" or files. use once for each
                              directory or file to watch
