@@ -1,4 +1,3 @@
-- Does the bug occur on [latest nodemon](https://github.com/remy/nodemon/releases)? 
 - `nodemon -v`:
 - `node -v`:
 - Operating system/terminal environment: 
