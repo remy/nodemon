@@ -11,6 +11,6 @@ var fs = require('fs');
 // checks for available update and returns an instance
 var pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
 
-require('update-notifier')({
-  pkg: Object.assign(pkg, { version: '0.0.0' }),
-}).notify();
+if (pkg.version.indexOf('0.0.0') !== 0) {
+  require('update-notifier')({ pkg }).notify();
+}
