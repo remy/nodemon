@@ -274,12 +274,45 @@ describe('nodemon respects custom "ext" and "execMap"', function () {
   });
 });
 
-describe('nodemon should slurp properly', () => {
+describe.only('nodemon should slurp properly', () => {
   it('should read quotes as a single entity', () => {
     const settings = parse(asCLI('notindex.js -- -b "hello - world"'));
     assert(settings.execOptions.exec === 'node', 'node is exec');
     assert(settings.args.length === 3, 'only has 3 arguments to node');
   });
+
+  it('should pass non-slurped args to script', () => {
+    const settings = parse(asCLI('-- --log'));
+    var cmd = commandToString(command(settings));
+    assert.equal(cmd, 'node ./lib/nodemon.js --log', 'args passed to script');
+  });
+
+  it('should pass non-slurped args to explicit script', () => {
+    const settings = parse(asCLI('./lib/nodemon.js -- --log'));
+    var cmd = commandToString(command(settings));
+    assert.equal(cmd, 'node ./lib/nodemon.js --log', 'args passed to script');
+  });
+
+  it('should pass slurped args to explicit script', () => {
+    const settings = parse(asCLI('./lib/nodemon.js --log'));
+    var cmd = commandToString(command(settings));
+    assert.equal(cmd, 'node ./lib/nodemon.js --log', 'args passed to script');
+  });
+
+  it('should handle a mix of slurps', () => {
+    var cmd;
+    var settings;
+
+    cmd = commandToString(command(parse(asCLI('--inspect -- --log'))));
+    assert.equal(cmd, 'node --inspect ./lib/nodemon.js --log', 'args passed to script');
+
+    cmd = commandToString(command(parse(asCLI('--inspect ./lib/nodemon.js -- --log'))));
+    assert.equal(cmd, 'node --inspect ./lib/nodemon.js --log', 'args passed to script');
+
+    cmd = commandToString(command(parse(asCLI('--inspect --log ./lib/nodemon.js'))));
+    assert.equal(cmd, 'node --inspect --log ./lib/nodemon.js', 'args passed to script');
+  });
+
 });
 
 describe('nodemon with CoffeeScript', function () {
