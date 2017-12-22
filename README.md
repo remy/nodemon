@@ -11,8 +11,6 @@ nodemon does **not** require *any* changes to your code or method of development
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
 
-<a href="https://app.codesponsor.io/link/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon" rel="nofollow" target="_blank"><img src="https://app.codesponsor.io/embed/wnz2te8CdfKZ8wMjGUpi8EZG/remy/nodemon.svg" style="width: 888px; height: 68px;" alt="Sponsor" /></a>
-
 # Installation
 
 Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
