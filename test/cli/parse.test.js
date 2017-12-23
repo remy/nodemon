@@ -274,7 +274,7 @@ describe('nodemon respects custom "ext" and "execMap"', function () {
   });
 });
 
-describe.only('nodemon should slurp properly', () => {
+describe('nodemon should slurp properly', () => {
   it('should read quotes as a single entity', () => {
     const settings = parse(asCLI('notindex.js -- -b "hello - world"'));
     assert(settings.execOptions.exec === 'node', 'node is exec');
