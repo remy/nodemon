@@ -15,4 +15,4 @@
 
 ---
 
-If applicable, please append the `--dump` flag on your command and include the output here **ensuring to remove any sensitive/personal details or tokens.
+If applicable, please append the `--dump` flag on your command and include the output here **ensuring to remove any sensitive/personal details or tokens**.
