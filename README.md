@@ -340,6 +340,8 @@ Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
+[<img src="website/sparkpost.svg" width="200">](https://sparkpo.st/nodemon)
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
