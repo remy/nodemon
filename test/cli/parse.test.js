@@ -7,6 +7,8 @@ var cli = require('../../lib/cli/'),
   command = require('../../lib/config/command'),
   utils = require('../../lib/utils');
 
+const mutateExecOptions = require('../../lib/config/load').mutateExecOptions;
+
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd || '')).trim();
 }
@@ -26,6 +28,7 @@ function parse(cmd) {
   });
 
   return parsed;
+    return mutateExecOptions(cli.parse(cmd));
 }
 
 function commandToString(command) {
@@ -96,18 +99,6 @@ describe('nodemon CLI parser', function () {
 
     assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
   });
-
-  // it('should put the script at the end if found in package.scripts.start', function () {
-  //   var pwd = process.cwd();
-  //   process.chdir('test/fixtures/packages/start'); // allows us to load text/fixtures/package.json
-  //   var settings = parse(asCLI('--harmony')),
-  //       cmd = commandToString(command(settings));
-
-  //   process.chdir(pwd);
-  //   console.log(settings, cmd);
-
-  //   assert(cmd === 'node --harmony app.js', 'command is ' + cmd);
-  // });
 
   it('should support default express4 format', function () {
     var pwd = process.cwd();
@@ -272,6 +263,27 @@ describe('nodemon respects custom "ext" and "execMap"', function () {
     assert(settings.execOptions.ext.split(',').length === 3, 'all extensions monitored');
     assert(settings.execOptions.exec.indexOf('node') === 0, 'node is exec: ' + settings.execOptions.exec);
   });
+});
+
+describe('nodemon should support implicit extensions', () => {
+  it('should expand script to script.js', () => {
+    const cwd = process.cwd();
+    process.chdir('test/fixtures/');
+    const settings = parse(asCLI('env'));
+    process.chdir(cwd);
+    var cmd = commandToString(command(settings));
+    assert.equal(cmd, 'node env.js', 'implicit extension added');
+  });
+
+  it('should support non-js', () => {
+    const cwd = process.cwd();
+    process.chdir('test/fixtures/');
+    const settings = parse(asCLI('hello --ext py'));
+    process.chdir(cwd);
+    var cmd = commandToString(command(settings));
+    assert.equal(cmd, 'node hello.py', 'implicit extension added');
+  });
+
 });
 
 describe('nodemon should slurp properly', () => {

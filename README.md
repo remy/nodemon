@@ -112,7 +112,7 @@ Simply specify the config in the same format as you would for a config file but 
   "...": "... other standard package.json values",
   "nodemonConfig": {
     "ignore": ["test/*", "docs/*"],
-"delay": "2500"
+    "delay": "2500"
   }
 }
 ```
