@@ -10,6 +10,7 @@ nodemon does **not** require *any* changes to your code or method of development
 
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fremy%2Fnodemon.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fremy%2Fnodemon?ref=badge_shield)
 
 # Installation
 
@@ -345,3 +346,6 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fremy%2Fnodemon.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fremy%2Fnodemon?ref=badge_large)
