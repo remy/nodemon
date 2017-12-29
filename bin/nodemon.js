@@ -1,16 +1,16 @@
 #!/usr/bin/env node
-'use strict';
-var cli = require('../lib/cli');
-var nodemon = require('../lib/');
-var options = cli.parse(process.argv);
+
+const cli = require('../lib/cli');
+const nodemon = require('../lib/');
+const options = cli.parse(process.argv);
 
 nodemon(options);
 
-var fs = require('fs');
+const fs = require('fs');
 
 // checks for available update and returns an instance
-var pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
+const pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
 
-if (pkg.version.indexOf('0.0.0') !== 0) {
+if (pkg.version.indexOf('0.0.0') !== 0 && options.noUpdateNotifier !== true) {
   require('update-notifier')({ pkg }).notify();
 }
