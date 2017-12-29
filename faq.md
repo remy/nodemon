@@ -26,6 +26,16 @@ $ nodemon app.js -- -L -opt2 -opt3
 
 nodemon will ignore all script arguments after `--` and pass them to your script.
 
+# Error: "process failed, unhandled exit code (2)"
+
+Nodemon will look for exit signals from the child process it runs. When the exit code is `2`, nodemon throws an error. Typically this is because the arguments are bad for the executing program, but it can also be due other reasons.
+
+For example, mocha@3.x will exit with `2` on failing tests. To handle the exit code in a way that nodemon can consume, manually exit the process, i.e.:
+
+```bash
+nodemon -x 'mocha test/bad.test.js || exit 1'
+```
+
 # Can't install nodemon: permission issue
 
 You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environemnts). If the install fails with this appearing in the npm error log, then you need the following workaround.
@@ -103,7 +113,7 @@ A workaround is to make sure that `node` binary exists in the `PATH`:
 sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 ```
 
-Alternatively the `--exec nodejs` option can be used. 
+Alternatively the `--exec nodejs` option can be used.
 
 Fedora and Ubuntu pakage node as nodejs, because node.dpkg is
 

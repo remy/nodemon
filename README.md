@@ -324,12 +324,6 @@ Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm complete
 
 See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
 
-## Contributors
-
-This project exists thanks to all the people who [contribute](https://github.com/remy/nodemon/blob/master/.github/CONTRIBUTING.md).
-[![nodemon contributors](https://opencollective.com/nodemon/contributors.svg?width=890)](https://opencollective.com/nodemon#backer)
-
-
 ## Backers
 
 Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
