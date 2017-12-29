@@ -37,6 +37,7 @@
     "clean": "rm -rf test/fixtures/test*.js test/fixtures/test*.md",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "prepush": "npm run lint",
     "postinstall": "node -e \"console.log('\\u001b[32mLove nodemon? You can now support the project via the open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[96m\\u001b[1mhttps://opencollective.com/nodemon/donate\\u001b[0m\\n')\""
   },
   "devDependencies": {
