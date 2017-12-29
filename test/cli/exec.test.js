@@ -63,7 +63,7 @@ describe('nodemon exec', function () {
     var options = exec({ script: 'index.js' });
     var cmd = toCmd(options);
     assert.equal(options.exec, 'node', 'exec is node');
-    assert.equal(options.ext, 'js,json');
+    assert.equal(options.ext, 'js,mjs,json');
     assert.equal(cmd.string, 'node index.js', cmd.string);
   });
 
