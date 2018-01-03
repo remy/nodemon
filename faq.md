@@ -38,7 +38,7 @@ nodemon -x 'mocha test/bad.test.js || exit 1'
 
 # Can't install nodemon: permission issue
 
-You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environemnts). If the install fails with this appearing in the npm error log, then you need the following workaround.
+You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environments). If the install fails with this appearing in the npm error log, then you need the following workaround.
 
 ```
 gyp WARN EACCES user "root" does not have permission to access the dev dir "<some-local-dir>"
@@ -198,9 +198,9 @@ For example, on `lib/app.js` being changed:
 
 ## My .nodemonignore is being ignored
 
-The new `nodemon.json` superceeds the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
+The new `nodemon.json` supersedes the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
 
-Note that if you have a `nodemon.json` in your `$HOME` path, then this will also supersede the old ignore file.
+Note that if you have a `nodemon.json` in your `$HOME` path, then this will also supersede the old ignore file (and the _legacy_ format config is ignored).
 
 ## nodemon does nothing
 
