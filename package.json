@@ -38,6 +38,7 @@
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepush": "npm run lint",
+    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
     "postinstall": "node -e \"console.log('\\u001b[32mLove nodemon? You can now support the project via the open collective:\\u001b[22m\\u001b[39m\\n > \\u001b[96m\\u001b[1mhttps://opencollective.com/nodemon/donate\\u001b[0m\\n')\" || exit 0"
   },
   "devDependencies": {
@@ -58,6 +59,7 @@
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
     "pstree.remy": "^1.1.0",
+    "semver": "^5.4.1",
     "touch": "^3.1.0",
     "undefsafe": "0.0.3",
     "update-notifier": "^2.3.0"

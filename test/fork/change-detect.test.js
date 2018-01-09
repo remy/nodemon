@@ -1,14 +1,14 @@
 'use strict';
 /*global describe:true, it: true */
 var utils = require('../utils'),
-    colour = require('../../lib/utils/colour'),
-    assert = require('assert'),
-    touch = require('touch'),
-    appjs = utils.appjs,
-    appcoffee = utils.appcoffee,
-    match = utils.match,
-    cleanup = utils.cleanup,
-    run = utils.run;
+  colour = require('../../lib/utils/colour'),
+  assert = require('assert'),
+  touch = require('touch'),
+  appjs = utils.appjs,
+  appcoffee = utils.appcoffee,
+  match = utils.match,
+  cleanup = utils.cleanup,
+  run = utils.run;
 
 describe('nodemon fork simply running', function () {
   it('should start', function (done) {
@@ -39,13 +39,13 @@ describe('nodemon fork monitor', function () {
         if (startWatch && match(data, 'changes after filters')) {
           var changes = colour.strip(data.trim());
           var restartedOn = null;
-          changes.replace(/changes after filters \(before\/after\): \d+\/(\d+)/, function (all, m) {
+          changes.replace(/changes after filters \(before\/after\): \d+\/(\d+)/, (_, m) => {
             restartedOn = m;
           });
 
           // .split('changes after filters').pop().split('/');
           // var restartedOn = changes.pop().trim();
-          assert(restartedOn === '1', 'nodemon restarted on 1 file: ' + restartedOn + ' / ' + data.toString());
+          assert.equal(restartedOn, '1', 'nodemon restarted on 1 file: ' + restartedOn + ' / ' + data.toString());
         }
       },
       error: function (data) {
@@ -59,7 +59,7 @@ describe('nodemon fork monitor', function () {
       } else if (event.type === 'start') {
         setTimeout(function () {
           touch.sync(appjs);
-        }, 2500);
+        }, 1000);
       }
     });
   });
@@ -69,10 +69,11 @@ describe('nodemon fork monitor', function () {
       var p = run(appjs, {
         output: function (data) {
           if (match(data, 'changes after filters')) {
-            var changes = colour.strip(data.trim()).slice(-5).split('/');
+            data = colour.strip(data.toString().trim());
+            var changes = data.split('/');
             var restartedOn = changes.pop();
 
-            assert(restartedOn === '0', 'expects to not have restarted');
+            assert.equal(restartedOn, '0', 'expects to not have restarted');
             utils.cleanup(p, done);
           }
         },
@@ -91,6 +92,6 @@ describe('nodemon fork monitor', function () {
           utils.cleanup(p, done, new Error('nodemon restarted'));
         }
       });
-    }, 2000);
+    }, 1000);
   });
 });
