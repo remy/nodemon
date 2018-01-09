@@ -15,7 +15,7 @@ nodemon does **not** require *any* changes to your code or method of development
 
 Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
 
-```
+```bash
 npm install -g nodemon
 ```
 
@@ -23,7 +23,7 @@ And nodemon will be installed globally to your system path.
 
 You can also install nodemon as a developement dependency:
 
-```
+```bash
 npm install --save-dev nodemon
 ```
 
@@ -33,19 +33,19 @@ With a local installation, nodemon will not be available in your system path. In
 
 nodemon wraps your application, so you can pass all the arguments you would normally pass to your app:
 
-```
+```bash
 nodemon [your node app]
 ```
 
 For CLI options, use the `-h` (or `--help`) argument:
 
-```
+```bash
 nodemon -h
 ```
 
 Using nodemon is simple, if my application accepted a host and port as the arguments, I would start it as so:
 
-```
+```bash
 nodemon ./server.js localhost 8080
 ```
 
@@ -55,7 +55,7 @@ If no script is given, nodemon will test for a `package.json` file and if found,
 
 You can also pass the `inspect` flag to node through the command line as you would normally:
 
-```
+```bash
 nodemon --inspect ./server.js 80
 ```
 
@@ -129,7 +129,7 @@ Please see [doc/requireable.md](doc/requireable.md)
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no `nodemon.json`:
 
-```
+```bash
 nodemon --exec "python -v" ./app.py
 ```
 
@@ -151,7 +151,7 @@ To add support for nodemon to know about the .pl extension (for Perl), the nodem
 
 Now running the following, nodemon will know to use `perl` as the executable:
 
-```
+```bash
 nodemon script.pl
 ```
 
@@ -161,7 +161,7 @@ It's generally recommended to use the global `nodemon.json` to add your own `exe
 
 By default nodemon monitors the current working directory. If you want to take control of that option, use the `--watch` option to add specific paths:
 
-```
+```bash
 nodemon --watch app --watch libs app/server.js
 ```
 
@@ -173,7 +173,7 @@ Don't use unix globbing to pass multiple directories, e.g `--watch ./lib/*`, it 
 
 By default, nodemon looks for files with the `.js`, `.mjs`, `.coffee`, `.litcoffee`, and `.json` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
-```
+```bash
 nodemon -e js,jade
 ```
 
@@ -185,19 +185,19 @@ By default, nodemon will only restart when a `.js` JavaScript file changes. In s
 
 This can be done via the command line:
 
-```
+```bash
 nodemon --ignore lib/ --ignore tests/
 ```
 
 Or specific files can be ignored:
 
-```
+```bash
 nodemon --ignore lib/app.js
 ```
 
 Patterns can also be ignored (but be sure to quote the arguments):
 
-```
+```bash
 nodemon --ignore 'lib/*.js'
 ```
 
@@ -209,7 +209,7 @@ In some networked environments (such as a container running nodemon reading acro
 
 Via the CLI, use either `--legacy-watch` or `-L` for short:
 
-```
+```bash
 nodemon -L
 ```
 
@@ -221,19 +221,19 @@ In some situations, you may want to wait until a number of files have changed. T
 
 To add an extra throttle, or delay restarting, use the `--delay` command:
 
-```
+```bash
 nodemon --delay 10 server.js
 ```
 
 For more precision, milliseconds can be specified.  Either as a float:
 
-```
+```bash
 nodemon --delay 2.5 server.js
 ```
 
 Or using the time specifier (ms):
 
-```
+```bash
 nodemon --delay 2500ms server.js
 ```
 
@@ -241,7 +241,7 @@ The delay figure is number of seconds (or milliseconds, if specified) to delay b
 
 If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
 
-```
+```bash
 nodemon --delay 2.5
 
 {
