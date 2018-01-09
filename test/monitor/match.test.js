@@ -1,15 +1,15 @@
 'use strict';
 /*global describe:true, it: true */
 var assert = require('assert'),
-    match = require('../../lib/monitor/match'),
-    config = require('../../lib/config'),
-    path = require('path'),
-    fs = require('fs'),
-    nodemonUtils = require('../../lib/utils'),
-    defaults = require('../../lib/config/defaults'),
-    utils = require('../utils'),
-    watch = require('../../lib/monitor/watch'),
-    merge = nodemonUtils.merge;
+  match = require('../../lib/monitor/match'),
+  config = require('../../lib/config'),
+  path = require('path'),
+  fs = require('fs'),
+  nodemonUtils = require('../../lib/utils'),
+  defaults = require('../../lib/config/defaults'),
+  utils = require('../utils'),
+  watch = require('../../lib/monitor/watch'),
+  merge = nodemonUtils.merge;
 
 describe('match', function () {
   var monitor = [
@@ -21,6 +21,17 @@ describe('match', function () {
     'views/server/*',
     '!*.coffee',
   ];
+
+  it('should handle lots of **s!', () => {
+    const res = match(['test/fixtures/app.js'], ['*.*',
+      '!**/.git/**',
+      '!**/.nyc_output/**',
+      '!**/.sass-cache/**',
+      '!**/bower_components/**',
+      '!**/coverage/**'], 'js,mjs,json');
+
+    assert.equal(res.result.length, 1, JSON.stringify(res));
+  })
 
   it('should match zero files', function () {
     var files = [
@@ -144,7 +155,7 @@ describe('match', function () {
   it('should support old .nodemonignore', function (done) {
     // prevents our test from finding the nodemon.json files
     var pwd = process.cwd(),
-        old = nodemonUtils.home;
+      old = nodemonUtils.home;
 
     process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
     nodemonUtils.home = path.resolve(pwd, 'test/fixtures/legacy');
@@ -356,10 +367,10 @@ describe('watcher', function () {
       ignoreRoot: []
     }, function (config) {
       return watch.watch()
-          .then(function () {
-            done();
-          })
-          .catch(done)
+        .then(function () {
+          done();
+        })
+        .catch(done)
     })
   });
 
@@ -368,14 +379,14 @@ describe('watcher', function () {
       watch: ['test/fixtures/*']
     }, function (config) {
       return watch.watch()
-          .then(function (files) {
-            var withDotfile = files.filter(function (file) {
-              return /test\/fixtures\/\.dotfile$/.test(file);
-            });
-            assert.deepEqual(withDotfile.length, 0, 'should not contain .dotfile');
-            done();
-          })
-          .catch(done);
+        .then(function (files) {
+          var withDotfile = files.filter(function (file) {
+            return /test\/fixtures\/\.dotfile$/.test(file);
+          });
+          assert.deepEqual(withDotfile.length, 0, 'should not contain .dotfile');
+          done();
+        })
+        .catch(done);
     })
   });
 
@@ -384,11 +395,11 @@ describe('watcher', function () {
       watch: ['test/fixtures/.dotfile']
     }, function (config) {
       return watch.watch()
-          .then(function (files) {
-            assert.deepEqual(files.length, 1, 'should contain .dotfile');
-            done();
-          })
-          .catch(done);
+        .then(function (files) {
+          assert.deepEqual(files.length, 1, 'should contain .dotfile');
+          done();
+        })
+        .catch(done);
     })
   });
 
@@ -397,11 +408,11 @@ describe('watcher', function () {
       watch: ['test/fixtures/.dotfolder']
     }, function (config) {
       return watch.watch()
-          .then(function (files) {
-            assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
-            done();
-          })
-          .catch(done);
+        .then(function (files) {
+          assert.deepEqual(files.length, 3, 'file lists should contain .dotfolder files');
+          done();
+        })
+        .catch(done);
     })
   });
 });
