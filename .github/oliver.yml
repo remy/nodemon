@@ -1,0 +1,12 @@
+# Number of days the issue was closed in before the bot should reply.
+# If the issue was closed in more days than this, the bot won't reply.
+# Use `daysClosedIn: false` to *always* reply.
+daysClosedIn: 5
+
+# Labels to look for on issues the bot can reply to
+labels:
+  - bug
+
+# Comment to post when replying
+comment: >
+  Thanks for raising this issue, and hopefully you're happy with @remy's fix. If you'd like to support this project, you can do just that through the open collective https://opencollective.com/nodemon/donate or at the very least, starring this project would give me @remy a little smile ❤️
