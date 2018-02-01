@@ -1,7 +1,7 @@
 # Number of days the issue was closed in before the bot should reply.
 # If the issue was closed in more days than this, the bot won't reply.
 # Use `daysClosedIn: false` to *always* reply.
-daysClosedIn: false
+daysClosedIn: 100
 
 # Labels to look for on issues the bot can reply to
 labels:
