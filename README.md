@@ -1,4 +1,4 @@
-![nodemon logo](https://github.com/remy/nodemon/raw/master/website/nodemon.svg)
+![nodemon logo](https://user-images.githubusercontent.com/13700/35731649-652807e8-080e-11e8-88fd-1b2f6d553b2d.png)
 
 # nodemon
 
@@ -334,9 +334,9 @@ Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
-[<img src="https://nodemon.io/sparkpost.svg?1" width="200">](https://sparkpo.st/nodemon)
+[<img src="https://user-images.githubusercontent.com/13700/35731651-677aa3fc-080e-11e8-8580-75fa92db56ec.png" width="200">](https://sparkpo.st/nodemon)
 
-[<img src="https://nodemon.io/mixmax.png?1" width="200">](https://https://mixmax.com)
+[<img src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="200">](https://https://mixmax.com)
 
 # License
 
