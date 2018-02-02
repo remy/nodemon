@@ -1,4 +1,4 @@
-![nodemon logo](http://nodemon.io/nodemon.svg)
+![nodemon logo](https://nodemon.io/nodemon.svg?1)
 
 # nodemon
 
@@ -334,9 +334,9 @@ Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
-[<img src="https://nodemon.io/sparkpost.svg" width="200">](https://sparkpo.st/nodemon)
+[<img src="https://nodemon.io/sparkpost.svg?1" width="200">](https://sparkpo.st/nodemon)
 
-[<img src="https://nodemon.io/mixmax.png" width="200">](https://https://mixmax.com)
+[<img src="https://nodemon.io/mixmax.png?1" width="200">](https://https://mixmax.com)
 
 # License
 
