@@ -336,7 +336,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 [<img src="https://nodemon.io/sparkpost.svg" width="200">](https://sparkpo.st/nodemon)
 
-[<img src="https://nodemon.io/minmax.png" width="200">](https://https://mixmax.com)
+[<img src="https://nodemon.io/mixmax.png" width="200">](https://https://mixmax.com)
 
 # License
 
