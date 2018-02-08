@@ -6,7 +6,7 @@ For use during development of a node.js based application.
 
 nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
 
-nodemon does **not** require *any* changes to your code or method of development. nodemon simply wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
+nodemon does **not** require *any* changes to your code or method of development. nodemon wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
 
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
@@ -96,14 +96,14 @@ A config file can take any of the command line arguments as JSON key values, for
 }
 ```
 
-The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can simply run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
+The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
 
 A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md)
 
 ### package.json
 
 If you want to keep all your package configurations in one place, nodemon supports using `package.json` for configuration.
-Simply specify the config in the same format as you would for a config file but under `nodemonConfig` in the `package.json` file, for example, take the following `package.json`:
+Specify the config in the same format as you would for a config file but under `nodemonConfig` in the `package.json` file, for example, take the following `package.json`:
 
 ```json
 {
@@ -267,7 +267,7 @@ Note that the `process.kill` is *only* called once your shutdown jobs are comple
 
 ## Triggering events when nodemon state changes
 
-If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or simply add event actions to your `nodemon.json` file.
+If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or add event actions to your `nodemon.json` file.
 
 For example, to trigger a notification on a Mac when nodemon restarts, `nodemon.json` looks like this:
 

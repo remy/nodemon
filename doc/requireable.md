@@ -40,7 +40,7 @@ The `nodemon` object also has a few methods and properties. Some are exposed to 
 
 ### Event handling
 
-This is simply the event emitter bus that exists inside nodemon exposed at the top level module (ie. it's the `events` api):
+This is the event emitter bus that exists inside nodemon exposed at the top level module (ie. it's the `events` api):
 
 - `nodemon.on(event, fn)`
 - `nodemon.addListener(event, fn)`

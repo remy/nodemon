@@ -146,7 +146,7 @@ forever start --uid foo --killSignal=SIGTERM -c 'nodemon --exitcrash' server.js
 
 To test this, you can kill the server.js process and forever will restart it. If you `touch server.js` nodemon will restart it.
 
-To stop the process monitored by forever and nodemon, simply call the following, using the `uid` we assigned above (`foo`):
+To stop the process monitored by forever and nodemon, call the following, using the `uid` we assigned above (`foo`):
 
 ```bash
 forever stop foo
