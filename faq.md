@@ -4,7 +4,7 @@ This is being added to as common issues occur on the [issues](http://github.com/
 
 This is a working document, and if it makes sense, I'll take pull requests to help make it better.
 
-## nodemon doesn't work with my REPL
+# nodemon doesn't work with my REPL
 
 Create an nodemon.json file with the setting:
 
@@ -15,6 +15,10 @@ Create an nodemon.json file with the setting:
 ```
 
 This will leave the STDIN to your application rather than listening for the `rs` command to restart.
+
+# Strange/failing behaviour starting the (node-based) executable
+
+By default, nodemon will try to fork your node scripts ([background reading](https://github.com/remy/nodemon/issues/1025)), however, there are some edge cases where that won't suit your needs. Most of the time the default configuration should be fine, but if you want to force nodemon to spawn your node process, use the `--spawn` option.
 
 # My script arguments are being taken by nodemon
 
