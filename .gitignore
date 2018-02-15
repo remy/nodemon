@@ -17,6 +17,7 @@ npm-debug.log
 node_modules
 coverage
 tmp
+issues/
 test/fixtures/test*
 
 .idea
