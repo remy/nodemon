@@ -14,6 +14,7 @@ Execution
   --cwd <dir> .............. change into <dir> before running the script
   -e, --ext ................ extensions to look for, ie. "js,jade,hbs"
   -I, --no-stdin ........... nodemon passes stdin directly to child process
+  --spawn .................. force nodemon to use spawn (over fork) [node only]
   -x, --exec app ........... execute script with "app", ie. -x "python -v"
   -- <your args> ........... to tell nodemon stop slurping arguments
 
