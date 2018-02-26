@@ -11,8 +11,6 @@
   -V, --verbose ............ show detail on what is causing restarts.
   -- <your args> ........... to tell nodemon stop slurping arguments.
 
-  More options are available under: nodemon --help options
-
   Note: if the script is omitted, nodemon will try to read "main" from
   package.json and without a nodemon.json, nodemon will monitor .js, .mjs, .coffee,
   and .litcoffee by default.
@@ -28,4 +26,4 @@
   $ nodemon --exec "make build" -e "styl hbs"
   $ nodemon app.js -- --config # pass config to app.js
 
-  For more details see https://github.com/remy/nodemon/
+  \x1B[1mAll options are documented under: \x1B[4mnodemon --help options\x1B[0m
