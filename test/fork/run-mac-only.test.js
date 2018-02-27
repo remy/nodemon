@@ -12,11 +12,11 @@ const filenames = [
 if (!process.env.TRAVIS && process.platform !== 'win32') {
   describe('nodemon fork (mac only)', () => {
     before(() => {
-      filenames.map(([filename, contents]) => fs.writeFileSync(filename, contents, 'utf8'));
+      filenames.map(file => fs.writeFileSync(file[0], file[1], 'utf8'));
     });
 
     after(() => {
-      filenames.map(([filename]) => fs.unlinkSync(filename));
+      filenames.map(file => fs.unlinkSync(file[0]));
     });
 
     it('should start a fork exec with quotes and escaping', done => {
