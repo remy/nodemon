@@ -60,6 +60,7 @@
     "minimatch": "^3.0.4",
     "pstree.remy": "^1.1.0",
     "semver": "^5.4.1",
+    "supports-color": "^5.2.0",
     "touch": "^3.1.0",
     "undefsafe": "^2.0.1",
     "update-notifier": "^2.3.0"
