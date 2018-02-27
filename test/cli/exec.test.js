@@ -68,14 +68,14 @@ describe('nodemon exec', function () {
   });
 
   it('should support --debug', function () {
-    var options = exec({ script: 'app.js', nodeArgs: [ '--debug' ]});
+    var options = exec({ script: 'app.js', nodeArgs: ['--debug'] });
     var cmd = toCmd(options);
     assert(cmd.string === 'node --debug app.js', cmd.string);
     assert(options.ext.indexOf('js') !== -1, 'extension watched is .js');
   });
 
   it('should support --debug=XXXX', function () {
-    var options = exec({ script: 'app.js', nodeArgs: [ '--debug=9999' ]});
+    var options = exec({ script: 'app.js', nodeArgs: ['--debug=9999'] });
     var cmd = toCmd(options);
     assert(cmd.string === 'node --debug=9999 app.js', cmd.string);
     assert(options.exec === 'node');
@@ -140,7 +140,7 @@ describe('nodemon exec', function () {
   });
 
   it('should support coffeescript in debug mode', function () {
-    var options = exec({ script: 'app.coffee', nodeArgs: [ '--debug' ] });
+    var options = exec({ script: 'app.coffee', nodeArgs: ['--debug'] });
 
     assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
     assert(options.execArgs[1].indexOf('--debug') !== -1);
@@ -148,22 +148,22 @@ describe('nodemon exec', function () {
   });
 
   it('should support custom execs', function () {
-    var options = exec({ script: 'app.py', exec: 'python'});
+    var options = exec({ script: 'app.py', exec: 'python' });
 
     assert(options.exec === 'python');
     assert(options.ext.indexOf('py') !== -1);
   });
 
   it('should support custom executables with arguments', function () {
-    var options = exec({ script: 'app.py', exec: 'python --debug'});
+    var options = exec({ script: 'app.py', exec: 'python --debug' });
     var cmd = toCmd(options);
 
     assert(cmd.string === 'python --debug app.py', cmd.string);
     assert(options.ext.indexOf('py') !== -1);
   });
 
-  it('should support an array of exec arguments', function() {
-    var options = exec({script: 'app.js', exec: ['/path to node', '-v']});
+  it('should support an array of exec arguments', function () {
+    var options = exec({ script: 'app.js', exec: ['/path to node', '-v'] });
 
     assert(options.exec === '/path to node', options.exec);
     assert(options.execArgs.length === 1, options.execArgs.length);
@@ -219,4 +219,5 @@ describe('nodemon exec', function () {
     var cmd = toCmd(options);
     assert(cmd.string === 'node index', cmd.string);
   });
+
 });
