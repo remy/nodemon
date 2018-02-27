@@ -59,9 +59,9 @@
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
     "pstree.remy": "^1.1.0",
-    "semver": "^5.4.1",
+    "semver": "^5.5.0",
     "touch": "^3.1.0",
-    "undefsafe": "^2.0.1",
+    "undefsafe": "^2.0.2",
     "update-notifier": "^2.3.0"
   },
   "version": "0.0.0-development"
