@@ -174,10 +174,10 @@ Don't use unix globbing to pass multiple directories, e.g `--watch ./lib/*`, it 
 By default, nodemon looks for files with the `.js`, `.mjs`, `.coffee`, `.litcoffee`, and `.json` extensions. If you use the `--exec` option and monitor `app.py` nodemon will monitor files with the extension of `.py`. However, you can specify your own list with the `-e` (or `--ext`) switch like so:
 
 ```bash
-nodemon -e js,jade
+nodemon -e js,jade,html,css
 ```
 
-Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
+Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade, .html, .css.
 
 ## Ignoring files
 
