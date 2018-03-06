@@ -177,7 +177,7 @@ By default, nodemon looks for files with the `.js`, `.mjs`, `.coffee`, `.litcoff
 nodemon -e js,jade,html,css
 ```
 
-Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
+Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade, .html, .css.
 
 ## Ignoring files
 
