@@ -51,6 +51,12 @@ describe('nodemon CLI parser', function () {
     assert(cmd === 'node test/fixtures/app.js.tmp --somethingElse', cmd);
   });
 
+  it('should replace {{filename}} multiple times', function () {
+    var settings = parse(asCLI('test/fixtures/app.js --exec "node {{filename}}.tmp {{filename}}.tmp" --somethingElse'));
+    var cmd = commandToString(command(settings));
+    assert(cmd === 'node test/fixtures/app.js.tmp test/fixtures/app.js.tmp --somethingElse', cmd);
+  });
+
   it('should parse the help examples #1', function () {
     var settings = parse(asCLI('test/fixtures/app.js')),
       cmd = commandToString(command(settings));
