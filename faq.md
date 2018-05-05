@@ -40,6 +40,12 @@ For example, mocha@3.x will exit with `2` on failing tests. To handle the exit c
 nodemon -x 'mocha test/bad.test.js || exit 1'
 ```
 
+# You want to suppress the request for support message
+
+Perhaps you're [already supporting nodemon](https://opencollective.com/nodemon) or you're using it in CI and it needs to be quietened.
+
+Include the environment value of `SUPPRESS_SUPPORT=1`.
+
 # Can't install nodemon: permission issue
 
 You may need to install nodemon using `sudo` (which isn't recommended, but I understand it's unavoidable in some environments). If the install fails with this appearing in the npm error log, then you need the following workaround.
