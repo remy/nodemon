@@ -361,6 +361,12 @@ describe('validating files that cause restart', function() {
 });
 
 describe('match rule parser', function() {
+  const pwd = process.cwd();
+
+  after(() => {
+    process.chdir(pwd);
+  });
+
   it('should support "--watch ."', function() {
     var config = { watch: '.' };
     var settings = merge(config, defaults);
@@ -410,6 +416,21 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
+  it('should support bare directories', () => {
+    const root = path.resolve(__dirname + '/../fixtures/');
+    process.chdir(root);
+
+    var config = { ignore: ['configs'] };
+    var settings = merge(config, defaults);
+
+    settings.monitor = match.rulesToMonitor(settings.watch, settings.ignore, {
+      dirs: [],
+    });
+
+    var matched = match([root + '/configs/index.js'], settings.monitor, 'js');
+    assert(matched.result.length === 0, 'no files matched');
+  })
+
   it('should support "--watch /some/path/*/config.json"', function() {
     var config = { watch: '/*/config.json' };
     var settings = merge(config, defaults);
@@ -419,8 +440,9 @@ describe('match rule parser', function() {
       system: { useFind: true },
     });
 
+
     var matched = match(['/some/path/to/config.json'], settings.monitor, 'js');
-    assert(matched.result.length === 1, 'no file matched');
+    assert(matched.result.length === 1, 'matched file');
   });
 
   it('should support "--watch *.*"', function() {
