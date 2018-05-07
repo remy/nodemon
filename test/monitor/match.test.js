@@ -363,7 +363,7 @@ describe('validating files that cause restart', function() {
 describe('match rule parser', function() {
   const pwd = process.cwd();
 
-  after(() => {
+  afterEach(() => {
     process.chdir(pwd);
   });
 
