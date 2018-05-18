@@ -37,4 +37,20 @@ describe('watch count', function () {
       }
     });
   });
+
+  it('should ignore node_modules from any dir', function (done) {
+    process.chdir('test/fixtures/watch-count/lib');
+    nodemon({ script: appjs, verbose: true, watch: '..' }).on('start', function () {
+      setTimeout(function () {
+        nodemon.once('exit', done).emit('quit');
+      }, 200);
+    }).on('log', function (data) {
+      var match = null;
+      var count = 0;
+      if (match = data.message.match(watchRe)) {
+        count = match[1].replace(',', '') * 1;
+        assert(count === 6, 'Watching ' + count + ' files, expecting 6.');
+      }
+    });
+  });
 });
