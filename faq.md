@@ -241,7 +241,7 @@ Otherwise see [issue #1124](https://github.com/remy/nodemon/issues/1124) for fur
 
 ## No automatic restart when using Docker volumes [issue #419](https://github.com/remy/nodemon/issues/419#issuecomment-391244911)
 
-Some Node.js Docker images do not seem to have the full suite of filtesystem process utilities that allow `nodemon` to restart automatically when the code in a mounted volume changes. To handle this, and enable automatic restarts withour using legacy mode, you can install the [procps](http://procps.sourceforge.net) package. 
+Some Node.js Docker images do not seem to have the full suite of filtesystem process utilities that allow `nodemon` to restart automatically when the code in a mounted volume changes. To handle this, and enable automatic restarts without using legacy mode, you can install the [procps](http://procps.sourceforge.net) package. 
 
 Here's an example snippet of a Dockerfile:
 
