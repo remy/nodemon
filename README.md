@@ -125,6 +125,10 @@ Note that if you specify a `--config` file or provide a local `nodemon.json` any
 
 Please see [doc/requireable.md](doc/requireable.md)
 
+## Using nodemon as child process
+
+Please see [doc/events.md](doc/events.md#Using_nodemon_as_child_process)
+
 ## Running non-node scripts
 
 nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no `nodemon.json`:
