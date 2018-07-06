@@ -73,6 +73,8 @@ nodemon was originally written to restart hanging processes such as web servers,
 
 Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can type `rs` with a carriage return, and nodemon will restart your process.
 
+To clear the screen, if ever you need to, type `clear` with a carriage return and nodemon will clear the screen.
+
 ## Config files
 
 nodemon supports local and global configuration files. These are usually named `nodemon.json` and can be located in the current working directory or in your home directory. An alternative local configuration file can be specified with the `--config <file>` option.
