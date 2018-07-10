@@ -4,7 +4,7 @@
 
 nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected. 
 
-nodemon does **not** require *any* additional changes to your code or method of development. nodemon is a replacement wrapper for `node`, to use `nodemon` simply replace the word `node` on the command line when executing your script.
+nodemon does **not** require *any* additional changes to your code or method of development. nodemon is a replacement wrapper for `node`, to use `nodemon` replace the word `node` on the command line when executing your script.
 
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
