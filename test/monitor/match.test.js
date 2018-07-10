@@ -557,4 +557,18 @@ describe('watcher', function() {
       }
     );
   });
+
+  it('should watch relative paths', function() {
+    const monitor = match.rulesToMonitor([ './http.js' ], [], {
+      dirs: [],
+    });
+
+    var matched = match(
+      ['http.js'],
+      monitor,
+      'js,mjs,json'
+    );
+    assert(matched.result.length === 1, 'found match ' + matched.results);
+  });
+
 });
