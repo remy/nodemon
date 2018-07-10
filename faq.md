@@ -226,6 +226,28 @@ Try the following command on terminal:
 echo fs.inotify.max_user_watches=582222 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 ```
 
+## "Port in use" with --inspect flag and docker
+
+The workaround is to use [kill-port](https://github.com/tiaanduplessis/kill-port) to close off the debugger port, used similarly to:
+
+```bash
+nodemon --delay 80ms --exec 'kill-port -k 9228/tcp; node --inspect=0.0.0.0:9228 ./app/http.js'
+```
+
+[Original suggestion here](https://github.com/remy/nodemon/issues/1050#issuecomment-323680697) and [addition information here](https://github.com/remy/nodemon/issues/1346#issuecomment-401218386).
+
+## Windows: nodemon keeps restarting without changes
+
+This _might_ be related to a Microsoft Windows release pertaining to the OS and breaking `fsevents` module (which is used by [chokidar](https://github.com/paulmillr/chokidar) - the underlying watch package).
+
+The workaround is to run the following command:
+
+```bash
+fsutil behavior set disablelastaccess 1
+```
+
+[Futher reading thread](https://github.com/remy/nodemon/issues/1354)
+
 ## Error: Cannot find module 'internal/util/types'
 
 If you see the error `Cannot find module 'internal/util/types'`, the error is solved with a clean npm cache and trying to reinstall the dependency you're working with.
