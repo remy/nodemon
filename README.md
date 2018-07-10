@@ -21,7 +21,7 @@ npm install -g nodemon
 
 And nodemon will be installed globally to your system path.
 
-You can also install nodemon as a developement dependency:
+You can also install nodemon as a development dependency:
 
 ```bash
 npm install --save-dev nodemon
@@ -125,9 +125,13 @@ Note that if you specify a `--config` file or provide a local `nodemon.json` any
 
 Please see [doc/requireable.md](doc/requireable.md)
 
+## Using nodemon as child process
+
+Please see [doc/events.md](doc/events.md#Using_nodemon_as_child_process)
+
 ## Running non-node scripts
 
-nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of .js if there's no `nodemon.json`:
+nodemon can also be used to execute and monitor other programs. nodemon will read the file extension of the script being run and monitor that extension instead of `.js` if there's no `nodemon.json`:
 
 ```bash
 nodemon --exec "python -v" ./app.py
@@ -139,7 +143,7 @@ Now nodemon will run `app.py` with python in verbose mode (note that if you're n
 
 Using the `nodemon.json` config file, you can define your own default executables using the `execMap` property. This is particularly useful if you're working with a language that isn't supported by default by nodemon.
 
-To add support for nodemon to know about the .pl extension (for Perl), the nodemon.json file would add:
+To add support for nodemon to know about the `.pl` extension (for Perl), the `nodemon.json` file would add:
 
 ```json
 {
@@ -177,7 +181,7 @@ By default, nodemon looks for files with the `.js`, `.mjs`, `.coffee`, `.litcoff
 nodemon -e js,jade
 ```
 
-Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions .js, .jade.
+Now nodemon will restart on any changes to files in the directory (or subdirectories) with the extensions `.js`, `.jade`.
 
 ## Ignoring files
 
@@ -239,7 +243,7 @@ nodemon --delay 2500ms server.js
 
 The delay figure is number of seconds (or milliseconds, if specified) to delay before restarting. So nodemon will only restart your app the given number of seconds after the *last* file change.
 
-If you are setting this value in `nodemon.json`, the value will always be interpretted in milliseconds. E.g., the following are equivalent:
+If you are setting this value in `nodemon.json`, the value will always be interpreted in milliseconds. E.g., the following are equivalent:
 
 ```bash
 nodemon --delay 2.5
