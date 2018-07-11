@@ -172,6 +172,7 @@ Additional restart information:
 * Which ignore rules are being applied
 * Which file extensions are being watch
 * The process ID of your application (the `child pid`)
+* The process ID of nodemon to manually trigger restarts via kill signals
 
 For example:
 
@@ -179,6 +180,7 @@ For example:
 14 Apr 15:24:58 - [nodemon] v1.0.17
 14 Apr 15:24:58 - [nodemon] reading config /Users/remy/Sites/jsbin-private/nodemon.json
 14 Apr 15:24:58 - [nodemon] to restart at any time, enter `rs`
+14 Apr 15:24:58 - [nodemon] or send SIGHUP to 58118 to restart
 14 Apr 15:24:58 - [nodemon] ignoring: /Users/remy/Sites/jsbin-private/.git/**/* node_modules/**/node_modules
 14 Apr 15:24:58 - [nodemon] watching: /Users/remy/Sites/jsbin/views/**/* /Users/remy/Sites/jsbin/lib/**/* ../json/*.json config.dev.json
 14 Apr 15:24:58 - [nodemon] watching extensions: json,js,html
@@ -263,13 +265,11 @@ Otherwise see [issue #1124](https://github.com/remy/nodemon/issues/1124) for fur
 
 ## No automatic restart when using Docker volumes [issue #419](https://github.com/remy/nodemon/issues/419#issuecomment-391244911)
 
-Some Node.js Docker images do not seem to have the full suite of filtesystem process utilities that allow `nodemon` to restart automatically when the code in a mounted volume changes. To handle this, and enable automatic restarts without using legacy mode, you can install the [procps](http://procps.sourceforge.net) package. 
+Some Node.js Docker images do not seem to have the full suite of filtesystem process utilities that allow `nodemon` to restart automatically when the code in a mounted volume changes. To handle this, and enable automatic restarts without using legacy mode, you can install the [procps](http://procps.sourceforge.net) package.
 
 Here's an example snippet of a Dockerfile:
 
 ```
 FROM node:8.9.4-wheezy
-RUN apt-get update && apt-get install -y procps 
+RUN apt-get update && apt-get install -y procps
 ```
-
-
