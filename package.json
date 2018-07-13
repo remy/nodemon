@@ -1,6 +1,28 @@
 {
-  "name": "nodemon",
-  "homepage": "http://nodemon.io",
+  "_from": "nodemon",
+  "_id": "nodemon@1.18.1",
+  "_inBundle": false,
+  "_integrity": "sha512-zKKrRcn5htBkPz6N5SiFLG8kneJxhW//zO7/RB08TaQgBZrbmjUlORBy6ALIbpwwp+Q8F9mWbnbkJXh6rjlALA==",
+  "_location": "/nodemon",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "nodemon",
+    "name": "nodemon",
+    "escapedName": "nodemon",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/nodemon/-/nodemon-1.18.1.tgz",
+  "_shasum": "873d2f7799662c549f7ea557db6934d5cbf665d6",
+  "_spec": "nodemon",
+  "_where": "C:\\Users\\Jacob\\Repositories\\7-days.tk",
   "author": {
     "name": "Remy Sharp",
     "url": "http://github.com/remy"
@@ -8,39 +30,24 @@
   "bin": {
     "nodemon": "./bin/nodemon.js"
   },
-  "engines": {
-    "node": ">=4"
+  "bugs": {
+    "url": "https://github.com/remy/nodemon/issues"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/remy/nodemon.git"
+  "bundleDependencies": false,
+  "dependencies": {
+    "chokidar": "^2.0.2",
+    "debug": "^3.1.0",
+    "ignore-by-default": "^1.0.1",
+    "minimatch": "^3.0.4",
+    "pstree.remy": "^1.1.0",
+    "semver": "^5.5.0",
+    "supports-color": "^5.2.0",
+    "touch": "^3.1.0",
+    "undefsafe": "^2.0.2",
+    "update-notifier": "^2.3.0"
   },
+  "deprecated": false,
   "description": "Simple monitor script for use during development of a node.js app.",
-  "keywords": [
-    "monitor",
-    "development",
-    "restart",
-    "autoload",
-    "reload",
-    "terminal"
-  ],
-  "license": "MIT",
-  "main": "./lib/nodemon",
-  "scripts": {
-    "commitmsg": "commitlint -e",
-    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
-    "lint": "jscs lib/**/*.js -v",
-    ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
-    "test": "npm run lint && npm run spec",
-    "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --exit --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
-    "postspec": "npm run clean",
-    "clean": "rm -rf test/fixtures/test*.js test/fixtures/test*.md",
-    "web": "node web",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "prepush": "npm run lint",
-    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
-    "postinstall": "node bin/postinstall || exit 0"
-  },
   "devDependencies": {
     "@commitlint/cli": "^3.1.3",
     "@commitlint/config-angular": "^3.1.1",
@@ -54,17 +61,39 @@
     "semantic-release": "^8.2.0",
     "should": "~4.0.0"
   },
-  "dependencies": {
-    "chokidar": "^2.0.2",
-    "debug": "^3.1.0",
-    "ignore-by-default": "^1.0.1",
-    "minimatch": "^3.0.4",
-    "pstree.remy": "^1.1.0",
-    "semver": "^5.5.0",
-    "supports-color": "^5.2.0",
-    "touch": "^3.1.0",
-    "undefsafe": "^2.0.2",
-    "update-notifier": "^2.3.0"
+  "engines": {
+    "node": ">=4"
   },
-  "version": "0.0.0-development"
+  "homepage": "http://nodemon.io",
+  "keywords": [
+    "monitor",
+    "development",
+    "restart",
+    "autoload",
+    "reload",
+    "terminal"
+  ],
+  "license": "MIT",
+  "main": "./lib/nodemon",
+  "name": "nodemon",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/remy/nodemon.git"
+  },
+  "scripts": {
+    ":spec": "mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    "clean": "rm -rf test/fixtures/test*.js test/fixtures/test*.md",
+    "commitmsg": "commitlint -e",
+    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
+    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
+    "lint": "jscs lib/**/*.js -v",
+    "postinstall": "node bin/postinstall || exit 0",
+    "postspec": "npm run clean",
+    "prepush": "npm run lint",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --exit --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
+    "test": "npm run lint && npm run spec",
+    "web": "node web"
+  },
+  "version": "1.18.1"
 }

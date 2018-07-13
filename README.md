@@ -2,11 +2,9 @@
 
 # nodemon
 
-For use during development of a node.js based application.
+nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected. 
 
-nodemon will watch the files in the directory in which nodemon was started, and if any files change, nodemon will automatically restart your node application.
-
-nodemon does **not** require *any* changes to your code or method of development. nodemon wraps your node application and keeps an eye on any files that have changed. Remember that nodemon is a replacement wrapper for `node`, think of it as replacing the word "node" on the command line when you run your script.
+nodemon does **not** require *any* additional changes to your code or method of development. nodemon is a replacement wrapper for `node`, to use `nodemon` replace the word `node` on the command line when executing your script.
 
 [![NPM version](https://badge.fury.io/js/nodemon.svg)](https://npmjs.org/package/nodemon)
 [![Travis Status](https://travis-ci.org/remy/nodemon.svg?branch=master)](https://travis-ci.org/remy/nodemon) [![Backers on Open Collective](https://opencollective.com/nodemon/backers/badge.svg)](#backers) [![Sponsors on Open Collective](https://opencollective.com/nodemon/sponsors/badge.svg)](#sponsors)
@@ -72,8 +70,6 @@ nodemon was originally written to restart hanging processes such as web servers,
 ## Manual restarting
 
 Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can type `rs` with a carriage return, and nodemon will restart your process.
-
-To clear the screen, if ever you need to, type `clear` with a carriage return and nodemon will clear the screen.
 
 ## Config files
 
