@@ -1,0 +1,6 @@
+{
+  "ext": "json,js,html",
+  "watchOptions": {
+    "awaitWriteFinish": true
+  }
+}
