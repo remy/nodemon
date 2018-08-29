@@ -3,6 +3,7 @@
   Options:
 
   --config file ............ alternate nodemon.json config file to use
+  -d, --delay .............. delay in seconds to restart the process when a file changes
   -e, --ext ................ extensions to look for, ie. js,jade,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
   -w, --watch path.......... watch directory "path" or files. use once for
