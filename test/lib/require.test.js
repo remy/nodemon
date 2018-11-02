@@ -54,9 +54,34 @@ describe('require-able', function () {
       setTimeout(function () {
         touch.sync(appjs);
       }, 1000);
+    }).on('start', function() {
+      if (restarted) {
+        setTimeout(function() { nodemon.emit('quit') });
+      }
     }).on('restart', function () {
       restarted = true;
-      nodemon.emit('quit');
+    }).on('quit', function () {
+      assert(restarted, 'nodemon restarted and quit properly');
+      nodemon.reset(done);
+    }).on('log', function (event) {
+      // console.log(event.message);
+    });
+  });
+
+  it('should restart on file change with custom signal', function (done) {
+    var restarted = false;
+
+    utils.port++;
+    nodemon({ script: appjs, verbose: true, env: { PORT: utils.port }, signal: 'SIGINT' }).on('start', function () {
+      setTimeout(function () {
+        touch.sync(appjs);
+      }, 1000);
+    }).on('start', function() {
+      if (restarted) {
+        setTimeout(function() { nodemon.emit('quit') });
+      }
+    }).on('restart', function () {
+      restarted = true;
     }).on('quit', function () {
       assert(restarted, 'nodemon restarted and quit properly');
       nodemon.reset(done);
