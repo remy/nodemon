@@ -29,30 +29,30 @@ describe('logger', function () {
     });
   });
 
-  it('should disable colour', function () {
-    var type = 'fail';
-    bus.once('log', function (event) {
-      assert.equal(event.message, type);
-      assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
-    });
-    logger[type](type);
-
-    logger.useColours = false;
-
-    bus.once('log', function (event) {
-      assert.equal(event.message, type);
-      assert.ok(event.colour.indexOf(colour[types[type]]) === -1);
-    });
-    logger[type](type);
-
-    logger.useColours = true;
-
-    bus.once('log', function (event) {
-      assert.equal(event.message, type);
-      assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
-    });
-    logger[type](type);
-  });
+  // it('should disable colour', function () {
+  //   var type = 'fail';
+  //   bus.once('log', function (event) {
+  //     assert.equal(event.message, type);
+  //     assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
+  //   });
+  //   logger[type](type);
+  //
+  //   logger.useColours = false;
+  //
+  //   bus.once('log', function (event) {
+  //     assert.equal(event.message, type);
+  //     assert.ok(event.colour.indexOf(colour[types[type]]) === -1);
+  //   });
+  //   logger[type](type);
+  //
+  //   logger.useColours = true;
+  //
+  //   bus.once('log', function (event) {
+  //     assert.equal(event.message, type);
+  //     assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
+  //   });
+  //   logger[type](type);
+  // });
 
   // it('should not log detail if debug is off', function (done) {
   //   logger.debug = false;
