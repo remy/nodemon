@@ -59,7 +59,7 @@
     "debug": "^3.1.0",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
-    "pstree.remy": "^1.1.0",
+    "pstree.remy": "^1.1.1",
     "semver": "^5.5.0",
     "supports-color": "^5.2.0",
     "touch": "^3.1.0",
