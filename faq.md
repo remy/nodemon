@@ -4,6 +4,20 @@ This is being added to as common issues occur on the [issues](http://github.com/
 
 This is a working document, and if it makes sense, I'll take pull requests to help make it better.
 
+# How to clear the console on restart
+
+Rather than being a(nother) feature in nodemon, and as per the [design principles](https://github.com/remy/nodemon#design-principles) you can clear the console using nodemon's existing architecture.
+
+In your `nodemon.json` (or in your `package.json`) you can include the follow event handler to always clear the console when nodemon starts:
+
+```json
+{
+  "events": {
+    "start": "node -e console.clear()"
+  }
+}
+```
+
 # nodemon doesn't work with my REPL
 
 Create an nodemon.json file with the setting:
