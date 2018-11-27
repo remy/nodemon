@@ -9,7 +9,7 @@ const filenames = [
   [__dirname + 'some\ \\file', '#!/bin/sh\necho "OK"'],
 ];
 
-if (!process.env.TRAVIS && process.platform === 'darwin') {
+if (false && !process.env.TRAVIS && process.platform === 'darwin') {
   describe('nodemon fork (mac only)', () => {
     before(() => {
       filenames.map(file => fs.writeFileSync(file[0], file[1], 'utf8'));

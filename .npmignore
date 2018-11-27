@@ -5,3 +5,4 @@ issues/
 .github/
 website/
 *.md
+Dockerfile
