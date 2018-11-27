@@ -13,7 +13,7 @@ In your `nodemon.json` (or in your `package.json`) you can include the follow ev
 ```json
 {
   "events": {
-    "start": "node -e console.clear()"
+    "start": "node -e 'console.clear()'"
   }
 }
 ```
