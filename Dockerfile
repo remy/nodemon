@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y curl locales && rm -rf /var/lib/apt/lis
 ENV LANG en_US.utf8
 
 # Install Node.js
-RUN curl --silent --location https://deb.nodesource.com/setup_8.x | bash -
+RUN curl --silent --location https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install --yes nodejs build-essential
 
 # Install app dependencies
@@ -21,7 +21,7 @@ RUN npm install -g npx
 
 # Bundle app source
 # Trouble with COPY http://stackoverflow.com/a/30405787/2926832
-COPY . /src
+# COPY . /src
 
 WORKDIR /src
 
