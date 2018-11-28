@@ -18,6 +18,18 @@ In your `nodemon.json` (or in your `package.json`) you can include the follow ev
 }
 ```
 
+# nodemon doesn't restart on .env change
+
+This is an edge case with how nodemon watches files. This is because nodemon doesn't know if `.env` is a hidden file with no extension or a `*.env` without a filename.
+
+Nonetheless, to trigger a change on `.env` (or similar files like `.bash_profile`), you need to explicitly tell nodemon to watch the file.
+
+However, now nodemon will *only* watch the `.env` file, so you need to add to what nodemon is watching, i.e. tell nodemon to _also_ watch the current working directory:
+
+```bash
+$ nodemon --watch .env --watch app app/index.js
+```
+
 # nodemon doesn't work with my REPL
 
 Create an nodemon.json file with the setting:
