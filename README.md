@@ -2,7 +2,7 @@
 
 # nodemon
 
-nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected. 
+nodemon is a tool that helps develop node.js based applications by automatically restarting the node application when file changes in the directory are detected.
 
 nodemon does **not** require *any* additional changes to your code or method of development. nodemon is a replacement wrapper for `node`, to use `nodemon` replace the word `node` on the command line when executing your script.
 
@@ -266,6 +266,23 @@ process.once('SIGUSR2', function () {
 ```
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
+
+## Configuring your script to gracefully reload instead of terminating
+
+nodemon can send a SIGHUP signal to your application on file update. This signal can be caught, and used to reload configuration in the application.
+
+```bash
+nodemon --sighup
+```
+
+And then in your application
+```js
+process.once('SIGHUP', function () {
+  reloadConfig();
+});
+```
+
+Note: This signal will only be sent to the root process in the application tree. If you would like this signal to be propagated to the entire process tree, please use `--signal`. If you are using node cluster, you can forward the signal to all workers.
 
 ## Triggering events when nodemon state changes
 

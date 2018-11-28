@@ -245,7 +245,7 @@ describe('nodemon argument parser', function () {
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext jade --config my/.nodemon.json --signal SIGHUP');
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext jade --config my/.nodemon.json --signal SIGHUP --sighup');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -259,6 +259,7 @@ describe('nodemon argument parser', function () {
     assert(settings.ext === 'jade', 'extension is jade');
     assert(settings.configFile === 'my/.nodemon.json', 'custom config file name is my/.nodemon.json');
     assert(settings.signal === 'SIGHUP', 'signal is SIGHUP');
+    assert(settings.gracefulRestart === true, 'gracefulRestart is true');
   });
 });
 

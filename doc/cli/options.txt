@@ -5,6 +5,7 @@ Configuration
   -i, --ignore ............. ignore specific files or directories
   --no-colors .............. disable color output
   --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
+  --sighup ................. send a SIGHUP signal, allowing graceful reload
   -w, --watch dir........... watch directory "dir" or files. use once for each
                              directory or file to watch
   --no-update-notifier ..... opt-out of update version check
