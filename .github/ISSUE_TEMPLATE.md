@@ -8,6 +8,7 @@
 - `nodemon -v`:
 - `node -v`:
 - Operating system/terminal environment: 
+- Using Docker? What image: 
 - Command you ran:
 
 
