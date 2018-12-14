@@ -5,7 +5,9 @@ cache:
 notifications:
   email: false
 node_js:
-  - '9'
+  - '12'
+  - '11'
+  - '10'
   - '8'
   - '6'
   - '4'
