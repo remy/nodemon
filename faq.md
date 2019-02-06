@@ -13,10 +13,12 @@ In your `nodemon.json` (or in your `package.json`) you can include the follow ev
 ```json
 {
   "events": {
-    "start": "node -e 'console.clear()'"
+    "start": "cls || clear"
   }
 }
 ```
+
+Note that on Windows, this will clear the scroll buffer too. If you try to use node to clear the screen, you may have a race condition between the boot time of your process and the start event. This method should be the fastest.
 
 # nodemon doesn't restart on .env change
 
