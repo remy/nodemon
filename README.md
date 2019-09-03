@@ -347,9 +347,9 @@ The answer is simple, but possibly frustrating. I'm not saying (how I pronounce 
 
 ## Design principles
 
-- Less flags is better
+- Fewer flags is better
 - Works across all platforms
-- Less features
+- Fewer features
 - Let individuals build on top of nodemon
 - Offer all CLI functionality as an API
 - Contributions must have and pass tests
