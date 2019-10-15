@@ -2,6 +2,6 @@
   "verbose": true,
   "ignore": ["one", "two"],
   "execMap": {
-    "jade": "bin/jade {{filename}} --out /tmp"
+    "pug": "bin/pug {{filename}} --out /tmp"
   }
 }

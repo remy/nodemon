@@ -222,7 +222,7 @@ describe('match', function() {
   it('should be specific about directories', function(done) {
     config.load(
       {
-        ext: 'js md jade',
+        ext: 'js md pug',
         watch: ['lib'],
       },
       function(config) {

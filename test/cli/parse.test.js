@@ -229,7 +229,7 @@ describe('nodemon argument parser', function () {
   });
 
   it('should support short versions of flags', function () {
-    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -C -e jade -s SIGHUP');
+    var settings = cli.parse('node nodemon -v -x java -I -V -q -w fixtures -i fixtures -d 5 -L -C -e pug -s SIGHUP');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -239,13 +239,13 @@ describe('nodemon argument parser', function () {
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
     assert(settings.runOnChangeOnly, 'run on change only');
-    assert(settings.ext === 'jade', 'extension is jade');
+    assert(settings.ext === 'pug', 'extension is pug');
     assert(settings.signal === 'SIGHUP', 'signal is SIGHUP');
   });
 
 
   it('should support long versions of flags', function () {
-    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext jade --config my/.nodemon.json --signal SIGHUP');
+    var settings = cli.parse('node nodemon --version --exec java --verbose --quiet --watch fixtures --ignore fixtures --no-stdin --delay 5 --legacy-watch --exitcrash --on-change-only --ext pug --config my/.nodemon.json --signal SIGHUP');
     assert(settings.version, 'version');
     assert(settings.verbose, 'verbose');
     assert(settings.exec === 'java', 'exec');
@@ -256,7 +256,7 @@ describe('nodemon argument parser', function () {
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
     assert(settings.runOnChangeOnly, 'run on change only');
-    assert(settings.ext === 'jade', 'extension is jade');
+    assert(settings.ext === 'pug', 'extension is pug');
     assert(settings.configFile === 'my/.nodemon.json', 'custom config file name is my/.nodemon.json');
     assert(settings.signal === 'SIGHUP', 'signal is SIGHUP');
   });
