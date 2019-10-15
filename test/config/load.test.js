@@ -97,8 +97,8 @@ describe('config load', function () {
       assert(config.verbose, 'we are verbose');
 
       // ensure global mapping works too
-      var options = exec({ script: 'template.jade' }, config.execMap);
-      assert(options.exec === 'bin/jade template.jade --out /tmp', 'exec used, should be "bin/jade": ' + options.exec);
+      var options = exec({ script: 'template.pug' }, config.execMap);
+      assert(options.exec === 'bin/pug template.pug --out /tmp', 'exec used, should be "bin/pug": ' + options.exec);
 
       done();
 

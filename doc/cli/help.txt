@@ -3,7 +3,7 @@
   Options:
 
   --config file ............ alternate nodemon.json config file to use
-  -e, --ext ................ extensions to look for, ie. js,jade,hbs.
+  -e, --ext ................ extensions to look for, ie. js,pug,hbs.
   -x, --exec app ........... execute script with "app", ie. -x "python -v".
   -w, --watch path.......... watch directory "path" or files. use once for
                              each directory or file to watch.
