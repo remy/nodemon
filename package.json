@@ -9,7 +9,7 @@
     "nodemon": "./bin/nodemon.js"
   },
   "engines": {
-    "node": ">=4"
+    "node": ">=8"
   },
   "repository": {
     "type": "git",
@@ -55,7 +55,7 @@
     "should": "~4.0.0"
   },
   "dependencies": {
-    "chokidar": "^2.1.8",
+    "chokidar": "^3.2.2",
     "debug": "^3.2.6",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
