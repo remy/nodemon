@@ -301,3 +301,25 @@ Here's an example snippet of a Dockerfile:
 FROM node:8.9.4-wheezy
 RUN apt-get update && apt-get install -y procps
 ```
+
+## "scripts is disabled on this system" on Windows
+
+Based on [this issue](https://github.com/remy/nodemon/issues/1619), if you see the following on Windows:
+
+```
+PS> nodemon app.js
+nodemon : File C:\…\nodemon.ps1 cannot be loaded because running scripts is disabled on this system. For more
+information, see about_Execution_Policies at https:/go.microsoft.com/fwlink/?LinkID=135170.
+At line:1 char:1
+
+CategoryInfo : SecurityError: (:) [], PSSecurityException
+FullyQualifiedErrorId : UnauthorizedAccess
+```
+
+The solution is as follows by [Felipe Jacob](https://github.com/adelbs):
+
+It's a security restriction of the Windows PowerShell.
+
+1. Open up a powershell command window (open it as administrator)
+2. To check out current restrictions type "Get-ExecutionPolicy"
+3. Enable powershell by typing "Set-ExecutionPolicy remotesigned"
