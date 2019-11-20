@@ -222,7 +222,7 @@ describe('match', function() {
   it('should be specific about directories', function(done) {
     config.load(
       {
-        ext: 'js md jade',
+        ext: 'js md pug',
         watch: ['lib'],
       },
       function(config) {
@@ -571,4 +571,20 @@ describe('watcher', function() {
     assert(matched.result.length === 1, 'found match ' + matched.results);
   });
 
+
+  it('should ignore relative directories', () => {
+    const monitor = match.rulesToMonitor([], [
+      "node_modules/*",
+      "**/logs/*"
+    ])
+
+    var matched = match(
+      ['logs/a'],
+      monitor,
+      'js,mjs,json'
+    );
+
+    assert(matched.ignored === 1 && matched.result.length === 0, JSON.stringify(matched));
+
+  })
 });

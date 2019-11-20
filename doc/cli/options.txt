@@ -12,7 +12,7 @@ Configuration
 Execution
   -C, --on-change-only ..... execute script on change only, not startup
   --cwd <dir> .............. change into <dir> before running the script
-  -e, --ext ................ extensions to look for, ie. "js,jade,hbs"
+  -e, --ext ................ extensions to look for, ie. "js,pug,hbs"
   -I, --no-stdin ........... nodemon passes stdin directly to child process
   --spawn .................. force nodemon to use spawn (over fork) [node only]
   -x, --exec app ........... execute script with "app", ie. -x "python -v"

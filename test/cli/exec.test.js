@@ -83,14 +83,14 @@ describe('nodemon exec', function () {
   });
 
   it('should support multiple extensions', function () {
-    var options = exec({ script: 'app.js', ext: 'js, jade, hbs' });
+    var options = exec({ script: 'app.js', ext: 'js, pug, hbs' });
     var cmd = toCmd(options);
     assert(cmd.string === 'node app.js', cmd.string);
-    assert(options.ext.indexOf('jade') !== -1, 'comma separated string');
+    assert(options.ext.indexOf('pug') !== -1, 'comma separated string');
 
-    options = exec({ script: 'app.js', ext: 'js|jade|hbs' });
+    options = exec({ script: 'app.js', ext: 'js|pug|hbs' });
     assert(options.exec === 'node');
-    assert(options.ext.indexOf('jade') !== -1, 'pipe separated string');
+    assert(options.ext.indexOf('pug') !== -1, 'pipe separated string');
   });
 
   it('should support watching all extensions', function () {
@@ -123,14 +123,14 @@ describe('nodemon exec', function () {
   });
 
   it('should support extension maps', function () {
-    var options = exec({ script: 'template.jade' }, { 'jade': 'jade {{filename}} --out /tmp' });
+    var options = exec({ script: 'template.pug' }, { 'pug': 'pug {{filename}} --out /tmp' });
     var cmd = toCmd(options);
-    assert(cmd.string === 'jade template.jade --out /tmp', cmd.string);
+    assert(cmd.string === 'pug template.pug --out /tmp', cmd.string);
   });
 
   it('should support input from argv#parse', function () {
     var parse = require('../../lib/cli/parse');
-    parse('node /usr/local/bin/nodemon.js --debug -e js,jade,hbs app.js'.split(' '));
+    parse('node /usr/local/bin/nodemon.js --debug -e js,pug,hbs app.js'.split(' '));
   });
 
   it('should use coffeescript on .coffee', function () {
@@ -186,10 +186,10 @@ describe('nodemon exec', function () {
   });
 
   it('should support single-level file extensions', function () {
-    var options = exec({ ext: '.js, jade' });
+    var options = exec({ ext: '.js, pug' });
 
     assert(options.ext.indexOf('js') !== -1);
-    assert(options.ext.indexOf('jade') !== -1);
+    assert(options.ext.indexOf('pug') !== -1);
   });
 
   it('should expand app to app.js', function () {
