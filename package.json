@@ -9,7 +9,7 @@
     "nodemon": "./bin/nodemon.js"
   },
   "engines": {
-    "node": ">=8"
+    "node": ">=8.10.0"
   },
   "repository": {
     "type": "git",
