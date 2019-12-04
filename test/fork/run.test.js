@@ -5,19 +5,45 @@ var assert = require('assert'),
   run = utils.run;
 
 describe('nodemon fork', function () {
+  it('should not show user-signal', done => {
+    var p = run({ exec: 'bin/nodemon.js',
+    args: [ '-V', '-x', 'echo running && sleep 20' ] }, {
+      error: function (data) {
+        p.send('quit');
+        if (data.trim().indexOf('signal') !== -1) {
+          return done(new Error('Signal incorrectly shown'));
+        }
+
+        done(new Error(data));
+      },
+      output: function (data) {
+        if (data.trim().indexOf('signal') !== -1) {
+          done(new Error('Signal incorrectly shown'));
+        }
+      }
+    });
+
+    let started = false;
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        if (!started) {
+          p.send('restart');
+          started = true;
+        } else {
+          p.send('quit');
+          assert(true, 'nodemon started');
+          done();
+        }
+
+      }
+    });
+  });
+
   it('should start a fork', function (done) {
     var p = run(appjs, {
       error: function (data) {
         p.send('quit');
         done(new Error(data));
-      }
-    });
-
-    p.on('message', function (event) {
-      if (event.type === 'start') {
-        p.send('quit');
-        assert(true, 'nodemon started');
-        done();
       }
     });
   });
