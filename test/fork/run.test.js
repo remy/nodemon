@@ -46,6 +46,14 @@ describe('nodemon fork', function () {
         done(new Error(data));
       }
     });
+
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        p.send('quit');
+        assert(true, 'nodemon started');
+        done();
+      }
+    });
   });
 
   if (!process.env.TRAVIS) {
