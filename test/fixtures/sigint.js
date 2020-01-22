@@ -1,5 +1,6 @@
 process.on('SIGINT', function() {
-  // do nothing here
+  if (process.argv.length === 3 && process.argv[2] === '--dont-exit') return;
+  process.exit();
 });
 // timer, to keep process running
 setInterval(function() {

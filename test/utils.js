@@ -121,6 +121,16 @@ function getTriggerCount(msg) {
   return changes.pop();
 }
 
+function isRunning(pid) {
+  try {
+    process.kill(pid, 0)
+    return true
+  } catch (error) {
+    if (error.code && error.code === 'ESRCH') return false
+    throw error
+  }
+}
+
 module.exports = {
   getTriggerCount: getTriggerCount,
   Plan: Plan,
@@ -132,4 +142,5 @@ module.exports = {
   appcoffee: appcoffee,
   monitorForChange: monitorForChange,
   port: port,
+  isRunning: isRunning
 };
