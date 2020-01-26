@@ -3,13 +3,13 @@
 var utils = require('../utils'),
     assert = require('assert'),
     path = require('path'),
-    appjs = path.relative(process.cwd(), path.resolve(__dirname, '..', 'fixtures', 'sigint.js')),
+    appjs = path.relative(process.cwd(), path.resolve(__dirname, '..', 'fixtures', 'signals.js')),
     match = utils.match,
     cleanup = utils.cleanup,
     run = utils.run,
     isRunning = utils.isRunning;
 
-function runAndKill(done, cmdline, exitcb)
+function runAndKill(done, cmdline, signal, exitcb)
 {
   var childPID = null;
 
@@ -30,7 +30,7 @@ function runAndKill(done, cmdline, exitcb)
   p.on('message', function (event) {
     if (event.type === 'start') {
       setTimeout(function () {
-       p.kill('SIGINT');
+       p.kill(signal);
       }, 1000);
     }
   }).on('exit', function () {
@@ -39,18 +39,22 @@ function runAndKill(done, cmdline, exitcb)
 }
 
 describe('terminal signals', function () {
-  it('should kill child with SIGINT', function (done) {
-    runAndKill(done, appjs, function (childPID) {
-      assert(!isRunning(childPID), 'child is still running at ' + childPID);
-      done();
-    });
-  });
+  ['SIGINT', 'SIGHUP'].forEach(function (signal) {
 
-  it('should terminate nodemon (after ~10 seconds)', function (done) {
-    runAndKill(done, appjs + ' --dont-exit', function (childPID) {
-      // make sure we don't keep abandoned child
-      process.kill(childPID, 'SIGTERM');
-      done();
+    it('should kill child with ' + signal, function (done) {
+      runAndKill(done, appjs, signal, function (childPID) {
+        assert(!isRunning(childPID), 'child is still running at ' + childPID);
+        done();
+      });
     });
+
+    it('should terminate nodemon with ' + signal + ' (after ~10 seconds)', function (done) {
+      runAndKill(done, appjs + ' --dont-exit', signal, function (childPID) {
+        // make sure we don't keep abandoned child
+        process.kill(childPID, 'SIGTERM');
+        done();
+      });
+    });
+    
   });
 });
