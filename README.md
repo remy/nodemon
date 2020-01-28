@@ -108,7 +108,7 @@ Specify the config in the same format as you would for a config file but under `
 ```json
 {
   "name": "nodemon",
-  "homepage": "http://nodemon.io",
+  "homepage": "https://nodemon.io",
   "...": "... other standard package.json values",
   "nodemonConfig": {
     "ignore": ["test/*", "docs/*"],
