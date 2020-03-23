@@ -19,6 +19,7 @@ Execution
   -- <your args> ........... to tell nodemon stop slurping arguments
 
 Watching
+  -D, --delay-to-start n ... debounce start for "n" seconds
   -d, --delay n ............ debounce restart for "n" seconds
   -L, --legacy-watch ....... use polling to watch for changes (typically needed
                              when watching over a network/Docker)
