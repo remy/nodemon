@@ -38,8 +38,7 @@
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepush": "npm run lint",
-    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
-    "postinstall": "node bin/postinstall || exit 0"
+    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9"
   },
   "devDependencies": {
     "@commitlint/cli": "^3.1.3",
@@ -66,5 +65,9 @@
     "undefsafe": "^2.0.2",
     "update-notifier": "^2.5.0"
   },
-  "version": "0.0.0-development"
+  "version": "0.0.0-development",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/nodemon"
+  }
 }
