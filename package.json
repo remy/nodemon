@@ -26,6 +26,11 @@
   ],
   "license": "MIT",
   "main": "./lib/nodemon",
+  "files": [
+    "lib",
+    "doc/cli/*.txt",
+    "bin"
+  ],
   "scripts": {
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
     "lint": "jscs lib/**/*.js -v",

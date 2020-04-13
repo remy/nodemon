@@ -1,9 +1,0 @@
-test/
-tmp/
-coverage/
-issues/
-.github/
-website/
-*.md
-Dockerfile
-.huskyrc
