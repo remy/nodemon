@@ -41,7 +41,6 @@
     "clean": "rm -rf test/fixtures/test*.js test/fixtures/test*.md",
     "web": "node web",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "prepush": "npm run lint",
     "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
     "postinstall": "node bin/postinstall || exit 0"
   },
