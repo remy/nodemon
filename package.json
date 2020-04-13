@@ -27,7 +27,6 @@
   "license": "MIT",
   "main": "./lib/nodemon",
   "scripts": {
-    "commitmsg": "commitlint -e",
     "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
     "lint": "jscs lib/**/*.js -v",
     ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
@@ -42,12 +41,12 @@
     "postinstall": "node bin/postinstall || exit 0"
   },
   "devDependencies": {
-    "@commitlint/cli": "^3.1.3",
-    "@commitlint/config-angular": "^3.1.1",
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-angular": "^4.3.0",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
     "get-port": "^5.1.1",
-    "husky": "^0.14.3",
+    "husky": "^3.1.0",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
     "mocha": "^2.5.3",

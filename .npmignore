@@ -6,3 +6,4 @@ issues/
 website/
 *.md
 Dockerfile
+.huskyrc
