@@ -20,25 +20,25 @@ describe('nodemon full config test', function () {
   });
 
   it('should allow execMap.js to be overridden', function (done) {
-    var p = run({ exec: '../../bin/nodemon.js',
-                  args: ['-V']
-      }, {
-      error: function (data) {
-        p.send('quit');
-        cleanup(p, done, new Error(data));
-      },
-    });
-
-    p.on('message', function (event) {
-      if (event.type === 'log') {
-        if (match(event.data.message, 'starting `')) {
-          event.data.message.replace(/`(.*)`/, function (all, m) {
-            assert(m === 'node --harmony app.js', 'Arguments in the correct order: ' + m);
-            // p.send('quit');
-            cleanup(p, done);
-          });
+    run({ exec: '../../bin/nodemon.js', args: ['-V']}).then((p) => {
+      utils.setCallbacks(p, {
+        error: function (data) {
+          p.send('quit');
+          cleanup(p, done, new Error(data));
         }
-      }
+      });
+
+      p.on('message', function (event) {
+        if (event.type === 'log') {
+          if (match(event.data.message, 'starting `')) {
+            event.data.message.replace(/`(.*)`/, function (all, m) {
+              assert(m === 'node --harmony app.js', 'Arguments in the correct order: ' + m);
+              // p.send('quit');
+              cleanup(p, done);
+            });
+          }
+        }
+      });
     });
   });
 });

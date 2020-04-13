@@ -13,28 +13,30 @@ function runAndKill(done, cmdline, exitcb)
 {
   var childPID = null;
 
-  var p = run(cmdline, {
-    output: function (data) {
-      if (match(data, 'pid: ')) {
-        data.replace(/pid: (\d+)/, function (_, p1) {
-          childPID = p1;
-        });
+  run(cmdline).then((p) => {
+    utils.setCallbacks(p, {
+      output: function (data) {
+        if (match(data, 'pid: ')) {
+          data.replace(/pid: (\d+)/, function (_, p1) {
+            childPID = p1;
+          });
+        }
+      },
+      error: function (data) {
+        assert(false, 'nodemon failed with ' + data);
+        cleanup(p, done);
       }
-    },
-    error: function (data) {
-      assert(false, 'nodemon failed with ' + data);
-      cleanup(p, done);
-    }
-  });
+    });
 
-  p.on('message', function (event) {
-    if (event.type === 'start') {
-      setTimeout(function () {
-       p.kill('SIGINT');
-      }, 1000);
-    }
-  }).on('exit', function () {
-    exitcb(childPID);
+    p.on('message', function (event) {
+      if (event.type === 'start') {
+        setTimeout(function () {
+        p.kill('SIGINT');
+        }, 1000);
+      }
+    }).on('exit', function () {
+      exitcb(childPID);
+    });
   });
 }
 

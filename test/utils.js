@@ -3,8 +3,8 @@ var fork = require('child_process').fork,
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
     assert = require('assert'),
-    port = 8000,
-    appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
+    appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee'),
+    getPort = require('get-port');
 
 function asCLI(cmd) {
   return {
@@ -37,9 +37,9 @@ function monitorForChange(str) {
   };
 }
 
-function run(cmd, callbacks) {
+async function run(cmd) {
   var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
-  port++;
+  const port = await getPort({port: getPort.makeRange(8000, 9000)});
   process.env.PORT = port;
   var proc = fork(cli.exec, cli.args, {
     env: process.env,
@@ -51,6 +51,10 @@ function run(cmd, callbacks) {
   proc.stderr.setEncoding('utf8');
   proc.stdout.setEncoding('utf8');
 
+  return proc;
+}
+
+function setCallbacks(proc, callbacks) {
   if (callbacks.output) {
     proc.stdout.on('data', callbacks.output);
   }
@@ -74,9 +78,8 @@ function run(cmd, callbacks) {
       }
     });
   }
-
-  return proc;
 }
+
 
 function cleanup(p, done, err) {
   // as above
@@ -137,10 +140,10 @@ module.exports = {
   asCLI: asCLI,
   match: match,
   run: run,
+  setCallbacks: setCallbacks,
   cleanup: cleanup,
   appjs: appjs,
   appcoffee: appcoffee,
   monitorForChange: monitorForChange,
-  port: port,
   isRunning: isRunning
 };

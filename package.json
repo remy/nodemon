@@ -46,6 +46,7 @@
     "@commitlint/config-angular": "^3.1.1",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
+    "get-port": "^5.1.1",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
