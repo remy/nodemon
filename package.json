@@ -40,7 +40,7 @@
     "postspec": "npm run clean",
     "clean": "rm -rf test/fixtures/test*.js test/fixtures/test*.md",
     "web": "node web",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "semantic-release": "semantic-release",
     "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
     "postinstall": "node bin/postinstall || exit 0"
   },
@@ -55,7 +55,7 @@
     "mocha": "^6.2.3",
     "nyc": "^15.0.1",
     "proxyquire": "^1.8.0",
-    "semantic-release": "^8.2.3",
+    "semantic-release": "^15.14.0",
     "should": "^13.2.3"
   },
   "dependencies": {
