@@ -25,6 +25,10 @@
     "terminal"
   ],
   "license": "MIT",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/nodemon"
+  },
   "main": "./lib/nodemon",
   "scripts": {
     "commitmsg": "commitlint -e",
