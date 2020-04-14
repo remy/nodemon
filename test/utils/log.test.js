@@ -29,12 +29,8 @@ describe('logger', function () {
     });
   });
 
-  it('should disable colour', function () {
+  it('should disable colour', function*() {
     var type = 'fail';
-    bus.once('log', function (event) {
-      assert.equal(event.message, type);
-      assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
-    });
     logger[type](type);
 
     logger.useColours = false;
@@ -43,6 +39,10 @@ describe('logger', function () {
       assert.equal(event.message, type);
       assert.ok(event.colour.indexOf(colour[types[type]]) === -1);
     });
+  });
+
+  it('should enable colour', function*() {
+    var type = 'fail';
     logger[type](type);
 
     logger.useColours = true;
@@ -51,7 +51,6 @@ describe('logger', function () {
       assert.equal(event.message, type);
       assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
     });
-    logger[type](type);
   });
 
   // it('should not log detail if debug is off', function (done) {

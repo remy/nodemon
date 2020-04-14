@@ -32,9 +32,9 @@
     "bin"
   ],
   "scripts": {
-    "coverage": "istanbul cover _mocha -- --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
+    "coverage": "nyc mocha --timeout 30000 --ui bdd --reporter list test/**/*.test.js",
     "lint": "jscs lib/**/*.js -v",
-    ":spec": "node_modules/.bin/mocha --timeout 30000 --ui bdd test/**/*.test.js",
+    ":spec": "mocha --timeout 30000 --ui bdd test/**/*.test.js",
     "test": "npm run lint && npm run spec",
     "spec": "for FILE in test/**/*.test.js; do echo $FILE; TEST=1 mocha --exit --timeout 30000 $FILE; if [ $? -ne 0 ]; then exit 1; fi; sleep 1; done",
     "postspec": "npm run clean",
@@ -51,12 +51,12 @@
     "coffee-script": "~1.7.1",
     "get-port": "^5.1.1",
     "husky": "^3.1.0",
-    "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
-    "mocha": "^2.5.3",
+    "mocha": "^6.2.3",
+    "nyc": "^15.0.1",
     "proxyquire": "^1.8.0",
     "semantic-release": "^8.2.3",
-    "should": "~4.0.0"
+    "should": "^13.2.3"
   },
   "dependencies": {
     "chokidar": "^3.2.2",
