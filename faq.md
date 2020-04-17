@@ -4,6 +4,16 @@ This is being added to as common issues occur on the [issues](http://github.com/
 
 This is a working document, and if it makes sense, I'll take pull requests to help make it better.
 
+# How to let server persist after terminal close
+SSH into a Linux box and start node.js server. But when you close the SSH terminal, the server dies.
+To let the server persist, configure package.json thus:
+  "main":"server.js",
+  "nodemonConfig": {"ignore": ["./*"] },
+  "scripts": { "start": "nodemon -V --watch ./"  },
+Start the server with > npm start
+Close the ssh terminal, the server restarts and continues to run.
+
+
 # How to clear the console on restart
 
 Rather than being a(nother) feature in nodemon, and as per the [design principles](https://github.com/remy/nodemon#design-principles) you can clear the console using nodemon's existing architecture.
