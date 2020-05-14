@@ -66,5 +66,9 @@
     "undefsafe": "^2.0.2",
     "update-notifier": "^4.0.0"
   },
-  "version": "0.0.0-development"
+  "version": "0.0.0-development",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/nodemon"
+  }
 }
