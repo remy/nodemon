@@ -63,8 +63,8 @@
     "semver": "^5.7.1",
     "supports-color": "^5.5.0",
     "touch": "^3.1.0",
-    "undefsafe": "^2.0.2",
-    "update-notifier": "^4.0.0"
+    "undefsafe": "^2.0.3",
+    "update-notifier": "^4.1.0"
   },
   "version": "0.0.0-development",
   "funding": {
