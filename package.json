@@ -56,7 +56,7 @@
   },
   "dependencies": {
     "chokidar": "^3.2.2",
-    "debug": "^3.2.6",
+    "debug": "^4.1.1",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
     "pstree.remy": "^1.1.7",
