@@ -140,8 +140,8 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
-  // FIXME this test was never working properly
-  it.skip('should not run command on startup if runOnChangeOnly is true',
+  // Fixed! FIXME this test was never working properly
+  it('should not run command on startup if runOnChangeOnly is true',
     function (done) {
       fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
 
