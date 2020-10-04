@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 function main() {
-  if (process.env.SUPPRESS_SUPPORT) {
+  if (process.env.SUPPRESS_SUPPORT || process.env.OPENCOLLECTIVE_HIDE) {
     return;
   }
 
