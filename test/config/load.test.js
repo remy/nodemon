@@ -298,4 +298,27 @@ describe('config load', function () {
       done();
     })
   });
+
+  it('should support pkg.main and keep user args on args', done => {
+    process.chdir(path.resolve(pwd, 'test/fixtures/packages/main-and-start'));
+    const settings = { scriptPosition: 0, script: null, args: [ 'first', 'second' ] };
+    const options = { ignore: [], watch: [], monitor: [] };
+    const config = {
+      run: false,
+      system: { cwd: '/Users/remy/dev/nodemon/issues/1758' },
+      required: false,
+      dirs: [],
+      timeout: 1000,
+      options: { ignore: [], watch: [], monitor: [] },
+      lastStarted: 0,
+      loaded: []
+    }
+
+    load(settings, options, config, res => {
+      assert.deepEqual(res.execOptions.args, ['first', 'second']);
+      done();
+    })
+  });
+
+
 });
