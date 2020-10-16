@@ -7,6 +7,7 @@ const command = require('../../lib/config/command');
 const assert = require('assert');
 const utils = require('../../lib/utils');
 
+
 function toCmd(options) {
   var cmd = command({
     script: options.script || 'app.js',
