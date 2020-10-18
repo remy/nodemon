@@ -16,7 +16,7 @@ This will allow for the automatic changelog to generate correctly.
 
 ## Code standards
 
-Ensure that your code adheres to the included `.jshintrc` and `.jscsrc` configs.
+Ensure that your code adheres to the included `.jshintrc` and `.eslintrc.json` configs.
 
 ## Sending pull requests
 
