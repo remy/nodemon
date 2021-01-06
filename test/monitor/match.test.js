@@ -22,6 +22,50 @@ describe('match', function() {
     '!*.coffee',
   ];
 
+  it('should resolve ./ in positive match', () => {
+    const cwd = process.cwd();
+    const res = match(
+      [cwd + '/app.nodemon'],
+      [
+        './*.nodemon',
+        '!**/dir/*.nodemon',
+      ],
+      'js,mjs,json,nodemon'
+    );
+
+    assert.equal(res.result.length, 1, JSON.stringify(res));
+  });
+
+  it('should resolve ./ in positive match (miss test)', () => {
+    const cwd = process.cwd();
+    const res = match(
+      [cwd + '/dir/app.nodemon'],
+      [
+        './*.nodemon',
+        '!**/dir/*.nodemon',
+      ],
+      'js,mjs,json,nodemon'
+    );
+
+    assert.equal(res.result.length, 0, JSON.stringify(res));
+    assert.equal(res.ignored, 1, JSON.stringify(res));
+  });
+
+  it('should resolve ./ in negative match (hit test)', () => {
+    const cwd = process.cwd();
+    const res = match(
+      [cwd + '/app.nodemon'],
+      [
+        '!./*.nodemon',
+        '**/dir/*.nodemon',
+      ],
+      'js,mjs,json,nodemon'
+    );
+
+    assert.equal(res.result.length, 0, JSON.stringify(res));
+    assert.equal(res.ignored, 1, JSON.stringify(res));
+  });
+
   it('should handle lots of **s!', () => {
     const res = match(
       ['test/fixtures/app.js'],

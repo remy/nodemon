@@ -140,17 +140,23 @@ describe('when nodemon runs (2)', function () {
     });
   });
 
-  // FIXME this test was never working properly
-  it.skip('should not run command on startup if runOnChangeOnly is true',
+  // Fixed! FIXME this test was previously not working properly
+  // corrected the test case
+  // script should not be run i.e,
+  // file should not be created 
+  it('should not run command on startup if runOnChangeOnly is true',
     function (done) {
-      fs.writeFileSync(tmp, 'console.log("testing 1 2 3")');
+      var script =  "var touch = require('touch');\n"
+                    + "touch.sync(" + tmp2 + ");\n"
+      fs.writeFileSync(tmp, script);
 
       nodemon({
         script: tmp,
         runOnChangeOnly: true,
         stdout: false,
       }).on('start', function () {
-        assert(false, 'script should not start');
+        // file exists check
+      	assert(!fs.existsSync(tmp2), 'script should not start');
       }).once('exit', function () {
         done();
       });

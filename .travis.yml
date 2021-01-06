@@ -5,10 +5,9 @@ cache:
 notifications:
   email: false
 node_js:
+  - '14'
   - '12'
-  - '11'
   - '10'
-  - '8'
 before_install:
   - if [ "$TRAVIS_PULL_REQUEST_BRANCH" == "" ]; then echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" >> .npmrc; fi
 after_success:
