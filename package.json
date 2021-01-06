@@ -1,9 +1,9 @@
 {
   "name": "nodemon",
-  "homepage": "http://nodemon.io",
+  "homepage": "https://nodemon.io",
   "author": {
     "name": "Remy Sharp",
-    "url": "http://github.com/remy"
+    "url": "https://github.com/remy"
   },
   "bin": {
     "nodemon": "./bin/nodemon.js"
@@ -43,7 +43,6 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-angular": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
