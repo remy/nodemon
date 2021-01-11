@@ -51,15 +51,13 @@ nodemon ./server.js localhost 8080
 
 Any output from this script is prefixed with `[nodemon]`, otherwise all output from your application, errors included, will be echoed out as expected.
 
-If no script is given, nodemon will test for a `package.json` file and if found, will run the file associated with the *main* property ([ref](https://github.com/remy/nodemon/issues/14)).
-
 You can also pass the `inspect` flag to node through the command line as you would normally:
 
 ```bash
 nodemon --inspect ./server.js 80
 ```
 
-If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app.
+If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app ([ref](https://github.com/remy/nodemon/issues/14)).
 
 nodemon will also search for the `scripts.start` property in `package.json` (as of nodemon 1.1.x).
 
