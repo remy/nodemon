@@ -370,9 +370,9 @@ Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
-[<img src="https://user-images.githubusercontent.com/13700/35731651-677aa3fc-080e-11e8-8580-75fa92db56ec.png" width="200">](https://sparkpo.st/nodemon)
-
 [<img src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="200">](https://mixmax.com)
+
+[<img alt="topratedcasinosites.co.uk" src="https://user-images.githubusercontent.com/13700/105379186-7d7e8400-5c04-11eb-89c0-4a5a9328e933.png" width="200">](https://www.topratedcasinosites.co.uk/)
 
 # License
 

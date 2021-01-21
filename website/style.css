@@ -23,6 +23,11 @@ footer {
   /* background: white; */
 }
 
+footer p {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 svg {
   width: 200px;
   height: 200px;
@@ -137,4 +142,20 @@ footer > * {
   pre code {
     margin: 10px 0;
   }
+}
+
+#sponsors {
+  border-top: 1px solid #fff;
+  margin-top: 80px;
+  padding-top: 20px;
+}
+
+#sponsors div {
+  display: flex;
+  flex-direction: row;
+}
+
+#sponsors img {
+  filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.5));
+  margin-right: 20px;
 }
