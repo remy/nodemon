@@ -372,6 +372,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 [<img alt="topratedcasinosites.co.uk" src="https://user-images.githubusercontent.com/13700/105379186-7d7e8400-5c04-11eb-89c0-4a5a9328e933.png" width="200">](https://www.topratedcasinosites.co.uk/)
 
+[<img src="https://user-images.githubusercontent.com/13700/105995574-1009a200-60a1-11eb-98ae-479eb073eae0.jpg" width="200">](https://www.najlepszeplatformyforex.pl/blog/broker-xtb/)
+
+
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
