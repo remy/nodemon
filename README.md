@@ -370,11 +370,14 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 
 [<img src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="200">](https://mixmax.com)
 
-[<img alt="topratedcasinosites.co.uk" src="https://user-images.githubusercontent.com/13700/105379186-7d7e8400-5c04-11eb-89c0-4a5a9328e933.png" width="200">](https://www.topratedcasinosites.co.uk/)
+[<img alt="topratedcasinosites.co.uk" src="https://images.opencollective.com/top-rated-casino-sites/1bf7c97/logo/256.png" width="200">](https://www.topratedcasinosites.co.uk/)
 
 [<img src="https://user-images.githubusercontent.com/13700/106011732-a72b2580-60b2-11eb-9d6a-24bf958de95d.png" width="200">](https://www.najlepszeplatformyforex.pl/blog/broker-xtb/)
 
 
+[<img src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="margin-top:20px" width="200">](https://www.auscasinos.com/new)
+
+[<img src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="margin-top:20px" width="200">](https://www.casinoenvivo.com/blackjack)
 
 # License
 
