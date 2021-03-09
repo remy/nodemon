@@ -374,20 +374,15 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://www.najlepszeplatformyforex.pl/blog/broker-xtb/"><img style="margin: 12px; float: left" src="https://user-images.githubusercontent.com/13700/106011732-a72b2580-60b2-11eb-9d6a-24bf958de95d.png" width="120"></a>
 <a href="https://www.auscasinos.com/new"><img style="margin: 12px; float: left" src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="margin: 12px; margin-top:20px" width="120"></a>
 <a href="https://www.casinoenvivo.com/blackjack"><img style="margin: 12px; float: left" src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="margin: 12px; margin-top:20px" width="120"></a>
-
-
 <a href="https://kasynohex.com/"><img
       src="https://images.opencollective.com/kasynohex-com/b25daf6/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
-
 <a href="https://netticasinohex.com/"><img
       src="https://images.opencollective.com/netticasinohex-com/71d7417/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
-
 <a href="https://aussiecasinohex.com/"><img
       src="https://images.opencollective.com/aussiecasinohex/923df37/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
-
 </div>
 
 # License
