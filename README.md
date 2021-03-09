@@ -368,16 +368,27 @@ Thank you to all [our backers](https://opencollective.com/nodemon#backer)! 🙏
 
 Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [Sponsor this project today ❤️](https://opencollective.com/nodemon#sponsor)
 
-[<img src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="200">](https://mixmax.com)
+[<img src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="120">](https://mixmax.com)
 
-[<img alt="topratedcasinosites.co.uk" src="https://images.opencollective.com/top-rated-casino-sites/1bf7c97/logo/256.png" width="200">](https://www.topratedcasinosites.co.uk/)
+[<img alt="topratedcasinosites.co.uk" src="https://images.opencollective.com/top-rated-casino-sites/1bf7c97/logo/256.png" width="120">](https://www.topratedcasinosites.co.uk/)
 
-[<img src="https://user-images.githubusercontent.com/13700/106011732-a72b2580-60b2-11eb-9d6a-24bf958de95d.png" width="200">](https://www.najlepszeplatformyforex.pl/blog/broker-xtb/)
+[<img src="https://user-images.githubusercontent.com/13700/106011732-a72b2580-60b2-11eb-9d6a-24bf958de95d.png" width="120">](https://www.najlepszeplatformyforex.pl/blog/broker-xtb/)
 
+[<img src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="margin-top:20px" width="120">](https://www.auscasinos.com/new)
 
-[<img src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="margin-top:20px" width="200">](https://www.auscasinos.com/new)
+[<img src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="margin-top:20px" width="120">](https://www.casinoenvivo.com/blackjack)
 
-[<img src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="margin-top:20px" width="200">](https://www.casinoenvivo.com/blackjack)
+<p><a href="https://kasynohex.com/"><img
+      src="https://images.opencollective.com/kasynohex-com/b25daf6/logo/256.png" style="margin-top:20px"
+      width="120"></a></p>
+
+<p><a href="https://netticasinohex.com/"><img
+      src="https://images.opencollective.com/netticasinohex-com/71d7417/logo/256.png" style="margin-top:20px"
+      width="120"></a></p>
+
+<p><a href="https://aussiecasinohex.com/"><img
+      src="https://images.opencollective.com/aussiecasinohex/923df37/logo/256.png" style="margin-top:20px"
+      width="120"></a></p>
 
 # License
 
