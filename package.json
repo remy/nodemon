@@ -39,7 +39,6 @@
     "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "prepush": "npm run lint",
     "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
-    "install": "node bin/install",
     "postinstall": "node bin/postinstall || exit 0"
   },
   "devDependencies": {
@@ -60,7 +59,6 @@
     "debug": "^3.2.6",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
-    "node-stream-zip": "^1.13.3",
     "pstree.remy": "^1.1.7",
     "semver": "^5.7.1",
     "supports-color": "^5.5.0",
