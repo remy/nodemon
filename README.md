@@ -392,6 +392,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://mtltimes.ca/life/11-best-real-money-canadian-online-casinos-revealed-after-months-of-testing/"><img
       src="https://images.opencollective.com/mtl-times/b2736b8/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
+
+<a href="https://www.casinoonlineaams.com/"><img
+      src="https://images.opencollective.com/casinoonlineaamscom/da74236/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
 </div>
 
 # License
