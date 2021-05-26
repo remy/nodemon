@@ -158,4 +158,7 @@ footer > * {
 #sponsors img {
   filter: drop-shadow(0px 0px 8px rgba(255, 255, 255, 0.5));
   margin-right: 20px;
+  border-radius: 2px;
+  height: 120px;
+  object-fit: contain;
 }

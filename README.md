@@ -404,6 +404,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://gamblizardcanada.com/free-spins/"><img
       src="https://images.opencollective.com/gamblizardcanada_com/1aa20b9/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
+<a href="https://anbefaltcasino.com/"><img
+      src="https://images.opencollective.com/anbefaltcasino-com/ab21410/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
+<a href="https://www.bitcoinbuster.com/"><img
+      src="https://images.opencollective.com/bitcoinbuster-com/858a895/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
+
 </div>
 
 # License
