@@ -407,8 +407,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://anbefaltcasino.com/"><img
       src="https://images.opencollective.com/anbefaltcasino-com/ab21410/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
+
 <a href="https://www.bitcoinbuster.com/"><img
       src="https://images.opencollective.com/bitcoinbuster-com/858a895/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
+
+<a href="https://www.eldinamo.cl/entretencion/2021/06/08/los-cinco-mejores-casinos-online-en-chile-para-2021/"><img
+      src="https://images.opencollective.com/eldinamo/de50164/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
 
 </div>
