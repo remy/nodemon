@@ -416,6 +416,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
       src="https://images.opencollective.com/eldinamo/de50164/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
 
+<a href="https://casinosters.com/minimum-deposit-casinos/"><img
+      src="https://images.opencollective.com/casinosters-com/c7fbffd/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
+
 </div>
 
 # License
