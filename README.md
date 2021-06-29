@@ -420,6 +420,10 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
       src="https://images.opencollective.com/casinosters-com/c7fbffd/logo/256.png" style="float: left; margin:12px"
       width="120"></a>
 
+<a href="https://www.elespectador.com/contenido-patrocinado/ruleta-en-vivo-en-espana-los-mejores-casinos-segun-su-popularidad/"><img
+      src="https://images.opencollective.com/espectador/7cde7f5/logo/256.png" style="float: left; margin:12px"
+      width="120"></a>
+
 </div>
 
 # License
