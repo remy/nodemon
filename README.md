@@ -372,57 +372,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a href="https://mixmax.com"><img style="margin: 12px; float: left" src="https://user-images.githubusercontent.com/13700/35731622-421d4466-080e-11e8-8ddc-11c70e1cd79e.png" width="120"></a>
 <a href="https://www.topratedcasinosites.co.uk/"><img style="margin: 12px; float: left" alt="topratedcasinosites.co.uk" src="https://images.opencollective.com/top-rated-casino-sites/1bf7c97/logo/256.png" width="120"></a>
 <a href="https://www.najlepszeplatformyforex.pl/blog/broker-xtb/"><img style="margin: 12px; float: left" src="https://user-images.githubusercontent.com/13700/106011732-a72b2580-60b2-11eb-9d6a-24bf958de95d.png" width="120"></a>
-<a href="https://www.auscasinos.com/new"><img style="margin: 12px; float: left" src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="object-fit: contain; margin: 12px; margin-top:20px" width="120"></a>
-<a href="https://www.casinoenvivo.com/blackjack"><img style="margin: 12px; float: left" src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="object-fit: contain; margin: 12px; margin-top:20px" height="120" width="120"></a>
-<a href="https://kasynohex.com/"><img
-      src="https://images.opencollective.com/kasynohex-com/b25daf6/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://netticasinohex.com/"><img
-      src="https://images.opencollective.com/netticasinohex-com/71d7417/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://aussiecasinohex.com/"><img
-      src="https://images.opencollective.com/aussiecasinohex/923df37/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://hollandsegokken.nl/"><img
-      src="https://images.opencollective.com/hollandsegokken-nl/7a3d90c/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://cryptocasinos.com/"><img
-      src="https://images.opencollective.com/cryptocasinos/99b168e/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://mtltimes.ca/life/11-best-real-money-canadian-online-casinos-revealed-after-months-of-testing/"><img
-      src="https://images.opencollective.com/mtl-times/b2736b8/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://www.casinoonlineaams.com/"><img
-      src="https://images.opencollective.com/casinoonlineaamscom/da74236/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://slotokingua.com/"><img
-      src="https://images.opencollective.com/slotoking-casino-ukraine/f4920ae/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://gamblizardcanada.com/free-spins/"><img
-      src="https://images.opencollective.com/gamblizardcanada_com/1aa20b9/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-<a href="https://anbefaltcasino.com/"><img
-      src="https://images.opencollective.com/anbefaltcasino-com/ab21410/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://www.bitcoinbuster.com/"><img
-      src="https://images.opencollective.com/bitcoinbuster-com/858a895/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://www.eldinamo.cl/entretencion/2021/06/08/los-cinco-mejores-casinos-online-en-chile-para-2021/"><img
-      src="https://images.opencollective.com/eldinamo/de50164/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://casinosters.com/minimum-deposit-casinos/"><img
-      src="https://images.opencollective.com/casinosters-com/c7fbffd/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
-
-<a href="https://www.elespectador.com/contenido-patrocinado/ruleta-en-vivo-en-espana-los-mejores-casinos-segun-su-popularidad/"><img
-      src="https://images.opencollective.com/espectador/7cde7f5/logo/256.png" style="object-fit: contain; float: left; margin:12px"
-      height="120" width="120"></a>
+<a href="https://www.auscasinos.com/new"><img style="margin: 12px; float: left" src="https://images.opencollective.com/auscasinos/8df0f47/logo/256.png" style="object-fit: contain; margin: 12px; margin-top:20px" height="120" width="120"></a><a href="https://www.casinoenvivo.com/blackjack"><img style="margin: 12px; float: left" src="https://images.opencollective.com/casino-en-vivo/1340a53/logo/256.png" style="object-fit: contain; margin: 12px; margin-top:20px" height="120" width="120"></a><a href="https://kasynohex.com/"><img src="https://images.opencollective.com/kasynohex-com/b25daf6/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://netticasinohex.com/"><img src="https://images.opencollective.com/netticasinohex-com/71d7417/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://aussiecasinohex.com/"><img src="https://images.opencollective.com/aussiecasinohex/923df37/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://hollandsegokken.nl/"><img src="https://images.opencollective.com/hollandsegokken-nl/7a3d90c/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://cryptocasinos.com/"><img src="https://images.opencollective.com/cryptocasinos/99b168e/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://mtltimes.ca/life/11-best-real-money-canadian-online-casinos-revealed-after-months-of-testing/"><img src="https://images.opencollective.com/mtl-times/b2736b8/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://www.casinoonlineaams.com/"><img src="https://images.opencollective.com/casinoonlineaamscom/da74236/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://slotokingua.com/"><img src="https://images.opencollective.com/slotoking-casino-ukraine/f4920ae/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://gamblizardcanada.com/free-spins/"><img src="https://images.opencollective.com/gamblizardcanada_com/1aa20b9/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://anbefaltcasino.com/"><img src="https://images.opencollective.com/anbefaltcasino-com/ab21410/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://www.bitcoinbuster.com/"><img src="https://images.opencollective.com/bitcoinbuster-com/858a895/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://www.eldinamo.cl/entretencion/2021/06/08/los-cinco-mejores-casinos-online-en-chile-para-2021/"><img src="https://images.opencollective.com/eldinamo/de50164/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://casinosters.com/minimum-deposit-casinos/"><img src="https://images.opencollective.com/casinosters-com/c7fbffd/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a><a href="https://www.elespectador.com/contenido-patrocinado/ruleta-en-vivo-en-espana-los-mejores-casinos-segun-su-popularidad/"><img src="https://images.opencollective.com/espectador/7cde7f5/logo/256.png" style="object-fit: contain; float: left; margin:12px" height="120" width="120"></a>
 
 </div>
 
