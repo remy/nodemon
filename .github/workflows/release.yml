@@ -4,7 +4,8 @@ on:
     workflows: ['tests']
     branches: [main]
     types:
-      - completedname: Release
+      - completed
+      - requested
   push:
     branches:
       - master
