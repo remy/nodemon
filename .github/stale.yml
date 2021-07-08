@@ -1,21 +1,35 @@
-# Number of days of inactivity before an issue becomes stale
-daysUntilStale: 14
-# Number of days of inactivity before a stale issue is closed
-daysUntilClose: 7
-# Issues with these labels will never be considered stale
-exemptLabels:
-  - pinned
-  - security
-  - not-stale
-# Label to use when marking an issue as stale
-staleLabel: stale
-# Comment to post when marking an issue as stale. Set to `false` to disable
-markComment: >
-  This issue has been automatically marked as idle and stale because it hasn't
-  had any recent activity. It will be automtically closed if no further activity
-  occurs. If you think this is wrong, or the problem still persists, just pop
-  a reply in the comments and @remy will (try!) to follow up.
+name: Mark stale issues and pull requests
 
-  Thank you for contributing <3
-# Comment to post when closing a stale issue. Set to `false` to disable
-closeComment: false
+on:
+  schedule:
+  - cron: "0 * * * *"
+
+jobs:
+  stale:
+
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@v3
+      with:
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        days-before-stale: 14
+        days-before-close: 30
+        days-before-pr-close: -1
+        stale-issue-label: 'stale'
+        stale-pr-label: 'stale'
+        stale-issue-message: >
+            This issue has been automatically marked as idle and stale because it hasn't
+            had any recent activity. It will be automtically closed if no further activity
+            occurs. If you think this is wrong, or the problem still persists, just pop
+            a reply in the comments and @remy will (try!) to follow up.
+            
+            Thank you for contributing <3
+        close-issue-message: 'Automatically closing this issue due to lack of activity'
+        exempt-issue-labels:
+          - not-stale
+          - security
+          - pinned
