@@ -29,7 +29,4 @@ jobs:
             
             Thank you for contributing <3
         close-issue-message: 'Automatically closing this issue due to lack of activity'
-        exempt-issue-labels:
-          - not-stale
-          - security
-          - pinned
+        exempt-issue-labels: not-stale,security,pinned
