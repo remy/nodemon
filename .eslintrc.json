@@ -1,19 +1,21 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
-    },
-    "parserOptions": {
-        "ecmaVersion": 12
-    },
-    "rules": {
-        "space-before-function-paren": [
-            2,
-            {
-                "anonymous": "ignore",
-                "named": "never"
-            }
-        ]
-    }
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-console": 0,
+    "no-restricted-globals": [
+      "error",
+      {
+        "name": "name",
+        "message": "Use local parameter instead."
+      }
+    ]
+  }
 }

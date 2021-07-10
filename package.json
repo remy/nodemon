@@ -5,6 +5,9 @@
     "name": "Remy Sharp",
     "url": "https://github.com/remy"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "bin": {
     "nodemon": "./bin/nodemon.js"
   },
@@ -59,6 +62,7 @@
     "debug": "^3.2.6",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
+    "prettier": "^2.3.2",
     "pstree.remy": "^1.1.7",
     "semver": "^5.7.1",
     "supports-color": "^5.5.0",
