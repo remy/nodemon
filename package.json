@@ -55,7 +55,7 @@
     "should": "~4.0.0"
   },
   "dependencies": {
-    "chokidar": "^3.2.2",
+    "chokidar": "^3.5.2",
     "debug": "^3.2.6",
     "ignore-by-default": "^1.0.1",
     "minimatch": "^3.0.4",
