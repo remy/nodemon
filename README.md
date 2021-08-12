@@ -16,7 +16,7 @@ nodemon does **not** require *any* additional changes to your code or method of 
 Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
 
 ```bash
-npm install -g nodemon
+npm install -g nodemon # or using yarn: yarn global add nodemon
 ```
 
 And nodemon will be installed globally to your system path.
@@ -24,10 +24,10 @@ And nodemon will be installed globally to your system path.
 You can also install nodemon as a development dependency:
 
 ```bash
-npm install --save-dev nodemon
+npm install --save-dev nodemon # or using yarn: yarn add nodemon -D
 ```
 
-With a local installation, nodemon will not be available in your system path. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
+With a local installation, nodemon will not be available in your system path or you can't use it directly from the command line. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
 
 # Usage
 
