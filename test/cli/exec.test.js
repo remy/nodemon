@@ -214,7 +214,7 @@ describe('nodemon exec', function () {
     assert(cmd.string === 'node app.js', cmd.string);
   });
 
-  it('should not expand index to non-existant index.js', function () {
+  it('should not expand index to non-existent index.js', function () {
     var options = exec({ script: 'index' });
     var cmd = toCmd(options);
     assert(cmd.string === 'node index', cmd.string);
