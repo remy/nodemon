@@ -7,7 +7,7 @@ on:
       - completed
   push:
     branches:
-      - master
+      - main
 jobs:
   release:
     name: Release
