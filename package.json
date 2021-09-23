@@ -47,11 +47,11 @@
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
     "eslint": "^7.11.0",
-    "husky": "^0.14.3",
-    "istanbul": "^0.4.5",
+    "husky": "^7.0.2",
     "mocha": "^2.5.3",
+    "nyc": "^15.1.0",
     "proxyquire": "^1.8.0",
-    "semantic-release": "^17.4.4",
+    "semantic-release": "^18.0.0",
     "should": "~4.0.0"
   },
   "dependencies": {
@@ -64,7 +64,7 @@
     "supports-color": "^5.5.0",
     "touch": "^3.1.0",
     "undefsafe": "^2.0.3",
-    "update-notifier": "^4.1.0"
+    "update-notifier": "^5.1.0"
   },
   "version": "0.0.0-development",
   "funding": {
