@@ -59,6 +59,14 @@ nodemon --inspect ./server.js 80
 
 If you have a `package.json` file for your app, you can omit the main script entirely and nodemon will read the `package.json` for the `main` property and use that value as the app ([ref](https://github.com/remy/nodemon/issues/14)).
 
+You can also run nodemon as dev script by adding the following script in `package.json`
+```json 
+"scripts": {
+  "dev": "nodemon index.js"
+}
+```
+and then use `npm run dev` to launch the host with nodemon.
+
 nodemon will also search for the `scripts.start` property in `package.json` (as of nodemon 1.1.x).
 
 Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
