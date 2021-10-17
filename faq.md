@@ -153,7 +153,7 @@ sudo ln -s /usr/bin/nodejs /usr/local/bin/node
 
 Alternatively the `--exec nodejs` option can be used.
 
-Fedora and Ubuntu pakage node as nodejs, because node.dpkg is
+Fedora and Ubuntu package node as nodejs, because node.dpkg is
 
 > Description-en: Amateur Packet Radio Node program
 > The node program accepts TCP/IP and packet radio network connections and
