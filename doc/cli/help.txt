@@ -8,6 +8,7 @@
   -w, --watch path ......... watch directory "path" or files. use once for
                              each directory or file to watch.
   -i, --ignore ............. ignore specific files or directories.
+  -q, --quiet .............. minimise nodemon messages to start/stop only
   -V, --verbose ............ show detail on what is causing restarts.
   -- <your args> ........... to tell nodemon stop slurping arguments.
 
