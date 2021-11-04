@@ -96,7 +96,7 @@ nodemon (from 1.4.2 onwards) uses [Chokidar](https://www.npmjs.com/package/choki
 
 If you find your files aren't being monitored, either nodemon isn't restarting, or it reports that zero files are being watched, then you may need the polling mode.
 
-To enable polling use the the legacy flag either via the terminal:
+To enable polling use the legacy flag either via the terminal:
 
 ```shell
 $ nodemon --legacy-watch
