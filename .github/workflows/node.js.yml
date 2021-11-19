@@ -24,6 +24,7 @@ jobs:
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
+        cache: npm
         node-version: ${{ matrix.node-version }}
     - run: npm ci
     - run: npm run build --if-present
