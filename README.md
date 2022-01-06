@@ -299,6 +299,28 @@ process.once('SIGUSR2', function () {
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
+## Temporarily bypass restart event
+
+If you need to avoid application restart, for example, during execution, update a file that nodemon is listening for changes, but exceptionally not trigger a restart, you can do it by temporarily handle the `SIGUSR2` signal without killing the process and remove the event once the task is finished.
+
+In the following example this is acomplished by creating an event that removes the previously created listener, resuming normal behaviour:
+
+```js
+const handler = () => {
+  // doing nothing
+};
+
+process.on('SIGUSR2', handler);
+const emitter = new EventEmitter();
+emitter.on('done', () => {
+  process.removeListener('SIGUSR2', handler);
+});
+
+// update a file...
+
+emitter.emit('done');
+```
+
 ## Triggering events when nodemon state changes
 
 If you want growl like notifications when nodemon restarts or to trigger an action when an event happens, then you can either `require` nodemon or add event actions to your `nodemon.json` file.
