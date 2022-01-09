@@ -108,7 +108,7 @@ describe('nodemon fork child restart', function () {
         } else {
           cleanup(p, done, new Error('nodemon started ' + restartCount + ' times'));
         }
-      }, 8000);
+      }, 12000);
 
       p.on('message', function (event) {
         if (event.type === 'log') {
