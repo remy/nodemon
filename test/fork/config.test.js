@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, afterEach:true, beforeEach:true */
-var assert = require('assert'),
+const assert = require('assert'),
     utils = require('../utils'),
     path = require('path'),
     match = utils.match,
@@ -8,7 +8,7 @@ var assert = require('assert'),
     run = utils.run;
 
 describe('nodemon full config test', function () {
-  var pwd = process.cwd();
+  const pwd = process.cwd();
 
   beforeEach(function () {
     // move to the fixtures directory to allow for config loading

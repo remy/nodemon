@@ -1,5 +1,5 @@
 /*global describe:true, it: true */
-var assert = require('assert'),
+const assert = require('assert'),
   utils = require('../utils'),
   appjs = utils.appjs,
   run = utils.run;
@@ -58,7 +58,7 @@ describe('nodemon fork', function () {
 
   if (!process.env.TRAVIS) {
     it('should start a fork exec with a space without args', function (done) {
-      var found = false;
+      let found = false;
       var p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
@@ -88,7 +88,7 @@ describe('nodemon fork', function () {
     });
 
     it('should start a fork exec with a space with args', function (done) {
-      var found = false;
+      let found = false;
       var p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
@@ -119,7 +119,7 @@ describe('nodemon fork', function () {
   }
 
   it('should start a fork exec with a space with args (escaped)', function (done) {
-    var found = false;
+    let found = false;
     var p = run({
       exec: 'bin/nodemon.js',
       // make nodemon verbose so we can check the filters being applied

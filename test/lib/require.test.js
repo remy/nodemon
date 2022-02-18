@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, afterEach: true */
-var nodemon = require('../../lib/'),
+const nodemon = require('../../lib/'),
     assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
@@ -9,7 +9,7 @@ var nodemon = require('../../lib/'),
     envjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
 
 describe('require-able', function () {
-  var pwd = process.cwd(),
+  const pwd = process.cwd(),
       oldhome = utils.home;
 
   afterEach(function () {
@@ -33,7 +33,7 @@ describe('require-able', function () {
       env: { USER: 'nodemon' },
       stdout: false,
     }).on('stdout', function (data) {
-      var out = data.toString().trim();
+      const out = data.toString().trim();
       assert(out === 'nodemon', 'expected output: ' + out);
       done();
     }).on('error', function (e) {
@@ -47,7 +47,7 @@ describe('require-able', function () {
   });
 
   it('should restart on file change with custom signal', function (done) {
-    var restarted = false;
+    let restarted = false;
 
     utils.port++;
     nodemon({ script: appjs, verbose: true, env: { PORT: utils.port }, signal: 'SIGINT' }).on('start', function () {
@@ -69,7 +69,7 @@ describe('require-able', function () {
   });
 
   it('should be restartable', function (done) {
-    var restarted = false;
+    let restarted = false;
 
     nodemon(appjs).on('start', function () {
       setTimeout(function () {

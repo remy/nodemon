@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, afterEach: true */
-var nodemon = require('../../lib/'),
+const nodemon = require('../../lib/'),
     assert = require('assert'),
     path = require('path'),
     touch = require('touch'),
@@ -9,7 +9,7 @@ var nodemon = require('../../lib/'),
     envjs = path.resolve(__dirname, '..', 'fixtures', 'env.js');
 
 describe('require-able', function () {
-  var pwd = process.cwd(),
+  const pwd = process.cwd(),
       oldhome = utils.home;
 
   afterEach(function () {
@@ -27,7 +27,7 @@ describe('require-able', function () {
 
 
   it('should restart on file change', function (done) {
-    var restarted = false;
+    let restarted = false;
 
     utils.port++;
     nodemon({ script: appjs, verbose: true, env: { PORT: utils.port } }).on('start', function () {

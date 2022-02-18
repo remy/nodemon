@@ -1,5 +1,5 @@
 /*global describe:true, it: true */
-var merge = require('../../lib/utils/merge'),
+const merge = require('../../lib/utils/merge'),
     assert = require('assert');
 
 function getOriginal() {
@@ -20,23 +20,23 @@ function getOriginal() {
 }
 
 describe('utils merge', function () {
-  var original = {};
+  let original = {};
 
   beforeEach(function () {
     original = getOriginal();
   });
 
   it('should be the same with empty targets', function () {
-    var result = merge(original, {});
+    const result = merge(original, {});
     assert.deepEqual(original, result);
   });
 
   it('should merge missing properties', function () {
-    var simple = {
+    const simple = {
       ignore: []
     };
 
-    var result = merge(simple, {
+    const result = merge(simple, {
       watch: []
     });
 
@@ -47,7 +47,7 @@ describe('utils merge', function () {
   });
 
   it('should merge complex missing properties', function () {
-    var target = [{
+    const target = [{
           one: 1,
           two: 2
         }, {
@@ -55,7 +55,7 @@ describe('utils merge', function () {
           four: 4
         }];
 
-    var result = merge(original, {
+    const result = merge(original, {
       watch: target
     });
 
@@ -65,7 +65,7 @@ describe('utils merge', function () {
   });
 
   it('should merge deep complex missing properties', function () {
-    var target = {
+    const target = {
       execOptions: { verbose: true,
          script: './lib/app',
          args: [],
@@ -75,7 +75,7 @@ describe('utils merge', function () {
        }
     };
 
-    var result = merge(original, target);
+    const result = merge(original, target);
 
     original.execOptions = target.execOptions;
 
@@ -83,19 +83,19 @@ describe('utils merge', function () {
   });
 
   it('should ignore existing properties', function () {
-    var original = {
+    let original = {
       execOptions: {
         ext: 'js'
       }
     };
 
-    var target = {
+    let target = {
       execOptions: {
         ext: 'notjs'
       }
     };
 
-    var result = merge(original, target);
+    let result = merge(original, target);
     assert.deepEqual(original, result);
 
     original = { ext: 'js' };
@@ -106,70 +106,70 @@ describe('utils merge', function () {
   });
 
   it('should merge in to "empty" properties', function () {
-    var target = {
+    const target = {
       execOptions: {
         ext: 'js'
       }
     };
 
-    var original = {
+    const original = {
       execOptions: {
         ext: ''
       }
     };
 
-    var result = merge(original, target);
+    const result = merge(original, target);
 
     original.execOptions = target.execOptions;
     assert.deepEqual(original, result);
   });
 
   it('should merge into empty objects', function () {
-    var original = {
+    const original = {
       foo: 'bar',
       execOptions: {}
     };
 
-    var target = {
+    const target = {
       execOptions: {
         ext: 'js'
       }
     };
 
-    var result = merge(original, target);
+    const result = merge(original, target);
     assert.deepEqual({ foo: 'bar', execOptions: { ext: 'js' } }, result);
   });
 
   it('should merge into empty arrays', function () {
-    var original = {
+    const original = {
       foo: 'bar',
       execOptions: []
     };
 
-    var target = {
+    const target = {
       execOptions: ['js']
     };
 
-    var result = merge(original, target);
+    const result = merge(original, target);
 
     assert.deepEqual({ foo: 'bar', execOptions: ['js'] }, result)
   });
 
   it('should merge into deep empty arrays', function () {
     // return;
-    var original = {
+    const original = {
       foo: {
         name: []
       }
     };
 
-    var target = {
+    const target = {
       foo: {
         name: ['remy']
       }
     };
 
-    var result = merge(original, target);
+    const result = merge(original, target);
 
     assert.deepEqual({ foo: { name: ['remy'] } }, result)
   });

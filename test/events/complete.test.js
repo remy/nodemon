@@ -1,15 +1,15 @@
 'use strict';
 /* global describe, it, beforeEach, before, after */
-var nodemon = require('../../lib/');
-var debug = require('debug')('nodemon');
-var assert = require('assert');
-var path = require('path');
-var touch = require('touch');
-var utils = require('../utils');
-var dir = path.resolve(__dirname, '..', 'fixtures', 'events');
-var appjs = path.resolve(dir, 'env.js');
-var asCLI = utils.asCLI;
-var fork = require('child_process').fork;
+const nodemon = require('../../lib/');
+const debug = require('debug')('nodemon');
+const assert = require('assert');
+const path = require('path');
+const touch = require('touch');
+const utils = require('../utils');
+const dir = path.resolve(__dirname, '..', 'fixtures', 'events');
+const appjs = path.resolve(dir, 'env.js');
+const asCLI = utils.asCLI;
+const fork = require('child_process').fork;
 
 describe('events should follow normal flow on user triggered change',
   function () {
@@ -28,7 +28,7 @@ describe('events should follow normal flow on user triggered change',
       };
     }
 
-    var cwd = process.cwd();
+    const cwd = process.cwd();
 
     beforeEach(function (done) {
       debug('beforeEach');
@@ -67,10 +67,10 @@ describe('events should follow normal flow on user triggered change',
     });
 
     it('exit', function (done) {
-      var plan = new utils.Plan(4, function () {
+      const plan = new utils.Plan(4, function () {
         nodemon.reset(done);
       });
-      var run = 0;
+      let run = 0;
 
       nodemon(conf()).on('exit', function () {
         plan.assert(true, '"exit" event');
@@ -97,7 +97,7 @@ describe('events should follow normal flow on user triggered change',
     });
 
     it('restart', function (done) {
-      var plan = new utils.Plan(4, function () {
+      const plan = new utils.Plan(4, function () {
         nodemon.reset(done);
       });
 

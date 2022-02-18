@@ -1,5 +1,5 @@
 'use strict';
-var fork = require('child_process').fork,
+let fork = require('child_process').fork,
     path = require('path'),
     appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
     assert = require('assert'),
@@ -19,7 +19,7 @@ function match(str, key) {
 }
 
 function monitorForChange(str) {
-  var watch = false;
+  let watch = false;
   return function (line) {
     if (match(line, 'files triggering change check: nodemonCheckFsWatch')) {
       watch = false;
@@ -38,10 +38,10 @@ function monitorForChange(str) {
 }
 
 function run(cmd, callbacks) {
-  var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
+  const cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
   port++;
   process.env.PORT = port;
-  var proc = fork(cli.exec, cli.args, {
+  const proc = fork(cli.exec, cli.args, {
     env: process.env,
     cwd: process.cwd(),
     encoding: 'utf8',
@@ -116,7 +116,7 @@ Plan.prototype.assert = function() {
 };
 
 function getTriggerCount(msg) {
-  var changes = msg.split(/\n/).shift();
+  let changes = msg.split(/\n/).shift();
   changes = changes.replace(/\s*/gm, '').slice(-5).split('/');
   return changes.pop();
 }

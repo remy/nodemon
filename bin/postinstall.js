@@ -12,7 +12,7 @@ function main() {
     const pkg = require(__dirname + '/../package.json');
     const now = Date.now();
 
-    var week = 1000 * 60 * 60 * 24 * 7;
+    const week = 1000 * 60 * 60 * 24 * 7;
 
     // create a Configstore instance with an unique ID e.g.
     // Package name and optionally some default values

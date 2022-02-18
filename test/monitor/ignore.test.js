@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var assert = require('assert'),
+const assert = require('assert'),
   path = require('path'),
   fs = require('fs'),
   utils = require('../utils'),

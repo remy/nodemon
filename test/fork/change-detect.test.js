@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true */
-var utils = require('../utils'),
+const utils = require('../utils'),
   colour = require('../../lib/utils/colour'),
   assert = require('assert'),
   touch = require('touch'),
@@ -30,15 +30,15 @@ describe('nodemon fork simply running', function () {
 
 describe('nodemon fork monitor', function () {
   it('should restart on .js file changes with no arguments', function (done) {
-    var startWatch = false;
+    let startWatch = false;
     var p = run(appjs, {
       output: function (data) {
         if (match(data, 'files triggering change check: test/fixtures/app.js')) {
           startWatch = true;
         }
         if (startWatch && match(data, 'changes after filters')) {
-          var changes = colour.strip(data.trim());
-          var restartedOn = null;
+          const changes = colour.strip(data.trim());
+          let restartedOn = null;
           changes.replace(/changes after filters \(before\/after\): \d+\/(\d+)/, (_, m) => {
             restartedOn = m;
           });
@@ -70,8 +70,8 @@ describe('nodemon fork monitor', function () {
         output: function (data) {
           if (match(data, 'changes after filters')) {
             data = colour.strip(data.toString().trim());
-            var changes = data.split('/');
-            var restartedOn = changes.pop();
+            const changes = data.split('/');
+            const restartedOn = changes.pop();
 
             assert.equal(restartedOn, '0', 'expects to not have restarted');
             utils.cleanup(p, done);

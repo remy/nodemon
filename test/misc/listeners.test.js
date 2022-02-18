@@ -1,11 +1,11 @@
 /*global describe, it, beforeEach */
 
-var nodemon = require('../../lib/');
-var assert = require('assert');
-var path = require('path');
-var dir = path.resolve(__dirname, '..', 'fixtures', 'events');
-var appjs = path.resolve(dir, 'env.js');
-var async = require('async');
+const nodemon = require('../../lib/');
+const assert = require('assert');
+const path = require('path');
+const dir = path.resolve(__dirname, '..', 'fixtures', 'events');
+const appjs = path.resolve(dir, 'env.js');
+const async = require('async');
 
 describe('listeners clean up', function () {
   function conf() {
@@ -40,7 +40,7 @@ describe('listeners clean up', function () {
         };
       }
 
-      var toRun = '01234567890123456789'.split('').map(run);
+      const toRun = '01234567890123456789'.split('').map(run);
       toRun.push(function () {
         done();
       });

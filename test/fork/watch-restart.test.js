@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var assert = require('assert'),
+const assert = require('assert'),
     fs = require('fs'),
     utils = require('../utils'),
     colour = require('../../lib/utils/colour'),
@@ -14,7 +14,7 @@ var assert = require('assert'),
     baseFilename = 'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
 describe('nodemon fork child restart', function () {
-  var tmpjs = path.resolve(baseFilename + '.js'),
+  const tmpjs = path.resolve(baseFilename + '.js'),
       tmpmd = path.resolve(baseFilename + '.md'),
       tmpcoffee = path.resolve(baseFilename + '.coffee');
 
@@ -92,7 +92,7 @@ describe('nodemon fork child restart', function () {
   });
 
   it('should happen only once if delay option is set', function (done) {
-    var restartCount = 0;
+    let restartCount = 0;
     fs.writeFile(tmpjs, 'true;', function () {
       var p = run('--verbose --ext js --delay 2 ' + tmpjs, {
         error: function (data) {
@@ -149,7 +149,7 @@ describe('nodemon fork child restart', function () {
   it('should happen when monitoring multiple extensions', function (done) {
     fs.writeFileSync(tmpjs, 'true;');
     fs.writeFileSync(tmpmd, '# true');
-    var monitor = utils.monitorForChange('changes after filters');
+    const monitor = utils.monitorForChange('changes after filters');
     setTimeout(function () {
       var p = run('--ext js,md ' + appjs, {
         error: function (data) {
@@ -157,11 +157,11 @@ describe('nodemon fork child restart', function () {
           cleanup(p, done, new Error(data));
         },
         output: function (data) {
-          var msg = colour.strip(data.trim());
+          const msg = colour.strip(data.trim());
           if (utils.match(msg, 'changes after filters (before/after)')) {
-            var changes = msg.split(/\n/).shift();
+            let changes = msg.split(/\n/).shift();
             changes = changes.replace(/\s*/gm, '').slice(-5).split('/');
-            var restartedOn = changes.pop();
+            const restartedOn = changes.pop();
             assert.equal(restartedOn, '1', 'nodemon restarted on a single file change: ' + restartedOn + ' -- ' + msg);
             cleanup(p, done);
           }

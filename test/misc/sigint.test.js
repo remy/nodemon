@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true */
-var utils = require('../utils'),
+const utils = require('../utils'),
     assert = require('assert'),
     path = require('path'),
     appjs = path.relative(process.cwd(), path.resolve(__dirname, '..', 'fixtures', 'sigint.js')),
@@ -11,7 +11,7 @@ var utils = require('../utils'),
 
 function runAndKill(done, cmdline, exitcb)
 {
-  var childPID = null;
+  let childPID = null;
 
   var p = run(cmdline, {
     output: function (data) {

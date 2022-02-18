@@ -1,13 +1,13 @@
 'use strict';
 /*global describe:true, it: true */
-var Logger = require('../../lib/utils/log');
-var logger = new Logger(true);
-var bus = require('../../lib/utils/bus');
-var colour = require('../../lib/utils/colour');
-var assert = require('assert');
+const Logger = require('../../lib/utils/log');
+const logger = new Logger(true);
+const bus = require('../../lib/utils/bus');
+const colour = require('../../lib/utils/colour');
+const assert = require('assert');
 
 describe('logger', function () {
-  var types = {
+  const types = {
     log: 'black',
     info: 'yellow',
     status: 'green',
@@ -30,7 +30,7 @@ describe('logger', function () {
   });
 
   it('should disable colour', function () {
-    var type = 'fail';
+    const type = 'fail';
     bus.once('log', function (event) {
       assert.equal(event.message, type);
       assert.ok(event.colour.indexOf(colour[types[type]]) !== -1);
