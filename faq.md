@@ -323,3 +323,11 @@ It's a security restriction of the Windows PowerShell.
 1. Open up a powershell command window (open it as administrator)
 2. To check out current restrictions type "Get-ExecutionPolicy"
 3. Enable powershell by typing "Set-ExecutionPolicy remotesigned"
+
+## How can I watch all file types in a folder?
+
+To watch all file types, use `'*'`:
+
+```bash
+nodemon --ext '*' --watch public --exec 'python -m SimpleHTTPServer'
+```
