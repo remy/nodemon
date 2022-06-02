@@ -7,7 +7,6 @@ Configuration
   --signal <signal> ........ use specified kill signal instead of default (ex. SIGTERM)
   -w, --watch path ......... watch directory "dir" or files. use once for each
                              directory or file to watch
-  --no-update-notifier ..... opt-out of update version check
 
 Execution
   -C, --on-change-only ..... execute script on change only, not startup
