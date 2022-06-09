@@ -169,7 +169,7 @@ nodemon --watch app --watch libs app/server.js
 
 Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
 
-Nodemon also supports unix globbing, e.g `--watch './lib/*'`.
+Nodemon also supports unix globbing, e.g `--watch './lib/*'`. The globbing pattern must be quoted.
 
 ## Specifying extension watch list
 
