@@ -14,7 +14,7 @@ assignees: ''
   gulp, grunt, webpack, etc. Thank you so much <3
 -->
 
-- Versions: <!-- run this: node -e 'console.log(`node@${process.version}, ${process.platform}@${require(\"os\").release()}`)' -->
+- Versions: <!-- run this: node -e 'console.log(`node@${process.version}, ${process.platform}@${require("os").release()}`)' -->
 - `nodemon -v`:
 - Operating system/terminal environment (powershell, gitshell, etc): 
 - Using Docker? What image: 
