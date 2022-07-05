@@ -12,5 +12,5 @@ const fs = require('fs');
 const pkg = JSON.parse(fs.readFileSync(__dirname + '/../package.json'));
 
 if (pkg.version.indexOf('0.0.0') !== 0 && options.noUpdateNotifier !== true) {
-  require('update-notifier')({ pkg }).notify();
+  require('simple-update-notifier')({ pkg });
 }
