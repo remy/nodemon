@@ -6,3 +6,8 @@ issues/
 website/
 *.md
 Dockerfile
+.eslintrc.json
+.jshintrc
+.releaserc
+.travis.yml
+commitlint.config.js
