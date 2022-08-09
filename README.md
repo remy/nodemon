@@ -402,7 +402,8 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
           <a title='Casinostranieri.net' data-id='319480' href='https://casinostranieri.net/'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7aae8900-0c02-11ed-9aa8-2bd811fd6f10.png' style='object-fit: contain; float: left; margin:12px' width='120'></a>
           <a title='Goread.io' data-id='320564' href='https://goread.io/buy-instagram-followers'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7d1302a0-0f33-11ed-a094-3dca78aec7cd.png' style='object-fit: contain; float: left; margin:12px' width='120'></a>
           <a title='SureBet' data-id='321121' href='https://www.sure.bet/casinos-not-on-gamstop/'><img alt='We are the most advanced casino guide!' src='https://logo.clearbit.com/sure.bet' style='object-fit: contain; float: left; margin:12px' width='120'></a>
-          <a title='Scommetteronline.info' data-id='321538' href='https://scommetteronline.info/bonus-scommesse-online/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/dfc8a530-126c-11ed-9c7b-3b6f4738893c.jpg' style='object-fit: contain; float: left; margin:12px' width='120'></a>
+          <a title='Casinosicuri.info' data-id='321538' href='https://casinosicuri.info/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/6ad106d0-16ec-11ed-8a46-7b820b28a610.jpg' style='object-fit: contain; float: left; margin:12px' width='120'></a>
+          <a title='Correct Casinos Australia' data-id='322445' href='https://www.correctcasinos.com/australian-online-casinos/'><img alt='Best Australian online casinos. Reviewed by Correct Casinos.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/fef95200-1551-11ed-ba3f-410c614877c8.png' style='object-fit: contain; float: left; margin:12px' width='120'></a>
 </div>
 
 # License
