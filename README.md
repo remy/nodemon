@@ -86,7 +86,7 @@ A config file can take any of the command line arguments as JSON key values, for
 ```json
 {
   "verbose": true,
-  "ignore": ["*.test.js", "fixtures/*"],
+  "ignore": ["*.test.js", "**/fixtures/**"],
   "execMap": {
     "rb": "ruby",
     "pde": "processing --sketch={{pwd}} --run"
@@ -109,7 +109,7 @@ Specify the config in the same format as you would for a config file but under `
   "homepage": "http://nodemon.io",
   "...": "... other standard package.json values",
   "nodemonConfig": {
-    "ignore": ["test/*", "docs/*"],
+    "ignore": ["**/test/**", "**/docs/**"],
     "delay": 2500
   }
 }
@@ -202,6 +202,8 @@ Patterns can also be ignored (but be sure to quote the arguments):
 ```bash
 nodemon --ignore 'lib/*.js'
 ```
+
+**Important** the ignore rules are patterns matched to the full absolute path, and this determines how many files are monitored. If using a wild card glob pattern, it needs to be used as `**` or omitted entirely. For example, `nodemon --ignore '**/test/**'` will work, whereas `--ignore '*/test/*'` will not.
 
 Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
 
