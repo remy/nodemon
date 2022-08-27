@@ -411,6 +411,9 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Ilcasinoitaliano' data-id='326857' href='https://ilcasinoitaliano.eu/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/3b057540-12fe-11ed-b410-97951f343249.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Casino utan svensk licens' data-id='326858' href='https://casinoburst.com/casino-utan-licens/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/ac61d790-1d3c-11ed-b8db-7b79b65b0dbb.PNG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Vedonlyontibonukset.com' data-id='326863' href='https://www.vedonlyontibonukset.com/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/276ec220-df06-11eb-a5cf-7b18267f7c27.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='spinsify.com/uk' data-id='326864' href='https://www.spinsify.com/uk/new-casinos'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bacf2f0-df04-11eb-a5cf-7b18267f7c27.PNG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='uudetkasinot.com' data-id='326865' href='https://www.uudetkasinot.com'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/b6055950-df00-11eb-9caa-b58f40adecd5.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Gem M' data-id='327241' href='https://www.noneedtostudy.com/take-my-online-class/'><img alt='null' src='https://user-images.githubusercontent.com/13700/187039696-e2d8cd59-8b4e-438f-a052-69095212427d.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 </div>
 
 # License
