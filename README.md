@@ -414,6 +414,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='spinsify.com/uk' data-id='326864' href='https://www.spinsify.com/uk/new-casinos'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bacf2f0-df04-11eb-a5cf-7b18267f7c27.PNG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='uudetkasinot.com' data-id='326865' href='https://www.uudetkasinot.com'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/b6055950-df00-11eb-9caa-b58f40adecd5.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Gem M' data-id='327241' href='https://www.noneedtostudy.com/take-my-online-class/'><img alt='null' src='https://user-images.githubusercontent.com/13700/187039696-e2d8cd59-8b4e-438f-a052-69095212427d.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Best Slots World' data-id='329117' href='https://bestslotsworld.com/'><img alt='Best Online Casino and Slots Reviews in the World' src='https://logo.clearbit.com/bestslotsworld.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 </div>
 
 # License
