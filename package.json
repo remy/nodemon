@@ -40,8 +40,7 @@
     "web": "node web",
     "semantic-release": "semantic-release",
     "prepush": "npm run lint",
-    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9",
-    "postinstall": "node bin/postinstall || exit 0"
+    "killall": "ps auxww | grep node | grep -v grep | awk '{ print $2 }' | xargs kill -9"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
