@@ -331,3 +331,45 @@ To watch all file types, use `'*'`:
 ```bash
 nodemon --ext '*' --watch public --exec 'python -m SimpleHTTPServer'
 ```
+
+## Workaround for when --inspect flag is passed and the old process doesn't finish before starting a new process
+
+Based on [this issue](https://github.com/remy/nodemon/issues/2056).
+
+Sometimes when using the `--inspect` flag, nodemon will try to start the a process before the old process is finished. 
+
+This will cause an error trying to up the new process because of the debugger service:
+
+```
+[0] [nodemon] restarting due to changes...
+[0] [nodemon] starting `node --inspect ./main/index.js`
+[0] Starting inspector on 127.0.0.1:9229 failed: address already in use
+```
+
+Your application will likely be running the old version code if you see that message, and you will need to stop the app and manually start it again to run the app with the newer code version.
+
+A common cause for this is when graceful shutdowns are doing async tasks, i.e:
+
+```
+process.once('SIGUSR2', async () => {
+  await db.disconnect()
+})
+```
+
+Simply removing the `await` keyword would likely fix the issue.
+
+If even after that you still running into that problem, there's a workaround to force kill the debugger whenever nodemon triggers a restart.
+
+You can create a `nodemon.json` file at the project root and add the following config:
+
+```
+{
+  "events": {
+    "restart": "sh -c 'lsof -i :${PORT:-9229} -t | xargs kill'"
+  }
+}
+```
+
+This will run a shell command to kill the process running on the PORT 9229 (default node debug port) whenever nodemon triggers a restart.
+
+It may fail sometimes, but it makes the hot reload works partially.
