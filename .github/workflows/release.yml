@@ -8,8 +8,12 @@ on:
   push:
     branches:
       - main
+permissions: {}
 jobs:
   release:
+    permissions:
+      contents: write # for release publishing
+
     name: Release
     runs-on: ubuntu-18.04
     steps:
