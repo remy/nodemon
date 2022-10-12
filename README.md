@@ -416,6 +416,7 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Slotmachineweb.com' data-id='329195' href='https://www.slotmachineweb.com/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/172f9eb0-22c2-11ed-a0b5-97427086b4aa.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='likewave' data-id='334265' href='https://likewave.io/buy-instagram-likes'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/ec927700-359e-11ed-97d0-014826afdf06.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Stayatcasinos.com' data-id='337376' href='https://stayatcasinos.com/'><img alt='Finding the best betting sites is not easy. Online betting sites are launching every day. In this analysis, we provide answers on how to find the best betting sites and new online casinos easily, why do you need a thorough review of an online casino befor' src='https://opencollective-production.s3.us-west-1.amazonaws.com/f02759a0-ee39-11ec-a12d-f3f59921f6cf.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='SlotsMegaCasino Australia' data-id='341647' href='https://slotsmegacasino.com/en-au/top-10-online-casinos'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/4b87b8a0-495f-11ed-8088-4f073757a587.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 </div>
 
 # License
