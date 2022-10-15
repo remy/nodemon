@@ -60,7 +60,7 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Error: "process failed, unhandled exit code (2)"
 
-Nodemon will look for exit signals from the child process it runs. When the exit code is `2`, nodemon throws an error. Typically this is because the arguments are bad for the executing program, but it can also be due other reasons.
+Nodemon will look for exit signals from the child process it runs. When the exit code is `2`, nodemon throws an error. Typically this is because the arguments are bad for the executing program, but it can also be due to other reasons.
 
 For example, mocha@3.x will exit with `2` on failing tests. To handle the exit code in a way that nodemon can consume, manually exit the process, i.e.:
 
@@ -96,7 +96,7 @@ nodemon (from 1.4.2 onwards) uses [Chokidar](https://www.npmjs.com/package/choki
 
 If you find your files aren't being monitored, either nodemon isn't restarting, or it reports that zero files are being watched, then you may need the polling mode.
 
-To enable polling use the legacy flag either via the terminal:
+To enable polling, use the legacy flag either via the terminal:
 
 ```shell
 $ nodemon --legacy-watch
