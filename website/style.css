@@ -12,7 +12,7 @@ html {
 }
 
 html {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 header,
@@ -135,7 +135,7 @@ footer > * {
   }
 
   footer {
-    padding: 10px 12px;
+    padding: 10px 15px;
   }
 
   pre,
