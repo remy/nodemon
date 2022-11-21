@@ -100,7 +100,8 @@ A further example of options can be seen in [sample-nodemon.md](https://github.c
 
 ### package.json
 
-Keeping all of your package configurations in one place is simple with nodemon. You can use `package.json` for configuration by specifying the config under `nodemonConfig` in the file. This format is the same as what you would use for a config file, for example, take the following `package.json`:
+If you want to keep all your package configurations in one place, nodemon supports using `package.json` for configuration.
+Specify the config in the same format as you would for a config file but under `nodemonConfig` in the `package.json` file, for example, take the following `package.json`:
 
 ```json
 {
@@ -220,7 +221,7 @@ Though this should be a last resort as it will poll every file it can find.
 
 ## Delaying restarting
 
-If you're looking to wait until a number of files have changed, the timeout before checking for new file changes is 1 second. However, if you're uploading a number of files and it's taking some time, this could cause your app to restart multiple times unnecessarily.
+In some situations, you may want to wait until a number of files have changed. The timeout before checking for new file changes is 1 second. If you're uploading a number of files and it's taking some number of seconds, this could cause your app to restart multiple times unnecessarily.
 
 To add an extra throttle, or delay restarting, use the `--delay` command:
 
