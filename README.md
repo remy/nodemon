@@ -422,6 +422,8 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Scommesseseriea.eu' data-id='353466' href='https://www.scommesseseriea.eu/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/31600a10-4df4-11ed-a07e-95365d1687ba.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Gambe Online AU' data-id='356565' href='https://www.gambleonlineaustralia.com/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/a70354f0-337f-11ed-a5da-ebb8fe99a73a.JPG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Gamble Online' data-id='356566' href='https://www.gambleonline.co'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/af336e80-337f-11ed-a5da-ebb8fe99a73a.JPG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Italianonlinecasino.net' data-id='362210' href='https://www1.italianonlinecasino.net/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2e8dbbb0-22bc-11ed-b874-23b20736a51e.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='NotOnGamstopCasinos.com' data-id='364516' href='https://www.notongamstopcasinos.com'><img alt='null' src='https://logo.clearbit.com/notongamstopcasinos.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 </div>
 
 # License
