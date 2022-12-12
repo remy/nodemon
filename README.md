@@ -424,6 +424,9 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Gamble Online' data-id='356566' href='https://www.gambleonline.co'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/af336e80-337f-11ed-a5da-ebb8fe99a73a.JPG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='Italianonlinecasino.net' data-id='362210' href='https://www1.italianonlinecasino.net/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2e8dbbb0-22bc-11ed-b874-23b20736a51e.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 <a title='NotOnGamstopCasinos.com' data-id='364516' href='https://www.notongamstopcasinos.com'><img alt='null' src='https://logo.clearbit.com/notongamstopcasinos.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Non Gamstop Casinos' data-id='367236' href='https://nongamstopcasinos.net/'><img alt='null' src='https://opencollective-production.s3.us-west-1.amazonaws.com/fb8b5ba0-3904-11ed-8516-edd7b7687a36.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Incognito' data-id='368126' href='https://casinofrog.com/ca/online-casino/new/'><img alt='null' src='https://user-images.githubusercontent.com/13700/207157616-8b6d3dd2-e7de-4bbf-86b2-d6ad9fb714fb.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a title='Broadband Deals' data-id='369459' href='https://www.broadband.deals'><img alt='Compare broadband and fibre packages and deals for the UK, from all the top ISPs.  For any queries about logos etc please email info@broadband.deals' src='https://opencollective-production.s3.us-west-1.amazonaws.com/8e302e50-7a09-11ed-8da2-6f3e7f475696.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
 </div>
 
 # License
