@@ -1,0 +1,168 @@
+body {
+  margin: 0;
+  background-color: #ffffff;
+}
+a {
+  text-decoration: none;
+  outline: 0;
+}
+
+h1 {
+  color: #2b3745;
+}
+
+.header {
+  color: #fff;
+  text-align: center;
+  background-color: #159957;
+  /* background-image: linear-gradient(120deg, #155799, #159957); */
+  background-image: linear-gradient(120deg, #2a78dd, #376373);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.logo {
+  width: 250px;
+  height: 250px;
+  margin: 50 auto;
+  padding: 50px 0;
+  border: none;
+  display: block;
+  fill: #17191b;
+}
+
+.icon-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 2rem;
+  font-weight: normal;
+  opacity: 0.7;
+  font-size: 1.5rem;
+}
+
+.view-btn {
+  display: inline-block;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.3rem;
+  transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+  transition-duration: 0.2s, 0.2s, 0.2s;
+  transition-timing-function: ease, ease, ease;
+  transition-delay: 0s, 0s, 0s;
+  transition-property: color, background-color, border-color;
+}
+
+.view-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.main-container {
+  margin: 50px 0;
+}
+
+main {
+  max-width: 800px;
+  margin: auto;
+  word-wrap: normal;
+}
+
+.name-title {
+  color: #39424b;
+}
+
+.text {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #17191b;
+}
+
+.box {
+  width: 600px;
+  height: 70px;
+  background-color: #2b3745;
+  border-radius: 5px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+}
+
+.height {
+  height: 300px;
+}
+
+.copy-icon {
+  cursor: pointer;
+  fill: rgb(164, 164, 164);
+}
+
+.true-icon {
+  fill: #16d023;
+}
+.child {
+  color: #fff;
+}
+
+code {
+  color: #fff;
+}
+
+span {
+  color: #17191b;
+}
+
+@media screen and (max-width: 900px) {
+  main {
+    max-width: 500px;
+  }
+
+  .box {
+    width: 450px;
+  }
+}
+
+@media screen and (max-width: 605px) {
+  .container {
+    width: -webkit-fill-available;
+    overflow: hidden;
+  }
+  .icon-btn {
+    display: flex;
+    flex-direction: row;
+  }
+
+  main {
+    max-width: 300px;
+    margin: 0 25px;
+  }
+
+  code {
+    font-size: 9px;
+  }
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .box {
+    width: 290px;
+    height: 50px;
+  }
+
+  .height {
+    height: 200px;
+  }
+}
