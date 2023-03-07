@@ -68,67 +68,44 @@ h1 {
   background-color: rgba(255, 255, 255, 0.15);
 }
 
-.main-container {
+.section-container {
   margin: 50px 0;
 }
 
-main {
-  max-width: 800px;
-  margin: auto;
-  word-wrap: normal;
+.links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.i {
+  margin: 40px 0;
 }
 
 .name-title {
   color: #39424b;
 }
 
-.text {
+.section {
+  margin: auto;
+  max-width: 800px;
+}
+
+.intro {
   font-size: 18px;
-  margin: 10px 0;
-  color: #17191b;
-}
-
-.box {
-  width: 600px;
-  height: 70px;
-  background-color: #2b3745;
-  border-radius: 5px;
-  padding: 0 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  outline: none;
-}
-
-.height {
-  height: 300px;
-}
-
-.copy-icon {
-  cursor: pointer;
-  fill: rgb(164, 164, 164);
-}
-
-.true-icon {
-  fill: #16d023;
-}
-.child {
-  color: #fff;
-}
-
-code {
-  color: #fff;
-}
-
-span {
+  word-wrap: normal;
   color: #17191b;
 }
 
 @media screen and (max-width: 900px) {
-  main {
-    max-width: 500px;
+  section {
+    max-width: 600px;
   }
-
+  .i {
+    width: 600px;
+    margin: auto;
+  }
   .box {
     width: 450px;
   }
@@ -144,9 +121,9 @@ span {
     flex-direction: row;
   }
 
-  main {
-    max-width: 300px;
-    margin: 0 25px;
+  section {
+    max-width: 340px;
+    margin: 50px auto;
   }
 
   code {
@@ -160,9 +137,5 @@ span {
   .box {
     width: 290px;
     height: 50px;
-  }
-
-  .height {
-    height: 200px;
   }
 }

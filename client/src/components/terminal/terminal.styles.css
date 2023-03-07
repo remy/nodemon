@@ -1,0 +1,37 @@
+.box {
+  width: 730px;
+  background-color: #2b3745;
+  border-radius: 5px;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  outline: none;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
+
+.box::-webkit-scrollbar {
+  display: none;
+}
+
+.copy-icon {
+  cursor: pointer;
+  fill: rgb(164, 164, 164);
+}
+
+.true-icon {
+  fill: #16d023;
+}
+.child {
+  color: #fff;
+}
+
+code {
+  color: #fff;
+  font-size: 13px;
+}
+
+span {
+  color: #17191b;
+}
