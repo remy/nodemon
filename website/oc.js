@@ -2,13 +2,15 @@ const util = require('node:util');
 const exec = util.promisify(require('node:child_process').exec);
 const { readFile, writeFile, unlink } = require('fs').promises;
 const web = require('https');
+const { resolve } = require('node:path');
 
-process.chdir(__dirname);
+process.chdir(resolve(__dirname, '..'));
 
 const url = 'https://opencollective.com/nodemon/members/all.json?TierId=2603';
 const files = {
   html: './website/index.html',
   markdown: './README.md',
+  jq: './website/oc.jq',
 };
 
 /**
@@ -35,10 +37,10 @@ function curl(out) {
  */
 async function getUpdates(filename) {
   const { stdout: markdown } = await exec(
-    `cat ${filename} | jq -r --argjson markdown true -f ./oc.jq`
+    `cat ${filename} | jq -r --argjson markdown true -f ${files.jq}`
   );
   const { stdout: html } = await exec(
-    `cat ${filename} | jq -r --argjson markdown false -f ./oc.jq`
+    `cat ${filename} | jq -r --argjson markdown false -f ${files.jq}`
   );
 
   return { html: html.trim(), markdown: markdown.trim() };
