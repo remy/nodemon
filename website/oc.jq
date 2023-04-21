@@ -68,4 +68,4 @@ def markdown: $markdown;
 
 def render:	if markdown then tomarkdown else tohtml end;
 
-sort_by(.createdAt) | map(select(.isActive == true and getImage) | render) | if markdown then .[] else join("") end
+sort_by(.createdAt) | map(select(.isActive == true and getImage) | render) | if markdown then .[] else join("\n") end
