@@ -6,7 +6,8 @@ const { resolve } = require('node:path');
 
 process.chdir(resolve(__dirname, '..'));
 
-const url = 'https://opencollective.com/nodemon/members/all.json?TierId=2603';
+const url =
+  'https://opencollective.com/nodemon/members/all.json?TierId=2603&offset=';
 const files = {
   html: './website/index.html',
   markdown: './README.md',
@@ -17,14 +18,31 @@ const files = {
  * @param {string} out filename to save to
  * @returns Promise<void>
  */
-function curl(out) {
+async function curl(out) {
+  const res = [];
+  let offset = 0;
+  do {
+    let next = await get(url + offset);
+    console.log(url + offset);
+    res.push(...next);
+    offset += next.length;
+  } while (offset % 100 === 0);
+
+  return writeFile(out, JSON.stringify(res));
+}
+
+/**
+ * @param {string} url
+ * @returns Promise<void>
+ */
+function get(url) {
   return new Promise((resolve, reject) => {
     web.get(url, (res) => {
       let contents = '';
 
       res.on('data', (chunk) => (contents += chunk));
       res.on('end', () => {
-        resolve(writeFile(out, contents));
+        resolve(JSON.parse(contents));
       });
     });
   });
