@@ -31,6 +31,20 @@ With a local installation, nodemon will not be available in your system path or 
 
 # Usage
 
+if you have used this command to install nodemon:
+```bash
+npm i nodemon
+```
+then it is installed locally. not globally. That means writing your command directly with nodemon, will not work for your project.
+you have to use npx before writing nodemon in your terminal like this:
+
+```bash
+npx nodemon [your node app]
+```
+
+if you have installed it globally using -g flag. you can follow the below mentioned usage commands.
+
+
 nodemon wraps your application, so you can pass all the arguments you would normally pass to your app:
 
 ```bash
