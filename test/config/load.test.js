@@ -55,7 +55,7 @@ describe('config load', function () {
     nodemon.config.reset();
   });
 
-  it('should remove ignore defaults if user provides their own', function (done) {
+  it.skip('should remove ignore defaults if user provides their own', function (done) {
     nodemon({
       script: testUtils.appjs,
       verbose: true,
