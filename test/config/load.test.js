@@ -320,5 +320,17 @@ describe('config load', function () {
     })
   });
 
+  it('should give package.main preference for script over index.js', function (done) {
+    var dir = path.resolve(pwd, 'test/fixtures/packages/main-and-index');
+    process.chdir(dir);
 
+    var config = {},
+      settings = {},
+      options = {};
+
+    load(settings, options, config, function (config) {
+      assert.deepEqual(config.execOptions.script, 'server.js');
+      done();
+    });
+  });
 });
