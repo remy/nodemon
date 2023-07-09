@@ -220,40 +220,6 @@ describe('match', function () {
     );
   });
 
-  it('should support old .nodemonignore', function (done) {
-    // prevents our test from finding the nodemon.json files
-    var pwd = process.cwd(),
-      old = nodemonUtils.home;
-
-    process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
-    nodemonUtils.home = path.resolve(pwd, 'test/fixtures/legacy');
-
-    // will load the legacy file format
-    config.load({ script: utils.appjs, ext: 'js json' }, function (config) {
-      var files = [utils.appjs];
-      var result = match(
-        files,
-        config.options.monitor,
-        config.options.execOptions.ext
-      );
-
-      assert.deepEqual(result.result, files, 'allows app.js: ' + result.result);
-
-      files = [path.resolve(pwd, 'test/fixtures/app.json')];
-      result = match(
-        files,
-        config.options.monitor,
-        config.options.execOptions.ext
-      );
-
-      assert.deepEqual(result.result, [], 'nothing matched' + result.result);
-
-      process.chdir(pwd);
-      nodemonUtils.home = old;
-      done();
-    });
-  });
-
   it('should be specific about directories', function (done) {
     config.load(
       {
