@@ -436,6 +436,8 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Buy Instagram Followers Twicsy' data-id='453050' href='https://twicsy.com/buy-instagram-followers'><img alt='Buy real Instagram followers from Twicsy starting at only $2.97. Twicsy has been voted the best site to buy followers from the likes of US Magazine.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/eb3228cb-9810-42b0-9758-2a7aad5633ef/Screen%20Shot%202023-07-06%20at%209.08.54%20PM.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><!--oc-->
 </div>
 
+Please note that links to the sponsors above are not direct endorsements nor affiliated with any of contributors of the nodemon project. 
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
