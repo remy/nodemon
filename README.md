@@ -439,6 +439,8 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 <a title='Online United States Casinos' data-id='466446' href='https://www.onlineunitedstatescasinos.com/'><img alt='null' src='https://logo.clearbit.com/onlineunitedstatescasinos.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><!--oc-->
 </div>
 
+Please note that links to the sponsors above are not direct endorsements nor affiliated with any of contributors of the nodemon project. 
+
 # License
 
 MIT [http://rem.mit-license.org](http://rem.mit-license.org)
