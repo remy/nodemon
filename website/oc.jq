@@ -55,7 +55,7 @@ def tomarkdown:
   createdAt: "2022-04-29 12:00:00"
 }, {
   # manually added
-  isActive: true,
+  isActive: false,
   MemberId: "Empire Srls (double)",
   image: true,
   createdAt: "2022-08-09 12:00:00",
