@@ -13,7 +13,8 @@ def getUrl:
 	. as $_ | 	{
       "327241": "https://www.noneedtostudy.com/take-my-online-class/",
       "348965": "https://www.testarna.se/casino/utan-svensk-licens/",
-      "368126": "https://casinofrog.com/ca/online-casino/new/"
+      "368126": "https://casinofrog.com/ca/online-casino/new/",
+      "468969": "https://bestnongamstopcasinos.net/"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
