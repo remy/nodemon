@@ -25,6 +25,7 @@ def getAlt:
       "327241": { description: "Do My Online Class - NoNeedToStudy.com" },
       "348965": { description: "Testarna" },
       "368126": { description: "New casinos 2023" },
+      "471843": { description: "Aviators" },
     } | (.["\($_.MemberId)"] // $_) |
 	if .description then
 		.description
