@@ -44,17 +44,11 @@ def tomarkdown:
 "<a title='\(.name)' data-id='\(.MemberId)' href='\(getUrl)'><img alt='\(.description)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>";
 
 . + [{
-  isActive: true,
+  isActive: false,
   MemberId: "padlet",
   image: "https://images.opencollective.com/padlet/320fa3e/logo/256.png",
   createdAt: "2022-02-09 12:00:00",
   website: "https://padlet.com"
-}, {
-  isActive: false,
-  website: "https://snyk.co/nodemon",
-  MemberId: "snyk",
-  image: "https://user-images.githubusercontent.com/13700/165926338-ae9458ab-89c5-4c97-bc9b-86b5049576bf.png",
-  createdAt: "2022-04-29 12:00:00"
 }, {
   # manually added
   isActive: false,
@@ -64,6 +58,15 @@ def tomarkdown:
   website: "https://casinosicuri.info/",
   description: "casino online sicuri",
   image: "https://user-images.githubusercontent.com/13700/183862257-d13855b6-68ad-4c06-a474-af1d6efcc430.jpg"
+}, {
+  # manually added
+  isActive: true,
+  MemberId: "Online Casinos Australia",
+  image: true,
+  createdAt: "2023-09-17 12:00:00",
+  website: "https://online-casinosaustralia.com/",
+  description: "Online Casinos Australia",
+  image: "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/268531585-c2b4e482-0409-4664-9aa2-95a62b0d606d.png"
 }] |
 
 def markdown: $markdown;
