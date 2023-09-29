@@ -133,6 +133,7 @@
         <p>Please note that links to the sponsors above are not direct endorsements nor affiliated with any of
           contributors of the nodemon project.</p>
       </div>
+      <button id="scrollToTopBtn">&#9650;</button>
     </main>
     <footer>
       <p><a href="https://github.com/remy/nodemon/issues">issues</a> &bull; <a
@@ -140,5 +141,17 @@
           @rem</a></p>
     </footer>
   </body>
-
+  <script>
+    var scrollToTopBtn = document.getElementById('scrollToTopBtn');
+    window.addEventListener('scroll', function () {
+      if (window.pageYOffset > 200) {
+        scrollToTopBtn.style.display = 'block';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+    });
+    scrollToTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' }); 
+    });
+  </script>
 </html>
