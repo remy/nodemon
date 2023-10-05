@@ -162,3 +162,25 @@ footer > * {
   height: 120px;
   object-fit: contain;
 }
+#scrollToTopBtn {
+  display: none; 
+  position: fixed; 
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 30px; 
+  z-index: 99; 
+  border: none;
+  outline: none; 
+  background-color: red; 
+  color: white; 
+  cursor: pointer; 
+  padding: 15px; 
+  border-radius: 10px;
+  font-size: 18px; 
+  background: rgb(128, 128, 255);
+}
+
+#myBtn:hover {
+  background-color: #555;
+}
