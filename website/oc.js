@@ -81,8 +81,12 @@ async function getContents() {
  */
 async function combine(insert, source, filename) {
   // `/s` = . matches new line
+
+  // console.log(insert);
+  // console.log('-'.repeat(50));
+
   const result = source.replace(
-    /<!--oc-->(.+)<!--oc-->/s,
+    /<!--oc-->.+<!--oc-->/s,
     `<!--oc-->${insert}<!--oc-->`
   );
   await writeFile(filename, result);
