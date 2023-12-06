@@ -238,6 +238,8 @@ For example, on `lib/app.js` being changed:
 
 ## My .nodemonignore is being ignored
 
+_The legacy `.nodemonignore` was dropped in nodemon@3_
+
 The new `nodemon.json` supersedes the `.nodemonignore` file, so if you have both, the `.nodemonignore` is not used at all.
 
 Note that if you have a `nodemon.json` in your `$HOME` path, then this will also supersede the old ignore file (and the _legacy_ format config is ignored).
@@ -336,7 +338,7 @@ nodemon --ext '*' --watch public --exec 'python -m SimpleHTTPServer'
 
 Based on [this issue](https://github.com/remy/nodemon/issues/2056).
 
-Sometimes when using the `--inspect` flag, nodemon will try to start the a process before the old process is finished. 
+Sometimes when using the `--inspect` flag, nodemon will try to start the a process before the old process is finished.
 
 This will cause an error trying to up the new process because of the debugger service:
 

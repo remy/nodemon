@@ -11,15 +11,15 @@ on:
 jobs:
   release:
     name: Release
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           cache: npm
-          node-version: 14
+          node-version: 16
       - name: Install dependencies
         run: npm ci
       - name: Release

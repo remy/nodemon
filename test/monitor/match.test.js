@@ -11,7 +11,7 @@ var assert = require('assert'),
   watch = require('../../lib/monitor/watch'),
   merge = nodemonUtils.merge;
 
-describe('match', function() {
+describe('match', function () {
   var monitor = [
     '!.git',
     '!node_modules/*',
@@ -26,10 +26,7 @@ describe('match', function() {
     const cwd = process.cwd();
     const res = match(
       [cwd + '/app.nodemon'],
-      [
-        './*.nodemon',
-        '!**/dir/*.nodemon',
-      ],
+      ['./*.nodemon', '!**/dir/*.nodemon'],
       'js,mjs,json,nodemon'
     );
 
@@ -40,10 +37,7 @@ describe('match', function() {
     const cwd = process.cwd();
     const res = match(
       [cwd + '/dir/app.nodemon'],
-      [
-        './*.nodemon',
-        '!**/dir/*.nodemon',
-      ],
+      ['./*.nodemon', '!**/dir/*.nodemon'],
       'js,mjs,json,nodemon'
     );
 
@@ -55,10 +49,7 @@ describe('match', function() {
     const cwd = process.cwd();
     const res = match(
       [cwd + '/app.nodemon'],
-      [
-        '!./*.nodemon',
-        '**/dir/*.nodemon',
-      ],
+      ['!./*.nodemon', '**/dir/*.nodemon'],
       'js,mjs,json,nodemon'
     );
 
@@ -83,7 +74,7 @@ describe('match', function() {
     assert.equal(res.result.length, 1, JSON.stringify(res));
   });
 
-  it('should match zero files', function() {
+  it('should match zero files', function () {
     var files = [
       'views/server/remy.coffee',
       'random.coffee',
@@ -94,7 +85,7 @@ describe('match', function() {
     assert(results.result.length === 0, 'matched ' + results.result.length);
   });
 
-  it('should match one file', function() {
+  it('should match one file', function () {
     var files = [
       'views/server/remy.js',
       'random.coffee',
@@ -105,7 +96,7 @@ describe('match', function() {
     assert(results.result.length === 1, 'matched ' + results.result.length);
   });
 
-  it('should match two files', function() {
+  it('should match two files', function () {
     var files = [
       'views/server/test.js',
       'views/server/test2.js',
@@ -116,7 +107,7 @@ describe('match', function() {
     assert(results.result.length === 2, 'matched ' + results.result.length);
   });
 
-  it('should match one file', function() {
+  it('should match one file', function () {
     var files = [
       'views/server/remy.js',
       'views/server/ignore.js',
@@ -129,7 +120,7 @@ describe('match', function() {
     assert(results.result.length === 1, 'matched ' + results.result.length);
   });
 
-  it('should apply *.js to any js file', function() {
+  it('should apply *.js to any js file', function () {
     var files = [utils.appjs];
 
     var result = match(files, ['*.*'], 'js');
@@ -139,7 +130,7 @@ describe('match', function() {
     assert(result.watched === files.length, 'a single file was matched');
   });
 
-  it('should ignore .coffee if watching *.js', function() {
+  it('should ignore .coffee if watching *.js', function () {
     var files = [utils.appcoffee];
 
     var result = match(files, ['*.*'], 'js');
@@ -151,12 +142,12 @@ describe('match', function() {
     );
   });
 
-  it('should match .coffee if watching *.js & *.coffee', function(done) {
+  it('should match .coffee if watching *.js & *.coffee', function (done) {
     config.load(
       {
         ext: 'js coffee',
       },
-      function(config) {
+      function (config) {
         var files = [utils.appcoffee];
 
         var result = match(
@@ -172,8 +163,8 @@ describe('match', function() {
     );
   });
 
-  it('should ignore nodemon default rules', function(done) {
-    config.load({ ext: '*.js' }, function(config) {
+  it('should ignore nodemon default rules', function (done) {
+    config.load({ ext: '*.js' }, function (config) {
       var files = [utils.appjs, path.join(__dirname, '/.git/foo.js')];
 
       var result = match(
@@ -190,13 +181,13 @@ describe('match', function() {
     });
   });
 
-  it('should ignore directories', function(done) {
+  it('should ignore directories', function (done) {
     config.load(
       {
         ext: 'js',
         ignore: 'test/fixtures',
       },
-      function(config) {
+      function (config) {
         var files = [utils.appjs];
 
         var result = match(
@@ -211,12 +202,12 @@ describe('match', function() {
     );
   });
 
-  it('should check all directories by default', function(done) {
+  it('should check all directories by default', function (done) {
     config.load(
       {
         ext: 'js',
       },
-      function(config) {
+      function (config) {
         var files = [utils.appjs];
         var result = match(
           files,
@@ -229,47 +220,13 @@ describe('match', function() {
     );
   });
 
-  it('should support old .nodemonignore', function(done) {
-    // prevents our test from finding the nodemon.json files
-    var pwd = process.cwd(),
-      old = nodemonUtils.home;
-
-    process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
-    nodemonUtils.home = path.resolve(pwd, 'test/fixtures/legacy');
-
-    // will load the legacy file format
-    config.load({ script: utils.appjs, ext: 'js json' }, function(config) {
-      var files = [utils.appjs];
-      var result = match(
-        files,
-        config.options.monitor,
-        config.options.execOptions.ext
-      );
-
-      assert.deepEqual(result.result, files, 'allows app.js: ' + result.result);
-
-      files = [path.resolve(pwd, 'test/fixtures/app.json')];
-      result = match(
-        files,
-        config.options.monitor,
-        config.options.execOptions.ext
-      );
-
-      assert.deepEqual(result.result, [], 'nothing matched' + result.result);
-
-      process.chdir(pwd);
-      nodemonUtils.home = old;
-      done();
-    });
-  });
-
-  it('should be specific about directories', function(done) {
+  it('should be specific about directories', function (done) {
     config.load(
       {
         ext: 'js md pug',
         watch: ['lib'],
       },
-      function(config) {
+      function (config) {
         var files = [utils.appjs];
         var result = match(
           files,
@@ -283,12 +240,12 @@ describe('match', function() {
     );
   });
 
-  it('should not match coffee when monitoring just js', function(done) {
+  it('should not match coffee when monitoring just js', function (done) {
     config.load(
       {
         script: utils.appjs,
       },
-      function(config) {
+      function (config) {
         var result = match(
           [utils.appcoffee],
           config.options.monitor,
@@ -301,7 +258,7 @@ describe('match', function() {
     );
   });
 
-  it('should ignore case when comparing paths on Windows', function() {
+  it('should ignore case when comparing paths on Windows', function () {
     if (!nodemonUtils.isWindows) {
       return;
     }
@@ -310,8 +267,8 @@ describe('match', function() {
   });
 });
 
-describe('validating files that cause restart', function() {
-  it('should allow for relative paths outside of the cwd', function() {
+describe('validating files that cause restart', function () {
+  it('should allow for relative paths outside of the cwd', function () {
     var cwd = process.cwd();
     var dir = cwd + '/test/fixtures/configs';
     process.chdir(dir);
@@ -338,7 +295,7 @@ describe('validating files that cause restart', function() {
     );
   });
 
-  it('should allow *.js to match at the top level', function() {
+  it('should allow *.js to match at the top level', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'top-level.json');
     var config = JSON.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
@@ -357,7 +314,7 @@ describe('validating files that cause restart', function() {
     assert(matched.result.length === 1, 'found match ' + matched.results);
   });
 
-  it('should allow for simple star rule: public/*', function() {
+  it('should allow for simple star rule: public/*', function () {
     var filename = path.join('test', 'fixtures', 'configs', 'public-star.json');
     var config = JSON.parse(fs.readFileSync(filename));
     var settings = merge(config, defaults);
@@ -376,7 +333,7 @@ describe('validating files that cause restart', function() {
     assert(matched.result.length === 0, 'public/* ignored: ' + matched.results);
   });
 
-  it('should allow for relative paths with extensions', function() {
+  it('should allow for relative paths with extensions', function () {
     var cwd = process.cwd();
     var dir = cwd + '/test/fixtures/configs';
     process.chdir(dir);
@@ -404,8 +361,8 @@ describe('validating files that cause restart', function() {
   });
 });
 
-describe('match rule parser', function() {
-  it('should support "--watch ."', function() {
+describe('match rule parser', function () {
+  it('should support "--watch ."', function () {
     var config = { watch: '.' };
     var settings = merge(config, defaults);
     var script = 'index.js';
@@ -423,7 +380,7 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
-  it('should support "--watch .*"', function() {
+  it('should support "--watch .*"', function () {
     var config = { watch: '.*' };
     var settings = merge(config, defaults);
     var script = 'index.js';
@@ -441,7 +398,7 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
-  it('should support "--watch <single file>"', function() {
+  it('should support "--watch <single file>"', function () {
     var config = { watch: 'config.json' };
     var settings = merge(config, defaults);
 
@@ -454,7 +411,7 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
-  it('should support "--watch /some/path/*/config.json"', function() {
+  it('should support "--watch /some/path/*/config.json"', function () {
     var config = { watch: '/*/config.json' };
     var settings = merge(config, defaults);
 
@@ -467,7 +424,7 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
-  it('should support "--watch *.*"', function() {
+  it('should support "--watch *.*"', function () {
     var config = { watch: '*.*' };
     var settings = merge(config, defaults);
     var script = 'index.js';
@@ -485,7 +442,7 @@ describe('match rule parser', function() {
     assert(matched.result.length === 1, 'no file matched');
   });
 
-  it('should support "--watch .."', function() {
+  it('should support "--watch .."', function () {
     // make sure we're in a deep enough directory
     var cwd = process.cwd();
     process.chdir('./test/fixtures/');
@@ -510,8 +467,8 @@ describe('match rule parser', function() {
   });
 });
 
-describe('watcher', function() {
-  afterEach(function(done) {
+describe('watcher', function () {
+  afterEach(function (done) {
     config.reset();
     setTimeout(() => {
       watch.resetWatchers();
@@ -519,16 +476,16 @@ describe('watcher', function() {
     }, 0);
   });
 
-  it('should not crash if ignoreRoot is an empty array', function(done) {
+  it('should not crash if ignoreRoot is an empty array', function (done) {
     config.load(
       {
         watch: ['test/fixtures/app.js'],
         ignoreRoot: [],
       },
-      function(config) {
+      function (config) {
         return watch
           .watch()
-          .then(function() {
+          .then(function () {
             done();
           })
           .catch(done);
@@ -536,16 +493,16 @@ describe('watcher', function() {
     );
   });
 
-  it('should not match a dotfile unless explicitly asked to', function(done) {
+  it('should not match a dotfile unless explicitly asked to', function (done) {
     config.load(
       {
         watch: ['test/fixtures/*'],
       },
-      function(config) {
+      function (config) {
         return watch
           .watch()
-          .then(function(files) {
-            var withDotfile = files.filter(function(file) {
+          .then(function (files) {
+            var withDotfile = files.filter(function (file) {
               return /test\/fixtures\/\.dotfile$/.test(file);
             });
             assert.deepEqual(
@@ -560,17 +517,17 @@ describe('watcher', function() {
     );
   });
 
-  it('should match a dotfile if explicitly asked to', function(done) {
+  it('should match a dotfile if explicitly asked to', function (done) {
     config.load(
       {
         watch: ['test/fixtures/.dotfile'],
       },
-      function(config) {
+      function (config) {
         return watch
           .watch()
-          .then(function(files) {
+          .then(function (files) {
             assert.deepEqual(
-              files.filter(f => f.endsWith('.dotfile')).length,
+              files.filter((f) => f.endsWith('.dotfile')).length,
               1,
               'should contain .dotfile'
             );
@@ -581,15 +538,15 @@ describe('watcher', function() {
     );
   });
 
-  it('should match a dotfolder if explicitly asked to', function(done) {
+  it('should match a dotfolder if explicitly asked to', function (done) {
     config.load(
       {
         watch: ['test/fixtures/.dotfolder'],
       },
-      function(config) {
+      function (config) {
         return watch
           .watch()
-          .then(function(files) {
+          .then(function (files) {
             assert.deepEqual(
               files.length,
               3,
@@ -602,33 +559,23 @@ describe('watcher', function() {
     );
   });
 
-  it('should watch relative paths', function() {
-    const monitor = match.rulesToMonitor([ './http.js' ], [], {
+  it('should watch relative paths', function () {
+    const monitor = match.rulesToMonitor(['./http.js'], [], {
       dirs: [],
     });
 
-    var matched = match(
-      ['http.js'],
-      monitor,
-      'js,mjs,json'
-    );
+    var matched = match(['http.js'], monitor, 'js,mjs,json');
     assert(matched.result.length === 1, 'found match ' + matched.results);
   });
 
-
   it('should ignore relative directories', () => {
-    const monitor = match.rulesToMonitor([], [
-      "node_modules/*",
-      "**/logs/*"
-    ])
+    const monitor = match.rulesToMonitor([], ['node_modules/*', '**/logs/*']);
 
-    var matched = match(
-      ['logs/a'],
-      monitor,
-      'js,mjs,json'
+    var matched = match(['logs/a'], monitor, 'js,mjs,json');
+
+    assert(
+      matched.ignored === 1 && matched.result.length === 0,
+      JSON.stringify(matched)
     );
-
-    assert(matched.ignored === 1 && matched.result.length === 0, JSON.stringify(matched));
-
-  })
+  });
 });

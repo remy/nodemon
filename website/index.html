@@ -63,214 +63,80 @@
         <div
           style="display: flex; flex-wrap: wrap; overflow: hidden; background: white; border-radius: 2px; padding: 20px; margin-top: 40px;">
 
-
-          <!-- https://opencollective.com/nodemon/members/all.json?TierId=2603 -->
-          <!-- generated using https://jqterm.com/572e2099840e6ee04c0634a9278a326f?query=def%20getImage%3A%0A%09.%20as%20%24_%20%7C%0A%09%7B%20%0A%20%20%20%20%20%20%22206432%22%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F127474039-8ba5ac8c-2095-4984-9309-54ff15e95340.png%22%2C%0A%09%20%20%22215800%22%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F151881982-04677f3d-e2e1-44ee-a168-258b242b1ef4.svg%22%2C%0A%20%20%20%20%20%20%22327241%22%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F187039696-e2d8cd59-8b4e-438f-a052-69095212427d.png%22%2C%0A%20%20%20%20%20%20%22348965%22%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F199964872-a86bc00b-4273-4251-ae6a-254b0b643d47.jpg%22%2C%0A%20%20%20%20%20%20%22368126%22%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F207157616-8b6d3dd2-e7de-4bbf-86b2-d6ad9fb714fb.png%22%0A%20%20%20%20%7D%20%7C%20%28.%5B%22%5C%28%24_.MemberId%29%22%5D%20%2F%2F%20%24_.image%29%0A%3B%0A%0Adef%20getUrl%3A%0A%09.%20as%20%24_%20%7C%20%09%7B%20%0A%20%20%20%20%20%20%22327241%22%3A%20%22https%3A%2F%2Fwww.noneedtostudy.com%2Ftake-my-online-class%2F%22%2C%0A%20%20%20%20%20%20%22348965%22%3A%20%22https%3A%2F%2Fwww.testarna.se%2Fcasino%2Futan-svensk-licens%2F%22%2C%0A%20%20%20%20%20%20%22368126%22%3A%20%22https%3A%2F%2Fcasinofrog.com%2Fca%2Fonline-casino%2Fnew%2F%22%0A%20%20%20%20%7D%20%7C%20%28.%5B%22%5C%28%24_.MemberId%29%22%5D%20%2F%2F%20%24_.website%29%0A%3B%0A%0Adef%20getAlt%3A%0A%09.%20as%20%24_%20%7C%20%09%7B%20%0A%20%20%20%20%20%20%22319480%22%3A%20%7B%20description%3A%20%22casino%20online%20stranieri%22%20%7D%2C%0A%20%20%20%20%20%20%22321538%22%3A%20%7B%20description%3A%20%22bonus%20benvenuto%20scommesse%22%20%7D%2C%0A%20%20%20%20%20%20%22327241%22%3A%20%7B%20description%3A%20%22Do%20My%20Online%20Class%20-%20NoNeedToStudy.com%22%20%7D%2C%20%0A%20%20%20%20%20%20%22348965%22%3A%20%7B%20description%3A%20%22Testarna%22%20%7D%2C%0A%20%20%20%20%20%20%22368126%22%3A%20%7B%20description%3A%20%22New%20casinos%202023%22%20%7D%2C%0A%20%20%20%20%7D%20%7C%20%28.%5B%22%5C%28%24_.MemberId%29%22%5D%20%2F%2F%20%24_%29%20%7C%0A%09if%20.description%20then%0A%09%09.description%0A%09elif%20.name%20then%0A%09%09.name%0A%09else%0A%09%09%22%22%0A%09end%0A%3B%0A%0Adef%20tohtml%3A%0A%09%22%3Ca%20data-id%3D%27%5C%28.MemberId%29%27%20title%3D%27%5C%28getAlt%29%27%20href%3D%27%5C%28getUrl%29%27%3E%3Cimg%20alt%3D%27%5C%28getAlt%29%27%20src%3D%27%5C%28getImage%29%27%20style%3D%27object-fit%3A%20contain%3B%20float%3A%20left%3B%20margin%3A12px%27%20height%3D%27120%27%20width%3D%27120%27%3E%3C%2Fa%3E%22%0A%3B%0A%0Adef%20tomarkdown%3A%0A%22%3Ca%20title%3D%27%5C%28.name%29%27%20data-id%3D%27%5C%28.MemberId%29%27%20href%3D%27%5C%28getUrl%29%27%3E%3Cimg%20alt%3D%27%5C%28.description%29%27%20src%3D%27%5C%28getImage%29%27%20style%3D%27object-fit%3A%20contain%3B%20float%3A%20left%3B%20margin%3A12px%27%20height%3D%27120%27%20width%3D%27120%27%3E%3C%2Fa%3E%22%3B%0A%0A.%20%2B%20%5B%7B%0A%20%20isActive%3A%20true%2C%0A%20%20MemberId%3A%20%22padlet%22%2C%0A%20%20image%3A%20%22https%3A%2F%2Fimages.opencollective.com%2Fpadlet%2F320fa3e%2Flogo%2F256.png%22%2C%0A%20%20createdAt%3A%20%222022-02-09%2012%3A00%3A00%22%2C%0A%20%20website%3A%20%22https%3A%2F%2Fpadlet.com%22%0A%7D%2C%20%7B%0A%20%20isActive%3A%20false%2C%0A%20%20website%3A%20%22https%3A%2F%2Fsnyk.co%2Fnodemon%22%2C%0A%20%20MemberId%3A%20%22snyk%22%2C%0A%20%20image%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F165926338-ae9458ab-89c5-4c97-bc9b-86b5049576bf.png%22%2C%0A%20%20createdAt%3A%20%222022-04-29%2012%3A00%3A00%22%0A%7D%2C%20%7B%0A%20%20%23%20manually%20added%0A%20%20isActive%3A%20true%2C%0A%20%20MemberId%3A%20%22Empire%20Srls%20%28double%29%22%2C%0A%20%20image%3A%20true%2C%0A%20%20createdAt%3A%20%222022-08-09%2012%3A00%3A00%22%2C%0A%20%20website%3A%20%22https%3A%2F%2Fcasinosicuri.info%2F%22%2C%0A%20%20description%3A%20%22casino%20online%20sicuri%22%2C%0A%20%20image%3A%20%22https%3A%2F%2Fuser-images.githubusercontent.com%2F13700%2F183862257-d13855b6-68ad-4c06-a474-af1d6efcc430.jpg%22%0A%7D%5D%20%7C%20%0A%0Adef%20markdown%3A%20false%3B%0A%0Adef%20render%3A%09if%20markdown%20then%20tomarkdown%20else%20tohtml%20end%3B%0A%0Asort_by%28.createdAt%29%20%7C%20map%28select%28.isActive%20%3D%3D%20true%20and%20getImage%29%20%7C%20render%29%20%7C%20if%20markdown%20then%20.%5B%5D%20else%20join%28%22%22%29%20end&raw=true -->
-          <a data-id='162674' title='Netpositive'
-            href='https://najlepsibukmacherzy.pl/ranking-legalnych-bukmacherow/'><img alt='Netpositive'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/52acecf0-608a-11eb-b17f-5bca7c67fe7b.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='177373'
-            title='#1 Aussie Gambling Guide' href='https://online-aussie-casino.com/'><img
-              alt='#1 Aussie Gambling Guide'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/89ea5890-6d1c-11ea-9dd9-330b3b2faf8b.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='177375'
-            title='NettiCasinoHEX.com is a real giant among casino guides. It provides Finnish players with the most informative and honest casino rewievs. Beside that, there are free casino games and tips there which help to win the best jackpots.'
-            href='https://netticasinohex.com/'><img
-              alt='NettiCasinoHEX.com is a real giant among casino guides. It provides Finnish players with the most informative and honest casino rewievs. Beside that, there are free casino games and tips there which help to win the best jackpots.'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/b802aa50-7b1a-11ea-bcaf-0dc68ad9bc17.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='177376'
-            title='KasynoHEX' href='https://polskiekasynohex.org/'><img alt='KasynoHEX'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bb0d6e0-99c8-11ea-9349-199aa0d5d24a.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='198634'
-            title='Casinoonlineaams.com' href='https://www.casinoonlineaams.com'><img alt='Casinoonlineaams.com'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/61bcf1d0-43ce-11ed-b562-6bf567fce1fd.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='215685'
-            title='Casino Whizz' href='https://casinowhizz.com'><img alt='Casino Whizz'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/23256a80-f5c1-11eb-99f7-fbf8e4d6c6be.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='215800'
-            title='aussielowdepositcasino.com' href='https://aussielowdepositcasino.com/'><img
-              alt='aussielowdepositcasino.com'
-              src='https://user-images.githubusercontent.com/13700/151881982-04677f3d-e2e1-44ee-a168-258b242b1ef4.svg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='220487'
-            title='Casinot.net' href='https://www.casinot.net'><img alt='Casinot.net'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/73b4fc10-7591-11ea-a1d4-01a20d893b4f.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='229606'
-            title='Kasinot.fi' href='https://www.kasinot.fi'><img alt='Kasinot.fi'
-              src='https://logo.clearbit.com/www.kasinot.fi' style='object-fit: contain; float: left; margin:12px'
-              height='120' width='120'></a><a data-id='243140' title='The UK’s number one place for all things GamStop.'
-            href='https://casino-wise.com/'><img alt='The UK’s number one place for all things GamStop.'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/734011b0-46ac-11eb-8d3c-79b2cf7dfe51.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='248269'
-            title='Paraskasino' href='https://www.paraskasino.fi'><img alt='Paraskasino'
-              src='https://logo.clearbit.com/www.paraskasino.fi' style='object-fit: contain; float: left; margin:12px'
-              height='120' width='120'></a><a data-id='269861' title='freebets.ltd.uk'
-            href='https://freebets.ltd.uk/'><img alt='freebets.ltd.uk' src='https://logo.clearbit.com/freebets.ltd.uk'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='270835'
-            title='TheCasinoDB' href='https://www.thecasinodb.com'><img alt='TheCasinoDB'
-              src='https://logo.clearbit.com/thecasinodb.com' style='object-fit: contain; float: left; margin:12px'
-              height='120' width='120'></a><a data-id='270836'
-            title='Provides reviews of online casinos along with exclusive offers and bonuses.'
-            href='https://online-casinos.xyz'><img
-              alt='Provides reviews of online casinos along with exclusive offers and bonuses.'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/bd4ff1f0-279b-11ec-9a5a-0519330cdfea.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='270837'
-            title='Offers real money online gambling games, slots, roulette and blackjack to players in the United Kingdom.'
-            href='https://www.aceonlinecasino.co.uk'><img
-              alt='Offers real money online gambling games, slots, roulette and blackjack to players in the United Kingdom.'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/b3376c80-279f-11ec-9a5a-0519330cdfea.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='padlet'
-            title='' href='https://padlet.com'><img alt=''
-              src='https://images.opencollective.com/padlet/320fa3e/logo/256.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='285700'
-            title='Marketing' href='https://www.casinoutansvenskalicensen.se/'><img alt='Marketing'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/ed105cb0-b01f-11ec-935f-77c14be20a90.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='297999'
-            title='Best Online Casino Guide in Australia' href='https://online-casinos-australia.com/'><img
-              alt='Best Online Casino Guide in Australia'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/88bb6d20-900a-11ec-8a5a-a92310c15e5b.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='303335'
-            title='Rating of best betting sites in Australia' href='https://hellsbet.com/en-au/'><img
-              alt='Rating of best betting sites in Australia'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/aeb99e10-d1ec-11ec-88be-f9a15ca9f6f8.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='305884'
-            title='inkedin' href='https://inkedin.com'><img alt='inkedin' src='https://logo.clearbit.com/inkedin.com'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='318650'
-            title='AU Internet Pokies' href='http://www.australiainternetpokies.com/'><img alt='AU Internet Pokies'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/44dc83f0-4315-11ed-9bf2-cf65326f4741.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='318653'
-            title='CasinoAus' href='https://www.casinoaus.net/'><img alt='CasinoAus'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/1e556300-4315-11ed-b96e-8dce3aa4cf2e.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='318656'
-            title='AU Online Casinos' href='https://www.australiaonlinecasinosites.com/'><img alt='AU Online Casinos'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/f3aa3b60-2219-11ed-b2b0-83767ea0d654.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='318659'
-            title='Top Australian Gambling' href='https://www.topaustraliangambling.com/'><img
-              alt='Top Australian Gambling'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/d7687f70-2219-11ed-a0b5-97427086b4aa.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='318660'
-            title='Internet Pokies' href='https://www.internetpokies.org/'><img alt='Internet Pokies'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/2eb12950-4315-11ed-83fe-b18a881c7be9.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='319480'
-            title='casino online stranieri' href='https://casinostranieri.net/'><img alt='casino online stranieri'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/7aae8900-0c02-11ed-9aa8-2bd811fd6f10.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='320564'
-            title='Goread.io' href='https://goread.io/buy-instagram-followers'><img alt='Goread.io'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/7d1302a0-0f33-11ed-a094-3dca78aec7cd.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='321121'
-            title='We are the most advanced casino guide!' href='https://www.sure.bet/casinos-not-on-gamstop/'><img
-              alt='We are the most advanced casino guide!' src='https://logo.clearbit.com/sure.bet'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='321538'
-            title='bonus benvenuto scommesse' href='https://scommetteronline.info/bonus-scommesse-online/'><img
-              alt='bonus benvenuto scommesse'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/5536b3d0-17f8-11ed-98eb-57cc2820dbee.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='322445'
-            title='Best Australian online casinos. Reviewed by Correct Casinos.'
-            href='https://www.correctcasinos.com/australian-online-casinos/'><img
-              alt='Best Australian online casinos. Reviewed by Correct Casinos.'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/fef95200-1551-11ed-ba3f-410c614877c8.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a
-            data-id='Empire Srls (double)' title='casino online sicuri' href='https://casinosicuri.info/'><img
-              alt='casino online sicuri'
-              src='https://user-images.githubusercontent.com/13700/183862257-d13855b6-68ad-4c06-a474-af1d6efcc430.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='326857'
-            title='Ilcasinoitaliano' href='https://ilcasinoitaliano.eu/'><img alt='Ilcasinoitaliano'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/3b057540-12fe-11ed-b410-97951f343249.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='326858'
-            title='Casino utan svensk licens' href='https://casinoburst.com/casino-utan-licens/'><img
-              alt='Casino utan svensk licens'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/ac61d790-1d3c-11ed-b8db-7b79b65b0dbb.PNG'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='326863'
-            title='Vedonlyontibonukset.com' href='https://www.vedonlyontibonukset.com/'><img
-              alt='Vedonlyontibonukset.com'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/276ec220-df06-11eb-a5cf-7b18267f7c27.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='326864'
-            title='' href='https://www.spinsify.com/uk/new-casinos'><img alt=''
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bacf2f0-df04-11eb-a5cf-7b18267f7c27.PNG'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='326865'
-            title='' href='https://www.uudetkasinot.com'><img alt=''
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/b6055950-df00-11eb-9caa-b58f40adecd5.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='327241'
-            title='Do My Online Class - NoNeedToStudy.com'
-            href='https://www.noneedtostudy.com/take-my-online-class/'><img alt='Do My Online Class - NoNeedToStudy.com'
-              src='https://user-images.githubusercontent.com/13700/187039696-e2d8cd59-8b4e-438f-a052-69095212427d.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='329117'
-            title='Best Online Casinos' href='https://bestslotsworld.com/'><img alt='Best Online Casinos'
-              src='https://logo.clearbit.com/bestslotsworld.com' style='object-fit: contain; float: left; margin:12px'
-              height='120' width='120'></a><a data-id='329195' title='Slotmachineweb.com'
-            href='https://www.slotmachineweb.com/'><img alt='Slotmachineweb.com'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/172f9eb0-22c2-11ed-a0b5-97427086b4aa.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='334265'
-            title='Buy Instagram Likes' href='https://likewave.io/buy-instagram-likes'><img alt='Buy Instagram Likes'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/ec927700-359e-11ed-97d0-014826afdf06.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='341647'
-            title='SlotsMegaCasino Australia' href='https://slotsmegacasino.com/en-au/top-10-online-casinos'><img
-              alt='SlotsMegaCasino Australia'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/4b87b8a0-495f-11ed-8088-4f073757a587.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='342390'
-            title='Website dedicated to finding the best and safest licensed online casinos in India'
-            href='https://www.ghotala.com/'><img
-              alt='Website dedicated to finding the best and safest licensed online casinos in India'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/75afa9e0-4ac6-11ed-8d6a-fdcc8c0d0736.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='344102'
-            title='CasinoWizard' href='https://thecasinowizard.com/'><img alt='CasinoWizard'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/28b8d230-b9ab-11ec-8254-6d6dbd89fb51.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='348965'
-            title='Testarna' href='https://www.testarna.se/casino/utan-svensk-licens/'><img alt='Testarna'
-              src='https://user-images.githubusercontent.com/13700/199964872-a86bc00b-4273-4251-ae6a-254b0b643d47.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='353466'
-            title='Scommesseseriea.eu' href='https://www.scommesseseriea.eu/'><img alt='Scommesseseriea.eu'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/31600a10-4df4-11ed-a07e-95365d1687ba.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='356565'
-            title='Gambe Online AU' href='https://www.gambleonlineaustralia.com/'><img alt='Gambe Online AU'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/a70354f0-337f-11ed-a5da-ebb8fe99a73a.JPG'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='356566'
-            title='Gamble Online' href='https://www.gambleonline.co'><img alt='Gamble Online'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/af336e80-337f-11ed-a5da-ebb8fe99a73a.JPG'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='362210'
-            title='Italianonlinecasino.net' href='https://www1.italianonlinecasino.net/'><img
-              alt='Italianonlinecasino.net'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/2e8dbbb0-22bc-11ed-b874-23b20736a51e.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='364516'
-            title='NotOnGamstopCasinos.com' href='https://www.notongamstopcasinos.com'><img
-              alt='NotOnGamstopCasinos.com' src='https://logo.clearbit.com/notongamstopcasinos.com'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='367236'
-            title='nongamstopcasinos.net' href='https://nongamstopcasinos.net/'><img alt='nongamstopcasinos.net'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/fb8b5ba0-3904-11ed-8516-edd7b7687a36.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='368126'
-            title='New casinos 2023' href='https://casinofrog.com/ca/online-casino/new/'><img alt='New casinos 2023'
-              src='https://user-images.githubusercontent.com/13700/207157616-8b6d3dd2-e7de-4bbf-86b2-d6ad9fb714fb.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='369459'
-            title='Broadband.deals' href='https://broadband.deals'><img alt='Broadband.deals'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/8e302e50-7a09-11ed-8da2-6f3e7f475696.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='370216'
-            title='Scommesse777' href='https://www.scommesse777.com/'><img alt='Scommesse777'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/c0346cb0-7ad4-11ed-a9cf-49dc3536976e.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='371088'
-            title='Twicsy' href='https://twicsy.com/buy-instagram-likes'><img alt='Twicsy'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/19bb95b0-7be3-11ed-8734-4d07568f9c95.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='380510'
-            title='At Casinoaustraliaonline.com, we review, compare and list all the best gambling sites for Aussies.
+          <!--oc--><a data-id='162674' title='Netpositive' href='https://najlepsibukmacherzy.pl/ranking-legalnych-bukmacherow/'><img alt='Netpositive' src='https://opencollective-production.s3.us-west-1.amazonaws.com/52acecf0-608a-11eb-b17f-5bca7c67fe7b.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='177376' title='KasynoHEX' href='https://polskiekasynohex.org/'><img alt='KasynoHEX' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bb0d6e0-99c8-11ea-9349-199aa0d5d24a.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='198634' title='Casinoonlineaams.com' href='https://www.casinoonlineaams.com'><img alt='Casinoonlineaams.com' src='https://opencollective-production.s3.us-west-1.amazonaws.com/61bcf1d0-43ce-11ed-b562-6bf567fce1fd.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='215800' title='Best Aussie casinos at aussielowdepositcasino.com' href='https://aussielowdepositcasino.com/'><img alt='Best Aussie casinos at aussielowdepositcasino.com' src='https://user-images.githubusercontent.com/13700/151881982-04677f3d-e2e1-44ee-a168-258b242b1ef4.svg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='243140' title='Best online casinos not on GamStop in the UK' href='https://casino-wise.com/'><img alt='Best online casinos not on GamStop in the UK' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/f889d209-a931-4c06-a529-fe1f86c411bf/casino-wise-logo.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='269861' title='freebets.ltd.uk' href='https://freebets.ltd.uk/'><img alt='freebets.ltd.uk' src='https://logo.clearbit.com/freebets.ltd.uk' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='270835' title='TheCasinoDB' href='https://www.thecasinodb.com'><img alt='TheCasinoDB' src='https://logo.clearbit.com/thecasinodb.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='285700' title='Marketing' href='https://www.casinoutansvenskalicensen.se/'><img alt='Marketing' src='https://opencollective-production.s3.us-west-1.amazonaws.com/ed105cb0-b01f-11ec-935f-77c14be20a90.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='297999' title='Best Online Casino Guide in Australia' href='https://online-casinosaustralia.com/'><img alt='Best Online Casino Guide in Australia' src='https://opencollective-production.s3.us-west-1.amazonaws.com/88bb6d20-900a-11ec-8a5a-a92310c15e5b.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='303335' title='Rating of best betting sites in Australia' href='https://hellsbet.com/en-au/'><img alt='Rating of best betting sites in Australia' src='https://opencollective-production.s3.us-west-1.amazonaws.com/aeb99e10-d1ec-11ec-88be-f9a15ca9f6f8.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='305884' title='inkedin' href='https://inkedin.com'><img alt='inkedin' src='https://logo.clearbit.com/inkedin.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='318650' title='AU Internet Pokies' href='http://www.australiainternetpokies.com/'><img alt='AU Internet Pokies' src='https://opencollective-production.s3.us-west-1.amazonaws.com/44dc83f0-4315-11ed-9bf2-cf65326f4741.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='318653' title='CasinoAus' href='https://www.casinoaus.net/'><img alt='CasinoAus' src='https://opencollective-production.s3.us-west-1.amazonaws.com/1e556300-4315-11ed-b96e-8dce3aa4cf2e.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='318656' title='AU Online Casinos' href='https://www.australiaonlinecasinosites.com/'><img alt='AU Online Casinos' src='https://opencollective-production.s3.us-west-1.amazonaws.com/f3aa3b60-2219-11ed-b2b0-83767ea0d654.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='318659' title='Top Australian Gambling' href='https://www.topaustraliangambling.com/'><img alt='Top Australian Gambling' src='https://opencollective-production.s3.us-west-1.amazonaws.com/d7687f70-2219-11ed-a0b5-97427086b4aa.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='319480' title='casino online stranieri' href='https://www.casinostranieri.net/'><img alt='casino online stranieri' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7aae8900-0c02-11ed-9aa8-2bd811fd6f10.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='320564' title='Goread.io' href='https://goread.io/buy-instagram-followers'><img alt='Goread.io' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7d1302a0-0f33-11ed-a094-3dca78aec7cd.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='321121' title='We are the most advanced casino guide!' href='https://www.sure.bet/casinos-not-on-gamstop/'><img alt='We are the most advanced casino guide!' src='https://logo.clearbit.com/sure.bet' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='322445' title='Best Australian online casinos. Reviewed by Correct Casinos.' href='https://www.correctcasinos.com/australian-online-casinos/'><img alt='Best Australian online casinos. Reviewed by Correct Casinos.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/fef95200-1551-11ed-ba3f-410c614877c8.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='326858' title='Casino utan svensk licens' href='https://casinoburst.com/casino-utan-licens/'><img alt='Casino utan svensk licens' src='https://opencollective-production.s3.us-west-1.amazonaws.com/ac61d790-1d3c-11ed-b8db-7b79b65b0dbb.PNG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='326865' title='' href='https://www.uudetkasinot.com'><img alt='' src='https://opencollective-production.s3.us-west-1.amazonaws.com/b6055950-df00-11eb-9caa-b58f40adecd5.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='327241' title='Do My Online Class - NoNeedToStudy.com' href='https://www.noneedtostudy.com/take-my-online-class/'><img alt='Do My Online Class - NoNeedToStudy.com' src='https://user-images.githubusercontent.com/13700/187039696-e2d8cd59-8b4e-438f-a052-69095212427d.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='329195' title='Slotmachineweb.com' href='https://www.slotmachineweb.com/'><img alt='Slotmachineweb.com' src='https://opencollective-production.s3.us-west-1.amazonaws.com/172f9eb0-22c2-11ed-a0b5-97427086b4aa.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='342390' title='Website dedicated to finding the best and safest licensed online casinos in India' href='https://www.ghotala.com/'><img alt='Website dedicated to finding the best and safest licensed online casinos in India' src='https://opencollective-production.s3.us-west-1.amazonaws.com/75afa9e0-4ac6-11ed-8d6a-fdcc8c0d0736.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='344102' title='CasinoWizard' href='https://thecasinowizard.com/'><img alt='CasinoWizard' src='https://opencollective-production.s3.us-west-1.amazonaws.com/28b8d230-b9ab-11ec-8254-6d6dbd89fb51.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='353466' title='Scommesseseriea.eu' href='https://www.scommesseseriea.eu/'><img alt='Scommesseseriea.eu' src='https://opencollective-production.s3.us-west-1.amazonaws.com/31600a10-4df4-11ed-a07e-95365d1687ba.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='356565' title='Gambe Online AU' href='https://www.gambleonlineaustralia.com/'><img alt='Gambe Online AU' src='https://opencollective-production.s3.us-west-1.amazonaws.com/a70354f0-337f-11ed-a5da-ebb8fe99a73a.JPG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='356566' title='Gamble Online' href='https://www.gambleonline.co'><img alt='Gamble Online' src='https://opencollective-production.s3.us-west-1.amazonaws.com/af336e80-337f-11ed-a5da-ebb8fe99a73a.JPG' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='362210' title='Italianonlinecasino.net' href='https://www2.italianonlinecasino.net/'><img alt='Italianonlinecasino.net' src='https://opencollective-production.s3.us-west-1.amazonaws.com/2e8dbbb0-22bc-11ed-b874-23b20736a51e.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='367236' title='nongamstopcasinos.net' href='https://nongamstopcasinos.net/gb/'><img alt='nongamstopcasinos.net' src='https://opencollective-production.s3.us-west-1.amazonaws.com/fb8b5ba0-3904-11ed-8516-edd7b7687a36.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='370216' title='Scommesse777' href='https://www.scommesse777.com/'><img alt='Scommesse777' src='https://opencollective-production.s3.us-west-1.amazonaws.com/c0346cb0-7ad4-11ed-a9cf-49dc3536976e.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='371088' title='Twicsy' href='https://twicsy.com/buy-instagram-likes'><img alt='Twicsy' src='https://opencollective-production.s3.us-west-1.amazonaws.com/19bb95b0-7be3-11ed-8734-4d07568f9c95.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='380510' title='At Casinoaustraliaonline.com, we review, compare and list all the best gambling sites for Aussies.
 ' href='https://www.casinoaustraliaonline.com/under-1-hour-withdrawal-casinos/'><img alt='At Casinoaustraliaonline.com, we review, compare and list all the best gambling sites for Aussies.
-' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7c3d81f0-8cad-11ed-b048-95ec46716b47.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='389303'
-            title='Data-Driven SEO Agency' href='https://awisee.agency'><img alt='Data-Driven SEO Agency'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/ac793f60-9d5d-11ed-b44f-7581c7ec656c.jpg'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='391434'
-            title='We offer SEO Services in Europe. Scale your traffic and grow more users online via Google'
-            href='https://linkbuildingeurope.com'><img
-              alt='We offer SEO Services in Europe. Scale your traffic and grow more users online via Google'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/6c21b540-8954-11ed-bf46-07ad171e1507.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='392125'
-            title='Australia Online Casino Reviewer' href='https://spin-paradise.com'><img
-              alt='Australia Online Casino Reviewer'
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/15334aa0-4143-11ec-8d2d-053636eb5d04.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><a data-id='404959'
-            title='Casino utan svensk licens är online casinon som inte har en svensk spellicens. '
-            href='https://starwarscasinos.com/'><img
-              alt='Casino utan svensk licens är online casinon som inte har en svensk spellicens. '
-              src='https://opencollective-production.s3.us-west-1.amazonaws.com/2bdb0670-75ca-11eb-a0a9-5d2848156276.png'
-              style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+' src='https://opencollective-production.s3.us-west-1.amazonaws.com/7c3d81f0-8cad-11ed-b048-95ec46716b47.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='404959' title='Casinon utan svensk licens erbjuder generösa bonusar och kampanjer. Besök coolspins.net för att utforska säkra och pålitliga alternativ.' href='https://coolspins.net/'><img alt='Casinon utan svensk licens erbjuder generösa bonusar och kampanjer. Besök coolspins.net för att utforska säkra och pålitliga alternativ.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/3a988fb2-66a3-43f9-a0d1-65950128c68d/casino-utan-svensk-licens-open-collective.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='409421' title='BestUSCasinos' href='https://bestuscasinos.org'><img alt='BestUSCasinos' src='https://logo.clearbit.com/bestuscasinos.org' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='410184' title='TightPoker' href='https://www.tightpoker.com/'><img alt='TightPoker' src='https://logo.clearbit.com/tightpoker.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='411448' title='Buy Instagram Likes' href='https://poprey.com/'><img alt='Buy Instagram Likes' src='https://opencollective-production.s3.us-west-1.amazonaws.com/fe650970-c21c-11ec-a499-b55e54a794b4.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='417601' title='Find the best casinos online. Casinot.biz lists and reviews online casinos. ' href='https://www.casinot.biz/'><img alt='Find the best casinos online. Casinot.biz lists and reviews online casinos. ' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/366e3423-81af-484a-b9f8-eebe04224407/casinot-biz-icon.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='419934' title='btcgaming' href='https://bitcoinist.com/best-real-money-online-slots-play-slots-for-real-money/'><img alt='btcgaming' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/3ecded2c-a7c2-4291-b9ef-7db1f0128207/btcgaming.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='422431' title='Norway's biggest and most reliable online casino portal' href='https://www.nettcasino.com/'><img alt='Norway's biggest and most reliable online casino portal' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/5d739e1a-7813-489e-ab82-697daff8bf12/nettcasino.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='423396' title='Doctor Sports&Casinos - dr.sc' href='https://dr.sc/'><img alt='Doctor Sports&Casinos - dr.sc' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/dc0083f5-802f-4dd4-ace1-3c595d1f1659/open%20dr.sc.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='423738' title='OnlineCasinosSpelen' href='https://onlinecasinosspelen.com'><img alt='OnlineCasinosSpelen' src='https://logo.clearbit.com/onlinecasinosspelen.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='424449' title='Beoordelen van nieuwe online casino's 2023' href='https://Nieuwe-Casinos.net'><img alt='Beoordelen van nieuwe online casino's 2023' src='https://logo.clearbit.com/Nieuwe-Casinos.net' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='424450' title='CasinoZonderRegistratie.net - Nederlandse Top Casino's' href='https://casinoZonderregistratie.net/'><img alt='CasinoZonderRegistratie.net - Nederlandse Top Casino's' src='https://opencollective-production.s3.us-west-1.amazonaws.com/aeb624c0-7ae7-11ed-8d0e-bda59436695a.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='427226' title='OSLabs is a nonprofit tech accelerator devoted to furthering high-impact open source software within a collaborative community of dedicated engineers and mentors' href='https://opensourcelabs.io'><img alt='OSLabs is a nonprofit tech accelerator devoted to furthering high-impact open source software within a collaborative community of dedicated engineers and mentors' src='https://opencollective-production.s3.us-west-1.amazonaws.com/dc95aaa0-823f-11ed-a97d-09a08de033e1.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='430701' title='Ilmaiset Pitkävetovihjeet ' href='https://www.vedonlyontibonukset.com/pitkavetovihjeet'><img alt='Ilmaiset Pitkävetovihjeet ' src='https://logo.clearbit.com/vedonlyontibonukset.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='432409' title='NyeCasino.me is a website that lists the newest and best online casinos in Norway' href='https://www.nyecasino.me/'><img alt='NyeCasino.me is a website that lists the newest and best online casinos in Norway' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/20b616d7-bb05-4605-9904-6610a5d1e248/nyecasino200.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='434604' title='Famoid is a digital marketing agency that specializes in social media services and tools.' href='https://famoid.com/'><img alt='Famoid is a digital marketing agency that specializes in social media services and tools.' src='https://logo.clearbit.com/famoid.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='441291' title='LookSlots' href='https://www.outlookindia.com/outlook-spotlight/slots-not-on-gamstop-new-non-gamstop-casinos-uk-news-284058'><img alt='LookSlots' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/d4c16601-f183-4239-9df6-eb2ade7a36f3/slots%20not%20on%20gamstop%20-%20non%20gamstop%20casinos.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='443264' title='Gives a fun for our users' href='https://slotoking.ua/games/'><img alt='Gives a fun for our users' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/94601d07-3205-4c60-9c2d-9b8194dbefb7/skg-blue.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='452424' title='We are the leading Nearshore Technology Solutions company. We architect and engineer scalable and high-performing software solutions.' href='https://www.bairesdev.com/sponsoring-open-source-projects/'><img alt='We are the leading Nearshore Technology Solutions company. We architect and engineer scalable and high-performing software solutions.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/dc38bc3b-7430-4cf7-9b77-36467eb92915/logo8.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='453050' title='Buy real Instagram followers from Twicsy starting at only $2.97. Twicsy has been voted the best site to buy followers from the likes of US Magazine.' href='https://twicsy.com/buy-instagram-followers'><img alt='Buy real Instagram followers from Twicsy starting at only $2.97. Twicsy has been voted the best site to buy followers from the likes of US Magazine.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/eb3228cb-9810-42b0-9758-2a7aad5633ef/Screen%20Shot%202023-07-06%20at%209.08.54%20PM.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='462750' title='SocialWick offers the best Instagram Followers in the market. If you are looking to boost your organic growth, buy Instagram followers from SocialWick' href='https://www.socialwick.com/instagram/followers'><img alt='SocialWick offers the best Instagram Followers in the market. If you are looking to boost your organic growth, buy Instagram followers from SocialWick' src='https://logo.clearbit.com/socialwick.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='466446' title='Online United States Casinos' href='https://www.onlineunitedstatescasinos.com/'><img alt='Online United States Casinos' src='https://logo.clearbit.com/onlineunitedstatescasinos.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='468969' title='Incognito' href='https://bestnongamstopcasinos.net/'><img alt='Incognito' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/1aec3bc6-2527-4a36-9c40-c2283454be76/cropped-logo1%20%281%29.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='471843' title='Aviators' href='https://aviators.com.br'><img alt='Aviators' src='https://github-production-user-asset-6210df.s3.amazonaws.com/13700/277616726-33b554c8-24e0-4570-b8ed-293fb2ab2448.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='473786' title='Online iGaming platform with reliable and trusted reviews.' href='https://onlinecasinohex.ph/'><img alt='Online iGaming platform with reliable and trusted reviews.' src='https://opencollective-production.s3.us-west-1.amazonaws.com/b19cbf10-3a5e-11ed-9713-c7c7fc5beda8.svg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='480605' title='$1 deposit casino' href='https://slotcasinocanada.ca/casinos/casino-1-dollar/'><img alt='$1 deposit casino' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/3df9dabb-86ff-4f2e-8edd-f195b55a8555/scc%20logo_600x600.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='Online Casinos Australia' title='Online Casinos Australia' href='https://online-casinosaustralia.com/'><img alt='Online Casinos Australia' src='https://github-production-user-asset-6210df.s3.amazonaws.com/13700/268531585-c2b4e482-0409-4664-9aa2-95a62b0d606d.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='493616' title='Looking to boost your YouTube channel? Buy YouTube subscribers with Views4You and watch your audience grow!' href='https://views4you.com/buy-youtube-subscribers/'><img alt='Looking to boost your YouTube channel? Buy YouTube subscribers with Views4You and watch your audience grow!' src='https://logo.clearbit.com/views4you.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='495874' title='casinosonlineaus' href='https://casinosonlineaus.com/'><img alt='casinosonlineaus' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/7fb69094-c265-4275-b295-faf6cc0c5372/imgonline-com-ua-Resize-YkHndKrIwMdOKZAz.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='499738' title='Check out highest payout online casinos in Canada at leafletcasino.com' href='https://leafletcasino.com/online-casino/best-payout/'><img alt='Check out highest payout online casinos in Canada at leafletcasino.com' src='https://opencollective-production.s3.us-west-1.amazonaws.com/4f4c1b90-6183-11eb-8d33-bbbffb3655c5.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='501897' title='Buy Telegram Members' href='https://buycheapestfollowers.com/buy-telegram-channel-members'><img alt='Buy Telegram Members' src='https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286696172-747dca05-a1e8-4d93-a9e9-95054d1566df.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='504161' title='Najděte nejlepší online casino v České republice' href='https://kasinoceske.com'><img alt='Najděte nejlepší online casino v České republice' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/e6056d09-1db2-4fde-ae54-4cee5d99f32e/CZ.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='504258' title='We review the entire iGaming industry from A to Z' href='https://casinolandia.com'><img alt='We review the entire iGaming industry from A to Z' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/5f858add-77f1-47a2-b577-39eecb299c8c/Logo264.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='506063' title='Helping Swedes finding safe unlicensed casinos' href='https://casino-utan-svensk-licens.com/'><img alt='Helping Swedes finding safe unlicensed casinos' src='https://logo.clearbit.com/casino-utan-svensk-licens.com' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='slotozilla' title='free spins no deposit' href='https://www.slotozilla.com/au/free-spins'><img alt='free spins no deposit' src='https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286693953-c68112b6-ebe6-49fd-af6a-5c810a54908d.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='508821' title='I migliori casinò online dagli esperti di SitiCasinoNonAAMS' href='https://siticasinononaams.com'><img alt='I migliori casinò online dagli esperti di SitiCasinoNonAAMS' src='https://opencollective-production.s3.us-west-1.amazonaws.com/account-avatar/857cd395-3d43-425e-979f-970e44159b6f/SitiCasino.png' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>
+<a data-id='508822' title='Find the best Australian online casino and get bonuses for a successful start' href='https://aussiebestcasinos.com/'><img alt='Find the best Australian online casino and get bonuses for a successful start' src='https://opencollective-production.s3.us-west-1.amazonaws.com/06c77c60-575b-11ec-ba5d-7331ce2eaed8.jpg' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a><!--oc-->
         </div>
+        <p>Please note that links to the sponsors above are not direct endorsements nor affiliated with any of
+          contributors of the nodemon project.</p>
       </div>
     </main>
     <footer>

@@ -10,12 +10,12 @@ const utils = require('../../lib/utils');
 function toCmd(options) {
   var cmd = command({
     script: options.script || 'app.js',
-    execOptions: options
+    execOptions: options,
   });
 
   return {
     cmd: cmd,
-    string: utils.stringify(cmd.executable, cmd.args)
+    string: utils.stringify(cmd.executable, cmd.args),
   };
 }
 
@@ -34,17 +34,17 @@ describe('expandScript', () => {
   it('should expand app.js', () => {
     const script = expandScript('app');
     assert.equal(script, 'app.js', script);
-  })
+  });
 
   it('should expand hello.py', () => {
     const script = expandScript('hello', '.py');
     assert.equal(script, 'hello.py', script);
-  })
+  });
 
   it('should ignore foo.js', () => {
     const script = expandScript('foo', '.js');
     assert.equal(script, 'foo', script);
-  })
+  });
 });
 
 describe('nodemon exec', function () {
@@ -63,7 +63,7 @@ describe('nodemon exec', function () {
     var options = exec({ script: 'index.js' });
     var cmd = toCmd(options);
     assert.equal(options.exec, 'node', 'exec is node');
-    assert.equal(options.ext, 'js,mjs,json');
+    assert.equal(options.ext, 'js,mjs,cjs,json');
     assert.equal(cmd.string, 'node index.js', cmd.string);
   });
 
@@ -95,7 +95,11 @@ describe('nodemon exec', function () {
 
   it('should support watching all extensions', function () {
     var options = exec({ script: 'app.js', ext: '' });
-    assert.equal(options.ext, '', 'does not set default extensions when empty extension requested');
+    assert.equal(
+      options.ext,
+      '',
+      'does not set default extensions when empty extension requested'
+    );
 
     options = exec({ script: 'app.js', ext: '.' });
     assert.equal(options.ext, '', 'treats `.` as wildcard extension');
@@ -104,18 +108,28 @@ describe('nodemon exec', function () {
     assert.equal(options.ext, '', 'treats `*` as wildcard extension');
 
     options = exec({ script: 'app.coffee', exec: 'coffee', ext: '' });
-    assert.equal(options.ext, '', 'does not set default extensions when empty extension requested');
+    assert.equal(
+      options.ext,
+      '',
+      'does not set default extensions when empty extension requested'
+    );
   });
 
   it('should replace {{filename}}', function () {
-    var options = exec({ script: 'app.js', exec: 'node {{filename}}.tmp --somethingElse' });
+    var options = exec({
+      script: 'app.js',
+      exec: 'node {{filename}}.tmp --somethingElse',
+    });
 
     var cmd = toCmd(options);
     assert(cmd.string === 'node app.js.tmp --somethingElse', cmd.string);
   });
 
   it('should not split on spaces in {{filename}}', function () {
-    var options = exec({ script: 'my app.js', exec: 'node {{filename}}.tmp --somethingElse' });
+    var options = exec({
+      script: 'my app.js',
+      exec: 'node {{filename}}.tmp --somethingElse',
+    });
     var cmd = toCmd(options);
     // var cmd = command({ execOptions: options });
 
@@ -123,26 +137,37 @@ describe('nodemon exec', function () {
   });
 
   it('should support extension maps', function () {
-    var options = exec({ script: 'template.pug' }, { 'pug': 'pug {{filename}} --out /tmp' });
+    var options = exec(
+      { script: 'template.pug' },
+      { pug: 'pug {{filename}} --out /tmp' }
+    );
     var cmd = toCmd(options);
     assert(cmd.string === 'pug template.pug --out /tmp', cmd.string);
   });
 
   it('should support input from argv#parse', function () {
     var parse = require('../../lib/cli/parse');
-    parse('node /usr/local/bin/nodemon.js --debug -e js,pug,hbs app.js'.split(' '));
+    parse(
+      'node /usr/local/bin/nodemon.js --debug -e js,pug,hbs app.js'.split(' ')
+    );
   });
 
   it('should use coffeescript on .coffee', function () {
     var options = exec({ script: 'index.coffee' });
-    assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
+    assert(
+      options.exec.indexOf('coffee') === 0,
+      'using coffeescript to execute'
+    );
     assert(options.ext.indexOf('coffee') !== -1);
   });
 
   it('should support coffeescript in debug mode', function () {
     var options = exec({ script: 'app.coffee', nodeArgs: ['--debug'] });
 
-    assert(options.exec.indexOf('coffee') === 0, 'using coffeescript to execute');
+    assert(
+      options.exec.indexOf('coffee') === 0,
+      'using coffeescript to execute'
+    );
     assert(options.execArgs[1].indexOf('--debug') !== -1);
     assert(options.ext.indexOf('coffee') !== -1);
   });
@@ -219,5 +244,4 @@ describe('nodemon exec', function () {
     var cmd = toCmd(options);
     assert(cmd.string === 'node index', cmd.string);
   });
-
 });
