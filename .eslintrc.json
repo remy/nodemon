@@ -1,19 +1,20 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true
-    },
-    "parserOptions": {
-        "ecmaVersion": 12
-    },
-    "rules": {
-        "space-before-function-paren": [
-            2,
-            {
-                "anonymous": "ignore",
-                "named": "never"
-            }
-        ]
-    }
+  "root": true,
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es2021": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 12
+  },
+  "rules": {
+    "space-before-function-paren": [
+      2,
+      {
+        "anonymous": "ignore",
+        "named": "never"
+      }
+    ]
+  }
 }

@@ -46,7 +46,7 @@
     "@commitlint/config-conventional": "^11.0.0",
     "async": "1.4.2",
     "coffee-script": "~1.7.1",
-    "eslint": "^7.32.0",
+    "eslint": "^8.55.0",
     "husky": "^7.0.4",
     "mocha": "^2.5.3",
     "nyc": "^15.1.0",
