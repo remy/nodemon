@@ -7,7 +7,8 @@ def getImage:
       "348965": "https://user-images.githubusercontent.com/13700/199964872-a86bc00b-4273-4251-ae6a-254b0b643d47.jpg",
       "368126": "https://user-images.githubusercontent.com/13700/207157616-8b6d3dd2-e7de-4bbf-86b2-d6ad9fb714fb.png",
       "471843": "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/277616726-33b554c8-24e0-4570-b8ed-293fb2ab2448.jpg",
-      "501897": "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286696172-747dca05-a1e8-4d93-a9e9-95054d1566df.png"
+      "501897": "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286696172-747dca05-a1e8-4d93-a9e9-95054d1566df.png",
+      "525119": "https://github.com/remy/nodemon/assets/13700/820935c0-7844-4ba9-9563-b1c559895c38"
     } | (.["\($_.MemberId)"] // $_.image)
 ;
 
@@ -18,6 +19,7 @@ def getUrl:
       "368126": "https://casinofrog.com/ca/online-casino/new/",
       "468969": "https://bestnongamstopcasinos.net/",
       "501897": "https://buycheapestfollowers.com/buy-telegram-channel-members",
+      "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
@@ -30,6 +32,7 @@ def getAlt:
       "368126": { description: "New casinos 2023" },
       "471843": { description: "Aviators" },
       "501897": { description: "Buy Telegram Members" },
+      "525119": { description: "30 Best Casinos Not on Gamstop in 2024" }
     } | (.["\($_.MemberId)"] // $_) |
 	if .description then
 		.description
@@ -37,7 +40,7 @@ def getAlt:
 		.name
 	else
 		""
-	end
+	end | @html
 ;
 
 def tohtml:
@@ -45,7 +48,7 @@ def tohtml:
 ;
 
 def tomarkdown:
-"<a title='\(.name)' data-id='\(.MemberId)' href='\(getUrl)'><img alt='\(.description)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>";
+"<a title='\(getAlt)' data-id='\(.MemberId)' href='\(getUrl)'><img alt='\(getAlt)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>";
 
 . + [{
   # manually added
