@@ -3,11 +3,12 @@ const exec = util.promisify(require('node:child_process').exec);
 const { readFile, writeFile, unlink } = require('fs').promises;
 const web = require('https');
 const { resolve } = require('node:path');
+const { url } = require('node:inspector');
 
 process.chdir(resolve(__dirname, '..'));
 
-const url =
-  'https://opencollective.com/nodemon/members/all.json?TierId=2603&offset=';
+const tiers = [26031, 2603];
+
 const files = {
   html: './website/index.html',
   markdown: './README.md',
@@ -20,13 +21,16 @@ const files = {
  */
 async function curl(out) {
   const res = [];
-  let offset = 0;
-  do {
-    let next = await get(url + offset);
-    console.log(url + offset);
-    res.push(...next);
-    offset += next.length;
-  } while (offset % 100 === 0);
+  for (const [i, tier] of tiers.entries()) {
+    const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&offset=`;
+    let offset = 0;
+    do {
+      let next = await get(url + offset);
+      console.log(url + offset);
+      res.push(...next.map((_) => ({ ..._, tier: i })));
+      offset += next.length;
+    } while (offset % 100 === 0);
+  }
 
   return writeFile(out, JSON.stringify(res));
 }
@@ -112,6 +116,7 @@ async function main() {
   try {
     await work(tmp);
     await unlink(tmp);
+    console.log(tmp);
   } catch (e) {
     console.log('failed: ' + tmp);
     console.log(e);

@@ -20,6 +20,7 @@ def getUrl:
       "468969": "https://bestnongamstopcasinos.net/",
       "501897": "https://buycheapestfollowers.com/buy-telegram-channel-members",
       "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
+      "532050": "https://skweezer.net"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
@@ -44,17 +45,18 @@ def getAlt:
 ;
 
 def tohtml:
-	"<a data-id='\(.MemberId)' title='\(getAlt)' href='\(getUrl)'><img alt='\(getAlt)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>"
+	"<a data-id='\(.MemberId)' data-tier='\(.tier)' title='\(getAlt)' href='\(getUrl)'><img alt='\(getAlt)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>"
 ;
 
 def tomarkdown:
-"<a title='\(getAlt)' data-id='\(.MemberId)' href='\(getUrl)'><img alt='\(getAlt)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>";
+"<a title='\(getAlt)' data-id='\(.MemberId)' data-tier='\(.tier)' href='\(getUrl)'><img alt='\(getAlt)' src='\(getImage)' style='object-fit: contain; float: left; margin:12px' height='120' width='120'></a>";
 
 . + [{
   # manually added
   isActive: true,
   MemberId: "Online Casinos Australia",
   image: true,
+  tier: 1,
   createdAt: "2023-09-17 12:00:00",
   website: "https://online-casinosaustralia.com/",
   description: "Online Casinos Australia",
@@ -62,6 +64,7 @@ def tomarkdown:
 },{
   # manually added
   isActive: true,
+  tier: 1,
   MemberId: "slotozilla",
   image: true,
   createdAt: "2023-11-29 12:00:00",
@@ -74,4 +77,4 @@ def markdown: $markdown;
 
 def render:	if markdown then tomarkdown else tohtml end;
 
-sort_by(.createdAt) | map(select(.isActive == true and getImage) | render) | if markdown then .[] else join("\n") end
+sort_by(.tier, .createdAt) | map(select(.isActive == true and getImage) | render) | if markdown then .[] else join("\n") end
