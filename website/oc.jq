@@ -20,7 +20,7 @@ def getUrl:
       "468969": "https://bestnongamstopcasinos.net/",
       "501897": "https://buycheapestfollowers.com/buy-telegram-channel-members",
       "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
-      "532050": "https://skweezer.net"
+      "532050": "https://skweezer.net/buy-instagram-followers"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
@@ -33,7 +33,8 @@ def getAlt:
       "368126": { description: "New casinos 2023" },
       "471843": { description: "Aviators" },
       "501897": { description: "Buy Telegram Members" },
-      "525119": { description: "30 Best Casinos Not on Gamstop in 2024" }
+      "525119": { description: "30 Best Casinos Not on Gamstop in 2024" },
+      "532050": { description: "buy instagram followers on skweezer.net today"}
     } | (.["\($_.MemberId)"] // $_) |
 	if .description then
 		.description
