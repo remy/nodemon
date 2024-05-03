@@ -356,6 +356,9 @@ The answer is simple, but possibly frustrating. I'm not saying (how I pronounce 
 
 Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm completely happy, but perhaps it can be reduced a little one day.
 
+## Usage Trend
+[The usage trend of nodemon and similar packages](https://npm-compare.com/forever,nodemon,pm2)
+
 ## FAQ
 
 See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
