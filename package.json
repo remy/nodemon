@@ -27,6 +27,7 @@
     "terminal"
   ],
   "license": "MIT",
+  "types": "./index.d.ts",
   "main": "./lib/nodemon",
   "scripts": {
     "commitmsg": "commitlint -e",
