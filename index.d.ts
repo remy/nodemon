@@ -72,7 +72,6 @@ export type Nodemon = {
   emit(type: NodemonEventHandler, event?: any): Nodemon;
   reset(callback: Function): Nodemon;
   restart(): Nodemon;
-  // TODO remy is that now only the config or does it also include the other stuff liek script?
   config: NodemonSettings;
 };
 
@@ -125,8 +124,6 @@ export interface NodemonSettings extends NodemonConfig {
   env?: { [key: string]: string };
   exec?: string; // node, python, etc
   execArgs?: string[]; // args passed to node, etc,
-  
-  // TODO remy check if that is correct i have that in my code configured
   nodeArgs?: string[]; // args passed to node, etc,
   delay?: number;
 }
