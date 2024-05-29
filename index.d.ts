@@ -1,4 +1,4 @@
-type NodemonEventHandler =
+export type NodemonEventHandler =
   | 'start'
   | 'crash'
   | 'exit'
@@ -10,7 +10,7 @@ type NodemonEventHandler =
   | 'stdout'
   | 'stderr';
 
-type NodemonEventListener = {
+export type NodemonEventListener = {
   on(event: 'start' | 'crash' | 'readable', listener: () => void): Nodemon;
   on(event: 'log', listener: (e: NodemonEventLog) => void): Nodemon;
   on(event: 'stdout' | 'stderr', listener: (e: string) => void): Nodemon;
@@ -23,7 +23,7 @@ type NodemonEventListener = {
   ): Nodemon;
 };
 
-type Nodemon = {
+export type Nodemon = {
   (options?: NodemonSettings): Nodemon;
   on(event: 'start' | 'crash', listener: () => void): Nodemon;
   on(event: 'log', listener: (e: NodemonEventLog) => void): Nodemon;
@@ -75,7 +75,7 @@ type Nodemon = {
   config: NodemonSettings;
 };
 
-type NodemonEventLog = {
+export type NodemonEventLog = {
   /**
     detail*: what you get with nodemon --verbose.
     status: subprocess starting, restarting.
@@ -89,20 +89,20 @@ type NodemonEventLog = {
   colour: String;
 };
 
-interface NodemonEventRestart {
+export interface NodemonEventRestart {
   matched?: {
     result: string[];
     total: number;
   };
 }
 
-type NodemonEventQuit = 143 | 130;
-type NodemonEventExit = number;
+export type NodemonEventQuit = 143 | 130;
+export type NodemonEventExit = number;
 
 // TODO: Define the type of NodemonEventConfig
-type NodemonEventConfig = any;
+export type NodemonEventConfig = any;
 
-interface NodemonSettings {
+export interface NodemonConfig {
   /* restartable defaults to "rs" as a string the user enters */
   restartable?: false | String;
   colours?: Boolean;
@@ -117,10 +117,23 @@ interface NodemonSettings {
   watchOptions?: WatchOptions;
 }
 
-interface WatchOptions {
+export interface NodemonSettings extends NodemonConfig {
+  script: string; 
+  ext?: string; // "js,mjs" etc (should really support an array of strings, but I don't think it does right now)
+  events?: { [key: string]: string }; 
+  env?: { [key: string]: string };
+  exec?: string; // node, python, etc
+  execArgs?: string[]; // args passed to node, etc,
+  nodeArgs?: string[]; // args passed to node, etc,
+  delay?: number;
+}
+
+export interface WatchOptions {
   ignorePermissionErrors: boolean;
   ignored: string;
   persistent: boolean;
   usePolling: boolean;
   interval: number;
 }
+
+export default function nodemon(settings: NodemonSettings): Nodemon;
