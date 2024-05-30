@@ -118,9 +118,9 @@ export interface NodemonConfig {
 }
 
 export interface NodemonSettings extends NodemonConfig {
-  script: string; 
+  script: string;
   ext?: string; // "js,mjs" etc (should really support an array of strings, but I don't think it does right now)
-  events?: { [key: string]: string }; 
+  events?: { [key: string]: string };
   env?: { [key: string]: string };
   exec?: string; // node, python, etc
   execArgs?: string[]; // args passed to node, etc,
@@ -136,4 +136,6 @@ export interface WatchOptions {
   interval: number;
 }
 
-export default function nodemon(settings: NodemonSettings): Nodemon;
+const nodemon: Nodemon = (settings: NodemonSettings): Nodemon => {};
+
+export default nodemon;
