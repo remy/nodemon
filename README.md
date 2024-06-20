@@ -264,8 +264,9 @@ nodemon --signal SIGHUP server.js
 Your application can handle the signal as follows.
 
 ```js
-process.once("SIGHUP", function () {
+process.on("SIGHUP", function () {
   reloadSomeConfiguration();
+  process.kill(process.pid, "SIGTERM");
 })
 ```
 
