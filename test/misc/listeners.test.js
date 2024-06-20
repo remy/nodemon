@@ -17,7 +17,7 @@ describe('listeners clean up', function () {
       ext: 'js',
       env: {
         PORT: 0,
-        USER: 'nodemon',
+        NODEMON_ENV: 'nodemon',
       },
     };
   }
@@ -26,9 +26,10 @@ describe('listeners clean up', function () {
     nodemon.reset(done);
   });
 
-  it('should be able to re-run in required mode, many times, and not leak' +
-    'listeners', function (done) {
-
+  it(
+    'should be able to re-run in required mode, many times, and not leak' +
+      'listeners',
+    function (done) {
       function run(n) {
         return function (done) {
           nodemon(conf());
@@ -46,6 +47,6 @@ describe('listeners clean up', function () {
       });
 
       async.series(toRun);
-
-    });
+    }
+  );
 });

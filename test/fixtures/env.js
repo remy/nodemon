@@ -1,1 +1,1 @@
-console.log(process.env.USER);
+console.log(process.env.NODEMON_ENV);
