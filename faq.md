@@ -353,8 +353,10 @@ Your application will likely be running the old version code if you see that mes
 A common cause for this is when graceful shutdowns are doing async tasks, i.e:
 
 ```
-process.once('SIGUSR2', async () => {
+// ensure this is `on` and not `once`
+process.on('SIGUSR2', async () => {
   await db.disconnect()
+  process.kill(process.pid, 'SIGTERM');
 })
 ```
 

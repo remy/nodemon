@@ -292,9 +292,10 @@ nodemon sends a kill signal to your application when it sees a file update. If y
 The following example will listen once for the `SIGUSR2` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
 
 ```js
-process.once('SIGUSR2', function () {
+// important to use `on` and not `once` as nodemon can re-send the kill signal
+process.on('SIGUSR2', function () {
   gracefulShutdown(function () {
-    process.kill(process.pid, 'SIGUSR2');
+    process.kill(process.pid, 'SIGTERM');
   });
 });
 ```
