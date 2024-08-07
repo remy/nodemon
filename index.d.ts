@@ -138,4 +138,4 @@ export interface WatchOptions {
 
 const nodemon: Nodemon = (settings: NodemonSettings): Nodemon => {};
 
-export default nodemon;
+export = nodemon;
