@@ -109,6 +109,7 @@ export interface NodemonConfig {
   execMap?: { [key: string]: string };
   ignoreRoot?: string[];
   watch?: string[];
+  ignore?: string[];
   stdin?: boolean;
   runOnChangeOnly?: boolean;
   verbose?: boolean;
