@@ -4,7 +4,7 @@ html {
   min-height: 100%;
   background: #2b2922;
   color: #eee;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
   font-size: 20px;
   font-weight: 200;
@@ -50,7 +50,7 @@ h1 {
 }
 
 h2 {
-  font-weight: 100;
+  font-weight: 400;
 }
 
 header strong {
