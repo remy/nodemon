@@ -22,7 +22,7 @@ const files = {
 async function curl(out) {
   const res = [];
   for (const [i, tier] of tiers.entries()) {
-    const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&offset=`;
+    const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&limit=100&offset=`;
     let offset = 0;
     do {
       let next = await get(url + offset);
