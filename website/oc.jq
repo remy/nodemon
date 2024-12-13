@@ -56,7 +56,7 @@ def tomarkdown:
 
 . + [{
   # manually added
-  isActive: true,
+  isActive: false,
   MemberId: "Online Casinos Australia",
   image: true,
   tier: 1,
@@ -65,8 +65,7 @@ def tomarkdown:
   description: "Online Casinos Australia",
   image: "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/268531585-c2b4e482-0409-4664-9aa2-95a62b0d606d.png"
 },{
-  # manually added
-  isActive: true,
+  isActive: false,
   tier: 1,
   MemberId: "slotozilla",
   image: true,
@@ -74,6 +73,14 @@ def tomarkdown:
   website: "https://www.slotozilla.com/au/free-spins",
   description: "free spins no deposit",
   image: "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286693953-c68112b6-ebe6-49fd-af6a-5c810a54908d.jpg"
+}, {
+  isActive: true,
+  tier: 1,
+  MemberId: "Youraffe",
+  image: true,
+  createdAt: "2024-12-13 12:00:00",
+  website: "https://zimplerkasinot.net/",
+  image: "https://github.com/user-attachments/assets/cbeddc6e-827a-41eb-b669-a0a4575d068a"
 }] |
 
 def markdown: $markdown;
