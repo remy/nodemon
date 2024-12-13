@@ -251,7 +251,7 @@ describe('nodemon argument parser', function () {
     assert(settings.exec === 'java', 'exec');
     assert(settings.quiet, 'quiet');
     assert(settings.stdin === false, 'read stdin');
-    assert(settings.exitcrash, 'exit if crash');
+    assert(settings.exitCrash, 'exit if crash');
     assert(settings.watch[0] === 'fixtures', 'watch');
     assert(settings.ignore[0] === 'fixtures', 'ignore');
     assert(settings.delay === 5000, 'delay 5 seconds');
