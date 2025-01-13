@@ -29,6 +29,7 @@ async function curl(out) {
       console.log(url + offset);
       res.push(...next.map((_) => ({ ..._, tier: i })));
       offset += next.length;
+      if (next.length === 0) break;
     } while (offset % 100 === 0);
   }
 
