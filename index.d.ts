@@ -88,8 +88,7 @@ export interface NodemonConfig {
   version?: boolean;
   cwd?: string;
   dump?: boolean;
-  ignore?: string[];
-  watch?: string[];
+  delay?: number;
   monitor?: string[];
   spawn?: boolean;
   noUpdateNotifier?: boolean;
@@ -123,4 +122,4 @@ export type Nodemon = {
 
 declare const nodemon: Nodemon;
 
-export default nodemon;
+export = nodemon;
