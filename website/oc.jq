@@ -8,7 +8,8 @@ def getImage:
       "368126": "https://user-images.githubusercontent.com/13700/207157616-8b6d3dd2-e7de-4bbf-86b2-d6ad9fb714fb.png",
       "471843": "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/277616726-33b554c8-24e0-4570-b8ed-293fb2ab2448.jpg",
       "501897": "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286696172-747dca05-a1e8-4d93-a9e9-95054d1566df.png",
-      "525119": "https://github.com/remy/nodemon/assets/13700/820935c0-7844-4ba9-9563-b1c559895c38"
+      # "525119": "https://github.com/remy/nodemon/assets/13700/820935c0-7844-4ba9-9563-b1c559895c38",
+      # "": "https://github.com/user-attachments/assets/e25d9ccd-1203-449b-9404-fe7336ac180a"
     } | (.["\($_.MemberId)"] // $_.image)
 ;
 
@@ -19,7 +20,7 @@ def getUrl:
       "368126": "https://casinofrog.com/ca/online-casino/new/",
       "468969": "https://bestnongamstopcasinos.net/",
       "501897": "https://buycheapestfollowers.com/buy-telegram-channel-members",
-      "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
+      # "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
       "532050": "https://skweezer.net/buy-instagram-followers",
       "596376": "https://buzzoid.com/buy-instagram-followers/"
     } | (.["\($_.MemberId)"] // $_.website)
@@ -34,7 +35,7 @@ def getAlt:
       "368126": { description: "New casinos 2023" },
       "471843": { description: "Aviators" },
       "501897": { description: "Buy Telegram Members" },
-      "525119": { description: "30 Best Casinos Not on Gamstop in 2024" },
+      # "525119": { description: "30 Best Casinos Not on Gamstop in 2024" },
       "532050": { description: "buy instagram followers on skweezer.net today"}
     } | (.["\($_.MemberId)"] // $_) |
 	if .description then
@@ -55,7 +56,7 @@ def tomarkdown:
 
 . + [{
   # manually added
-  isActive: true,
+  isActive: false,
   MemberId: "Online Casinos Australia",
   image: true,
   tier: 1,
@@ -64,8 +65,7 @@ def tomarkdown:
   description: "Online Casinos Australia",
   image: "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/268531585-c2b4e482-0409-4664-9aa2-95a62b0d606d.png"
 },{
-  # manually added
-  isActive: true,
+  isActive: false,
   tier: 1,
   MemberId: "slotozilla",
   image: true,
@@ -73,7 +73,24 @@ def tomarkdown:
   website: "https://www.slotozilla.com/au/free-spins",
   description: "free spins no deposit",
   image: "https://github-production-user-asset-6210df.s3.amazonaws.com/13700/286693953-c68112b6-ebe6-49fd-af6a-5c810a54908d.jpg"
-}] |
+}, {
+  isActive: true,
+  tier: 1,
+  MemberId: "Youraffe",
+  image: true,
+  createdAt: "2024-12-13 12:00:00",
+  website: "https://zimplerkasinot.net/",
+  image: "https://github.com/user-attachments/assets/cbeddc6e-827a-41eb-b669-a0a4575d068a"
+}, {
+  isActive: true,
+  tier: 1,
+  MemberId: "Youraffe2",
+  image: true,
+  createdAt: "2025-01-13 12:00:00",
+  website: "https://verovapaatnettikasinot.net/",
+  image: "https://github.com/user-attachments/assets/686bae37-cc29-45e6-b079-ea0bdc101f4e"
+}
+] |
 
 def markdown: $markdown;
 

@@ -22,13 +22,14 @@ const files = {
 async function curl(out) {
   const res = [];
   for (const [i, tier] of tiers.entries()) {
-    const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&offset=`;
+    const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&limit=100&offset=`;
     let offset = 0;
     do {
       let next = await get(url + offset);
       console.log(url + offset);
       res.push(...next.map((_) => ({ ..._, tier: i })));
       offset += next.length;
+      if (next.length === 0) break;
     } while (offset % 100 === 0);
   }
 
