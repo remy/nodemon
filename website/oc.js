@@ -24,35 +24,13 @@ async function curl(out) {
   for (const [i, tier] of tiers.entries()) {
     const url = `https://opencollective.com/nodemon/members/all.json?TierId=${tier}&limit=100&offset=`;
     let offset = 0;
-    try {
-      do {
-        console.log(`Fetching ${url}${offset}`);
-        let next = await get(url + offset);
-
-        if (!Array.isArray(next)) {
-          console.error(
-            `Error: Expected array but got ${typeof next} from ${url}${offset}`
-          );
-          console.error(
-            'Response:',
-            JSON.stringify(next).substring(0, 200) + '...'
-          );
-          break;
-        }
-
-        if (next.length === 0) {
-          console.log(`No more results for tier ${tier}`);
-          break;
-        }
-
-        res.push(...next.map((_) => ({ ..._, tier: i })));
-        offset += next.length;
-      } while (offset % 100 === 0 && offset > 0);
-    } catch (err) {
-      console.error(
-        `Error fetching tier ${tier} at offset ${offset}: ${err.message}`
-      );
-    }
+    do {
+      let next = await get(url + offset);
+      console.log(url + offset);
+      res.push(...next.map((_) => ({ ..._, tier: i })));
+      offset += next.length;
+      if (next.length === 0) break;
+    } while (offset % 100 === 0);
   }
 
   if (res.length === 0) {

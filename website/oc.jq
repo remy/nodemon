@@ -81,7 +81,16 @@ def tomarkdown:
   createdAt: "2024-12-13 12:00:00",
   website: "https://zimplerkasinot.net/",
   image: "https://github.com/user-attachments/assets/cbeddc6e-827a-41eb-b669-a0a4575d068a"
-}] |
+}, {
+  isActive: true,
+  tier: 1,
+  MemberId: "Youraffe2",
+  image: true,
+  createdAt: "2025-01-13 12:00:00",
+  website: "https://verovapaatnettikasinot.net/",
+  image: "https://github.com/user-attachments/assets/686bae37-cc29-45e6-b079-ea0bdc101f4e"
+}
+] |
 
 def markdown: $markdown;
 
