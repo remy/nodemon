@@ -87,4 +87,4 @@ def markdown: $markdown;
 
 def render:	if markdown then tomarkdown else tohtml end;
 
-sort_by(.tier, .createdAt) | map(select(.isActive == true and getImage) | render) | if markdown then .[] else join("\n") end
+sort_by(.tier, .createdAt) | map(select(getImage) | select($date < .lastTransactionAt) | render) | if markdown then .[] else join("\n") end
