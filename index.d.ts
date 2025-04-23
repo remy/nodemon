@@ -22,18 +22,6 @@ export type NodemonEventListener = {
   on(event: 'config:update', listener: (e?: NodemonEventConfig) => void): Nodemon;
 };
 
-export type Nodemon = {
-  removeAllListeners(event: NodemonEventHandler): Nodemon;
-  emit(type: NodemonEventHandler, event?: any): Nodemon;
-  reset(callback: Function): Nodemon;
-  restart(): Nodemon;
-  config: NodemonSettings;
-} & NodemonEventListener & {
-  [K in keyof NodemonEventListener as "addListener"]: NodemonEventListener[K];
-} & {
-  [K in keyof NodemonEventListener as "once"]: NodemonEventListener[K];
-};
-
 export type NodemonEventLog = {
   /**
     - detail: what you get with nodemon --verbose.
@@ -66,16 +54,16 @@ export type NodemonEventConfig = {
   dirs: string[];
   timeout: number;
   options: NodemonConfig;
-  lastStarted: number
-  loaded: string[]
-  load: (settings: NodemonSettings, ready: (config: NodemonEventConfig) => void) => void
-  reset: () => void
+  lastStarted: number;
+  loaded: string[];
+  load: (settings: NodemonSettings, ready: (config: NodemonEventConfig) => void) => void;
+  reset: () => void;
 };
 
 export interface NodemonExecOptions {
   script: string;
   scriptPosition?: number;
-  args?: string[]
+  args?: string[];
   ext?: string; // "js,mjs" etc (should really support an array of strings, but I don't think it does right now)
   exec?: string; // node, python, etc
   execArgs?: string[]; // args passed to node, etc,
@@ -96,30 +84,42 @@ export interface NodemonConfig {
   signal?: string;
   stdout?: boolean;
   watchOptions?: WatchOptions;
-  help?: string
-  version?: boolean
-  cwd?: string
-  dump?: boolean
-  ignore?: string[]
-  watch?: string[]
-  monitor?: string[]
-  spawn?: boolean
-  noUpdateNotifier?: boolean
-  legacyWatch?: boolean
-  pollingInterval?: number
+  help?: string;
+  version?: boolean;
+  cwd?: string;
+  dump?: boolean;
+  delay?: number;
+  monitor?: string[];
+  spawn?: boolean;
+  noUpdateNotifier?: boolean;
+  legacyWatch?: boolean;
+  pollingInterval?: number;
   /** @deprecated as this is "on" by default */
-  js?: boolean
-  quiet?: boolean
-  configFile?: string
-  exitCrash?: boolean
-  execOptions?: NodemonExecOptions
+  js?: boolean;
+  quiet?: boolean;
+  configFile?: string;
+  exitCrash?: boolean;
+  execOptions?: NodemonExecOptions;
 }
 
 export interface NodemonSettings extends NodemonConfig, NodemonExecOptions {
-  events?: { [key: string]: string };
-  env?: { [key: string]: string };
+  events?: Record<string, string>;
+  env?: Record<string, string>;
 }
 
-const nodemon: Nodemon = (settings: NodemonSettings): Nodemon => {};
+export type Nodemon = {
+  (settings: NodemonSettings): Nodemon;
+  removeAllListeners(event: NodemonEventHandler): Nodemon;
+  emit(type: NodemonEventHandler, event?: any): Nodemon;
+  reset(callback: Function): Nodemon;
+  restart(): Nodemon;
+  config: NodemonSettings;
+} & NodemonEventListener & {
+  [K in keyof NodemonEventListener as "addListener"]: NodemonEventListener[K];
+} & {
+  [K in keyof NodemonEventListener as "once"]: NodemonEventListener[K];
+};
+
+declare const nodemon: Nodemon;
 
 export = nodemon;
