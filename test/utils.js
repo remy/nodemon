@@ -1,10 +1,14 @@
 'use strict';
-var fork = require('child_process').fork,
-    path = require('path'),
-    appjs = path.resolve(__dirname, 'fixtures', 'app.js'),
-    assert = require('assert'),
-    port = 8000,
-    appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
+import { fork } from 'child_process';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import assert from 'assert';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const appjs = path.resolve(__dirname, 'fixtures', 'app.js');
+let port = 8000;
+const appcoffee = path.resolve(__dirname, 'fixtures', 'app.coffee');
 
 function asCLI(cmd) {
   return {
@@ -19,7 +23,7 @@ function match(str, key) {
 }
 
 function monitorForChange(str) {
-  var watch = false;
+  let watch = false;
   return function (line) {
     if (match(line, 'files triggering change check: nodemonCheckFsWatch')) {
       watch = false;
@@ -38,10 +42,10 @@ function monitorForChange(str) {
 }
 
 function run(cmd, callbacks) {
-  var cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
+  const cli = typeof cmd === 'string' ? asCLI(cmd) : cmd;
   port++;
   process.env.PORT = port;
-  var proc = fork(cli.exec, cli.args, {
+  const proc = fork(cli.exec, cli.args, {
     env: process.env,
     cwd: process.cwd(),
     encoding: 'utf8',
@@ -116,7 +120,7 @@ Plan.prototype.assert = function() {
 };
 
 function getTriggerCount(msg) {
-  var changes = msg.split(/\n/).shift();
+  const changes = msg.split(/\n/).shift();
   changes = changes.replace(/\s*/gm, '').slice(-5).split('/');
   return changes.pop();
 }
@@ -131,7 +135,7 @@ function isRunning(pid) {
   }
 }
 
-module.exports = {
+export default {
   getTriggerCount: getTriggerCount,
   Plan: Plan,
   asCLI: asCLI,

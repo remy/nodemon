@@ -1,14 +1,13 @@
 'use strict';
 /*global describe:true, it: true */
-const path = require('path');
-const exec = require('../../lib/config/exec');
-const expandScript = exec.expandScript;
-const command = require('../../lib/config/command');
-const assert = require('assert');
-const utils = require('../../lib/utils');
+import path from 'path';
+import exec, { expandScript } from '../../lib/config/exec.js';
+import command from '../../lib/config/command.js';
+import assert from 'assert';
+import utils from '../../lib/utils/index.js';
 
 function toCmd(options) {
-  var cmd = command({
+  const cmd = command({
     script: options.script || 'app.js',
     execOptions: options,
   });
@@ -20,7 +19,7 @@ function toCmd(options) {
 }
 
 describe('expandScript', () => {
-  var pwd = process.cwd();
+  const pwd = process.cwd();
 
   afterEach(function () {
     process.chdir(pwd);
@@ -60,8 +59,8 @@ describe('nodemon exec', function () {
   });
 
   it('should default to node', function () {
-    var options = exec({ script: 'index.js' });
-    var cmd = toCmd(options);
+    const options = exec({ script: 'index.js' });
+    const cmd = toCmd(options);
     assert.equal(options.exec, 'node', 'exec is node');
     assert.equal(options.ext, 'js,mjs,cjs,json');
     assert.equal(cmd.string, 'node index.js', cmd.string);
@@ -145,8 +144,8 @@ describe('nodemon exec', function () {
     assert(cmd.string === 'pug template.pug --out /tmp', cmd.string);
   });
 
-  it('should support input from argv#parse', function () {
-    var parse = require('../../lib/cli/parse');
+  it('should support input from argv#parse', async function () {
+    const parse = (await import('../../lib/cli/parse.js')).default;
     parse(
       'node /usr/local/bin/nodemon.js --debug -e js,pug,hbs app.js'.split(' ')
     );
@@ -195,8 +194,8 @@ describe('nodemon exec', function () {
     assert(options.execArgs[0] === '-v', options.execArgs[0]);
   });
 
-  it('should support non-english filenames', function () {
-    var parse = require('../../lib/cli/parse');
+  it('should support non-english filenames', async function () {
+    const parse = (await import('../../lib/cli/parse.js')).default;
     var options = parse('node nodemon.js -e ζ ./server.js "$@"'.split(' '));
     var res = exec(options);
     assert(res.ext === 'ζ', 'exec did not bail');
