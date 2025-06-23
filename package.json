@@ -9,8 +9,9 @@
     "nodemon": "./bin/nodemon.js"
   },
   "engines": {
-    "node": ">=10"
+    "node": ">=14"
   },
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/remy/nodemon.git"
