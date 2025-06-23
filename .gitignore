@@ -21,3 +21,4 @@ issues/
 test/fixtures/test*
 
 .idea
+.DS_Store
