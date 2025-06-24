@@ -1,10 +1,10 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var nodemon = require('../../lib/');
-var utils = require('../utils');
-var path = require('path');
+import nodemon from '../../lib/index.js';
+import utils from '../utils.js';
+import path from 'path';
 var appjs = path.resolve(__dirname, '..', 'fixtures', 'watch-count', 'index.js');
-var assert = require('assert');
+import assert from 'assert';
 var watchRe = /watching ([\d,]+) files/;
 
 describe('watch count', function () {

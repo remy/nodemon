@@ -1,11 +1,11 @@
 'use strict';
 /*global describe:true, it: true, after: true, beforeEach */
-var nodemon = require('../../lib/');
-var assert = require('assert');
-var fs = require('fs');
-var path = require('path');
-var touch = require('touch');
-var crypto = require('crypto');
+import nodemon from '../../lib/index.js';
+import assert from 'assert';
+import fs from 'fs';
+import path from 'path';
+import touch from 'touch';
+import crypto from 'crypto';
 
 function rnd() {
   return crypto.randomBytes(16).toString('hex');
@@ -146,7 +146,7 @@ describe('when nodemon runs (2)', function () {
   // file should not be created 
   it('should not run command on startup if runOnChangeOnly is true',
     function (done) {
-      var script =  "var touch = require('touch');\n"
+      var script =  "import touch from 'touch';\n"
                     + "touch.sync(" + tmp2 + ");\n"
       fs.writeFileSync(tmp, script);
 

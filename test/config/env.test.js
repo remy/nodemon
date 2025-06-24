@@ -1,8 +1,8 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var nodemon = require('../../lib/'),
-  path = require('path'),
-  assert = require('assert');
+import nodemon from '../../lib/index.js';
+import path from 'path';
+import assert from 'assert';
 
 describe('when nodemon runs (1)', function () {
   var tmp = path.resolve('test/fixtures/env.js');

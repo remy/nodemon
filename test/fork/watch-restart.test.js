@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var assert = require('assert'),
-    fs = require('fs'),
+import assert from 'assert';
+import fs from 'fs';,
     utils = require('../utils'),
     colour = require('../../lib/utils/colour'),
     appjs = utils.appjs,

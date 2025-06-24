@@ -1,6 +1,6 @@
 /*global describe:true, it: true */
-var colour = require('../../lib/utils/colour'),
-    assert = require('assert');
+import colour from '../../lib/utils/colour.js';
+import assert from 'assert';;
 
 describe('utils colour', function () {
   it('should colour strings', function () {

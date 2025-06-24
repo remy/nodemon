@@ -1,11 +1,11 @@
 'use strict';
 /* global describe, it, beforeEach, before, after */
-var nodemon = require('../../lib/');
+import nodemon from '../../lib/index.js';
 var debug = require('debug')('nodemon');
-var assert = require('assert');
-var path = require('path');
-var touch = require('touch');
-var utils = require('../utils');
+import assert from 'assert';
+import path from 'path';
+import touch from 'touch';
+import utils from '../utils.js';
 var dir = path.resolve(__dirname, '..', 'fixtures', 'events');
 var appjs = path.resolve(dir, 'env.js');
 var asCLI = utils.asCLI;

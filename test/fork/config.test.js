@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true, afterEach:true, beforeEach:true */
-var assert = require('assert'),
-    utils = require('../utils'),
+import assert from 'assert';
+import utils from '../utils.js';,
     path = require('path'),
     match = utils.match,
     cleanup = utils.cleanup,

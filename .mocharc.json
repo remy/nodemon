@@ -1,0 +1,6 @@
+{
+  "timeout": 30000,
+  "exit": true,
+  "ui": "bdd",
+  "reporter": "spec"
+}

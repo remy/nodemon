@@ -1,11 +1,11 @@
 /*global describe, it, beforeEach */
 
-var nodemon = require('../../lib/');
-var assert = require('assert');
-var path = require('path');
+import nodemon from '../../lib/index.js';
+import assert from 'assert';
+import path from 'path';
 var dir = path.resolve(__dirname, '..', 'fixtures', 'events');
 var appjs = path.resolve(dir, 'env.js');
-var async = require('async');
+import async from 'async';
 
 describe('listeners clean up', function () {
   function conf() {

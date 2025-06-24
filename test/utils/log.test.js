@@ -1,10 +1,10 @@
 'use strict';
 /*global describe:true, it: true */
-var Logger = require('../../lib/utils/log');
+import Logger from '../../lib/utils/log.js';
 var logger = new Logger(true);
-var bus = require('../../lib/utils/bus');
-var colour = require('../../lib/utils/colour');
-var assert = require('assert');
+import bus from '../../lib/utils/bus.js';
+import colour from '../../lib/utils/colour.js';
+import assert from 'assert';
 
 describe('logger', function () {
   var types = {

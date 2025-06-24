@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true */
-var utils = require('../utils'),
-    assert = require('assert'),
+import utils from '../utils.js';
+import assert from 'assert';,
     path = require('path'),
     appjs = path.relative(process.cwd(), path.resolve(__dirname, '..', 'fixtures', 'sigint.js')),
     match = utils.match,

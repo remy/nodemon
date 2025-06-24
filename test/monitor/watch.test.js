@@ -1,10 +1,10 @@
 'use-strict';
 
-var assert = require('assert');
-var chokidar = require('chokidar');
-var process = require('process');
-var config = require('../../lib/config');
-var watch = require('../../lib/monitor/watch');
+import assert from 'assert';
+import chokidar from 'chokidar';
+import process from 'process';
+import config from '../../lib/config.js';
+import watch from '../../lib/monitor/watch.js';
 
 describe('watch', function() {
   it('should pass watchOptions to the watcher', function(done) {

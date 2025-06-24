@@ -1,6 +1,6 @@
 /*global describe:true, it: true */
-var help = require('../../lib/help'),
-    assert = require('assert');
+import help from '../../lib/help.js';
+import assert from 'assert';;
 
 describe('help', function () {
   it('should load index by default', function () {

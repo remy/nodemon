@@ -1,16 +1,16 @@
 'use strict';
 /*global describe, it, afterEach, beforeEach, after */
-var load = require('../../lib/config/load');
-var defaults = require('../../lib/config/defaults');
-var cli = require('../../lib/cli/');
-var path = require('path');
-var testUtils = require('../utils');
-var utils = require('../../lib/utils');
-var rules = require('../../lib/rules');
-var exec = require('../../lib/config/exec');
-var nodemon = require('../../lib/nodemon');
-var command = require('../../lib/config/command');
-var assert = require('assert');
+import load from '../../lib/config/load.js';
+import defaults from '../../lib/config/defaults.js';
+import cli from '../../lib/cli/index.js';
+import path from 'path';
+import testUtils from '../utils.js';
+import utils from '../../lib/utils/index.js';
+import rules from '../../lib/rules/index.js';
+import exec from '../../lib/config/exec.js';
+import nodemon from '../../lib/nodemon.js';
+import command from '../../lib/config/command.js';
+import assert from 'assert';
 
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd || '')).trim();

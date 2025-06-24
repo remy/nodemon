@@ -2,12 +2,12 @@
 /*global describe, it, after, afterEach */
 let debugLogger = {};
 const nodemon = require('../../lib/');
-var assert = require('assert');
-var fs = require('fs');
-var utils = require('../utils');
-var path = require('path');
-var touch = require('touch');
-var crypto = require('crypto');
+import assert from 'assert';
+import fs from 'fs';
+import utils from '../utils.js';
+import path from 'path';
+import touch from 'touch';
+import crypto from 'crypto';
 var baseFilename =
   'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 

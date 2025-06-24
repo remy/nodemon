@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
-var cli = require('../../lib/cli/'),
-  path = require('path'),
+import cli from '../../lib/cli/index.js';
+import path from 'path';,
   testUtils = require('../utils'),
   utils = require('../../lib/utils'),
   exec = require('../../lib/config/exec'),

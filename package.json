@@ -50,7 +50,7 @@
     "coffee-script": "~1.7.1",
     "eslint": "^7.32.0",
     "husky": "^7.0.4",
-    "mocha": "^2.5.3",
+    "mocha": "^10.8.2",
     "nyc": "^15.1.0",
     "proxyquire": "^1.8.0",
     "semantic-release": "^18.0.0",

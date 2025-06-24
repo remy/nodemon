@@ -1,6 +1,6 @@
 /*global describe:true, it: true */
-var assert = require('assert'),
-  utils = require('../utils'),
+import assert from 'assert';
+import utils from '../utils.js';,
   appjs = utils.appjs,
   run = utils.run;
 

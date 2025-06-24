@@ -1,7 +1,7 @@
 'use strict';
 /*global describe:true, it: true */
-var assert = require('assert'),
-  match = require('../../lib/monitor/match'),
+import assert from 'assert';
+import match from '../../lib/monitor/match.js';,
   config = require('../../lib/config'),
   path = require('path'),
   fs = require('fs'),

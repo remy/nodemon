@@ -1,6 +1,6 @@
 /*global describe:true, it: true */
-var merge = require('../../lib/utils/merge'),
-    assert = require('assert');
+import merge from '../../lib/utils/merge.js';
+import assert from 'assert';;
 
 function getOriginal() {
   return {

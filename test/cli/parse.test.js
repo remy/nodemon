@@ -1,13 +1,12 @@
 'use strict';
 /*global describe:true, it: true */
-var cli = require('../../lib/cli/'),
-  exec = require('../../lib/config/exec'),
-  pkg = require('../../package'),
-  assert = require('assert'),
-  command = require('../../lib/config/command'),
-  utils = require('../../lib/utils');
-
-const mutateExecOptions = require('../../lib/config/load').mutateExecOptions;
+import cli from '../../lib/cli/index.js';
+import exec from '../../lib/config/exec.js';
+import pkg from '../../package.json' assert { type: 'json' };
+import assert from 'assert';
+import command from '../../lib/config/command.js';
+import utils from '../../lib/utils/index.js';
+import { mutateExecOptions } from '../../lib/config/load.js';
 
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd || '')).trim();
