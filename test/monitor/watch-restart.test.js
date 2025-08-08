@@ -2,20 +2,20 @@
 /*global describe, it, after, afterEach */
 let debugLogger = {};
 const nodemon = require('../../lib/');
-var assert = require('assert');
-var fs = require('fs');
-var utils = require('../utils');
-var path = require('path');
-var touch = require('touch');
-var crypto = require('crypto');
-var baseFilename =
+const assert = require('assert');
+const fs = require('fs');
+const utils = require('../utils');
+const path = require('path');
+const touch = require('touch');
+const crypto = require('crypto');
+const baseFilename =
   'test/fixtures/test' + crypto.randomBytes(16).toString('hex');
 
-var WAIT_BEFORE_START = 3000;
+const WAIT_BEFORE_START = 3000;
 
 describe('nodemon monitor child restart', function () {
-  var tmpjs = path.resolve(baseFilename + '.js');
-  var tmpmd = path.resolve(baseFilename + '.md');
+  const tmpjs = path.resolve(baseFilename + '.js');
+  const tmpmd = path.resolve(baseFilename + '.md');
 
   function write(both) {
     fs.writeFileSync(tmpjs, 'true;');
@@ -24,8 +24,8 @@ describe('nodemon monitor child restart', function () {
     }
   }
 
-  var pwd = process.cwd();
-  var oldhome = utils.home;
+  const pwd = process.cwd();
+  const oldhome = utils.home;
 
   afterEach(function () {
     debugLogger = {};
@@ -86,13 +86,13 @@ describe('nodemon monitor child restart', function () {
           }, 1500);
         })
         .on('log', function (event) {
-          var msg = event.message;
+          const msg = event.message;
           if (utils.match(msg, 'changes after filters')) {
-            var changes = msg
+            const changes = msg
               .trim()
               .slice(-5)
               .split('/');
-            var restartedOn = changes.pop();
+            let restartedOn = changes.pop();
             assert(
               restartedOn === '1',
               'nodemon restarted on a single file change'

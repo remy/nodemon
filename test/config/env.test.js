@@ -1,11 +1,11 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var nodemon = require('../../lib/'),
+const nodemon = require('../../lib/'),
   path = require('path'),
   assert = require('assert');
 
 describe('when nodemon runs (1)', function () {
-  var tmp = path.resolve('test/fixtures/env.js');
+  const tmp = path.resolve('test/fixtures/env.js');
   after(function (done) {
     // clean up just in case.
     nodemon

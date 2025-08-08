@@ -1,17 +1,17 @@
 'use-strict';
 
-var assert = require('assert');
-var chokidar = require('chokidar');
-var process = require('process');
-var config = require('../../lib/config');
-var watch = require('../../lib/monitor/watch');
+const assert = require('assert');
+const chokidar = require('chokidar');
+const process = require('process');
+const config = require('../../lib/config');
+const watch = require('../../lib/monitor/watch');
 
 describe('watch', function() {
   it('should pass watchOptions to the watcher', function(done) {
     process.chdir(process.cwd() + '/test/fixtures/configs');
 
-    var passedOptions = {};
-    var originalWatch = chokidar.watch;
+    let passedOptions = {};
+    const originalWatch = chokidar.watch;
     chokidar.watch = function(dirs, options) {
       passedOptions = options;
       return originalWatch(dirs, options);

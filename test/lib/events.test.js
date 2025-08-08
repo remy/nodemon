@@ -1,5 +1,5 @@
 /*global describe:true, it: true */
-var nodemon = require('../../lib/'),
+const nodemon = require('../../lib/'),
     assert = require('assert');
 
 describe('nodemon events', function () {

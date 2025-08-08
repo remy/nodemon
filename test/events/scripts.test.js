@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, afterEach: true, beforeEach: true, after:true */
-var cli = require('../../lib/cli/'),
+const cli = require('../../lib/cli/'),
   path = require('path'),
   testUtils = require('../utils'),
   utils = require('../../lib/utils'),
@@ -15,7 +15,7 @@ function asCLI(cmd) {
 }
 
 function parse(cmd) {
-  var parsed = cli.parse(cmd);
+  const parsed = cli.parse(cmd);
   parsed.execOptions = exec(parsed);
   return parsed;
 }
@@ -25,7 +25,7 @@ function commandToString(command) {
 }
 
 describe('nodemon API events', function () {
-  var pwd = process.cwd(),
+  const pwd = process.cwd(),
     oldhome = utils.home;
 
   afterEach(function () {
@@ -50,7 +50,7 @@ describe('nodemon API events', function () {
   });
 
   it('should trigger start event script', function (done) {
-    var plan = new testUtils.Plan(4, done);
+    const plan = new testUtils.Plan(4, done);
     nodemon({
       script: appjs,
       verbose: true,

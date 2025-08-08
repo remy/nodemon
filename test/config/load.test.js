@@ -1,16 +1,16 @@
 'use strict';
 /*global describe, it, afterEach, beforeEach, after */
-var load = require('../../lib/config/load');
-var defaults = require('../../lib/config/defaults');
-var cli = require('../../lib/cli/');
-var path = require('path');
-var testUtils = require('../utils');
-var utils = require('../../lib/utils');
-var rules = require('../../lib/rules');
-var exec = require('../../lib/config/exec');
-var nodemon = require('../../lib/nodemon');
-var command = require('../../lib/config/command');
-var assert = require('assert');
+const load = require('../../lib/config/load');
+const defaults = require('../../lib/config/defaults');
+const cli = require('../../lib/cli/');
+const path = require('path');
+const testUtils = require('../utils');
+const utils = require('../../lib/utils');
+const rules = require('../../lib/rules');
+const exec = require('../../lib/config/exec');
+const nodemon = require('../../lib/nodemon');
+const command = require('../../lib/config/command');
+const assert = require('assert');
 
 function asCLI(cmd) {
   return ('node nodemon ' + (cmd || '')).trim();
@@ -21,7 +21,7 @@ function commandToString(command) {
 }
 
 describe('config load', function () {
-  var pwd = process.cwd(),
+  const pwd = process.cwd(),
     oldhome = utils.home;
 
   afterEach(function () {
@@ -89,14 +89,14 @@ describe('config load', function () {
   });
 
   it('should read global config', function (done) {
-    var config = {},
+    const config = {},
       settings = { quiet: true },
       options = {};
     load(settings, options, config, function (config) {
       assert(config.verbose, 'we are verbose');
 
       // ensure global mapping works too
-      var options = exec({ script: 'template.pug' }, config.execMap);
+      let options = exec({ script: 'template.pug' }, config.execMap);
       assert(
         options.exec === 'bin/pug template.pug --out /tmp',
         'exec used, should be "bin/pug": ' + options.exec
@@ -107,10 +107,10 @@ describe('config load', function () {
   });
 
   it('should read package.json config', function (done) {
-    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    const dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = { quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -120,7 +120,7 @@ describe('config load', function () {
   });
 
   it('should give local files preference', function (done) {
-    var config = {},
+    const config = {},
       settings = { quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -143,13 +143,13 @@ describe('config load', function () {
   });
 
   it('should give local files preference over package.json config', function (done) {
-    var dir = path.resolve(
+    const dir = path.resolve(
       pwd,
       'test/fixtures/packages/nodemon-settings-and-package-json-settings'
     );
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = { quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -159,10 +159,10 @@ describe('config load', function () {
   });
 
   it('should give package.json config preference', function (done) {
-    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    const dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = { quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -186,7 +186,7 @@ describe('config load', function () {
   });
 
   it('should give user specified settings preference', function (done) {
-    var config = {},
+    const config = {},
       settings = { ignore: ['one'], watch: ['one'], quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -205,10 +205,10 @@ describe('config load', function () {
   });
 
   it('should give user specified settings preference over package.json config', function (done) {
-    var dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
+    const dir = path.resolve(pwd, 'test/fixtures/packages/package-json-settings');
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = { exec: 'foo-user', quiet: true },
       options = {};
     load(settings, options, config, function (config) {
@@ -222,10 +222,10 @@ describe('config load', function () {
   });
 
   it('should give user specified exec preference over package.scripts.start', function (done) {
-    var dir = path.resolve(pwd, 'test/fixtures/packages/start-and-settings');
+    const dir = path.resolve(pwd, 'test/fixtures/packages/start-and-settings');
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = { script: './index.js' },
       options = {};
 
@@ -236,13 +236,13 @@ describe('config load', function () {
   });
 
   it('should give package.json specified exec config over package.scripts.start', function (done) {
-    var dir = path.resolve(
+    const dir = path.resolve(
       pwd,
       'test/fixtures/packages/start-and-package-json-settings'
     );
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = {},
       options = {};
 
@@ -254,12 +254,12 @@ describe('config load', function () {
 
   // it('should put the script at the end if found in package.scripts.start', function (done) {
   //   process.chdir(path.resolve(pwd, 'test/fixtures/packages/start')); // allows us to load text/fixtures/package.json
-  //   var settings = cli.parse(asCLI('--harmony'));
-  //   var config = {};
-  //   var options = {};
+  //   const settings = cli.parse(asCLI('--harmony'));
+  //   const config = {};
+  //   const options = {};
 
   //   load(settings, options, config, function (config) {
-  //     var cmd = commandToString(command(config));
+  //     const cmd = commandToString(command(config));
   //     assert.equal(cmd, 'node --harmony app.js', 'command is ' + cmd);
   //     done();
   //   });
@@ -271,7 +271,7 @@ describe('config load', function () {
     process.chdir(path.resolve(pwd, 'test/fixtures/legacy'));
     utils.home = path.resolve(pwd, 'test/fixtures/legacy');
 
-    var settings = {
+    let settings = {
       script: './index.js',
       verbose: true,
       ignore: ['*/artic/templates/*'],
@@ -279,11 +279,11 @@ describe('config load', function () {
       watch: ['*.coffee'],
       execMap: { js: 'node --harmony', coffee: 'node --harmony' },
     };
-    var config = {};
-    var options = {};
+    const config = {};
+    let options = {};
 
     load(settings, options, config, function (config) {
-      var cmd = commandToString(command(config));
+      const cmd = commandToString(command(config));
       assert(cmd === 'node --harmony ./index.js', 'cmd is: ' + cmd);
       done();
     });
@@ -388,10 +388,10 @@ describe('config load', function () {
   });
 
   it('should give package.main preference for script over index.js', function (done) {
-    var dir = path.resolve(pwd, 'test/fixtures/packages/main-and-index');
+    const dir = path.resolve(pwd, 'test/fixtures/packages/main-and-index');
     process.chdir(dir);
 
-    var config = {},
+    const config = {},
       settings = {},
       options = {};
 

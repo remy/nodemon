@@ -1,7 +1,7 @@
-var repl = require('repl');
+const repl = require('repl');
 
 // Start Express or something, when it's up, startup the REPL
-var rpl = repl.start('REPL> ');
+const rpl = repl.start('REPL> ');
 
 rpl.commands['.hello'] = {
   help: 'Hello world command.',

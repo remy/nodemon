@@ -20,8 +20,8 @@ if (false && !process.env.TRAVIS && process.platform === 'darwin') {
     });
 
     it('should start a fork exec with quotes and escaping', done => {
-      var found = false;
-      var p = run({
+      let found = false;
+      const p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
         args: ['-q', '--exec', filenames[0][0]]
@@ -50,8 +50,8 @@ if (false && !process.env.TRAVIS && process.platform === 'darwin') {
     });
 
     it('should start a fork exec with spaces and slashes', done => {
-      var found = false;
-      var p = run({
+      let found = false;
+      const p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
         args: ['-q', '--exec', `"${filenames[1][0]}`]

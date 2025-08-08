@@ -1,12 +1,12 @@
 /*global describe:true, it: true */
-var assert = require('assert'),
+const assert = require('assert'),
   utils = require('../utils'),
   appjs = utils.appjs,
   run = utils.run;
 
 describe('nodemon fork', function () {
   it('should not show user-signal', done => {
-    var p = run({ exec: 'bin/nodemon.js',
+    const p = run({ exec: 'bin/nodemon.js',
     args: [ '-V', '-x', 'echo running && sleep 20' ] }, {
       error: function (data) {
         p.send('quit');
@@ -40,7 +40,7 @@ describe('nodemon fork', function () {
   });
 
   it('should start a fork', function (done) {
-    var p = run(appjs, {
+    const p = run(appjs, {
       error: function (data) {
         p.send('quit');
         done(new Error(data));
@@ -58,8 +58,8 @@ describe('nodemon fork', function () {
 
   if (!process.env.TRAVIS) {
     it('should start a fork exec with a space without args', function (done) {
-      var found = false;
-      var p = run({
+      let found = false;
+      const p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
         args: ['-q', '--exec', 'test/fixtures/app\\ with\\ spaces.js']
@@ -88,8 +88,8 @@ describe('nodemon fork', function () {
     });
 
     it('should start a fork exec with a space with args', function (done) {
-      var found = false;
-      var p = run({
+      let found = false;
+      const p = run({
         exec: 'bin/nodemon.js',
         // make nodemon verbose so we can check the filters being applied
         args: ['-q', '--exec', '"test/fixtures/app with spaces.js" foo'],
@@ -119,8 +119,8 @@ describe('nodemon fork', function () {
   }
 
   it('should start a fork exec with a space with args (escaped)', function (done) {
-    var found = false;
-    var p = run({
+    const found = false;
+    const p = run({
       exec: 'bin/nodemon.js',
       // make nodemon verbose so we can check the filters being applied
       args: ['-q', '--exec', 'test/fixtures/app\\ with\\ spaces.js foo']

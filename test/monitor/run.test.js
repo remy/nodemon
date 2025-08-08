@@ -1,19 +1,19 @@
 'use strict';
 /*global describe:true, it: true, after: true, beforeEach */
-var nodemon = require('../../lib/');
-var assert = require('assert');
-var fs = require('fs');
-var path = require('path');
-var touch = require('touch');
-var crypto = require('crypto');
+const nodemon = require('../../lib/');
+const assert = require('assert');
+const fs = require('fs');
+const path = require('path');
+const touch = require('touch');
+const crypto = require('crypto');
 
 function rnd() {
   return crypto.randomBytes(16).toString('hex');
 }
 
 describe('when nodemon runs (2)', function () {
-  var tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
-  var tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
+  const tmp = path.resolve('test/fixtures/test' + rnd() + '.js');
+  const tmp2 = path.resolve('test/fixtures/test' + rnd() + '-added.js');
 
   afterEach(function () {
     if (fs.existsSync(tmp)) {
@@ -70,7 +70,7 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should wait when the script cleanly exits', function (done) {
-    fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 1000)');
+    fs.writeFileSync(tmp, 'setTimeout(function () { const n = 10; }, 1000)');
 
     nodemon({ script: tmp }).on('crash', function () {
       assert(false, 'detected crashed state');
@@ -89,20 +89,20 @@ describe('when nodemon runs (2)', function () {
   });
 
   it('should expose readable streams when stdout is false', function (done) {
-    var stdoutTestData = 'outputting some data';
-    var stderrTestData = 'outputting an error';
+    const stdoutTestData = 'outputting some data';
+    const stderrTestData = 'outputting an error';
 
-    var script = 'setTimeout(function () { console.log("' + stdoutTestData +
+    const script = 'setTimeout(function () { console.log("' + stdoutTestData +
       '"); }, 5); setTimeout(function () { console.error("' + stderrTestData +
       '"); }, 10);';
 
     fs.writeFileSync(tmp, script);
 
-    var stdoutFileName = 'test/fixtures/stdout.txt';
-    var stderrFileName = 'test/fixtures/stderr.txt';
+    const stdoutFileName = 'test/fixtures/stdout.txt';
+    const stderrFileName = 'test/fixtures/stderr.txt';
 
-    var stdoutWritable = fs.createWriteStream(stdoutFileName);
-    var stderrWritable = fs.createWriteStream(stderrFileName);
+    const stdoutWritable = fs.createWriteStream(stdoutFileName);
+    const stderrWritable = fs.createWriteStream(stderrFileName);
 
     nodemon({
       script: tmp,
@@ -120,8 +120,8 @@ describe('when nodemon runs (2)', function () {
       stdoutWritable.end();
       stderrWritable.end();
 
-      var stdoutWritableResult = fs.readFileSync(stdoutFileName);
-      var stderrWritableResult = fs.readFileSync(stderrFileName);
+      const stdoutWritableResult = fs.readFileSync(stdoutFileName);
+      const stderrWritableResult = fs.readFileSync(stderrFileName);
 
       assert(stdoutWritableResult === stdoutTestData,
         'stdout has been piped correctly');
@@ -146,7 +146,7 @@ describe('when nodemon runs (2)', function () {
   // file should not be created 
   it('should not run command on startup if runOnChangeOnly is true',
     function (done) {
-      var script =  "var touch = require('touch');\n"
+      const script =  "var touch = require('touch');\n"
                     + "touch.sync(" + tmp2 + ");\n"
       fs.writeFileSync(tmp, script);
 
@@ -167,7 +167,7 @@ describe('when nodemon runs (2)', function () {
     });
 
   it('should kill child on SIGINT', function (done) {
-    fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
+    fs.writeFileSync(tmp, 'setTimeout(function () { const n = 10; }, 10000)');
 
     nodemon({ script: tmp, verbose: true }).on('start', function () {
       assert(true, 'nodemon is waiting for a change');

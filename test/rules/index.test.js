@@ -1,12 +1,12 @@
 'use strict';
 /*global describe:true, it: true, beforeEach: true */
-var fs = require('fs'),
+const fs = require('fs'),
     nodemon = require('../../lib/nodemon'),
     rules = require('../../lib/rules'),
     assert = require('assert');
 
 function loadfixtures(sample) {
-  var path = './test/fixtures/' + sample;
+  const path = './test/fixtures/' + sample;
   return {
     content: fs.readFileSync(path, 'utf8'),
     path: path
@@ -14,7 +14,7 @@ function loadfixtures(sample) {
 }
 
 describe('nodemon rules', function () {
-  var fixtures = {
+  const fixtures = {
     comments: loadfixtures('comments'),
     regexp: loadfixtures('regexp'),
     default: loadfixtures('default'),

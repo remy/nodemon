@@ -1,6 +1,6 @@
 'use strict';
 /*global describe:true, it: true, after: true */
-var assert = require('assert'),
+const assert = require('assert'),
   path = require('path'),
   fs = require('fs'),
   utils = require('../utils'),
@@ -13,7 +13,7 @@ var assert = require('assert'),
   };
 
 function ignore(rule, done, file) {
-  var p = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
+  const p = run((rule ? ('-i ' + rule + ' ') : '') + appjs, {
     output: function (data) {
       // console.log(data.trim());
     },
