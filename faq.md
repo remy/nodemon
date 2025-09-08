@@ -278,7 +278,7 @@ The workaround is to run the following command:
 fsutil behavior set disablelastaccess 1
 ```
 
-[Futher reading thread](https://github.com/remy/nodemon/issues/1354)
+[Further reading thread](https://github.com/remy/nodemon/issues/1354)
 
 ## Error: Cannot find module 'internal/util/types'
 
