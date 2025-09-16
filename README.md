@@ -63,6 +63,11 @@ nodemon will also search for the `scripts.start` property in `package.json` (as 
 
 Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
 
+```bash
+# Running nodemon with a specific extension
+nodemon --ext js,html,css
+```
+
 ## Automatic re-running
 
 nodemon was originally written to restart hanging processes such as web servers, but now supports apps that cleanly exit. If your script exits cleanly, nodemon will continue to monitor the directory (or directories) and restart the script if there are any changes.
@@ -431,6 +436,13 @@ Support this project by becoming a sponsor. Your logo will show up here with a l
 </div>
 
 Please note that links to the sponsors above are not direct endorsements nor affiliated with any of contributors of the nodemon project.
+
+### Contributors
+- Sandeshkumar Yadav (First OSS contribution 🚀)
+
+### Notes for Lab Experiment
+This edit was made as part of a lab experiment on learning how to fork, clone, and contribute to open source.
+
 
 # License
 
