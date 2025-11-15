@@ -24,7 +24,7 @@ def getUrl:
       "532050": "https://skweezer.net/buy-instagram-followers",
       "596376": "https://buzzoid.com/buy-instagram-followers/",
       "725832": "https://www.favbet.ro/ro/casino/pacanele/",
-      "751387": "https://www.softorbits.net/ai-undresser/"
+      "751387": "https://www.linkedin.com/company/softorbits/"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
