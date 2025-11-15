@@ -23,7 +23,8 @@ def getUrl:
       # "525119": "https://finance.yahoo.com/news/30-best-casinos-not-gamstop-091943696.html",
       "532050": "https://skweezer.net/buy-instagram-followers",
       "596376": "https://buzzoid.com/buy-instagram-followers/",
-      "725832": "https://www.favbet.ro/ro/casino/pacanele/"
+      "725832": "https://www.favbet.ro/ro/casino/pacanele/",
+      "751387": "https://www.softorbits.net/ai-undresser/"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
