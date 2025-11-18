@@ -24,7 +24,7 @@ def getUrl:
       "532050": "https://skweezer.net/buy-instagram-followers",
       "596376": "https://buzzoid.com/buy-instagram-followers/",
       "725832": "https://www.favbet.ro/ro/casino/pacanele/",
-      "751387": "https://www.linkedin.com/company/softorbits/"
+      "751387": "https://www.softorbits.net/convert-heic-to-jpeg/"
     } | (.["\($_.MemberId)"] // $_.website)
 ;
 
@@ -38,7 +38,8 @@ def getAlt:
       "471843": { description: "Aviators" },
       "501897": { description: "Buy Telegram Members" },
       # "525119": { description: "30 Best Casinos Not on Gamstop in 2024" },
-      "532050": { description: "buy instagram followers on skweezer.net today"}
+      "532050": { description: "buy instagram followers on skweezer.net today"},
+      "751387": { description: "Download multithreaded HEIC to JPG converter software for Windows 10/11" },
     } | (.["\($_.MemberId)"] // $_) |
 	if .description then
 		.description
