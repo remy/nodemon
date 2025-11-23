@@ -1,0 +1,41 @@
+name: website
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      NETLIFY: ${{ secrets.NETLIFY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+      - run: npm ci
+      - run: node website/oc.js
+      - name: Stage changes
+        run: git add README.md website/index.html
+      - name: Commit changes
+        id: commit
+        run: |
+          if git diff --cached --quiet; then
+            echo "committed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git config user.name "${GITHUB_ACTOR}"
+          git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
+          git commit -m "chore: website" -m "[skip ci]"
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+      - name: Push changes
+        if: steps.commit.outputs.committed == 'true'
+        run: git push origin HEAD
+      - name: Trigger Netlify
+        if: env.NETLIFY != ''
+        run: curl -X POST "$NETLIFY"
