@@ -13,7 +13,7 @@ nodemon does **not** require *any* additional changes to your code or method of 
 
 # Installation
 
-Either through cloning with git or by using [npm](http://npmjs.org) (the recommended way):
+Either through cloning with git or by using [npm](https://www.npmjs.com/package/nodemon) (the recommended way):
 
 ```bash
 npm install -g nodemon # or using yarn: yarn global add nodemon
