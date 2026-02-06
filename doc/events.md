@@ -23,7 +23,7 @@ nodemon will emit events based on the child process.
 - stderr - the stderr stream from the child process
 - readable - stdout and stderr streams are ready ([example](https://github.com/remy/nodemon#pipe-output-to-somewhere-else))
 
-Note that if you want to supress the normal stdout & stderr of the child, in favour
+Note that if you want to suppress the normal stdout & stderr of the child, in favour
 of processing the stream manually using the stdout/stderr nodemon events, pass
 nodemon the option of `stdout: false`.
 
