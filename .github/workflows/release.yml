@@ -1,20 +1,25 @@
 name: Release
 on:
   workflow_run:
-    workflows: ['tests']
+    workflows: ["tests"]
     branches: [main]
     types:
       - completed
   push:
     branches:
       - main
+
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    # Added permissions block for OIDC and GitHub Releases
+    permissions:
+      contents: write
+      id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v4 # Upgraded from v1
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,5 +30,5 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # will now use the OIDC token automatically
         run: npx semantic-release

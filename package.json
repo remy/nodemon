@@ -52,7 +52,7 @@
     "mocha": "^2.5.3",
     "nyc": "^15.1.0",
     "proxyquire": "^1.8.0",
-    "semantic-release": "^18.0.0",
+    "semantic-release": "^25.0.0",
     "should": "~4.0.0"
   },
   "dependencies": {
@@ -71,5 +71,8 @@
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/nodemon"
+  },
+  "publishConfig": {
+    "provenance": true
   }
 }
