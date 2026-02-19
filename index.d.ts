@@ -1,4 +1,4 @@
-import type { WatchOptions } from 'chokidar'
+import type { WatchOptions } from 'chokidar';
 
 export type NodemonEventHandler =
   | 'start'
@@ -16,10 +16,13 @@ export type NodemonEventListener = {
   on(event: 'start' | 'crash' | 'readable', listener: () => void): Nodemon;
   on(event: 'log', listener: (e: NodemonEventLog) => void): Nodemon;
   on(event: 'stdout' | 'stderr', listener: (e: string) => void): Nodemon;
-  on(event: 'restart', listener: (e?: NodemonEventRestart) => void): Nodemon;
+  on(event: 'restart', listener: (files?: string[]) => void): Nodemon;
   on(event: 'quit', listener: (e?: NodemonEventQuit) => void): Nodemon;
   on(event: 'exit', listener: (e?: number) => void): Nodemon;
-  on(event: 'config:update', listener: (e?: NodemonEventConfig) => void): Nodemon;
+  on(
+    event: 'config:update',
+    listener: (e?: NodemonEventConfig) => void,
+  ): Nodemon;
 };
 
 export type NodemonEventLog = {
@@ -36,13 +39,6 @@ export type NodemonEventLog = {
   colour: string;
 };
 
-export interface NodemonEventRestart {
-  matched?: {
-    result: string[];
-    total: number;
-  };
-}
-
 export type NodemonEventQuit = 143 | 130;
 
 export type NodemonEventConfig = {
@@ -56,7 +52,10 @@ export type NodemonEventConfig = {
   options: NodemonConfig;
   lastStarted: number;
   loaded: string[];
-  load: (settings: NodemonSettings, ready: (config: NodemonEventConfig) => void) => void;
+  load: (
+    settings: NodemonSettings,
+    ready: (config: NodemonEventConfig) => void,
+  ) => void;
   reset: () => void;
 };
 
@@ -115,10 +114,10 @@ export type Nodemon = {
   restart(): Nodemon;
   config: NodemonSettings;
 } & NodemonEventListener & {
-  [K in keyof NodemonEventListener as "addListener"]: NodemonEventListener[K];
-} & {
-  [K in keyof NodemonEventListener as "once"]: NodemonEventListener[K];
-};
+    [K in keyof NodemonEventListener as 'addListener']: NodemonEventListener[K];
+  } & {
+    [K in keyof NodemonEventListener as 'once']: NodemonEventListener[K];
+  };
 
 declare const nodemon: Nodemon;
 
