@@ -5,21 +5,21 @@ on:
     branches: [main]
     types:
       - completed
-  push:
-    branches:
-      - main
 
 jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    # Added permissions block for OIDC and GitHub Releases
+    # This line ensures the release ONLY runs if the 'tests' workflow passed
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     permissions:
       contents: write
       id-token: write
+      issues: write
+      pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4 # Upgraded from v1
+        uses: actions/checkout@v4
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
