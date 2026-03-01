@@ -52,5 +52,5 @@ Note: there's no `removeListener` (happy to take a pull request if it's needed).
 
 ### Test utilities
 
-- `nodemon.reset()` - reverts nodemon's internal state to a clean slate
+- `nodemon.reset()` - reverts nodemon's internal state to a clean state
 - `nodemon.config` - a reference to the internal config nodemon uses
