@@ -6,9 +6,9 @@ This is a working document, and if it makes sense, I'll take pull requests to he
 
 # How to clear the console on restart
 
-Rather than being a(nother) feature in nodemon, and as per the [design principles](https://github.com/remy/nodemon#design-principles) you can clear the console using nodemon's existing architecture.
+Rather than being a(nother) feature in nodemon, and as per the [design principles](https://github.com/remy/nodemon#design-principles), you can clear the console using nodemon's existing architecture.
 
-In your `nodemon.json` (or in your `package.json`) you can include the follow event handler to always clear the console when nodemon starts:
+In your `nodemon.json` (or in your `package.json`) you can include the following event handler to always clear the console when nodemon starts:
 
 ```json
 {
@@ -34,7 +34,7 @@ $ nodemon --watch .env --watch app app/index.js
 
 # nodemon doesn't work with my REPL
 
-Create an nodemon.json file with the setting:
+Create a nodemon.json file with the setting:
 
 ```js
 {
@@ -131,7 +131,7 @@ However, there are defaults in the ignore rules that your rules will be merged w
 
 The way the ignore rules work is that your rules are merged with the `ignoreRoot` rules, which contain `['.git', 'node_modules', ...]`. So if you ignore `public`, the ignore rule results in `['.git', 'node_modules', ..., 'public']`.
 
-Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to you local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
+Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to your local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
 
 ```json
 {
@@ -278,7 +278,7 @@ The workaround is to run the following command:
 fsutil behavior set disablelastaccess 1
 ```
 
-[Futher reading thread](https://github.com/remy/nodemon/issues/1354)
+[Further reading thread](https://github.com/remy/nodemon/issues/1354)
 
 ## Error: Cannot find module 'internal/util/types'
 
