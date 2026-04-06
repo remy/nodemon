@@ -61,7 +61,7 @@ If you have a `package.json` file for your app, you can omit the main script ent
 
 nodemon will also search for the `scripts.start` property in `package.json` (as of nodemon 1.1.x).
 
-Also check out the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
+Also check out the [FAQ](https://github.com/remy/nodemon/blob/main/faq.md) or [issues](https://github.com/remy/nodemon/issues) for nodemon.
 
 ## Automatic re-running
 
@@ -96,7 +96,7 @@ A config file can take any of the command line arguments as JSON key values, for
 
 The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
 
-A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md)
+A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/main/doc/sample-nodemon.md)
 
 ### package.json
 
@@ -117,7 +117,7 @@ Specify the config in the same format as you would for a config file but under `
 
 Note that if you specify a `--config` file or provide a local `nodemon.json` any `package.json` config is ignored.
 
-*This section needs better documentation, but for now you can also see `nodemon --help config` ([also here](https://github.com/remy/nodemon/blob/master/doc/cli/config.txt))*.
+*This section needs better documentation, but for now you can also see `nodemon --help config` ([also here](https://github.com/remy/nodemon/blob/main/doc/cli/config.txt))*.
 
 ## Using nodemon as a module
 
@@ -157,7 +157,7 @@ Now running the following, nodemon will know to use `perl` as the executable:
 nodemon script.pl
 ```
 
-It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged in to the project so that nodemon supports it by default, by changing [default.js](https://github.com/remy/nodemon/blob/master/lib/config/defaults.js) and sending a pull request.
+It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged in to the project so that nodemon supports it by default, by changing [default.js](https://github.com/remy/nodemon/blob/main/lib/config/defaults.js) and sending a pull request.
 
 ## Monitoring multiple directories
 
@@ -205,7 +205,7 @@ nodemon --ignore 'lib/*.js'
 
 **Important** the ignore rules are patterns matched to the full absolute path, and this determines how many files are monitored. If using a wild card glob pattern, it needs to be used as `**` or omitted entirely. For example, `nodemon --ignore '**/test/**'` will work, whereas `--ignore '*/test/*'` will not.
 
-Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/master/faq.md#overriding-the-underlying-default-ignore-rules).
+Note that by default, nodemon will ignore the `.git`, `node_modules`, `bower_components`, `.nyc_output`, `coverage` and `.sass-cache` directories and *add* your ignored patterns to the list. If you want to indeed watch a directory like `node_modules`, you need to [override the underlying default ignore rules](https://github.com/remy/nodemon/blob/main/faq.md#overriding-the-underlying-default-ignore-rules).
 
 ## Application isn't restarting
 
@@ -360,7 +360,7 @@ Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm complete
 
 ## FAQ
 
-See the [FAQ](https://github.com/remy/nodemon/blob/master/faq.md) and please add your own questions if you think they would help others.
+See the [FAQ](https://github.com/remy/nodemon/blob/main/faq.md) and please add your own questions if you think they would help others.
 
 ## Backers
 
