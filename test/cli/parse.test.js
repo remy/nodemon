@@ -373,6 +373,11 @@ describe('nodemon with CoffeeScript', function () {
 });
 
 describe('nodemon --delay argument', function () {
+  it('should support missing value gracefully', function () {
+    var settings = cli.parse('node nodemon --delay');
+    assert(settings.delay === 0, 'delay 0 seconds');
+  });
+
   it('should support an integer value', function () {
     var settings = cli.parse('node nodemon --delay 5');
     assert(settings.delay === 5000, 'delay 5 seconds');
