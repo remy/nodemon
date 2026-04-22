@@ -27,7 +27,7 @@ You can also install nodemon as a development dependency:
 npm install --save-dev nodemon # or using yarn: yarn add nodemon -D
 ```
 
-With a local installation, nodemon will not be available in your system path or you can't use it directly from the command line. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
+With a local installation, nodemon will not be available in your system path, so you can't use it directly from the command line. Instead, the local installation of nodemon can be run by calling it from within an npm script (such as `npm start`) or using `npx nodemon`.
 
 # Usage
 
@@ -43,7 +43,7 @@ For CLI options, use the `-h` (or `--help`) argument:
 nodemon -h
 ```
 
-Using nodemon is simple, if my application accepted a host and port as the arguments, I would start it as so:
+Using nodemon is simple, if my application accepted a host and port as the arguments, I would start it like so:
 
 ```bash
 nodemon ./server.js localhost 8080
@@ -94,7 +94,7 @@ A config file can take any of the command line arguments as JSON key values, for
 }
 ```
 
-The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can run `nodemon demo.pde` and nodemon will automatically know how to run the script even though out of the box support for processing scripts.
+The above `nodemon.json` file might be my global config so that I have support for ruby files and processing files, and I can run `nodemon demo.pde` and nodemon will automatically know how to run the script even though there is no out-of-the-box support for processing scripts.
 
 A further example of options can be seen in [sample-nodemon.md](https://github.com/remy/nodemon/blob/master/doc/sample-nodemon.md)
 
@@ -167,7 +167,7 @@ By default nodemon monitors the current working directory. If you want to take c
 nodemon --watch app --watch libs app/server.js
 ```
 
-Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need in explicitly including sub-directories.
+Now nodemon will only restart if there are changes in the `./app` or `./libs` directory. By default nodemon will traverse sub-directories, so there's no need to explicitly include sub-directories.
 
 Nodemon also supports unix globbing, e.g `--watch './lib/*'`. The globbing pattern must be quoted. For advanced globbing, [see `picomatch` documentation](https://github.com/micromatch/picomatch#advanced-globbing), the library that nodemon uses through `chokidar` (which in turn uses it through `anymatch`).
 
@@ -253,7 +253,7 @@ nodemon --delay 2.5
 }
 ```
 
-## Gracefully reloading down your script
+## Gracefully reloading your script
 
 It is possible to have nodemon send any signal that you specify to your application.
 
@@ -272,7 +272,7 @@ process.on("SIGHUP", function () {
 
 Please note that nodemon will send this signal to every process in the process tree.
 
-If you are using `cluster`, then each workers (as well as the master) will receive the signal. If you wish to terminate all workers on receiving a `SIGHUP`, a common pattern is to catch the `SIGHUP` in the master, and forward `SIGTERM` to all workers, while ensuring that all workers ignore `SIGHUP`.
+If you are using `cluster`, then each worker (as well as the master) will receive the signal. If you wish to terminate all workers on receiving a `SIGHUP`, a common pattern is to catch the `SIGHUP` in the master, and forward `SIGTERM` to all workers, while ensuring that all workers ignore `SIGHUP`.
 
 ```js
 if (cluster.isMaster) {
@@ -356,7 +356,7 @@ The answer is simple, but possibly frustrating. I'm not saying (how I pronounce 
 - Offer all CLI functionality as an API
 - Contributions must have and pass tests
 
-Nodemon is not perfect, and CLI arguments has sprawled beyond where I'm completely happy, but perhaps it can be reduced a little one day.
+Nodemon is not perfect, and CLI arguments have sprawled beyond where I'm completely happy, but perhaps they can be reduced a little one day.
 
 ## FAQ
 

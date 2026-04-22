@@ -1,6 +1,6 @@
 # Nodemon as a required module
 
-Nodemon (as of 1.0.0) also works as a required module. At present, you can only require nodemon in to your project once (as there are static config variables), but you can re-run with new settings for a different application to monitor.
+Nodemon (as of 1.0.0) also works as a required module. At present, you can only require nodemon into your project once (as there are static config variables), but you can re-run with new settings for a different application to monitor.
 
 By requiring nodemon, you can extend its functionality. Below is a simple example of using nodemon in your project:
 
@@ -22,7 +22,7 @@ nodemon.on('start', function () {
 });
 ```
 
-Nodemon will emit a number of [events](https://github.com/remy/nodemon/blob/master/doc/events.md) by default, and when in verbose mode will also emit a `log` event (which matches what the nodemon cli tool echos).
+Nodemon will emit a number of [events](https://github.com/remy/nodemon/blob/master/doc/events.md) by default, and when in verbose mode will also emit a `log` event (which matches what the nodemon cli tool echoes).
 
 ## Arguments
 
