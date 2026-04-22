@@ -119,7 +119,7 @@ If you see nodemon trying to run two scripts, like:
 9 Dec 23:52:58 - [nodemon] starting `node ./app.js fixtures/sigint.js`
 ```
 
-This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file _was_ found. I.e. to solve, double check the path to your script is correct.
+This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file _was_ found. i.e. to solve, double check the path to your script is correct.
 
 ## What has precedence, ignore or watch?
 
