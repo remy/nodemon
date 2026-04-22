@@ -2,7 +2,7 @@
 
 Nodemon (as of 1.0.0) also works as a required module. At present, you can only require nodemon in to your project once (as there are static config variables), but you can re-run with new settings for a different application to monitor.
 
-By requiring nodemon, you can extend it's functionality. Below is a simple example of using nodemon in your project:
+By requiring nodemon, you can extend its functionality. Below is a simple example of using nodemon in your project:
 
 ```js
 var nodemon = require('nodemon');

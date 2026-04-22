@@ -69,7 +69,7 @@ nodemon was originally written to restart hanging processes such as web servers,
 
 ## Manual restarting
 
-Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restart nodemon, you can type `rs` with a carriage return, and nodemon will restart your process.
+Whilst nodemon is running, if you need to manually restart your application, instead of stopping and restarting nodemon, you can type `rs` with a carriage return, and nodemon will restart your process.
 
 ## Config files
 
@@ -157,7 +157,7 @@ Now running the following, nodemon will know to use `perl` as the executable:
 nodemon script.pl
 ```
 
-It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged in to the project so that nodemon supports it by default, by changing [default.js](https://github.com/remy/nodemon/blob/master/lib/config/defaults.js) and sending a pull request.
+It's generally recommended to use the global `nodemon.json` to add your own `execMap` options. However, if there's a common default that's missing, this can be merged into the project so that nodemon supports it by default, by changing [default.js](https://github.com/remy/nodemon/blob/master/lib/config/defaults.js) and sending a pull request.
 
 ## Monitoring multiple directories
 

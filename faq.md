@@ -60,7 +60,7 @@ nodemon will ignore all script arguments after `--` and pass them to your script
 
 # Error: "process failed, unhandled exit code (2)"
 
-Nodemon will look for exit signals from the child process it runs. When the exit code is `2`, nodemon throws an error. Typically this is because the arguments are bad for the executing program, but it can also be due other reasons.
+Nodemon will look for exit signals from the child process it runs. When the exit code is `2`, nodemon throws an error. Typically this is because the arguments are bad for the executing program, but it can also be due to other reasons.
 
 For example, mocha@3.x will exit with `2` on failing tests. To handle the exit code in a way that nodemon can consume, manually exit the process, i.e.:
 
@@ -198,7 +198,7 @@ Additional restart information:
 
 * Which nodemon configs are loaded (local and global if found)
 * Which ignore rules are being applied
-* Which file extensions are being watch
+* Which file extensions are being watched
 * The process ID of your application (the `child pid`)
 * The process ID of nodemon to manually trigger restarts via kill signals
 
@@ -216,7 +216,7 @@ For example:
 14 Apr 15:24:58 - [nodemon] child pid: 9292
 ```
 
-When nodemon detects a change, the following addition information is shown:
+When nodemon detects a change, the following additional information is shown:
 
 * Which file(s) triggered the check
 * Which (if any) rules the file matched to cause a subsequent restart
@@ -266,7 +266,7 @@ The workaround is to use [kill-port](https://github.com/tiaanduplessis/kill-port
 nodemon --delay 80ms --exec 'kill-port -k 9228/tcp; node --inspect=0.0.0.0:9228 ./app/http.js'
 ```
 
-[Original suggestion here](https://github.com/remy/nodemon/issues/1050#issuecomment-323680697) and [addition information here](https://github.com/remy/nodemon/issues/1346#issuecomment-401218386).
+[Original suggestion here](https://github.com/remy/nodemon/issues/1050#issuecomment-323680697) and [additional information here](https://github.com/remy/nodemon/issues/1346#issuecomment-401218386).
 
 ## Windows: nodemon keeps restarting without changes
 
@@ -278,7 +278,7 @@ The workaround is to run the following command:
 fsutil behavior set disablelastaccess 1
 ```
 
-[Futher reading thread](https://github.com/remy/nodemon/issues/1354)
+[Further reading thread](https://github.com/remy/nodemon/issues/1354)
 
 ## Error: Cannot find module 'internal/util/types'
 
@@ -338,7 +338,7 @@ nodemon --ext '*' --watch public --exec 'python -m SimpleHTTPServer'
 
 Based on [this issue](https://github.com/remy/nodemon/issues/2056).
 
-Sometimes when using the `--inspect` flag, nodemon will try to start the a process before the old process is finished.
+Sometimes when using the `--inspect` flag, nodemon will try to start a new process before the old process is finished.
 
 This will cause an error trying to up the new process because of the debugger service:
 
@@ -362,7 +362,7 @@ process.on('SIGUSR2', async () => {
 
 Simply removing the `await` keyword would likely fix the issue.
 
-If even after that you still running into that problem, there's a workaround to force kill the debugger whenever nodemon triggers a restart.
+If even after that you are still running into that problem, there's a workaround to force kill the debugger whenever nodemon triggers a restart.
 
 You can create a `nodemon.json` file at the project root and add the following config:
 
@@ -376,4 +376,4 @@ You can create a `nodemon.json` file at the project root and add the following c
 
 This will run a shell command to kill the process running on the PORT 9229 (default node debug port) whenever nodemon triggers a restart.
 
-It may fail sometimes, but it makes the hot reload works partially.
+It may fail sometimes, but it makes the hot reload work partially.
