@@ -8,7 +8,7 @@ This is a working document, and if it makes sense, I'll take pull requests to he
 
 Rather than being a(nother) feature in nodemon, and as per the [design principles](https://github.com/remy/nodemon#design-principles) you can clear the console using nodemon's existing architecture.
 
-In your `nodemon.json` (or in your `package.json`) you can include the follow event handler to always clear the console when nodemon starts:
+In your `nodemon.json` (or in your `package.json`) you can include the following event handler to always clear the console when nodemon starts:
 
 ```json
 {
@@ -34,7 +34,7 @@ $ nodemon --watch .env --watch app app/index.js
 
 # nodemon doesn't work with my REPL
 
-Create an nodemon.json file with the setting:
+Create a nodemon.json file with the setting:
 
 ```js
 {
@@ -119,11 +119,11 @@ If you see nodemon trying to run two scripts, like:
 9 Dec 23:52:58 - [nodemon] starting `node ./app.js fixtures/sigint.js`
 ```
 
-This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file _was_ found. ie. to solve, double check the path to your script is correct.
+This is because the main script argument (`fixtures/sigint.js` in this case) wasn't found, and a `package.json`'s main file _was_ found. I.e. to solve, double check the path to your script is correct.
 
 ## What has precedence, ignore or watch?
 
-Everything under the ignore rule has the final word. So if you ignore the `node_modules` directory, but watch `node_modules/*.js`, then all changed files will be ignored, because any changed .js file in the `node_modules` are ignored.
+Everything under the ignore rule has the final word. So if you ignore the `node_modules` directory, but watch `node_modules/*.js`, then all changed files will be ignored, because any changed .js files in the `node_modules` are ignored.
 
 However, there are defaults in the ignore rules that your rules will be merged with, and not override. To override the ignore rules see [overriding the underlying default ignore rules](#overriding-the-underlying-default-ignore-rules).
 
@@ -131,7 +131,7 @@ However, there are defaults in the ignore rules that your rules will be merged w
 
 The way the ignore rules work is that your rules are merged with the `ignoreRoot` rules, which contain `['.git', 'node_modules', ...]`. So if you ignore `public`, the ignore rule results in `['.git', 'node_modules', ..., 'public']`.
 
-Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to you local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
+Say you did want to watch the `node_modules` directory. You have to override the `ignoreRoot`. If you wanted this on a per project basis, add the config to your local `nodemon.json`. If you want it for all projects, add it to `$HOME/nodemon.json`:
 
 ```json
 {
@@ -159,7 +159,7 @@ Fedora and Ubuntu package node as nodejs, because node.dpkg is
 > The node program accepts TCP/IP and packet radio network connections and
 > presents users with an interface that allows them to make gateway connections
 > to remote hosts using a variety of amateur radio protocols.
-> They make the binary is nodejs, rather than node. So long as you're not using that Packet Radio Node Program mentioned above the workaround will work.
+They make the binary nodejs, rather than node. So long as you're not using that Packet Radio Node Program mentioned above, the workaround will work.
 
 Thank you [@EvanCarroll](https://github.com/remy/nodemon/issues/68#issuecomment-13672509)
 
@@ -188,7 +188,7 @@ forever stop foo
 
 This will stop both nodemon and the node process it was monitoring.
 
-Note that I _would not_ recommend using nodemon in a production environment - but that's because I wouldn't want it restart without my explicit instruction.
+Note that I _would not_ recommend using nodemon in a production environment - but that's because I wouldn't want it to restart without my explicit instruction.
 
 ## What does "verbose" give me?
 
@@ -248,7 +248,7 @@ Note that if you have a `nodemon.json` in your `$HOME` path, then this will also
 
 On Ubuntu globally installed node applications have been found to have no output when they're run. This _seems_ to be an issue with node not being correctly installed (possibly linked to the binary having to be called `nodejs`).
 
-The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and using it to install node, _rather_ than using `apt-get` (or similar tools) to install node directly.
+The solution (that's worked in the past) is to install [nvm](https://github.com/creationix/nvm) first and use it to install node, _rather_ than using `apt-get` (or similar tools) to install node directly.
 
 ## If nodemon is facing the watch errors (Mac & Linux)
 
@@ -340,7 +340,7 @@ Based on [this issue](https://github.com/remy/nodemon/issues/2056).
 
 Sometimes when using the `--inspect` flag, nodemon will try to start a new process before the old process is finished.
 
-This will cause an error trying to up the new process because of the debugger service:
+This will cause an error trying to start up the new process because of the debugger service:
 
 ```
 [0] [nodemon] restarting due to changes...
@@ -348,7 +348,7 @@ This will cause an error trying to up the new process because of the debugger se
 [0] Starting inspector on 127.0.0.1:9229 failed: address already in use
 ```
 
-Your application will likely be running the old version code if you see that message, and you will need to stop the app and manually start it again to run the app with the newer code version.
+Your application will likely be running the old version of the code if you see that message, and you will need to stop the app and manually start it again to run the app with the newer code version.
 
 A common cause for this is when graceful shutdowns are doing async tasks, i.e:
 
