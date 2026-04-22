@@ -12,7 +12,7 @@ nodemon will emit events based on the child process.
 
 - start - child process has started
 - crash - child process has crashed (nodemon will not emit exit)
-- exit - child process has cleanly exited (ie. no crash)
+- exit - child process has cleanly exited (i.e. no crash)
 - restart([ array of files triggering the restart ]) - child process has restarted
 - config:update - nodemon's config has changed
 
