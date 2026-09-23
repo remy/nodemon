@@ -286,20 +286,47 @@ if (cluster.isMaster) {
 }
 ```
 
+### Signal handling behavior
+
+Nodemon implements improved signal handling for better POSIX compliance and systemd compatibility:
+
+- **SIGINT** (Ctrl+C): Passes signal to child process and waits for graceful exit. Press Ctrl+C twice to force immediate termination.
+- **SIGTERM**: Passes signal to child process, waits for `killTimeout` (default: 10 seconds), then escalates to SIGKILL if needed. This aligns with systemd's `TimeoutStopSec` behavior.
+- **SIGQUIT**: Immediately sends SIGKILL to child process for emergency shutdown without cleanup.
+- **SIGHUP**: Default reload signal (changed from SIGUSR2). Triggers restart when file changes are detected or manual restart is requested.
+
+You can configure the timeout for graceful shutdown:
+
+```bash
+nodemon --kill-timeout 5000 server.js
+```
+
+Or in `nodemon.json`:
+
+```json
+{
+  "killTimeout": 5000
+}
+```
+
+**Note**: The default signal changed from `SIGUSR2` to `SIGHUP` for better POSIX compliance. If your application relies on `SIGUSR2`, you can restore the old behavior by setting `--signal SIGUSR2` in your configuration.
+
 ## Controlling shutdown of your script
 
 nodemon sends a kill signal to your application when it sees a file update. If you need to clean up on shutdown inside your script you can capture the kill signal and handle it yourself.
 
-The following example will listen once for the `SIGUSR2` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
+The following example will listen once for the `SIGHUP` signal (used by nodemon to restart), run the clean up process and then kill itself for nodemon to continue control:
 
 ```js
 // important to use `on` and not `once` as nodemon can re-send the kill signal
-process.on('SIGUSR2', function () {
+process.on('SIGHUP', function () {
   gracefulShutdown(function () {
     process.kill(process.pid, 'SIGTERM');
   });
 });
 ```
+
+**Note**: If you're upgrading from an older version of nodemon and your application listens for `SIGUSR2`, you should either update your code to listen for `SIGHUP`, or configure nodemon to use `SIGUSR2` by setting `--signal SIGUSR2`.
 
 Note that the `process.kill` is *only* called once your shutdown jobs are complete. Hat tip to [Benjie Gillam](http://www.benjiegillam.com/2011/08/node-js-clean-restart-and-faster-development-with-nodemon/) for writing this technique up.
 
