@@ -166,6 +166,33 @@ describe('when nodemon runs (2)', function () {
       }, 1500);
     });
 
+  it('should treat a late exit code 2 as a crash even if an unwatched file ' +
+    'changed just before it', function (done) {
+    var trigger = path.resolve('test/fixtures/test' + rnd() + '.txt');
+
+    // the script runs well past the 500ms "fast fail" window, then writes a
+    // file that doesn't match the watched extensions (so no restart happens)
+    // and exits with code 2 shortly after. nodemon used to misread this as an
+    // instant startup failure (because the watcher reset config.lastStarted)
+    // and shut itself down instead of waiting for changes.
+    var script = 'var fs = require("fs");\n' +
+      'setTimeout(function () {\n' +
+      '  fs.writeFileSync(' + JSON.stringify(trigger) + ', "x");\n' +
+      '  setTimeout(function () { process.exit(2); }, 400);\n' +
+      '}, 1500);\n';
+    fs.writeFileSync(tmp, script);
+
+    nodemon({ script: tmp, stdout: false }).on('crash', function () {
+      assert(true, 'late exit code 2 treated as a crash, nodemon kept alive');
+      if (fs.existsSync(trigger)) {
+        fs.unlinkSync(trigger);
+      }
+      nodemon.once('exit', function () {
+        nodemon.reset(done);
+      }).emit('quit');
+    });
+  });
+
   it('should kill child on SIGINT', function (done) {
     fs.writeFileSync(tmp, 'setTimeout(function () { var n = 10; }, 10000)');
 
