@@ -245,3 +245,15 @@ describe('nodemon exec', function () {
     assert(cmd.string === 'node index', cmd.string);
   });
 });
+
+  it('should expand a script from args when ext already has a leading dot', function () {
+    var pwd = process.cwd();
+    process.chdir(path.resolve(pwd, 'test/fixtures'));
+    try {
+      var options = exec({ args: ['app'], ext: '.js' });
+      assert.equal(options.script, 'app.js');
+    } finally {
+      process.chdir(pwd);
+    }
+  });
+
